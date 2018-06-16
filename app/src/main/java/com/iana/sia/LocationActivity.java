@@ -3,6 +3,8 @@ package com.iana.sia;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -71,6 +73,13 @@ public class LocationActivity extends AppCompatActivity {
         backBtn.setText(R.string.title_back);
         backBtn.setVisibility(View.VISIBLE);
 
+        // code is to resize search icon in textview start
+        Drawable drawable = getApplicationContext().getDrawable(R.drawable.search);
+        drawable.setBounds(0, 0, 50, 50); // 50 => height & width of image search
+        ScaleDrawable sd = new ScaleDrawable(drawable, 0, 0, 0);
+        ((EditText) findViewById(R.id.searchLocation)).setCompoundDrawables(sd.getDrawable(), null, null, null);
+        // code is to resize search icon in textview end
+
         listView = findViewById(R.id.listView);
 
         String tempString = "";
@@ -136,6 +145,32 @@ public class LocationActivity extends AppCompatActivity {
             }
         });
 
+        ((ListView) findViewById(R.id.listView)).setOnScrollListener(new AbsListView.OnScrollListener(){
+            private int mLastFirstVisibleItem;
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+
+                if(mLastFirstVisibleItem<firstVisibleItem)
+                {
+                    Log.i("SCROLLING DOWN","TRUE");
+                    findViewById(R.id.searchLocation).setVisibility(View.GONE);
+                }
+                if(mLastFirstVisibleItem>firstVisibleItem)
+                {
+                    Log.i("SCROLLING UP","TRUE");
+                    findViewById(R.id.searchLocation).setVisibility(View.VISIBLE);
+                }
+                mLastFirstVisibleItem=firstVisibleItem;
+
+            }
+        });
     }
 
     private void showActionBar() {
@@ -265,16 +300,6 @@ public class LocationActivity extends AppCompatActivity {
                     editor.putString(GlobalVariables.KEY_LOCATION_IANA_CODE, dataList.get(position).getIanaCode());
                     editor.putString(GlobalVariables.KEY_LOCATION_SPLC_CODE, dataList.get(position).getSplcCode());
                     editor.putString(GlobalVariables.KEY_RETURN_FROM, GlobalVariables.RETURN_FROM_LOCATION_SEARCH);
-
-//                    editor.putString(GlobalVariables.KEY_MC_SCAC, sharedPref.getString(GlobalVariables.KEY_MC_SCAC, ""));
-//                    editor.putString(GlobalVariables.KEY_MC_COMPANY_NAME, sharedPref.getString(GlobalVariables.KEY_MC_COMPANY_NAME, ""));
-//
-//                    editor.putString(GlobalVariables.KEY_CONTAINER_NUMBER, sharedPref.getString(, ));
-//                    editor.putString(GlobalVariables.KEY_EXPORT_BOOKING_NUMBER, sharedPref.getString(, ));
-//                    editor.putString(GlobalVariables.KEY_IMPORT_BL, sharedPref.getString(, ));
-//                    editor.putString(GlobalVariables.KEY_CHASSIS_ID, sharedPref.getString(, ));
-//                    editor.putString(GlobalVariables.KEY_IEP_SCAC, sharedPref.getString(, ));
-
 
                     editor.commit();
 

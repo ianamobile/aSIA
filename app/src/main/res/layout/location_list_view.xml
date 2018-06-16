@@ -16,7 +16,7 @@
         <LinearLayout
             android:id="@+id/locationNameMainLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="10dp"
             >
@@ -25,8 +25,14 @@
                 android:layout_width="15dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:background="@drawable/location_green_layout"
                 >
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="40dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/location_green_layout"
+                    >
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -34,7 +40,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="2dp"
                 >
                 <TextView
                     android:id="@+id/locationName"
@@ -42,104 +48,96 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/color_black"
                     android:fontFamily="sans-serif-medium"
-                    android:textSize="14dp"
+                    android:textSize="13dp"
                     android:text="Location Name"
-                    android:lines="2"
                     />
+
+                <!-- Location ZIP Code and State start -->
+                <TableLayout
+                    android:id="@+id/locationZipStateTableLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="*"
+                    android:layout_marginTop="3dp"
+                    >
+                    <TableRow
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:gravity="center_horizontal"
+                        >
+                        <LinearLayout
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_gravity="left"
+                            >
+                            <TextView
+                                android:id="@+id/locationZipLbl"
+                                android:layout_height="wrap_content"
+                                android:text="ZIP CODE:"
+                                android:layout_width="wrap_content"
+                                android:textColor="@color/color_black"
+                                android:gravity="left"
+                                android:fontFamily="sans-serif-medium"
+                                android:textSize="12dp"
+                                />
+
+                            <TextView
+                                android:id="@+id/locationZip"
+                                android:text="IANA#:"
+                                android:layout_marginLeft="5dp"
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"
+                                android:gravity="left"
+                                android:textColor="@color/appThemeColor"
+                                android:fontFamily="sans-serif-medium"
+                                android:textSize="12dp"
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            >
+                            <TextView
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"
+                                android:id="@+id/locationStateLbl"
+                                android:text="STATE:"
+                                android:textColor="@color/color_black"
+                                android:fontFamily="sans-serif-medium"
+                                android:textSize="12dp"
+                                />
+                            <TextView
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"
+                                android:id="@+id/locationState"
+                                android:text="AL"
+                                android:layout_marginLeft="5dp"
+                                android:paddingRight="10dp"
+                                android:textColor="@color/appThemeColor"
+                                android:fontFamily="sans-serif-medium"
+                                android:textSize="12dp"
+                                android:minWidth="10dp"
+                                />
+                        </LinearLayout>
+                    </TableRow>
+
+                </TableLayout>
+                <!-- Location ZIP CODE And STATE end -->
+
+
             </LinearLayout>
 
         </LinearLayout>
-
-        <!-- location zip code and state start -->
-        <LinearLayout
-            android:id="@+id/locationZipCodeStateLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:orientation="horizontal"
-            android:layout_below="@+id/locationNameMainLinearLayout"
-            >
-
-            <LinearLayout
-               android:id="@+id/locationZipLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_gravity="left"
-                >
-                <TextView
-                    android:id="@+id/locationZipLbl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="sans-serif-medium"
-                    android:textSize="12dp"
-                    android:text="ZIP CODE: "
-                    android:gravity="left"
-                    android:layout_gravity="center_vertical"
-                    android:textColor="@color/color_black"
-                    />
-
-                <TextView
-                    android:id="@+id/locationZip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:layout_gravity="center_vertical"
-                    android:textColor="@color/appThemeColor"
-                    android:fontFamily="sans-serif-medium"
-                    android:textSize="12dp"
-                    android:text="ZIP CODE"
-                    />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/stateLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_gravity="right"
-                >
-                <TextView
-                    android:id="@+id/locationStateLbl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/color_black"
-                    android:fontFamily="sans-serif-medium"
-                    android:textSize="12dp"
-                    android:text="STATE: "
-                    android:gravity="right"
-                    android:layout_gravity="center_vertical"
-                    />
-
-                <TextView
-                    android:id="@+id/locationState"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:layout_gravity="center_vertical"
-                    android:textColor="@color/appThemeColor"
-                    android:fontFamily="sans-serif-medium"
-                    android:textSize="12dp"
-                    android:text="STATE"
-                    />
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-        <!-- location zip code and state end -->
 
         <TextView
             android:id="@+id/locationCityLbl"
-            android:layout_width="40dp"
+            android:layout_width="33dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/locationZipCodeStateLayout"
-            android:text="CITY: "
+            android:layout_below="@id/locationNameMainLinearLayout"
+            android:text="CITY:"
             android:textColor="@color/color_black"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
@@ -154,83 +152,94 @@
             android:layout_toRightOf="@id/locationCityLbl"
             android:text="CITY VALUE"
             android:textColor="@color/appThemeColor"
-            android:layout_below="@id/locationZipCodeStateLayout"
+            android:layout_below="@id/locationNameMainLinearLayout"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
             android:fontFamily="sans-serif-medium"
             android:textSize="12dp"
             />
 
-        <LinearLayout
-            android:id="@+id/locationIanaSplcCodeLayout"
+        <TableLayout
+            android:id="@+id/locationIanaSplcCodeTableLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/locationCityLbl"
-            android:orientation="horizontal"
+            android:stretchColumns="*"
+            android:layout_below="@+id/locationCity"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
             >
-
-            <TextView
-                android:id="@+id/locationIanaCodeLbl"
-                android:layout_width="50dp"
+            <TableRow
                 android:layout_height="wrap_content"
-                android:layout_below="@id/locationCityLbl"
-                android:text="IANA #: "
-                android:textColor="@color/color_black"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:fontFamily="sans-serif-medium"
-                android:textSize="12dp"
-                />
+                android:layout_width="0dp"
+                android:gravity="center_horizontal"
+            >
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_gravity="left"
+                >
+                    <TextView
+                        android:id="@+id/locationIanaCodeLbl"
+                        android:layout_height="wrap_content"
+                        android:text="IANA#: "
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/color_black"
+                        android:gravity="left"
+                        android:fontFamily="sans-serif-medium"
+                        android:textSize="12dp"
+                        />
 
-            <TextView
-                android:id="@+id/locationIanaCode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/locationCity"
-                android:layout_toRightOf="@id/locationIanaCodeLbl"
-                android:textColor="@color/appThemeColor"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:fontFamily="sans-serif-medium"
-                android:textSize="12dp"
-                />
+                    <TextView
+                        android:id="@+id/locationIanaCode"
+                        android:text="IANA#:"
+                        android:layout_marginLeft="5dp"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:gravity="left"
+                        android:textColor="@color/appThemeColor"
+                        android:fontFamily="sans-serif-medium"
+                        android:textSize="12dp"
+                        />
+                </LinearLayout>
 
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    >
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/locationSplcCodeLbl"
+                        android:text="SPLC #:"
+                        android:textColor="@color/color_black"
+                        android:fontFamily="sans-serif-medium"
+                        android:textSize="12dp"
+                        />
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/locationSplcCode"
+                        android:text="Mediterr"
+                        android:layout_marginLeft="5dp"
+                        android:paddingRight="10dp"
+                        android:textColor="@color/appThemeColor"
+                        android:fontFamily="sans-serif-medium"
+                        android:textSize="12dp"
+                        />
+                </LinearLayout>
+            </TableRow>
 
-            <TextView
-                android:id="@+id/locationSplcCodeLbl"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/locationCityLbl"
-                android:text="SPLC #: "
-                android:textColor="@color/color_black"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:fontFamily="sans-serif-medium"
-                android:textSize="12dp"
-                />
-
-            <TextView
-                android:id="@+id/locationSplcCode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/locationCity"
-                android:layout_toRightOf="@id/locationIanaCodeLbl"
-                android:textColor="@color/appThemeColor"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:fontFamily="sans-serif-medium"
-                android:textSize="12dp"
-                />
-
-
-        </LinearLayout>
+        </TableLayout>
+        <!-- Location IANA And SPLC Code end -->
 
         <TextView
             android:id="@+id/locationAddressLbl"
-            android:layout_width="70dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/locationIanaSplcCodeLayout"
-            android:text="ADDRESS: "
+            android:layout_below="@id/locationIanaSplcCodeTableLayout"
+            android:text="ADDRESS:"
             android:textColor="@color/color_black"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
@@ -242,7 +251,7 @@
             android:id="@+id/locationAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/locationIanaSplcCodeLayout"
+            android:layout_below="@id/locationIanaSplcCodeTableLayout"
             android:layout_toRightOf="@id/locationAddressLbl"
             android:textColor="@color/appThemeColor"
             android:layout_marginTop="5dp"

@@ -15,9 +15,9 @@
         android:cursorVisible="true"
         android:layout_margin="5dp"
         android:paddingLeft="10dp"
-        android:drawablePadding="5dp"
         android:hint="@string/hint_search_location_text"
         android:textSize="14dp"
+        android:drawablePadding="10dip"
         />
 
     <ListView
@@ -27,7 +27,7 @@
         android:layout_height="match_parent"
         android:divider="@null"
         android:dividerHeight="0dp"
-        android:background="#C6D0BE"
+        android:background="@color/bg_color_search_location_list"
         >
     </ListView>
 
