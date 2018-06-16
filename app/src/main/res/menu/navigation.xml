@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_login_mc"
+        android:icon="@drawable/mc_login"
+        android:title="MC"
+        />
+
+    <item
+        android:id="@+id/navigation_login_ep"
+        android:icon="@drawable/container"
+        android:title="EP"
+        />
+
+    <item
+        android:id="@+id/navigation_login_idd"
+        android:icon="@drawable/idd_login"
+        android:title="IDD"
+        />
+
+    <item
+        android:id="@+id/navigation_login_tpu"
+        android:icon="@drawable/multiple_users_silhouette"
+        android:title="TPU"
+        />
+
+
+</menu>

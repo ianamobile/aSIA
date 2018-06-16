@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+     >
+
+    <Button
+        android:id="@+id/backBtn"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textSize="13sp"
+        android:textColor="@color/appThemeColor"
+        android:visibility="gone"
+        android:background="@drawable/button_bg_stroke"
+        android:fontFamily="sans-serif-medium"
+         />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@color/colorButton"
+        android:text=""
+        android:textSize="16sp"
+        android:fontFamily="sans-serif-medium"
+        />
+
+    <Button
+        android:id="@+id/select"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textSize="12sp"
+        android:text=""
+        android:fontFamily="sans-serif-medium"
+        />
+
+</RelativeLayout>

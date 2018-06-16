@@ -1,0 +1,1153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainRelLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    android:layout_centerVertical="true"
+    android:gravity="center_horizontal|center_vertical"
+    android:background="@color/colorBGBase"
+    tools:context="com.iana.sia.NotifAvailActivity" >
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBGBase"
+    >
+
+
+        <RelativeLayout
+            android:id="@+id/subMainRelLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_horizontal|center_vertical"
+            android:background="@color/colorBGBase"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            >
+
+            <LinearLayout
+                android:id="@+id/siaImgLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBGBase"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/siaImg"
+                    android:layout_width="175dp"
+                    android:layout_height="100dp"
+                    android:scaleType="fitXY"
+                    android:gravity="center_horizontal|center_vertical"
+                    app:srcCompat="@drawable/sia_logo" />
+
+
+                <TextView
+                    android:id="@+id/notifAvailLbl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Notification Of Available Equipment"
+                    android:textColor="@color/appThemeColor"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textAlignment="center"
+                    android:gravity="center_vertical"
+                    />
+
+            </LinearLayout>
+
+                <!-- Container Provider Name start -->
+                <LinearLayout
+                    android:id="@+id/epCompanyNameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/layout_width_edit_text"
+                    android:background="@android:color/background_light"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/siaImgLayout"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/epCompanyNameLblLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@android:color/background_light">
+
+                        <ImageView
+                            android:id="@+id/epCompanyNameImg"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:srcCompat="@drawable/user" />
+
+                        <TextView
+                            android:id="@+id/epCompanyNameLbl"
+                            android:layout_width="match_parent"
+                            android:layout_height="18dp"
+                            android:text="Container Provider Name"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme"
+                            app:layout_constraintLeft_toRightOf="@+id/epCompanyNameImg"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif-medium"
+                            app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/epCompanyName"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginRight="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:paddingLeft="@dimen/edit_text_padding_left"
+                        android:ems="10"
+                        android:hint="Container Provider Name"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/appThemeColor"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toBottomOf="@+id/epCompanyNameImg"
+                        android:fontFamily="sans-serif-medium"
+                        android:backgroundTint="@android:color/transparent"
+                        android:maxLength="100"
+                        />
+                    </LinearLayout>
+
+
+                <!-- Container Provider SCAC start -->
+                <LinearLayout
+                    android:id="@+id/epScacLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/layout_width_edit_text"
+                    android:background="@android:color/background_light"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/epCompanyNameLayout"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/epScacLblLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@android:color/background_light">
+
+                        <ImageView
+                            android:id="@+id/epScacImg"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:srcCompat="@drawable/scac" />
+
+                        <TextView
+                            android:id="@+id/epScacLbl"
+                            android:layout_width="match_parent"
+                            android:layout_height="18dp"
+                            android:text="Container Provider SCAC"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme"
+                            app:layout_constraintLeft_toRightOf="@+id/epScacImg"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif-medium"
+                            app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/epScac"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginRight="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:paddingLeft="@dimen/edit_text_padding_left"
+                        android:ems="10"
+                        android:text="@string/hint_auto_populated"
+                        android:inputType="textPersonName"
+                        android:textColor="@android:color/darker_gray"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toBottomOf="@+id/epScacImg"
+                        android:fontFamily="sans-serif-medium"
+                        android:backgroundTint="@android:color/transparent"
+                        />
+                </LinearLayout>
+
+
+                <!-- Motor Carrier Name start -->
+                <LinearLayout
+                    android:id="@+id/mcCompanyNameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/layout_width_edit_text"
+                    android:background="@android:color/background_light"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/epCompanyNameLayout"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/mcCompanyNameLblLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@android:color/background_light">
+
+                        <ImageView
+                            android:id="@+id/mcCompanyNameImg"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:srcCompat="@drawable/user" />
+
+                        <TextView
+                            android:id="@+id/mcCompanyNameLbl"
+                            android:layout_width="match_parent"
+                            android:layout_height="18dp"
+                            android:text="Motor Carrier Name"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme"
+                            app:layout_constraintLeft_toRightOf="@+id/mcCompanyNameImg"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif-medium"
+                            app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/mcCompanyName"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginRight="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:paddingLeft="@dimen/edit_text_padding_left"
+                        android:ems="10"
+                        android:hint="Motor Carrier Name"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/appThemeColor"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toBottomOf="@+id/mcCompanyNameImg"
+                        android:fontFamily="sans-serif-medium"
+                        android:backgroundTint="@android:color/transparent"
+                        android:maxLength="100"
+                        />
+                </LinearLayout>
+
+
+                <!-- Motor Carrier SCAC start -->
+                <LinearLayout
+                    android:id="@+id/mcScacLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/layout_width_edit_text"
+                    android:background="@android:color/background_light"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/mcCompanyNameLayout"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/mcScacLblLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@android:color/background_light">
+
+                        <ImageView
+                            android:id="@+id/mcScacImg"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:srcCompat="@drawable/scac" />
+
+                        <TextView
+                            android:id="@+id/mcScacLbl"
+                            android:layout_width="match_parent"
+                            android:layout_height="18dp"
+                            android:text="Motor Carrier SCAC"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme"
+                            app:layout_constraintLeft_toRightOf="@+id/mcScacImg"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif-medium"
+                            app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/mcScac"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginRight="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:paddingLeft="@dimen/edit_text_padding_left"
+                        android:ems="10"
+                        android:hint="@string/hint_auto_populated"
+                        android:inputType="textPersonName"
+                        android:textColor="@android:color/darker_gray"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toBottomOf="@+id/mcScacImg"
+                        android:fontFamily="sans-serif-medium"
+                        android:backgroundTint="@android:color/transparent"
+                        />
+                </LinearLayout>
+
+                <!-- Load Status start -->
+                <LinearLayout
+                    android:id="@+id/loadStatusLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/layout_width_edit_text"
+                    android:background="@android:color/background_light"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/mcScacLayout"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/loadStatusLblLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@android:color/background_light">
+
+                        <ImageView
+                            android:id="@+id/loadStatusImg"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:srcCompat="@drawable/scac" />
+
+                        <TextView
+                            android:id="@+id/loadStatusLbl"
+                            android:layout_width="match_parent"
+                            android:layout_height="18dp"
+                            android:text="LOAD STATUS"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme"
+                            app:layout_constraintLeft_toRightOf="@+id/loadStatusImg"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif-medium"
+                            app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                    </LinearLayout>
+
+                    <Spinner
+                        android:id="@+id/loadStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/spinner_border"
+                        android:backgroundTint="@android:color/darker_gray"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:fontFamily="sans-serif-medium"
+                        android:layout_marginLeft="35dp"
+                        />
+                    </LinearLayout>
+
+                <!-- Container Number start -->
+                <LinearLayout
+                    android:id="@+id/containerNumberLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/layout_width_edit_text"
+                    android:background="@android:color/background_light"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/loadStatusLayout"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/containerNumberLblLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@android:color/background_light">
+
+                        <ImageView
+                            android:id="@+id/containerNumberImg"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:srcCompat="@drawable/scac" />
+
+                        <TextView
+                            android:id="@+id/containerNumberLbl"
+                            android:layout_width="match_parent"
+                            android:layout_height="18dp"
+                            android:text="CONTAINER NUMBER"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme"
+                            app:layout_constraintLeft_toRightOf="@+id/containerNumberImg"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif-medium"
+                            app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/containerNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginRight="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:paddingLeft="@dimen/edit_text_padding_left"
+                        android:ems="10"
+                        android:hint="ENTER CONTAINER NUMBER"
+                        android:inputType="textPersonName"
+                        android:textColor="@android:color/darker_gray"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toBottomOf="@+id/containerNumberImg"
+                        android:fontFamily="sans-serif-medium"
+                        android:backgroundTint="@android:color/transparent"
+                        android:maxLength="30"
+                        />
+                </LinearLayout>
+
+
+                <!-- Container Type start -->
+                <LinearLayout
+                    android:id="@+id/containerTypeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/layout_width_edit_text"
+                    android:background="@android:color/background_light"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/containerNumberLayout"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/containerTypeLblLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@android:color/background_light">
+
+                        <ImageView
+                            android:id="@+id/containerTypeImg"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:srcCompat="@drawable/scac" />
+
+                        <TextView
+                            android:id="@+id/containerTypeLbl"
+                            android:layout_width="match_parent"
+                            android:layout_height="18dp"
+                            android:text="CONTAINER TYPE"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme"
+                            app:layout_constraintLeft_toRightOf="@+id/containerTypeImg"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif-medium"
+                            app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                    </LinearLayout>
+
+                    <Spinner
+                        android:id="@+id/containerType"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/spinner_border"
+                        android:backgroundTint="@android:color/darker_gray"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:fontFamily="sans-serif-medium"
+                        android:layout_marginLeft="35dp"
+                        />
+                </LinearLayout>
+
+                <!-- Container Type Other start -->
+                <LinearLayout
+                    android:id="@+id/containerTypeOtherLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@android:color/background_light"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/containerTypeLayout"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:visibility="gone"
+                    >
+                     <EditText
+                        android:id="@+id/containerTypeOther"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginRight="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:paddingLeft="@dimen/edit_text_padding_left"
+                        android:ems="10"
+                        android:hint="ENTER OTHER CONTAINER TYPE"
+                        android:inputType="textPersonName"
+                        android:textColor="@android:color/darker_gray"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toBottomOf="@+id/containerTypeLayout"
+                        android:fontFamily="sans-serif-medium"
+                        android:backgroundTint="@android:color/transparent"
+                        android:maxLength="30"
+                        />
+                </LinearLayout>
+
+                <!-- Container Size start -->
+                <LinearLayout
+                    android:id="@+id/containerSizeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/layout_width_edit_text"
+                    android:background="@android:color/background_light"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/containerTypeOtherLayout"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/containerSizeLblLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@android:color/background_light">
+
+                        <ImageView
+                            android:id="@+id/containerSizeImg"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:srcCompat="@drawable/scac" />
+
+                        <TextView
+                            android:id="@+id/containerSizeLbl"
+                            android:layout_width="match_parent"
+                            android:layout_height="18dp"
+                            android:text="CONTAINER SIZE"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme"
+                            app:layout_constraintLeft_toRightOf="@+id/containerSizeImg"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif-medium"
+                            app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                    </LinearLayout>
+
+                    <Spinner
+                        android:id="@+id/containerSize"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/spinner_border"
+                        android:backgroundTint="@android:color/darker_gray"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:fontFamily="sans-serif-medium"
+                        android:layout_marginLeft="35dp"
+                        />
+                </LinearLayout>
+
+                <!-- Container Size Other start -->
+                <LinearLayout
+                    android:id="@+id/containerSizeOtherLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@android:color/background_light"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/containerSizeLayout"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:visibility="gone"
+                    >
+                    <EditText
+                        android:id="@+id/containerSizeOther"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginRight="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:paddingLeft="@dimen/edit_text_padding_left"
+                        android:ems="10"
+                        android:hint="ENTER OTHER CONTAINER SIZE"
+                        android:inputType="number"
+                        android:textColor="@android:color/darker_gray"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toBottomOf="@+id/containerSizeLayout"
+                        android:fontFamily="sans-serif-medium"
+                        android:backgroundTint="@android:color/transparent"
+                        android:maxLength="5"
+                        />
+                </LinearLayout>
+
+                <!-- Chassis Number start -->
+                <LinearLayout
+                    android:id="@+id/chassisNumberLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/layout_width_edit_text"
+                    android:background="@android:color/background_light"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/containerSizeOtherLayout"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/chassisNumberLblLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@android:color/background_light">
+
+                        <ImageView
+                            android:id="@+id/chassisNumberImg"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:srcCompat="@drawable/user" />
+
+                        <TextView
+                            android:id="@+id/chassisNumberLbl"
+                            android:layout_width="match_parent"
+                            android:layout_height="18dp"
+                            android:text="Chassis Number"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme"
+                            app:layout_constraintLeft_toRightOf="@+id/chassisNumberImg"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif-medium"
+                            app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/chassisNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginRight="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:paddingLeft="@dimen/edit_text_padding_left"
+                        android:ems="10"
+                        android:hint="ENTER CHASSIS NUMBER"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/appThemeColor"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toBottomOf="@+id/chassisNumberImg"
+                        android:fontFamily="sans-serif-medium"
+                        android:backgroundTint="@android:color/transparent"
+                        android:maxLength="12"
+                        />
+                </LinearLayout>
+
+
+                <!-- Chassis IEP SCAC start -->
+                <LinearLayout
+                    android:id="@+id/iepScacLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/layout_width_edit_text"
+                    android:background="@android:color/background_light"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/chassisNumberLayout"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/iepScacLblLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@android:color/background_light">
+
+                        <ImageView
+                            android:id="@+id/iepScacImg"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:srcCompat="@drawable/scac" />
+
+                        <TextView
+                            android:id="@+id/iepScacLbl"
+                            android:layout_width="match_parent"
+                            android:layout_height="18dp"
+                            android:text="Chassis IEP SCAC"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme"
+                            app:layout_constraintLeft_toRightOf="@+id/iepScacImg"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif-medium"
+                            app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/iepScac"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginRight="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:paddingLeft="@dimen/edit_text_padding_left"
+                        android:ems="10"
+                        android:hint="@string/hint_auto_populated"
+                        android:inputType="textPersonName"
+                        android:textColor="@android:color/darker_gray"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toBottomOf="@+id/iepScacImg"
+                        android:fontFamily="sans-serif-medium"
+                        android:backgroundTint="@android:color/transparent"
+                        />
+                </LinearLayout>
+
+                <!-- Chassis Type start -->
+                <LinearLayout
+                    android:id="@+id/chassisTypeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/layout_width_edit_text"
+                    android:background="@android:color/background_light"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/chassisNumberLayout"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/chassisTypeLblLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@android:color/background_light">
+
+                        <ImageView
+                            android:id="@+id/chassisTypeImg"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:srcCompat="@drawable/scac" />
+
+                        <TextView
+                            android:id="@+id/chassisTypeLbl"
+                            android:layout_width="match_parent"
+                            android:layout_height="18dp"
+                            android:text="CHASSIS TYPE"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme"
+                            app:layout_constraintLeft_toRightOf="@+id/chassisTypeImg"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif-medium"
+                            app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                    </LinearLayout>
+
+                    <Spinner
+                        android:id="@+id/chassisType"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/spinner_border"
+                        android:backgroundTint="@android:color/darker_gray"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:fontFamily="sans-serif-medium"
+                        android:layout_marginLeft="35dp"
+                        />
+                </LinearLayout>
+
+                <!-- Chassis Type Other start -->
+                <LinearLayout
+                    android:id="@+id/chassisTypeOtherLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@android:color/background_light"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/chassisTypeLayout"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:visibility="gone"
+                    >
+                    <EditText
+                        android:id="@+id/chassisTypeOther"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginRight="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:paddingLeft="@dimen/edit_text_padding_left"
+                        android:ems="10"
+                        android:hint="ENTER OTHER CHASSIS TYPE"
+                        android:inputType="textPersonName"
+                        android:textColor="@android:color/darker_gray"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toBottomOf="@+id/chassisTypeLayout"
+                        android:fontFamily="sans-serif-medium"
+                        android:backgroundTint="@android:color/transparent"
+                        android:maxLength="30"
+                        />
+                </LinearLayout>
+
+                <!-- Chassis Size start -->
+                <LinearLayout
+                    android:id="@+id/chassisSizeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/layout_width_edit_text"
+                    android:background="@android:color/background_light"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/chassisTypeLayout"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/chassisSizeLblLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@android:color/background_light">
+
+                        <ImageView
+                            android:id="@+id/chassisSizeImg"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:srcCompat="@drawable/scac" />
+
+                        <TextView
+                            android:id="@+id/chassisSizeLbl"
+                            android:layout_width="match_parent"
+                            android:layout_height="18dp"
+                            android:text="CHASSIS SIZE"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme"
+                            app:layout_constraintLeft_toRightOf="@+id/chassisSizeImg"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif-medium"
+                            app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                    </LinearLayout>
+
+                    <Spinner
+                        android:id="@+id/chassisSize"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/spinner_border"
+                        android:backgroundTint="@android:color/darker_gray"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:fontFamily="sans-serif-medium"
+                        android:layout_marginLeft="35dp"
+                        />
+                </LinearLayout>
+
+                <!-- Chassis Size Other start -->
+                <LinearLayout
+                    android:id="@+id/chassisSizeOtherLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@android:color/background_light"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/chassisSizeLayout"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:visibility="gone"
+                    >
+                    <EditText
+                        android:id="@+id/chassisSizeOther"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginRight="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:paddingLeft="@dimen/edit_text_padding_left"
+                        android:ems="10"
+                        android:hint="ENTER OTHER CHASSIS SIZE"
+                        android:inputType="textPersonName"
+                        android:textColor="@android:color/darker_gray"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toBottomOf="@+id/chassisSizeLayout"
+                        android:fontFamily="sans-serif-medium"
+                        android:backgroundTint="@android:color/transparent"
+                        android:maxLength="30"
+                        />
+                </LinearLayout>
+
+
+                <!-- Genset Number start -->
+                <LinearLayout
+                    android:id="@+id/gensetNumberLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/layout_width_edit_text"
+                    android:background="@android:color/background_light"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/chassisSizeOtherLayout"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/gensetNumberLblLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@android:color/background_light">
+
+                        <ImageView
+                            android:id="@+id/gensetNumberImg"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:srcCompat="@drawable/scac" />
+
+                        <TextView
+                            android:id="@+id/gensetNumberLbl"
+                            android:layout_width="match_parent"
+                            android:layout_height="18dp"
+                            android:text="GENSET NUMBER"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme"
+                            app:layout_constraintLeft_toRightOf="@+id/gensetNumberImg"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif-medium"
+                            app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/gensetNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginRight="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:paddingLeft="@dimen/edit_text_padding_left"
+                        android:ems="10"
+                        android:hint="ENTER GENSET NUMBER"
+                        android:inputType="textPersonName"
+                        android:textColor="@android:color/darker_gray"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toBottomOf="@+id/gensetNumberImg"
+                        android:fontFamily="sans-serif-medium"
+                        android:backgroundTint="@android:color/transparent"
+                        android:maxLength="30"
+                        />
+                </LinearLayout>
+
+            <!-- Genset Number start -->
+            <LinearLayout
+                android:id="@+id/equipLocationLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:orientation="horizontal"
+                android:layout_below="@+id/gensetNumberLayout"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_margin="10dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Equipment Location"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/appThemeColor"
+                    android:gravity="center_vertical"
+                    />
+
+                <ImageView
+                    android:tint="@android:color/black"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/search"/>
+               </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+</RelativeLayout>

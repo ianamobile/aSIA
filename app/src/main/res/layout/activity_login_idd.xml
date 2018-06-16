@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.iana.sia.LoginIDDActivity"
+    android:background="@color/colorBGBase"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBGBase"
+        android:layout_above="@+id/navigation_login"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+        <RelativeLayout
+            android:id="@+id/rootLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_horizontal|center_vertical"
+            android:background="@color/colorBGBase"
+            >
+
+        <RelativeLayout
+            android:id="@+id/subMainRelLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_horizontal|center_vertical"
+            android:background="@color/colorBGBase"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            >
+
+        <LinearLayout
+            android:id="@+id/siaImgLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sia_logo_layout_height"
+            android:background="@color/colorBGBase"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/siaImg"
+                android:layout_width="@dimen/sia_logo_width"
+                android:layout_height="@dimen/sia_logo_height"
+                android:scaleType="fitXY"
+                android:gravity="center_horizontal|center_vertical"
+                app:srcCompat="@drawable/sia_logo" />
+        </LinearLayout>
+
+        <!-- idd Scac start -->
+        <LinearLayout
+            android:id="@+id/iddScacLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_width_edit_text"
+            android:background="@android:color/background_light"
+            android:orientation="vertical"
+            android:layout_below="@+id/siaImgLayout"
+            >
+
+            <LinearLayout
+                android:id="@+id/iddScacLblLayout"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/background_light">
+
+                <ImageView
+                    android:id="@+id/scacImg"
+                    android:layout_width="@dimen/icon_width"
+                    android:layout_height="@dimen/icon_height"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:srcCompat="@drawable/scac" />
+
+                <TextView
+                    android:id="@+id/iddScacLbl"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:text="@string/lbl_scac"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/lbl_text_size"
+                    android:textStyle="bold"
+                    android:theme="@style/AppTheme"
+                    app:layout_constraintLeft_toRightOf="@+id/scacImg"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:fontFamily="sans-serif-medium"
+                    app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/scac"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:layout_marginEnd="18dp"
+                android:paddingLeft="@dimen/edit_text_padding_left"
+                android:ems="10"
+                android:hint="@string/hint_scac"
+                android:inputType="textPersonName"
+                android:textColor="@color/appThemeColor"
+                android:textColorHint="@android:color/darker_gray"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="@dimen/edit_text_size"
+                app:layout_constraintTop_toBottomOf="@+id/scacImg"
+                android:fontFamily="sans-serif-medium"
+                android:backgroundTint="@android:color/transparent"
+                android:maxLength="4"
+                />
+        </LinearLayout>
+
+        <!-- idd Pin start-->
+        <LinearLayout
+            android:id="@+id/iddPinLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_width_edit_text"
+            android:background="@android:color/background_light"
+            android:orientation="vertical"
+            android:layout_below="@+id/iddScacLayout"
+            android:layout_marginTop="2dp"
+            >
+
+            <LinearLayout
+                android:id="@+id/iddPinLblLayout"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/background_light">
+
+                <ImageView
+                    android:id="@+id/iddPinImg"
+                    android:layout_width="@dimen/icon_width"
+                    android:layout_height="@dimen/icon_height"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:srcCompat="@drawable/pin" />
+
+                <TextView
+                    android:id="@+id/iddPinLbl"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:text="@string/lbl_idd_pin"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/lbl_text_size"
+                    android:textStyle="bold"
+                    android:theme="@style/AppTheme"
+                    app:layout_constraintLeft_toRightOf="@+id/iddPinImg"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:fontFamily="sans-serif-medium"
+                    app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/iddPin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:layout_marginEnd="18dp"
+                android:paddingLeft="@dimen/edit_text_padding_left"
+                android:ems="10"
+                android:maxLength="9"
+                android:hint="@string/hint_idd_pin"
+                android:inputType="number"
+                android:textColor="@color/appThemeColor"
+                android:textColorHint="@android:color/darker_gray"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="@dimen/edit_text_size"
+                app:layout_constraintTop_toBottomOf="@+id/iddPinImg"
+                android:fontFamily="sans-serif-medium"
+                android:backgroundTint="@android:color/transparent"
+                />
+        </LinearLayout>
+
+
+        <!-- sign on start-->
+        <LinearLayout
+            android:id="@+id/signOnLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_height_button"
+            android:background="@color/colorTextLoginNavSelect"
+            android:orientation="vertical"
+            android:layout_below="@+id/iddPinLayout"
+            android:layout_marginTop="@dimen/btn_sign_on_layout_margin_top"
+            >
+            <Button
+                android:id="@+id/loginBtn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_height_button"
+                android:layout_marginTop="2dp"
+                android:background="@color/colorButton"
+                android:text="@string/btn_sign_on"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/btn_sign_on_size"
+                app:layout_constraintTop_toBottomOf="@+id/iddPinLayout"
+                android:fontFamily="sans-serif-medium"
+                android:layout_centerHorizontal="true" />
+        </LinearLayout>
+
+    </RelativeLayout>
+        <!-- secondary user start -->
+        <RelativeLayout
+            android:id="@+id/secondaryUserLayout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:layout_below="@+id/subMainRelLayout"
+            android:gravity="left|center_horizontal"
+            android:layout_marginTop="100dp"
+            >
+            <Button
+                android:id="@+id/secondaryUserBtn"
+                android:layout_width="300dp"
+                android:layout_height="@dimen/layout_height_animation_button"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:background="@drawable/sec_user_btn"
+                android:text="@string/btn_idd_lic_no_state"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:gravity="left|center_vertical"
+                android:fontFamily="sans-serif-medium"
+                android:layout_centerHorizontal="true"
+                android:textAllCaps="false"
+                />
+        </RelativeLayout>
+
+    </RelativeLayout>
+    </ScrollView>
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation_login"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@android:color/white"
+        android:color="@android:color/black"
+        android:visibility="visible"
+        app:itemBackground="@android:color/white"
+        app:itemIconTint="@drawable/color_selector"
+        app:itemTextColor="@drawable/color_selector"
+        app:menu="@menu/navigation"
+        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <ProgressBar
+        android:id="@+id/processingBar"
+        android:indeterminateDrawable="@drawable/processing_bar"
+        android:layout_height="@dimen/processing_bar_height"
+        android:layout_width="@dimen/processing_bar_width"
+        android:layout_centerInParent="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        android:windowCloseOnTouchOutside="false"
+        >
+    </ProgressBar>
+
+</RelativeLayout>

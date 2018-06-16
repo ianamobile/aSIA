@@ -1,0 +1,1131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainRelLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    android:layout_centerVertical="true"
+    android:gravity="center_horizontal|center_vertical"
+    android:background="@color/colorBGBase"
+    tools:context="com.iana.sia.StreetTurnActivity" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBGBase"
+        android:id="@+id/scrollView"
+        android:layout_above="@+id/navigation_next_cancel"
+        >
+
+        <RelativeLayout
+            android:id="@+id/subMainRelLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_horizontal|center_vertical"
+            android:background="@color/colorBGBase"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            >
+
+            <!-- Motor carrier Name start -->
+            <LinearLayout
+                android:id="@+id/mcCompanyNameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/mcCompanyNameLblLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/background_light">
+
+                    <ImageView
+                        android:id="@+id/mcCompanyNameImg"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:srcCompat="@drawable/container" />
+
+                    <TextView
+                        android:id="@+id/mcCompanyNameLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:text="@string/lbl_motor_carrier_name"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintLeft_toRightOf="@+id/mcCompanyNameImg"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                </LinearLayout>
+
+                <AutoCompleteTextView
+                    android:id="@+id/mcCompanyName"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:paddingLeft="@dimen/edit_text_padding_left"
+                    android:ems="10"
+                    android:hint="@string/hint_motor_carrier_name"
+                    android:inputType="textPersonName"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/mcCompanyNameImg"
+                    android:fontFamily="sans-serif-medium"
+                    android:backgroundTint="@android:color/transparent"
+                    android:maxLength="100"
+                    />
+            </LinearLayout>
+
+
+            <!-- Motor Carrier SCAC start -->
+            <LinearLayout
+                android:id="@+id/mcScacLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                android:layout_below="@+id/mcCompanyNameLayout"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/mcScacLblLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/background_light">
+
+                    <ImageView
+                        android:id="@+id/mcScacImg"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:srcCompat="@drawable/scac" />
+
+                    <TextView
+                        android:id="@+id/mcScacLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:text="@string/lbl_motor_carrier_scac"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintLeft_toRightOf="@+id/mcScacImg"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/mcScac"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:paddingLeft="@dimen/edit_text_padding_left"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:textColor="@android:color/darker_gray"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/epScacImg"
+                    android:fontFamily="sans-serif-medium"
+                    android:backgroundTint="@android:color/transparent"
+                    android:hint="@string/hint_auto_populated"
+                    />
+            </LinearLayout>
+
+
+            <!-- Container Provider Name start -->
+            <LinearLayout
+                android:id="@+id/epCompanyNameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                android:layout_below="@+id/mcScacLayout"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/epCompanyNameLblLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/background_light">
+
+                    <ImageView
+                        android:id="@+id/epCompanyNameImg"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:srcCompat="@drawable/mc_login" />
+
+                    <TextView
+                        android:id="@+id/epCompanyNameLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:text="@string/lbl_container_provider_name"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintLeft_toRightOf="@+id/epCompanyNameImg"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                </LinearLayout>
+
+                <AutoCompleteTextView
+                    android:id="@+id/epCompanyName"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:paddingLeft="@dimen/edit_text_padding_left"
+                    android:ems="10"
+                    android:hint="@string/hint_container_provider_name"
+                    android:inputType="textPersonName"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/epCompanyNameImg"
+                    android:fontFamily="sans-serif-medium"
+                    android:backgroundTint="@android:color/transparent"
+                    android:maxLength="100"
+                    />
+            </LinearLayout>
+
+
+            <!-- Container Provider SCAC start -->
+            <LinearLayout
+                android:id="@+id/epScacLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                android:layout_below="@+id/epCompanyNameLayout"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/epScacLblLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/background_light">
+
+                    <ImageView
+                        android:id="@+id/epScacImg"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:srcCompat="@drawable/scac" />
+
+                    <TextView
+                        android:id="@+id/epScacLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:text="@string/lbl_container_provider_scac"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintLeft_toRightOf="@+id/epScacImg"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/epScac"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:paddingLeft="@dimen/edit_text_padding_left"
+                    android:ems="10"
+                    android:hint="@string/hint_auto_populated"
+                    android:inputType="textPersonName"
+                    android:textColor="@android:color/darker_gray"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/epScacImg"
+                    android:fontFamily="sans-serif-medium"
+                    android:backgroundTint="@android:color/transparent"
+                    />
+            </LinearLayout>
+
+            <!-- Container Number start -->
+            <LinearLayout
+                android:id="@+id/containerNumberLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                android:layout_below="@+id/epScacLayout"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/containerNumberLblLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/background_light">
+
+                    <ImageView
+                        android:id="@+id/containerNumberImg"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:srcCompat="@drawable/hash" />
+
+                    <TextView
+                        android:id="@+id/containerNumberLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:text="@string/lbl_container_number"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintLeft_toRightOf="@+id/containerNumberImg"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/containerNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:paddingLeft="@dimen/edit_text_padding_left"
+                    android:ems="10"
+                    android:hint="@string/hint_container_number"
+                    android:inputType="textPersonName"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/containerNumberImg"
+                    android:fontFamily="sans-serif-medium"
+                    android:backgroundTint="@android:color/transparent"
+                    android:maxLength="30"
+                    />
+            </LinearLayout>
+
+
+            <!-- Export Booking Number start -->
+            <LinearLayout
+                android:id="@+id/exportBookingNumberLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                android:layout_below="@+id/containerNumberLayout"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/exportBookingNumberLblLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/background_light">
+
+                    <ImageView
+                        android:id="@+id/exportBookingNumberImg"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:srcCompat="@drawable/user" />
+
+                    <TextView
+                        android:id="@+id/exportBookingNumberLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:text="@string/lbl_export_booking_number"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintLeft_toRightOf="@+id/exportBookingNumberImg"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/exportBookingNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:paddingLeft="@dimen/edit_text_padding_left"
+                    android:ems="10"
+                    android:hint="@string/hint_export_booking_number"
+                    android:inputType="textPersonName"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/exportBookingNumberImg"
+                    android:fontFamily="sans-serif-medium"
+                    android:backgroundTint="@android:color/transparent"
+                    android:maxLength="30"
+                    />
+
+            </LinearLayout>
+
+            <!-- Import BL start -->
+            <LinearLayout
+                android:id="@+id/importBLLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                android:layout_below="@+id/exportBookingNumberLayout"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/importBLLblLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/background_light">
+
+                    <ImageView
+                        android:id="@+id/importBLImg"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:srcCompat="@drawable/resize" />
+
+                    <TextView
+                        android:id="@+id/importBLLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:text="@string/lbl_import_bl"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintLeft_toRightOf="@+id/importBLImg"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/importBL"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:paddingLeft="@dimen/edit_text_padding_left"
+                    android:ems="10"
+                    android:hint="@string/hint_import_bl"
+                    android:inputType="textPersonName"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/importBLImg"
+                    android:fontFamily="sans-serif-medium"
+                    android:backgroundTint="@android:color/transparent"
+                    android:maxLength="30"
+                    />
+
+            </LinearLayout>
+
+            <!-- Chassis Number start -->
+            <LinearLayout
+                android:id="@+id/chassisNumberLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                android:layout_below="@+id/importBLLayout"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/chassisNumberLblLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/background_light">
+
+                    <ImageView
+                        android:id="@+id/chassisNumberImg"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:srcCompat="@drawable/chassisid" />
+
+                    <TextView
+                        android:id="@+id/chassisNumberLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:text="Chassis Number"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintLeft_toRightOf="@+id/chassisNumberImg"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/chassisNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:paddingLeft="@dimen/edit_text_padding_left"
+                    android:ems="10"
+                    android:hint="ENTER CHASSIS NUMBER"
+                    android:inputType="textPersonName"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/chassisNumberImg"
+                    android:fontFamily="sans-serif-medium"
+                    android:backgroundTint="@android:color/transparent"
+                    android:maxLength="12"
+                    />
+            </LinearLayout>
+
+
+            <!-- Chassis IEP SCAC start -->
+            <LinearLayout
+                android:id="@+id/iepScacLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                android:layout_below="@+id/chassisNumberLayout"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/iepScacLblLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/background_light">
+
+                    <ImageView
+                        android:id="@+id/iepScacImg"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:srcCompat="@drawable/scac" />
+
+                    <TextView
+                        android:id="@+id/iepScacLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:text="Chassis IEP SCAC"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintLeft_toRightOf="@+id/iepScacImg"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/iepScac"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:paddingLeft="@dimen/edit_text_padding_left"
+                    android:ems="10"
+                    android:hint="@string/hint_auto_populated"
+                    android:inputType="textPersonName"
+                    android:textColor="@android:color/darker_gray"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/iepScacImg"
+                    android:fontFamily="sans-serif-medium"
+                    android:backgroundTint="@android:color/transparent"
+                    />
+            </LinearLayout>
+
+            <!-- Original Interchange Location start -->
+            <LinearLayout
+                android:id="@+id/originalLocationLayout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:layout_below="@+id/iepScacLayout"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_margin="10dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="@string/lbl_original_interchange_location"
+                    android:textSize="15sp"
+                    android:textColor="@color/appThemeColor"
+                    android:gravity="center_vertical|center_horizontal"
+                    />
+
+                <ImageView
+                    android:id="@+id/search"
+                    android:tint="@android:color/black"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:src="@drawable/search"/>
+
+                </LinearLayout>
+
+            <!-- Zip Code start -->
+            <LinearLayout
+                android:id="@+id/zipCodeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                android:layout_below="@+id/originalLocationLayout"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/zipCodeLblLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/background_light">
+
+                    <ImageView
+                        android:id="@+id/zipCodeImg"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:srcCompat="@drawable/location" />
+
+                    <TextView
+                        android:id="@+id/zipCodeLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:text="ZIP CODE"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintLeft_toRightOf="@+id/zipCodeImg"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/zipCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:paddingLeft="@dimen/edit_text_padding_left"
+                    android:ems="10"
+                    android:hint="@string/hint_auto_populated"
+                    android:textColor="@android:color/darker_gray"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/zipCodeImg"
+                    android:fontFamily="sans-serif-medium"
+                    android:backgroundTint="@android:color/transparent"
+                    />
+            </LinearLayout>
+
+
+            <!-- Location Name start -->
+            <LinearLayout
+                android:id="@+id/locationNameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                android:layout_below="@+id/zipCodeLayout"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/locationNameLblLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/background_light">
+
+                    <ImageView
+                        android:id="@+id/locationNameImg"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:srcCompat="@drawable/railfac" />
+
+                    <TextView
+                        android:id="@+id/locationNameLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:text="LOCATION NAME"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintLeft_toRightOf="@+id/locationNameImg"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/locationName"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:paddingLeft="@dimen/edit_text_padding_left"
+                    android:ems="10"
+                    android:hint="@string/hint_auto_populated"
+                    android:textColor="@android:color/darker_gray"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/locationNameImg"
+                    android:fontFamily="sans-serif-medium"
+                    android:backgroundTint="@android:color/transparent"
+                    android:lines="2"
+                    />
+            </LinearLayout>
+
+            <!-- Location Address start -->
+            <LinearLayout
+                android:id="@+id/locationAddressLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                android:layout_below="@+id/locationNameLayout"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/locationAddressLblLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/background_light">
+
+                    <ImageView
+                        android:id="@+id/locationAddressImg"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:srcCompat="@drawable/sign" />
+
+                    <TextView
+                        android:id="@+id/locationAddressLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:text="LOCATION ADDRESS"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintLeft_toRightOf="@+id/locationAddressImg"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/locationAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:paddingLeft="@dimen/edit_text_padding_left"
+                    android:ems="10"
+                    android:hint="@string/hint_auto_populated"
+                    android:textColor="@android:color/darker_gray"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/locationAddressImg"
+                    android:fontFamily="sans-serif-medium"
+                    android:backgroundTint="@android:color/transparent"
+                    />
+            </LinearLayout>
+
+            <!-- City start -->
+            <LinearLayout
+                android:id="@+id/cityLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                android:layout_below="@+id/locationAddressLayout"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/cityLblLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/background_light">
+
+                    <ImageView
+                        android:id="@+id/cityImg"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:srcCompat="@drawable/location" />
+
+                    <TextView
+                        android:id="@+id/cityLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:text="CITY"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintLeft_toRightOf="@+id/cityImg"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/city"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:paddingLeft="@dimen/edit_text_padding_left"
+                    android:ems="10"
+                    android:hint="@string/hint_auto_populated"
+                    android:textColor="@android:color/darker_gray"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/cityImg"
+                    android:fontFamily="sans-serif-medium"
+                    android:backgroundTint="@android:color/transparent"
+                    />
+            </LinearLayout>
+
+            <!-- State start -->
+            <LinearLayout
+                android:id="@+id/stateLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                android:layout_below="@+id/cityLayout"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/stateLblLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/background_light">
+
+                    <ImageView
+                        android:id="@+id/stateImg"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:srcCompat="@drawable/state" />
+
+                    <TextView
+                        android:id="@+id/stateLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:text="STATE"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintLeft_toRightOf="@+id/stateImg"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/state"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:paddingLeft="@dimen/edit_text_padding_left"
+                    android:ems="10"
+                    android:hint="@string/hint_auto_populated"
+                    android:textColor="@android:color/darker_gray"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/stateImg"
+                    android:fontFamily="sans-serif-medium"
+                    android:backgroundTint="@android:color/transparent"
+                    />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation_next_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@android:color/black"
+        android:color="@android:color/white"
+        android:visibility="visible"
+        app:itemBackground="@android:color/black"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white"
+        app:menu="@menu/navigation_next_cancel"
+        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <ProgressBar
+        android:id="@+id/processingBar"
+        android:indeterminateDrawable="@drawable/processing_bar"
+        android:layout_height="@dimen/processing_bar_height"
+        android:layout_width="@dimen/processing_bar_width"
+        android:layout_centerInParent="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        android:windowCloseOnTouchOutside="false"
+        >
+    </ProgressBar>
+
+</RelativeLayout>

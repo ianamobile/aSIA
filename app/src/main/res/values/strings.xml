@@ -1,0 +1,153 @@
+<resources>
+    <string name="app_name">SIA</string>
+
+    <string name="no_internet_connection">No Internet Connection</string>
+
+    <!-- API Info starts -->
+
+    <string name="base_url">https://siarestuat.uiia.org/SIAREST/rest/SIA/</string>
+
+    <string name="api_sia_login">siaLogin</string>
+    <string name="api_forgot_password">forgotPassword</string>
+    <string name="api_get_equipment_location_list">getEquipmentLocationList</string>
+    <string name="api_get_original_location_list">getOriginLocationList</string>
+    <string name="api_get_companyname_and_scac_by_companyname">getCompanyNameAndSCACByCompanyName</string>
+    <string name="api_get_iep_scac_by_chassis_id">getIEPScacByChassisId</string>
+    <!-- API Info end -->
+
+    <!-- Dialog title starts -->
+    <string name="dialog_title_mc_login">MC LOGIN</string>
+    <string name="dialog_title_ep_login">EP LOGIN</string>
+    <string name="dialog_title_idd_login">IDD LOGIN</string>
+    <string name="dialog_title_tpu_login">TPU LOGIN</string>
+    <string name="dialog_title_ep_sec_login">EP SEC LOGIN</string>
+    <string name="dialog_title_mc_sec_login">MC SEC LOGIN</string>
+    <string name="dialog_title_street_turn_request">STREET TURN</string>
+    <!-- Dialog title end -->
+
+    <!-- label -->
+    <string name="lbl_username">USERNAME</string>
+    <string name="lbl_password">PASSWORD</string>
+
+    <string name="lbl_idd_pin">IDD PIN</string>
+    <string name="lbl_scac">SCAC</string>
+
+    <string name="lbl_idd_lic_no">DRIVER LICENSE NO</string>
+    <string name="lbl_idd_lic_state">DRIVER LICENSE STATE</string>
+
+    <string name="lbl_email">EMAIL</string>
+
+    <string name="title_forgot_your_username">Forgot Your Username?</string>
+    <string name="title_forgot_your_password">Forgot Your Password?</string>
+
+    <string name="title_dashboard">DASHBOARD</string>
+
+    <string name="lbl_motor_carrier_name">MOTOR CARRIER NAME</string>
+    <string name="lbl_motor_carrier_scac">MOTOR CARRIER SCAC</string>
+
+    <string name="lbl_container_provider_name">CONTAINER PROVIDER NAME</string>
+    <string name="lbl_container_provider_scac">CONTAINER PROVIDER SCAC</string>
+
+    <string name="lbl_container_number">CONTAINER NUMBER</string>
+    <string name="lbl_export_booking_number">EXPORT BOOKING NUMBER</string>
+    <string name="lbl_import_bl">IMPORT B/L</string>
+    <string name="lbl_original_interchange_location">Original Interchange Location</string>
+
+    <!-- hint -->
+    <string name="hint_username">ENTER USERNAME</string>
+    <string name="hint_password">ENTER PASSWORD</string>
+
+    <string name="hint_idd_pin">ENTER IDD PIN</string>
+    <string name="hint_scac">ENTER SCAC</string>
+
+    <string name="hint_idd_lic_no">ENTER DRIVER LICENSE NO</string>
+    <string name="hint_idd_lic_state">ENTER DRIVER LICENSE STATE</string>
+
+    <string name="hint_email">ENTER REGISTERED EMAIL</string>
+
+    <string name="hint_motor_carrier_name">ENTER MOTOR CARRIER NAME</string>
+    <string name="hint_auto_populated">AUTO POPULATED</string>
+
+    <string name="hint_container_provider_name">ENTER CONTAINER PROVIDER NAME</string>
+    <string name="hint_container_number">ENTER CONTAINER NUMBER</string>
+    <string name="hint_export_booking_number">ENTER EXPORT BOOKING NUMBER</string>
+    <string name="hint_import_bl">ENTER IMPORT B/L</string>
+
+    <string name="hint_search_location_text">Search By City, Name, Zip, IANA#, SPLC#</string>
+
+    <!-- button -->
+    <string name="btn_sign_on">SIGN ON</string>
+    <string name="btn_submit">SUBMIT</string>
+    <string name="btn_search">SEARCH</string>
+
+    <string name="lbl_trouble_signing_on">TROUBLE SIGNING ON?</string>
+    <string name="btn_mc_sec_user">Login to MC Secondary User</string>
+    <string name="btn_ep_sec_user">Login to EP Secondary User</string>
+    <string name="btn_idd_lic_no_state">Login With Driver License No &amp; State</string>
+
+    <string name="msg_error_no_internet">Hey! It looks like you are offline, please check your internet connection.</string>
+    <string name="btn_retry">RETRY</string>
+
+    <string name="btn_go_back">GO BACK</string>
+
+
+    <!-- variables start -->
+    <string name="request_type_ir_request">IR_REQUEST</string>
+    <string name="request_type_notif_avail_request">NOTIF_AVAIL_REQUEST</string>
+    <!-- variables start -->
+
+    <!-- title start -->
+    <string name="title_back">BACK</string>
+    <string name="title_notif_avail">Notification Available</string>
+    <string name="title_street_turn_request">STREET TURN REQUEST</string>
+    <string name="title_search_location">SEARCH LOCATION</string>
+    <string name="title_verify_details">VERIFY DETAILS</string>
+
+    <string-array name="load_status">
+        <item>SELECT LOAD STATUS</item>
+        <item>LOADED</item>
+        <item>EMPTY</item>
+    </string-array>
+
+    <!-- Error Messages start -->
+    <string name="msg_error_all_mandatory">All fields are mandatory. Please make sure that all fields should not be blank.</string>
+
+    <string name="msg_error_blank_scac">Please enter SCAC.</string>
+    <string name="msg_error_length_scac">SCAC should be 4 characters long.</string>
+    <string name="msg_error_char_scac">SCAC should contains characters only.</string>
+    <string name="msg_error_length_ep_scac">SCAC should be between 2-4 characters long.</string>
+
+    <string name="msg_error_blank_password">Please enter password.</string>
+    <string name="msg_error_blank_userName">Please enter userName.</string>
+
+    <string name="msg_error_blank_iddpin">Please enter IDD PIN.</string>
+
+    <string name="msg_error_blank_drvLicNo">Please enter Driver License Number.</string>
+    <string name="msg_error_blank_drvLicState">Please enter Driver License State.</string>
+
+    <string name="msg_error_alphanum_drvLicNo">Driver license number should be Alpha-Numeric only.</string>
+    <string name="msg_error_char_drvLicState">Driver license state should be characters only.</string>
+
+    <string name="msg_error_mc_ep_login">Please enter scac &amp; password.</string>
+    <string name="msg_error_no_records_found">No Records Found.</string>
+
+    <string name="msg_error_enter_motor_carrier_name_first">Please enter Motor Carrier Name first.</string>
+    <string name="msg_error_empty_motor_carrier_name">Motor Carrier Name should not be blank.</string>
+    <string name="msg_error_select_motor_carrier_name">Please select valid Motor Carrier Name to populate SCAC.</string>
+
+    <string name="msg_error_enter_container_provider_name_first">Please enter Container Provider Name first.</string>
+    <string name="msg_error_empty_container_provider_name">Container Provider Name should not be blank.</string>
+    <string name="msg_error_select_container_provider_name">Please select valid Container Provider Name to populate SCAC.</string>
+
+    <string name="msg_error_empty_container_number">Container Number should not be blank.</string>
+    <string name="msg_error_alpha_num_container_number_st">Container Number should be Alpha-Numeric value.</string>
+
+    <string name="msg_error_empty_export_booking_number">Export Booking Number should not be blank.</string>
+    <string name="msg_error_alpha_num_export_booking_number">Export Booking Number should be Alpha-Numeric value.</string>
+
+    <string name="msg_error_alpha_num_import_booking_number">Import Booking Number should be Alpha-Numeric value.</string>
+
+    <string name="msg_error_alpha_num_chassis_number">Chassis Number should be Alpha-Numeric value.</string>
+
+
+</resources>

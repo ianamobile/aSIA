@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="appThemeColor">#ED6533</color>
+
+    <color name="colorBGBase">#F1F5F8</color>
+    <color name="colorTextLoginNavSelect">#ED6533</color>
+    <color name="colorButton">#ED6533</color>
+
+    <color name="colorTextTroubleSignIn">#057AFF</color>
+
+    <color name="action_bar_background_color">#FFFFFF</color>
+
+    <color name="sia_navy_blue_color">#272662</color>
+
+    <color name="backgroundcolor">#fcfcfc</color>
+
+    <color name="color_black">#000</color>
+
+    <color name="color_bg_dashboard">#F1F5F8</color>
+
+    <color name="dark_gray">#A9A9A9</color>
+
+</resources>
