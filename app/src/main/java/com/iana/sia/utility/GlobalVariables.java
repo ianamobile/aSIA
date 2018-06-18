@@ -34,7 +34,12 @@ public class GlobalVariables {
     public static final String ORIGIN_FROM_EQUIPMENT = "equipment";
     public static final String ORIGIN_FROM_ORIGINAL = "original";
 
-    public static final String ORIGIN_FROM_STREET_TURN = "streetTurn";
+    public static final String ORIGIN_FROM_STREET_TURN = "StreetTurn";
+    public static final String ORIGIN_FROM_STREET_INTERCHANGE = "StreetInterchange";
+    public static final String ORIGIN_FROM_NOTIF_AVAIl = "NotifAvail";
+
+    public static final String IR_REQUEST_TYPE_ST = "StreetTurn";
+    public static final String IR_REQUEST_TYPE_SI = "StreetInterchange";
 
     public static final String KEY_SI_ST_NA = "SI_ST_NA";
     public static final String KEY_ORIGIN_FROM = "originFrom";
@@ -79,4 +84,10 @@ public class GlobalVariables {
     public static final String KEY_RETURN_FROM = "returnFrom";
 
     public static final String RETURN_FROM_LOCATION_SEARCH = "locationSearch";
+    public static final String RETURN_FROM_VERIFY_DETAILS = "verifyDetails";
+
+    public static final String FIELD_INFO_BLANK = "blank";
+    public static final String FIELD_INFO_EMPTY = "empty";
+    public static final String FIELD_INFO_TITLE = "title";
+    public static final String FIELD_INFO_VALUE = "value";
 }

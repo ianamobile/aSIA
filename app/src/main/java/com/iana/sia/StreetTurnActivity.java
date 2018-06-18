@@ -11,8 +11,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -29,12 +27,14 @@ import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.iana.sia.model.Company;
+import com.iana.sia.model.FieldInfo;
+import com.iana.sia.model.InterchangeRequests;
+import com.iana.sia.model.User;
 import com.iana.sia.utility.ApiResponse;
 import com.iana.sia.utility.ApiResponseMessage;
 import com.iana.sia.utility.GlobalVariables;
@@ -74,9 +74,11 @@ public class StreetTurnActivity extends AppCompatActivity {
     String role;
     String memType;
 
-    private ProgressBar progressBar;
+    ProgressBar progressBar;
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
+
+    String accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +89,7 @@ public class StreetTurnActivity extends AppCompatActivity {
         editor = sharedPref.edit();
         role =  sharedPref.getString(GlobalVariables.KEY_ROLE, "");
         memType =  sharedPref.getString(GlobalVariables.KEY_MEM_TYPE, "");
+        accessToken = sharedPref.getString(GlobalVariables.KEY_ACCESS_TOKEN, "");
 
         mcScac = findViewById(R.id.mcScac);
         mcCompanyName = findViewById(R.id.mcCompanyName);
@@ -141,7 +144,8 @@ public class StreetTurnActivity extends AppCompatActivity {
         zipCode.setLongClickable(false);
 
 
-        if(sharedPref.getString(GlobalVariables.KEY_RETURN_FROM, "").equalsIgnoreCase(GlobalVariables.RETURN_FROM_LOCATION_SEARCH)) {
+        if(sharedPref.getString(GlobalVariables.KEY_RETURN_FROM, "").equalsIgnoreCase(GlobalVariables.RETURN_FROM_LOCATION_SEARCH) ||
+            sharedPref.getString(GlobalVariables.KEY_RETURN_FROM, "").equalsIgnoreCase(GlobalVariables.RETURN_FROM_VERIFY_DETAILS)) {
             locationName.setText(sharedPref.getString(GlobalVariables.KEY_LOCATION_NAME, ""));
             locationAddress.setText(sharedPref.getString(GlobalVariables.KEY_LOCATION_ADDRESS, ""));
             zipCode.setText(sharedPref.getString(GlobalVariables.KEY_LOCATION_ZIP, ""));
@@ -319,13 +323,15 @@ public class StreetTurnActivity extends AppCompatActivity {
 
                         } else {
 
-                            editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ORIGIN_FROM_STREET_TURN);
-                            editor.putString(GlobalVariables.KEY_EP_SCAC, epScac.getText().toString());
-                            editor.putString(GlobalVariables.KEY_EP_COMPANY_NAME, epCompanyName.getText().toString());
-                            editor.commit();
+                            // code to disable background functionalities when progress bar starts
+                            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                            startActivity(new Intent(StreetTurnActivity.this, VerifyStreetTurnActivity.class));
-                            finish(); /* This method will not display login page when click back (return) from phone */
+                            Gson gson = new Gson();
+                            String jsonString = gson.toJson(getInterchangeRequests(), InterchangeRequests.class);
+
+                            Log.v("log_tag", "In StreetTurn verifyig request jsonString:=>"+jsonString);
+                            new StreetTurnActivity.ExecuteTaskToValidate(jsonString).execute();
                         }
                         break;
                     case R.id.navigation_cancel:
@@ -348,6 +354,11 @@ public class StreetTurnActivity extends AppCompatActivity {
         chassisNumber.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+
+                    // code to disable background functionalities when progress bar starts
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
                     String requestString = "chassisId=" + chassisNumber.getText().toString().trim();
                     new ExecuteChassisIdTask(requestString).execute();
                     return true;
@@ -355,27 +366,36 @@ public class StreetTurnActivity extends AppCompatActivity {
                 return false;
             }
         });
-        /*chassisNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //here is your code
-                if (null != s && s.toString().trim().length() > 1) {
-                    String requestString = "chassisId=" + s.toString().trim();
-                    new ExecuteChassisIdTask(requestString).execute();
-                }
-            }
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-                // TODO Auto-generated method stub
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub
 
-            }
-        });*/
+    }
 
+    @NonNull
+    private InterchangeRequests getInterchangeRequests() {
+        InterchangeRequests ir = new InterchangeRequests();
+
+        ir.setIrRequestType(GlobalVariables.IR_REQUEST_TYPE_ST);
+        ir.setEpScacs(epScac.getText().toString());
+        ir.setContNum(containerNumber.getText().toString());
+        ir.setChassisNum(chassisNumber.getText().toString());
+        ir.setBookingNum(exportBookingNumber.getText().toString());
+        ir.setImportBookingNum(importBL.getText().toString());
+        ir.setOriginLocNm(locationName.getText().toString());
+        ir.setOriginLocAddr(locationAddress.getText().toString());
+        ir.setOriginLocCity(city.getText().toString());
+        ir.setOriginLocState(state.getText().toString());
+        ir.setOriginLocZip(zipCode.getText().toString());
+        ir.setAccessToken(accessToken);
+        return ir;
+    }
+
+    public <T> void setList(String key, List<T> list) {
+        Gson gson = new Gson();
+        editor.putString(key, gson.toJson(list));
+    }
+
+    public <T> void setObject(String key, T obj) {
+        Gson gson = new Gson();
+        editor.putString(key, gson.toJson(obj));
     }
 
     private void showActionBar() {
@@ -400,6 +420,12 @@ public class StreetTurnActivity extends AppCompatActivity {
         String exportBookingNumber = ((EditText)findViewById(R.id.exportBookingNumber)).getText().toString();
         String importBL = ((EditText)findViewById(R.id.importBL)).getText().toString();
         String chassisNumber = ((EditText)findViewById(R.id.chassisNumber)).getText().toString();
+
+        String locationName = ((EditText)findViewById(R.id.locationName)).getText().toString();
+        String locationAddress = ((EditText)findViewById(R.id.locationAddress)).getText().toString();
+        String city = ((EditText)findViewById(R.id.city)).getText().toString();
+        String state = ((EditText)findViewById(R.id.state)).getText().toString();
+        String zipCode = ((EditText)findViewById(R.id.zipCode)).getText().toString();
 
         if(null == mcCompanyName || mcCompanyName.trim().toString().length() <= 0) {
             return getString(R.string.msg_error_empty_motor_carrier_name);
@@ -437,6 +463,22 @@ public class StreetTurnActivity extends AppCompatActivity {
 
         if(null != chassisNumber && chassisNumber.toString().trim().length() > 0 && !SIAUtility.isAlphaNumeric(chassisNumber)) {
             return getString(R.string.msg_error_alpha_num_chassis_number);
+        }
+
+        if(null == zipCode || zipCode.toString().trim().length() <= 0) {
+            return getString(R.string.msg_error_empty_zip_code);
+        }
+        if(null == locationName || locationName.toString().trim().length() <= 0) {
+            return getString(R.string.msg_error_empty_location_name);
+        }
+        if(null == locationAddress || locationAddress.toString().trim().length() <= 0) {
+            return getString(R.string.msg_error_empty_location_address);
+        }
+        if(null == city || city.toString().trim().length() <= 0) {
+            return getString(R.string.msg_error_empty_city);
+        }
+        if(null == state || state.toString().trim().length() <= 0) {
+            return getString(R.string.msg_error_empty_state);
         }
 
         return GlobalVariables.SUCCESS;
@@ -556,6 +598,9 @@ public class StreetTurnActivity extends AppCompatActivity {
             protected void onPostExecute(String result) {
                 progressBar.setVisibility(View.GONE);
 
+                // code to regain disable backend functionality end
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
                 try {
                     Log.v("log_tag", "urlResponseCode:=>" + urlResponseCode);
                     Log.v("log_tag", "result:=> " + result);
@@ -625,6 +670,8 @@ public class StreetTurnActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
+            // code to regain disable backend functionality end
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
             try {
                 Log.v("log_tag", "Chassis IEP Scac urlResponseCode:=>" + urlResponseCode);
@@ -637,6 +684,112 @@ public class StreetTurnActivity extends AppCompatActivity {
                     ((EditText) findViewById(R.id.iepScac)).setText(responseJson.get("iepScac").getAsString());
                 } else if (urlResponseCode != 400) {
                     ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+                    new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                }
+
+            } catch (Exception e) {
+                Log.v("log_tag", "Error ", e);
+            }
+
+        }
+
+    }
+
+    class ExecuteTaskToValidate extends AsyncTask<String, Integer, String> {
+        String requestString;
+
+        public ExecuteTaskToValidate(String requestString) {
+            this.requestString = requestString;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            Log.v("log_tag", "POST Request api_validate_initiate_interchange_details:=>"+getString(R.string.base_url) + getString(R.string.api_validate_initiate_interchange_details) + "?" + requestString);
+            ApiResponse apiResponse = RestApiClient.callPostApi(requestString, getString(R.string.base_url) +getString(R.string.api_validate_initiate_interchange_details));
+            urlResponse = apiResponse.getMessage();
+            urlResponseCode = apiResponse.getCode();
+            return urlResponse;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            progressBar.setVisibility(View.GONE);
+
+            try {
+                Log.v("log_tag", "urlResponseCode:=>" + urlResponseCode);
+                Log.v("log_tag", "result:=> " + result);
+                Gson gson = new Gson();
+
+                ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+
+                if (urlResponseCode == 200) {
+
+                    int[] streetTurnCategories = new int[]{9, 5};
+                    String[] streetTurnCategoriesName = new String[]{"Street Turn Details", "Original Interchange Location"};
+                    String[] streetTurnTitles = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
+                            "MOTOR CARRIER'S NAME", "MOTOR CARRIER'S SCAC",
+                            "IMPORT BL", "EXPORT BOOKING#",
+                            "CONTAINER#", "CHASSIS#", "CHASSIS IEP SCAC",
+                            "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE"};
+                    String[] streetTurnValues = new String[]{epCompanyName.getText().toString(), epScac.getText().toString(),
+                            mcCompanyName.getText().toString(), mcScac.getText().toString(),
+                            importBL.getText().toString(), exportBookingNumber.getText().toString(),
+                            containerNumber.getText().toString(), chassisNumber.getText().toString(),
+                            iepScac.getText().toString(),
+                            locationName.getText().toString(), locationAddress.getText().toString(),
+                            zipCode.getText().toString(), city.getText().toString(),
+                            state.getText().toString()};
+
+
+                    List<FieldInfo> fieldInfoList = new ArrayList<>();
+                    int counter = 0;
+                    int innerLoopStart = 0;
+                    for(int i=0;i<streetTurnCategories.length;i++) {
+                        FieldInfo fieldInfo = new FieldInfo();
+                        fieldInfo.setTitle(GlobalVariables.FIELD_INFO_EMPTY);
+                        fieldInfo.setValue(streetTurnCategoriesName[i]);
+                        fieldInfoList.add(fieldInfo);
+                        counter = counter + streetTurnCategories[i];
+                        for (int j = innerLoopStart; j < counter; j++) {
+                            fieldInfo = new FieldInfo();
+                            fieldInfo.setTitle(GlobalVariables.FIELD_INFO_TITLE);
+                            fieldInfo.setValue(streetTurnTitles[j]);
+                            fieldInfoList.add(fieldInfo);
+
+                            fieldInfo = new FieldInfo();
+                            fieldInfo.setTitle(GlobalVariables.FIELD_INFO_VALUE);
+                            fieldInfo.setValue(streetTurnValues[j]);
+                            fieldInfoList.add(fieldInfo);
+                        }
+                        innerLoopStart = innerLoopStart + streetTurnCategories[i];
+
+                        if((i+1) < streetTurnCategories.length) {
+                            fieldInfo = new FieldInfo();
+                            fieldInfo.setTitle(GlobalVariables.FIELD_INFO_BLANK);
+                            fieldInfoList.add(fieldInfo);
+                        }
+                    }
+
+                    editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ORIGIN_FROM_STREET_TURN);
+
+                    setList("fieldInfoList", fieldInfoList);
+                    setObject("streetTurnObject", getInterchangeRequests());
+
+                    editor.commit();
+
+                    Intent intent = new Intent(StreetTurnActivity.this, VerifyActivity.class);
+                    startActivity(intent);
+                    finish(); /* This method will not display login page when click back (return) from phone */
+                            /* End */
+
+                } else if (urlResponseCode != 400) {
+
                     new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
                 }
 

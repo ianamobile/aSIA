@@ -63,7 +63,8 @@
         <activity android:name=".DashboardActivity" />
         <activity android:name=".StreetTurnActivity" />
         <activity android:name=".LocationActivity" />
-        <activity android:name=".VerifyStreetTurnActivity"></activity>
+        <activity android:name=".VerifyActivity" />
+        <activity android:name=".SuccessActivity"></activity>
     </application>
 
 </manifest>

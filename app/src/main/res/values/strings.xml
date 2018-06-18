@@ -13,6 +13,9 @@
     <string name="api_get_original_location_list">getOriginLocationList</string>
     <string name="api_get_companyname_and_scac_by_companyname">getCompanyNameAndSCACByCompanyName</string>
     <string name="api_get_iep_scac_by_chassis_id">getIEPScacByChassisId</string>
+    <string name="api_validate_initiate_interchange_details">validateInitiateInterchangeDetails</string>
+    <string name="api_save_initiate_interchange_details">saveInitiateInterchangeDetails</string>
+    <string name="api_add_equipment_to_pool">addEquipmentToPool</string>
     <!-- API Info end -->
 
     <!-- Dialog title starts -->
@@ -23,7 +26,12 @@
     <string name="dialog_title_ep_sec_login">EP SEC LOGIN</string>
     <string name="dialog_title_mc_sec_login">MC SEC LOGIN</string>
     <string name="dialog_title_street_turn_request">STREET TURN</string>
+    <string name="dialog_title_verify_details">VERIFY DETAILS</string>
     <!-- Dialog title end -->
+
+    <!-- Success message starts -->
+    <string name="success_msg_street_turn">Your request for Street Turn has been successfully processed.</string>
+    <!-- Success message end -->
 
     <!-- label -->
     <string name="lbl_username">USERNAME</string>
@@ -102,6 +110,7 @@
     <string name="title_street_turn_request">STREET TURN REQUEST</string>
     <string name="title_search_location">SEARCH LOCATION</string>
     <string name="title_verify_details">VERIFY DETAILS</string>
+    <string name="title_success">SUCCESS</string>
 
     <string-array name="load_status">
         <item>SELECT LOAD STATUS</item>
@@ -148,6 +157,12 @@
     <string name="msg_error_alpha_num_import_booking_number">Import Booking Number should be Alpha-Numeric value.</string>
 
     <string name="msg_error_alpha_num_chassis_number">Chassis Number should be Alpha-Numeric value.</string>
+
+    <string name="msg_error_empty_zip_code">Zip code should not be blank.</string>
+    <string name="msg_error_empty_location_name">Location Name should not be blank.</string>
+    <string name="msg_error_empty_location_address">Location Address should not be blank.</string>
+    <string name="msg_error_empty_city">City should not be blank.</string>
+    <string name="msg_error_empty_state">State should not be blank.</string>
 
 
 </resources>

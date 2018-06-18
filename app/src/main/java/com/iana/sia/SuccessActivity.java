@@ -1,46 +1,35 @@
 package com.iana.sia;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.iana.sia.utility.GlobalVariables;
 
-public class VerifyStreetTurnActivity extends AppCompatActivity {
+public class SuccessActivity extends AppCompatActivity {
 
-    private ProgressBar progressBar;
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
 
+    TextView successMessageTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_verify_street_turn);
+        setContentView(R.layout.activity_success);
 
         showActionBar();
-        ((TextView) findViewById(R.id.title)).setText(R.string.title_verify_details);
-
-        progressBar = findViewById(R.id.processingBar);
+        ((TextView) findViewById(R.id.title)).setText(R.string.title_success);
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
-        editor = sharedPref.edit();
+        String successMessage = sharedPref.getString(GlobalVariables.SUCCESS, "");
 
-        ((TextView) findViewById(R.id.epCompanyName)).setText(sharedPref.getString(GlobalVariables.KEY_EP_COMPANY_NAME, ""));
-
-        // below code is used to restrict auto populate keypad
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
+        successMessageTextView = findViewById(R.id.successMessage);
+        successMessageTextView.setText(successMessage);
 
     }
 
