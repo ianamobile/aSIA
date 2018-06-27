@@ -97,7 +97,7 @@ public class LoginMCActivity extends AppCompatActivity implements Animation.Anim
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
 
-        if(sharedPref != null && !sharedPref.getString(GlobalVariables.KEY_ACCESS_TOKEN, "").equalsIgnoreCase("")){
+        if(sharedPref != null && !sharedPref.getString(GlobalVariables.KEY_SECURITY_OBJ, "").equalsIgnoreCase("")){
             Intent i = new Intent(LoginMCActivity.this, DashboardActivity.class);
             startActivity(i);
             finish(); /* This method will not display login page when click back (return) from phone */

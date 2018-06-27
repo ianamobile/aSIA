@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/navigation_edit"
-        android:icon="@drawable/right_arrow"
+        android:icon="@drawable/if_pen_checkbox_353430"
         android:title="EDIT"
         />
 

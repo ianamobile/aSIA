@@ -4,11 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -134,6 +137,9 @@ public class VerifyActivity extends AppCompatActivity {
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
         editor = sharedPref.edit();
+
+        String chassisIEPSCACMsg = sharedPref.getString(GlobalVariables.KEY_IEP_SCAC_MESSAGE, "");
+
         List<FieldInfo> fieldInfoList =  readListOfModel();
 
         for(int i=0; i < fieldInfoList.size();i++) {
@@ -146,10 +152,15 @@ public class VerifyActivity extends AppCompatActivity {
 
             } else if(fieldInfo.getTitle().equalsIgnoreCase(GlobalVariables.FIELD_INFO_TITLE)) {
                 row = (TableRow)LayoutInflater.from(VerifyActivity.this).inflate(R.layout.verify_content, null);
+                String chassisIEPSCACLbl = fieldInfo.getValue();
                 ((TextView)row.findViewById(R.id.locationLbl)).setText(fieldInfo.getValue());
 
                 fieldInfo = fieldInfoList.get(++i);
-                ((TextView)row.findViewById(R.id.locationValue)).setText(fieldInfo.getValue());
+                if(chassisIEPSCACLbl.equalsIgnoreCase("CHASSIS IEP SCAC") && null != chassisIEPSCACMsg && chassisIEPSCACMsg.trim().length() > 0) {
+                    ((TextView)row.findViewById(R.id.locationValue)).setText(fieldInfo.getValue() + Html.fromHtml("<br/>"+chassisIEPSCACMsg));
+                } else {
+                    ((TextView) row.findViewById(R.id.locationValue)).setText(fieldInfo.getValue());
+                }
                 tl.addView(row);
 
             } else  if(fieldInfo.getTitle().equalsIgnoreCase(GlobalVariables.FIELD_INFO_BLANK)) {

@@ -209,6 +209,7 @@ public class DashboardActivity extends AppCompatActivity {
 
                             SharedPreferences.Editor editor = sharedPref.edit();
                             editor.remove(GlobalVariables.KEY_RETURN_FROM);
+                            editor.remove(GlobalVariables.KEY_INTERCHANGE_REQUESTS_SEARCH);
                             editor.commit();
 
                             Intent intent = new Intent(DashboardActivity.this, SearchInterchangeRequestActivity.class);
@@ -295,15 +296,8 @@ public class DashboardActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPref.edit();
 
         editor.putString(GlobalVariables.KEY_ORIGIN_FROM, "");
-        editor.putString(GlobalVariables.KEY_ACCESS_TOKEN, "");
-        editor.putString(GlobalVariables.KEY_SCAC, "");
-        editor.putString(GlobalVariables.KEY_ROLE, "");
-
-        editor.putString(GlobalVariables.KEY_COMPANY_NAME, "");
-        editor.putString(GlobalVariables.KEY_MEM_TYPE, "");
-
         editor.putString(GlobalVariables.KEY_RETURN_FROM, ""); // used when return from location search screen
-
+        editor.putString(GlobalVariables.KEY_SECURITY_OBJ, "");
         editor.clear();
         editor.commit(); // commit changes
 

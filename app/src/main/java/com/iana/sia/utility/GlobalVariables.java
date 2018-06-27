@@ -44,7 +44,6 @@ public class GlobalVariables {
 
     public static final String KEY_SI_ST_NA = "SI_ST_NA";
     public static final String KEY_ORIGIN_FROM = "originFrom";
-    public static final String KEY_ACCESS_TOKEN = "accessToken";
     public static final String KEY_ROLE = "role";
     public static final String KEY_MEM_TYPE = "memType";
     public static final String KEY_COMPANY_NAME = "companyName";

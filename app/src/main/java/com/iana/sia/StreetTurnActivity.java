@@ -257,8 +257,8 @@ public class StreetTurnActivity extends AppCompatActivity {
 
             epCompanyName = findViewById(R.id.epCompanyName);
             epCompanyName.setEnabled(false);
-            epCompanyName.setText(sharedPref.getString(GlobalVariables.KEY_COMPANY_NAME, ""));
-            epScac.setText(sharedPref.getString(GlobalVariables.KEY_SCAC, ""));
+            epCompanyName.setText(siaSecurityObj.getCompanyName());
+            epScac.setText(siaSecurityObj.getScac());
             epCompanyName.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
 
             mcCompanyName = findViewById(R.id.mcCompanyName);
@@ -301,8 +301,8 @@ public class StreetTurnActivity extends AppCompatActivity {
 
             mcCompanyName = findViewById(R.id.mcCompanyName);
             mcCompanyName.setEnabled(false);
-            mcCompanyName.setText(sharedPref.getString(GlobalVariables.KEY_COMPANY_NAME, ""));
-            mcScac.setText(sharedPref.getString(GlobalVariables.KEY_SCAC, ""));
+            mcCompanyName.setText(siaSecurityObj.getCompanyName());
+            mcScac.setText(siaSecurityObj.getScac());
             mcCompanyName.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
 
             epCompanyName = findViewById(R.id.epCompanyName);
@@ -717,9 +717,16 @@ public class StreetTurnActivity extends AppCompatActivity {
                     JsonObject responseJson = gson.fromJson(result, JsonObject.class);
                     ((EditText) findViewById(R.id.iepScac)).setText(responseJson.get("iepScac").getAsString());
 
-                } else if (urlResponseCode != 400) {
-                    ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
-                    new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                } else {
+                    ((EditText) findViewById(R.id.iepScac)).setText("");
+
+                    try {
+                        ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+                        new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+
+                    } catch(Exception e) {
+                        new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), getString(R.string.msg_error_try_after_some_time));
+                    }
                 }
 
             } catch (Exception e) {
@@ -763,6 +770,11 @@ public class StreetTurnActivity extends AppCompatActivity {
                 ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
 
                 if (urlResponseCode == 200) {
+
+                    if(iepScac.getText() == null || iepScac.getText().toString().trim().length() <= 0 ||
+                        null == chassisNumber.getText() || chassisNumber.getText().toString().trim().length() <= 0) {
+                        iepScac.setText(GlobalVariables.DEFUALT_CHASSIS_NUM);
+                    }
 
                     int[] streetTurnCategories = new int[]{9, 5};
                     String[] streetTurnCategoriesName = new String[]{"Street Turn Details", "Original Interchange Location"};
@@ -812,6 +824,8 @@ public class StreetTurnActivity extends AppCompatActivity {
 
                     if(errorMessage.getCode() == 1) {
                         editor.putString(GlobalVariables.KEY_IEP_SCAC_MESSAGE, errorMessage.getMessage());
+                    } else {
+                        editor.putString(GlobalVariables.KEY_IEP_SCAC_MESSAGE, "");
                     }
 
                     editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ORIGIN_FROM_STREET_TURN);
@@ -826,9 +840,13 @@ public class StreetTurnActivity extends AppCompatActivity {
                     finish(); /* This method will not display login page when click back (return) from phone */
                             /* End */
 
-                } else if (urlResponseCode != 400) {
+                } else {
+                    try {
+                        new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
 
-                    new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                    } catch(Exception e) {
+                        new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), getString(R.string.msg_error_try_after_some_time));
+                    }
                 }
 
             } catch (Exception e) {
