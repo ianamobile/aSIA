@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
+import com.iana.sia.model.SIASecurityObj;
 import com.iana.sia.model.User;
 import com.iana.sia.utility.ApiResponse;
 import com.iana.sia.utility.ApiResponseMessage;
@@ -41,6 +42,8 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
 
     Animation slideLeft;
 
+    SharedPreferences sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,9 +62,6 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
         backToHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                SharedPreferences sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-
                 // Perform action on click
                 startActivity(new Intent(LoginIDDLicActivity.this, LoginIDDActivity.class));
                 finish();
@@ -205,19 +205,13 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
 
                 if (urlResponseCode == 200) {
 
-                    User user = gson.fromJson(result, User.class);
+                    SIASecurityObj siaSecurityObj = gson.fromJson(result, SIASecurityObj.class);
 
                     /* Code to store login information start */
 
-                    SharedPreferences sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
-
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ORIGIN_FROM_DRVLIC_STATE_SCAC);
-                    editor.putString(GlobalVariables.KEY_ACCESS_TOKEN, user.getAccessToken());
-                    editor.putString(GlobalVariables.KEY_SCAC, user.getScac());
-                    editor.putString(GlobalVariables.KEY_ROLE, user.getRoleName());
-                    editor.putString(GlobalVariables.KEY_COMPANY_NAME, user.getCompanyName());
-                    editor.putString(GlobalVariables.KEY_MEM_TYPE, user.getMemType());
+                    SIAUtility.setObject(editor, GlobalVariables.KEY_SECURITY_OBJ, siaSecurityObj);
                     editor.commit();
 
                     /* Code to store login information end */
@@ -229,12 +223,17 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
 
                 } else {
 
-                    ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
-                    new ViewDialog().showDialog(LoginIDDLicActivity.this, getString(R.string.dialog_title_idd_login), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                    try {
+                        ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+                        new ViewDialog().showDialog(LoginIDDLicActivity.this, getString(R.string.dialog_title_idd_login), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+
+                    } catch(Exception e) {
+                        new ViewDialog().showDialog(LoginIDDLicActivity.this, getString(R.string.dialog_title_idd_login), getString(R.string.msg_error_try_after_some_time));
+                    }
                 }
 
             } catch (Exception e) {
-                Log.v("log_tag", "Error ", e);
+                Log.v("log_tag", "LoginIDDLicActivity Exception Error ", e);
             }
 
         }

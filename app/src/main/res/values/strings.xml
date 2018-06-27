@@ -16,7 +16,14 @@
     <string name="api_validate_initiate_interchange_details">validateInitiateInterchangeDetails</string>
     <string name="api_save_initiate_interchange_details">saveInitiateInterchangeDetails</string>
     <string name="api_add_equipment_to_pool">addEquipmentToPool</string>
+    <string name="api_get_ep_user_list_by_tpu">getEPUserListByTPU</string>
+    <string name="api_sia_lookup">siaLookup</string>
+    <string name="api_setup_page">setupPage</string>
     <!-- API Info end -->
+
+    <string name="limit">10</string>
+    <string name="default_offset">1</string>
+
 
     <!-- Dialog title starts -->
     <string name="dialog_title_mc_login">MC LOGIN</string>
@@ -27,10 +34,17 @@
     <string name="dialog_title_mc_sec_login">MC SEC LOGIN</string>
     <string name="dialog_title_street_turn_request">STREET TURN</string>
     <string name="dialog_title_verify_details">VERIFY DETAILS</string>
+    <string name="dialog_title_location_search">LOCATION SEARCH</string>
+    <string name="dialog_title_street_interchange_request">STREET INTERCHANGE</string>
+    <string name="dialog_title_ep_sec_forgot_password">EP SEC FORGOT PASSWORD</string>
+    <string name="dialog_title_mc_sec_forgot_password">MC SEC FORGOT PASSWORD</string>
+    <string name="dialog_title_ep_user_list">EP USER LIST</string>
+    <string name="dialog_title_interchange_request_list">SEARCH RESULTS</string>
     <!-- Dialog title end -->
 
     <!-- Success message starts -->
     <string name="success_msg_street_turn">Your request for Street Turn has been successfully processed.</string>
+    <string name="success_msg_street_interchange">Your request for Street Interchange has been successfully processed.</string>
     <!-- Success message end -->
 
     <!-- label -->
@@ -53,6 +67,12 @@
     <string name="lbl_motor_carrier_name">MOTOR CARRIER NAME</string>
     <string name="lbl_motor_carrier_scac">MOTOR CARRIER SCAC</string>
 
+    <string name="lbl_motor_carrier_a_name">MOTOR CARRIER A\'S NAME</string>
+    <string name="lbl_motor_carrier_a_scac">MOTOR CARRIER A\'S SCAC</string>
+
+    <string name="lbl_motor_carrier_b_name">MOTOR CARRIER B\'S NAME</string>
+    <string name="lbl_motor_carrier_b_scac">MOTOR CARRIER B\'S SCAC</string>
+
     <string name="lbl_container_provider_name">CONTAINER PROVIDER NAME</string>
     <string name="lbl_container_provider_scac">CONTAINER PROVIDER SCAC</string>
 
@@ -60,6 +80,29 @@
     <string name="lbl_export_booking_number">EXPORT BOOKING NUMBER</string>
     <string name="lbl_import_bl">IMPORT B/L</string>
     <string name="lbl_original_interchange_location">Original Interchange Location</string>
+    <string name="lbl_equipment_location">Equipment Location</string>
+    <string name="lbl_type_of_interchange">TYPE OF INTERCHANGE</string>
+    <string name="lbl_container_type">CONTAINER TYPE</string>
+    <string name="lbl_container_size">CONTAINER SIZE</string>
+
+    <string name="lbl_chassis_type">CHASSIS TYPE</string>
+    <string name="lbl_chassis_size">CHASSIS SIZE</string>
+    <string name="lbl_genset_number">GENSET NUMBER</string>
+    <string name="lbl_from_date">FROM DATE</string>
+    <string name="lbl_to_date">TO DATE</string>
+
+    <string name="lbl_action_required">ACTION REQUIRED</string>
+    <string name="lbl_created_date">CREATED DATE</string>
+    <string name="lbl_container_num">CONTAINER#</string>
+    <string name="lbl_export_booking_num">EXPORT BOOKING#</string>
+    <string name="lbl_container_ep_name">CONTAINER EP NAME</string>
+    <string name="lbl_container_ep_scac">CONTAINER EP SCAC</string>
+    <string name="lbl_motor_carrier_a_name_result">MOTOR CARRIER A NAME</string>
+    <string name="lbl_motor_carrier_a_scac_result">MOTOR CARRIER A SCAC</string>
+    <string name="lbl_motor_carrier_b_name_result">MOTOR CARRIER B NAME</string>
+    <string name="lbl_motor_carrier_b_scac_result">MOTOR CARRIER B SCAC</string>
+    <string name="lbl_approved_date_time">APPROVED DATE TIME</string>
+    <string name="lbl_rejected_date_time">REJECTED DATE TIME</string>
 
     <!-- hint -->
     <string name="hint_username">ENTER USERNAME</string>
@@ -74,6 +117,8 @@
     <string name="hint_email">ENTER REGISTERED EMAIL</string>
 
     <string name="hint_motor_carrier_name">ENTER MOTOR CARRIER NAME</string>
+    <string name="hint_motor_carrier_a_name">ENTER MOTOR CARRIER A\'S NAME</string>
+    <string name="hint_motor_carrier_b_name">ENTER MOTOR CARRIER B\'S NAME</string>
     <string name="hint_auto_populated">AUTO POPULATED</string>
 
     <string name="hint_container_provider_name">ENTER CONTAINER PROVIDER NAME</string>
@@ -82,6 +127,14 @@
     <string name="hint_import_bl">ENTER IMPORT B/L</string>
 
     <string name="hint_search_location_text">Search By City, Name, Zip, IANA#, SPLC#</string>
+    <string name="hint_genset_number">ENTER GENSET NUMBER</string>
+
+    <string name="hint_from_date">SEARCH BY FROM DATE</string>
+    <string name="hint_to_date">SEARCH BY TO DATE</string>
+    <string name="hint_search_by_container_no">SEARCH BY CONTAINER#</string>
+    <string name="hint_search_by_export_booking_no">SEARCH BY EXPORT BOOKING#</string>
+    <string name="hint_search_by_scac">SEARCH BY SCAC</string>
+
 
     <!-- button -->
     <string name="btn_sign_on">SIGN ON</string>
@@ -111,6 +164,9 @@
     <string name="title_search_location">SEARCH LOCATION</string>
     <string name="title_verify_details">VERIFY DETAILS</string>
     <string name="title_success">SUCCESS</string>
+    <string name="title_street_interchange_request">STREET INTERCHANGE REQUEST</string>
+    <string name="title_list_ep_user">LIST EP USER</string>
+    <string name="title_search_interchange_request">SEARCH INTERCHANGE REQUESTS</string>
 
     <string-array name="load_status">
         <item>SELECT LOAD STATUS</item>
@@ -118,7 +174,30 @@
         <item>EMPTY</item>
     </string-array>
 
+    <string-array name="type_of_interchange">
+        <item>SELECT TYPE OF INTERCHANGE</item>
+        <item>LOAD/LOAD</item>
+        <item>LOAD/EMPTY</item>
+        <item>EMPTY/LOAD</item>
+    </string-array>
+
+    <string-array name="status">
+        <item>SELECT STATUS</item>
+        <item>PENDING</item>
+        <item>ONHOLD</item>
+        <item>REJECTED</item>
+        <item>APPROVED</item>
+        <item>CANCELLED</item>
+    </string-array>
+
+
+    <!-- page heading start -->
+
+    <string name="heading_initiate_interchange_request">INITIATE INTERCHANGE REQUEST</string>
+
     <!-- Error Messages start -->
+
+    <string name="msg_error_try_after_some_time">Opp! An error has occurred, please try after some time.</string>
     <string name="msg_error_all_mandatory">All fields are mandatory. Please make sure that all fields should not be blank.</string>
 
     <string name="msg_error_blank_scac">Please enter SCAC.</string>
@@ -144,25 +223,49 @@
     <string name="msg_error_empty_motor_carrier_name">Motor Carrier Name should not be blank.</string>
     <string name="msg_error_select_motor_carrier_name">Please select valid Motor Carrier Name to populate SCAC.</string>
 
+    <string name="msg_error_enter_motor_carrier_a_name_first">Please enter Motor Carrier A\'S Name first.</string>
+    <string name="msg_error_empty_motor_carrier_a_name">Motor Carrier A\'S Name should not be blank.</string>
+    <string name="msg_error_select_motor_carrier_a_name">Please select valid Motor Carrier A\'S Name to populate SCAC.</string>
+
+    <string name="msg_error_enter_motor_carrier_b_name_first">Please enter Motor Carrier B\'S Name first.</string>
+    <string name="msg_error_empty_motor_carrier_b_name">Motor Carrier B\'S Name should not be blank.</string>
+    <string name="msg_error_select_motor_carrier_b_name">Please select valid Motor Carrier B\'S Name to populate SCAC.</string>
+
     <string name="msg_error_enter_container_provider_name_first">Please enter Container Provider Name first.</string>
     <string name="msg_error_empty_container_provider_name">Container Provider Name should not be blank.</string>
     <string name="msg_error_select_container_provider_name">Please select valid Container Provider Name to populate SCAC.</string>
 
     <string name="msg_error_empty_container_number">Container Number should not be blank.</string>
     <string name="msg_error_alpha_num_container_number_st">Container Number should be Alpha-Numeric value.</string>
+    <string name="msg_error_alpha_num_container_number">Container Number should be Alpha-Numeric value.</string>
 
     <string name="msg_error_empty_export_booking_number">Export Booking Number should not be blank.</string>
     <string name="msg_error_alpha_num_export_booking_number">Export Booking Number should be Alpha-Numeric value.</string>
 
-    <string name="msg_error_alpha_num_import_booking_number">Import Booking Number should be Alpha-Numeric value.</string>
+    <string name="msg_error_alpha_num_import_booking_number">Import B/L should be Alpha-Numeric value.</string>
 
     <string name="msg_error_alpha_num_chassis_number">Chassis Number should be Alpha-Numeric value.</string>
 
-    <string name="msg_error_empty_zip_code">Zip code should not be blank.</string>
-    <string name="msg_error_empty_location_name">Location Name should not be blank.</string>
-    <string name="msg_error_empty_location_address">Location Address should not be blank.</string>
-    <string name="msg_error_empty_city">City should not be blank.</string>
-    <string name="msg_error_empty_state">State should not be blank.</string>
+    <string name="msg_error_select_type_of_interchange">Please select type of interchange.</string>
+    <string name="msg_error_select_container_type">Please select container type.</string>
+    <string name="msg_error_select_container_size">Please select container size.</string>
+    <string name="msg_error_select_chassis_type">Please select chassis type.</string>
+    <string name="msg_error_select_chassis_size">Please select chassis size.</string>
 
+    <string name="msg_error_empty_equip_location_zip_code">Equipment Location Zip code should not be blank.</string>
+    <string name="msg_error_empty_equip_location_name">Equipment Location Location Name should not be blank.</string>
+    <string name="msg_error_empty_equip_location_address">Equipment Location Location Address should not be blank.</string>
+    <string name="msg_error_empty_equip_location_city">Equipment Location City should not be blank.</string>
+    <string name="msg_error_empty_equip_location_state">Equipment Location State should not be blank.</string>
+
+    <string name="msg_error_empty_origin_location_zip_code">Original Location Zip code should not be blank.</string>
+    <string name="msg_error_empty_origin_location_name">Original Location Name should not be blank.</string>
+    <string name="msg_error_empty_origin_location_address">Original Location Address should not be blank.</string>
+    <string name="msg_error_empty_origin_location_city">Original Location City should not be blank.</string>
+    <string name="msg_error_empty_origin_location_state">Original Location State should not be blank.</string>
+    <string name="msg_error_alpha_num_genset_number">Genset Number should be Alpha-Numeric value.</string>
+
+    <string name="msg_error_empty_email">Please enter email.</string>
+    <string name="msg_error_invalid_email">Please enter valid email.</string>
 
 </resources>

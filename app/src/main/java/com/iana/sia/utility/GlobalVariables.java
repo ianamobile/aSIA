@@ -31,6 +31,7 @@ public class GlobalVariables {
     public static final String KEY_CHASSIS_ID = "chassisId";
     public static final String KEY_IEP_SCAC = "iepScac";
 
+    public static final String KEY_SEARCH_FOR_LOCATION="searchForLocation";
     public static final String ORIGIN_FROM_EQUIPMENT = "equipment";
     public static final String ORIGIN_FROM_ORIGINAL = "original";
 
@@ -48,12 +49,25 @@ public class GlobalVariables {
     public static final String KEY_MEM_TYPE = "memType";
     public static final String KEY_COMPANY_NAME = "companyName";
     public static final String KEY_SCAC = "scac";
+    public static final String KEY_IEP_SCAC_MESSAGE = "iepScacMessage";
+
+    public static final String KEY_INTERCHANGE_REQUESTS_SEARCH = "interchangeRequestsSearch";
+    public static final String KEY_INTERCHANGE_REQUESTS = "interchangeRequests";
 
     public static final String KEY_SECURITY_OBJ = "securityObj";
 
     public static final String ORIGIN_FROM_IDDPIN_SCAC = "IDDPIN_SCAC";
     public static final String ORIGIN_FROM_DRVLIC_STATE_SCAC = "DRVLIC_STATE_SCAC";
 
+
+    public static final String MENU_TITLE_NOTIF_AVAIL = "Notification of Available Equipment";
+    public static final String MENU_TITLE_SEARCH_EQUIP_AVAIL = "Search Equipment Availability";
+    public static final String MENU_TITLE_INITIATE_SI = "Initiate Street Interchange";
+    public static final String MENU_TITLE_SEARCH_INTERCHANGE_REQUESTS = "Search Interchange Requests";
+    public static final String MENU_TITLE_INITIATE_ST = "Initiate Street Turn";
+    public static final String MENU_TITLE_SEARCH_INTERCHANGE_REQUESTS_BY_TPU = "Search Interchange Requests Submitted By you";
+    public static final String MENU_TITLE_LIST_EP_USERS = "List EP Users";
+    public static final String MENU_TITLE_LOGOUT = "Logout";
 
     public static final String[]  menuTitleArr = new String[]
                                                         {
@@ -74,6 +88,8 @@ public class GlobalVariables {
                                                             "logout"
                                                         };
 
+    public static final String KEY_INITIATE_INTERCHANGE = "initiateInterchange";
+
     public static final String KEY_LOCATION_NAME = "locationCode";
     public static final String KEY_LOCATION_ADDRESS = "locationAddress";
     public static final String KEY_LOCATION_CITY = "locationCity";
@@ -90,4 +106,13 @@ public class GlobalVariables {
     public static final String FIELD_INFO_EMPTY = "empty";
     public static final String FIELD_INFO_TITLE = "title";
     public static final String FIELD_INFO_VALUE = "value";
+
+    public static final String DEFUALT_CHASSIS_NUM = "ZZZZ999999";
+
+    public static final String STATUS_ACTIVE = "ACTIVE";
+    public static final String STATUS_PENDING = "PENDING";
+    public static final String STATUS_APPROVED = "APPROVED";
+    public static final String STATUS_REJECTED = "REJECTED";
+    public static final String STATUS_CANCELLED = "CANCELLED";
+    public static final String STATUS_ONHOLD = "ONHOLD";
 }

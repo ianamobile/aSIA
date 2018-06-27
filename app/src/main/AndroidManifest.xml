@@ -64,7 +64,11 @@
         <activity android:name=".StreetTurnActivity" />
         <activity android:name=".LocationActivity" />
         <activity android:name=".VerifyActivity" />
-        <activity android:name=".SuccessActivity"></activity>
+        <activity android:name=".SuccessActivity" />
+        <activity android:name=".InitiateInterchangeActivity" />
+        <activity android:name=".SearchInterchangeRequestActivity"/>
+        <activity android:name=".EPListByTPUActivity" />
+        <activity android:name=".ListInterchangeRequestActivity"/>
     </application>
 
 </manifest>

@@ -116,7 +116,7 @@
                         android:layout_marginEnd="18dp"
                         android:paddingLeft="@dimen/edit_text_padding_left"
                         android:ems="10"
-                        android:maxLength="4"
+                        android:maxLength="@integer/scac_length"
                         android:hint="@string/hint_scac"
                         android:inputType="textPersonName"
                         android:textColor="@color/appThemeColor"
@@ -197,7 +197,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/drvLicNoImg"
                         android:fontFamily="sans-serif-medium"
                         android:backgroundTint="@android:color/transparent"
-                        android:maxLength="20"
+                        android:maxLength="@integer/driver_license_number_length"
                         />
                 </LinearLayout>
 
@@ -259,7 +259,7 @@
                         android:layout_marginEnd="18dp"
                         android:paddingLeft="@dimen/edit_text_padding_left"
                         android:ems="10"
-                        android:maxLength="2"
+                        android:maxLength="@integer/state_length"
                         android:hint="@string/hint_idd_lic_state"
                         android:inputType="textPersonName"
                         android:textColor="@color/appThemeColor"

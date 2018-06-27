@@ -27,6 +27,7 @@ import com.iana.sia.model.InterchangeRequests;
 import com.iana.sia.utility.ApiResponse;
 import com.iana.sia.utility.ApiResponseMessage;
 import com.iana.sia.utility.GlobalVariables;
+import com.iana.sia.utility.Internet_Check;
 import com.iana.sia.utility.RestApiClient;
 import com.iana.sia.utility.SIAUtility;
 
@@ -64,23 +65,36 @@ public class VerifyActivity extends AppCompatActivity {
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.navigation_edit:
+                if (Internet_Check.checkInternetConnection(getApplicationContext())) {
 
-                        String requestOriginFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
-                        if(GlobalVariables.ORIGIN_FROM_STREET_TURN.equalsIgnoreCase(requestOriginFrom)) {
+                    switch (item.getItemId()) {
+                        case R.id.navigation_edit:
+
+                            String requestOriginFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
+                            if(GlobalVariables.ORIGIN_FROM_STREET_TURN.equalsIgnoreCase(requestOriginFrom)) {
+
+                                startActivity(new Intent(VerifyActivity.this, StreetTurnActivity.class));
+                                finish(); /* This method will not display login page when click back (return) */
+
+                            } else if(GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE.equalsIgnoreCase(requestOriginFrom)) {
+
+                                startActivity(new Intent(VerifyActivity.this, InitiateInterchangeActivity.class));
+                                finish(); /* This method will not display login page when click back (return) */
+                            }
 
                             editor.putString(GlobalVariables.KEY_RETURN_FROM, GlobalVariables.RETURN_FROM_VERIFY_DETAILS);
                             editor.commit();
 
-                            startActivity(new Intent(VerifyActivity.this, StreetTurnActivity.class));
-                            finish(); /* This method will not display login page when click back (return) from phone */
-                        }
-                        break;
-                    case R.id.navigation_submit:
+                            break;
+                        case R.id.navigation_submit:
 
-                        submitRequest();
-                        break;
+                            submitRequest();
+                            break;
+                    }
+
+                } else {
+                    Intent intent = new Intent(VerifyActivity.this, NoInternetActivity.class);
+                    startActivity(intent);
                 }
 
                 return true;
@@ -91,13 +105,14 @@ public class VerifyActivity extends AppCompatActivity {
 
     private void submitRequest() {
         String requestOriginFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
-        if(GlobalVariables.ORIGIN_FROM_STREET_TURN.equalsIgnoreCase(requestOriginFrom)) {
+        if(GlobalVariables.ORIGIN_FROM_STREET_TURN.equalsIgnoreCase(requestOriginFrom) ||
+            GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE.equalsIgnoreCase(requestOriginFrom)) {
 
-            // code to disable background functionalities when progress bar starts
+            // code to disable background functionality when progress bar starts
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-            InterchangeRequests ir = (InterchangeRequests) readObjectOfModel("streetTurnObject");
+            InterchangeRequests ir = (InterchangeRequests) readObjectOfModel("interchangeRequestObject");
             Gson gson = new Gson();
             new VerifyActivity.ExecuteTaskSubmit(gson.toJson(ir, InterchangeRequests.class)).execute();
         }
@@ -121,8 +136,6 @@ public class VerifyActivity extends AppCompatActivity {
         editor = sharedPref.edit();
         List<FieldInfo> fieldInfoList =  readListOfModel();
 
-
-        Log.v("log_tag", "fieldInfoList in VerifyActivity:=>" + fieldInfoList);
         for(int i=0; i < fieldInfoList.size();i++) {
             FieldInfo fieldInfo = fieldInfoList.get(i);
             TableRow row;
@@ -181,7 +194,7 @@ public class VerifyActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            Log.v("log_tag", "POST Request to submit data:=>"+getString(R.string.base_url) + getString(R.string.api_save_initiate_interchange_details));
+
             String requestOriginFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
             ApiResponse apiResponse;
             if(GlobalVariables.ORIGIN_FROM_STREET_TURN.equalsIgnoreCase(requestOriginFrom) || GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE.equalsIgnoreCase(requestOriginFrom)) {
@@ -218,7 +231,11 @@ public class VerifyActivity extends AppCompatActivity {
                     String requestOriginFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
                     if (GlobalVariables.ORIGIN_FROM_STREET_TURN.equalsIgnoreCase(requestOriginFrom)) {
                         editor.putString(GlobalVariables.SUCCESS, getString(R.string.success_msg_street_turn));
+
+                    } else if (GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE.equalsIgnoreCase(requestOriginFrom)) {
+                        editor.putString(GlobalVariables.SUCCESS, getString(R.string.success_msg_street_interchange));
                     }
+
                     editor.commit();
 
                     Intent intent = new Intent(VerifyActivity.this, SuccessActivity.class);
@@ -226,16 +243,23 @@ public class VerifyActivity extends AppCompatActivity {
                     finish(); /* This method will not display login page when click back (return) from phone */
                             /* End */
 
-                } else if (urlResponseCode != 400) {
+                } else if (urlResponseCode != 0) {
 
-                    String requestOriginFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
-                    if (GlobalVariables.ORIGIN_FROM_STREET_TURN.equalsIgnoreCase(requestOriginFrom)) {
-                        new ViewDialog().showDialog(VerifyActivity.this, getString(R.string.dialog_title_verify_details), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                    try {
+                        String requestOriginFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
+                        if (GlobalVariables.ORIGIN_FROM_STREET_TURN.equalsIgnoreCase(requestOriginFrom)) {
+                            new ViewDialog().showDialog(VerifyActivity.this, getString(R.string.dialog_title_verify_details), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                        }
+                    } catch(Exception e){
+                        new ViewDialog().showDialog(VerifyActivity.this, getString(R.string.dialog_title_verify_details), getString(R.string.msg_error_try_after_some_time));
                     }
+
+                } else {
+                    new ViewDialog().showDialog(VerifyActivity.this, getString(R.string.dialog_title_verify_details), getString(R.string.msg_error_try_after_some_time));
                 }
 
             } catch (Exception e) {
-                Log.v("log_tag", "Error ", e);
+                Log.v("log_tag", "VerifyActivity Exception Error ", e);
             }
 
         }

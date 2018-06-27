@@ -11,6 +11,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -34,10 +36,12 @@ import com.google.gson.reflect.TypeToken;
 import com.iana.sia.model.Company;
 import com.iana.sia.model.FieldInfo;
 import com.iana.sia.model.InterchangeRequests;
+import com.iana.sia.model.SIASecurityObj;
 import com.iana.sia.model.User;
 import com.iana.sia.utility.ApiResponse;
 import com.iana.sia.utility.ApiResponseMessage;
 import com.iana.sia.utility.GlobalVariables;
+import com.iana.sia.utility.Internet_Check;
 import com.iana.sia.utility.RestApiClient;
 import com.iana.sia.utility.SIAUtility;
 
@@ -71,14 +75,12 @@ public class StreetTurnActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
 
     String oppositeRole;
-    String role;
-    String memType;
 
     ProgressBar progressBar;
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
 
-    String accessToken;
+    SIASecurityObj siaSecurityObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +89,8 @@ public class StreetTurnActivity extends AppCompatActivity {
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
         editor = sharedPref.edit();
-        role =  sharedPref.getString(GlobalVariables.KEY_ROLE, "");
-        memType =  sharedPref.getString(GlobalVariables.KEY_MEM_TYPE, "");
-        accessToken = sharedPref.getString(GlobalVariables.KEY_ACCESS_TOKEN, "");
+
+        siaSecurityObj = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_SECURITY_OBJ, SIASecurityObj.class);
 
         mcScac = findViewById(R.id.mcScac);
         mcCompanyName = findViewById(R.id.mcCompanyName);
@@ -199,8 +200,10 @@ public class StreetTurnActivity extends AppCompatActivity {
             public void onClick(View v)
             {
 
-                if(null != epScac.getText() && (epScac.getText().toString().length()>=2 && epScac.getText().toString().length() <= 4)) {
-                    editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ORIGIN_FROM_ORIGINAL);
+            if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+
+                if (null != epScac.getText() && (epScac.getText().toString().length() >= 2 && epScac.getText().toString().length() <= 4)) {
+                    editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ORIGIN_FROM_STREET_TURN);
                     editor.putString(GlobalVariables.KEY_EP_SCAC, epScac.getText().toString());
                     editor.putString(GlobalVariables.KEY_EP_COMPANY_NAME, epCompanyName.getText().toString());
 
@@ -223,6 +226,12 @@ public class StreetTurnActivity extends AppCompatActivity {
                 } else {
                     new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), getString(R.string.msg_error_enter_container_provider_name_first));
                 }
+
+            } else {
+                Intent intent = new Intent(StreetTurnActivity.this, NoInternetActivity.class);
+                startActivity(intent);
+            }
+
             }
 
         });
@@ -230,15 +239,21 @@ public class StreetTurnActivity extends AppCompatActivity {
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+            if (Internet_Check.checkInternetConnection(getApplicationContext())) {
                 Intent intent = new Intent(StreetTurnActivity.this, DashboardActivity.class);
                 startActivity(intent);
                 finish(); /* This method will not display login page when click back (return) from phone */
                             /* End */
+            } else {
+                Intent intent = new Intent(StreetTurnActivity.this, NoInternetActivity.class);
+                startActivity(intent);
+            }
             }
         });
 
-        if(GlobalVariables.ROLE_EP.equalsIgnoreCase(role) || GlobalVariables.ROLE_TPU.equalsIgnoreCase(role) ||
-                (GlobalVariables.ROLE_SEC.equalsIgnoreCase(role) && GlobalVariables.ROLE_EP.equalsIgnoreCase(memType))) {
+        if(GlobalVariables.ROLE_EP.equalsIgnoreCase(siaSecurityObj.getRoleName()) || GlobalVariables.ROLE_TPU.equalsIgnoreCase(siaSecurityObj.getRoleName()) ||
+                (GlobalVariables.ROLE_SEC.equalsIgnoreCase(siaSecurityObj.getRoleName()) && GlobalVariables.ROLE_EP.equalsIgnoreCase(siaSecurityObj.getMemType()))) {
 
             epCompanyName = findViewById(R.id.epCompanyName);
             epCompanyName.setEnabled(false);
@@ -259,6 +274,8 @@ public class StreetTurnActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View arg1, int position,
                                         long arg3) {
+
+                if (Internet_Check.checkInternetConnection(getApplicationContext())) {
                     String selectedString = (String) parent.getItemAtPosition(position);
 
                     String[] selectedLocationArray = selectedString.split(Pattern.quote("|"));
@@ -271,11 +288,16 @@ public class StreetTurnActivity extends AppCompatActivity {
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
                     findViewById(R.id.containerNumber).requestFocus();
+
+                } else {
+                    Intent intent = new Intent(StreetTurnActivity.this, NoInternetActivity.class);
+                    startActivity(intent);
+                }
                 }
             });
 
-        } else if(GlobalVariables.ROLE_MC.equalsIgnoreCase(role) || GlobalVariables.ROLE_IDD.equalsIgnoreCase(role) ||
-                (GlobalVariables.ROLE_SEC.equalsIgnoreCase(role) && GlobalVariables.ROLE_MC.equalsIgnoreCase(memType))) {
+        } else if(GlobalVariables.ROLE_MC.equalsIgnoreCase(siaSecurityObj.getRoleName()) || GlobalVariables.ROLE_IDD.equalsIgnoreCase(siaSecurityObj.getRoleName()) ||
+                (GlobalVariables.ROLE_SEC.equalsIgnoreCase(siaSecurityObj.getRoleName()) && GlobalVariables.ROLE_MC.equalsIgnoreCase(siaSecurityObj.getMemType()))) {
 
             mcCompanyName = findViewById(R.id.mcCompanyName);
             mcCompanyName.setEnabled(false);
@@ -295,9 +317,10 @@ public class StreetTurnActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
 
+                if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+
                     String selectedString = (String) parent.getItemAtPosition(position);
                     String[] selectedLocationArray = selectedString.split(Pattern.quote("|"));
-
 
                     ((AutoCompleteTextView) findViewById(R.id.epCompanyName)).setText(selectedLocationArray[1]);
                     ((EditText) findViewById(R.id.epScac)).setText(selectedLocationArray[0]);
@@ -306,8 +329,15 @@ public class StreetTurnActivity extends AppCompatActivity {
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
                     findViewById(R.id.containerNumber).requestFocus();
+
+                } else {
+                    Intent intent = new Intent(StreetTurnActivity.this, NoInternetActivity.class);
+                    startActivity(intent);
+                }
                 }
             });
+
+
         }
 
 
@@ -315,32 +345,38 @@ public class StreetTurnActivity extends AppCompatActivity {
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.navigation_next:
-                        String returnMessage = validateFields();
-                        if(!returnMessage.equalsIgnoreCase(GlobalVariables.SUCCESS)) {
-                            new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), returnMessage);
 
-                        } else {
+                if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+                    switch (item.getItemId()) {
+                        case R.id.navigation_next:
+                            String returnMessage = validateFields();
+                            if (!returnMessage.equalsIgnoreCase(GlobalVariables.SUCCESS)) {
+                                new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), returnMessage);
 
-                            // code to disable background functionalities when progress bar starts
-                            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            } else {
 
-                            Gson gson = new Gson();
-                            String jsonString = gson.toJson(getInterchangeRequests(), InterchangeRequests.class);
+                                // code to disable background functionality when progress bar starts
+                                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                            Log.v("log_tag", "In StreetTurn verifyig request jsonString:=>"+jsonString);
-                            new StreetTurnActivity.ExecuteTaskToValidate(jsonString).execute();
-                        }
-                        break;
-                    case R.id.navigation_cancel:
-                        editor.remove(GlobalVariables.KEY_RETURN_FROM);
-                        editor.commit();
-                        startActivity(new Intent(StreetTurnActivity.this, DashboardActivity.class));
-                        finish(); /* This method will not display login page when click back (return) from phone */
-                        break;
+                                Gson gson = new Gson();
+                                String jsonString = gson.toJson(getInterchangeRequests(), InterchangeRequests.class);
+                                new ExecuteTaskToValidate(jsonString).execute();
+                            }
+                            break;
+                        case R.id.navigation_cancel:
+                            editor.remove(GlobalVariables.KEY_RETURN_FROM);
+                            editor.commit();
+                            startActivity(new Intent(StreetTurnActivity.this, DashboardActivity.class));
+                            finish(); /* This method will not display login page when click back (return) from phone */
+                            break;
+                    }
+
+                } else {
+                    Intent intent = new Intent(StreetTurnActivity.this, NoInternetActivity.class);
+                    startActivity(intent);
                 }
+
 
                 return true;
             }
@@ -355,14 +391,22 @@ public class StreetTurnActivity extends AppCompatActivity {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
 
-                    // code to disable background functionalities when progress bar starts
-                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+                        // code to disable background functionality when progress bar starts
+                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                    String requestString = "chassisId=" + chassisNumber.getText().toString().trim();
-                    new ExecuteChassisIdTask(requestString).execute();
+                        String requestString = "chassisId=" + chassisNumber.getText().toString().trim();
+                        new ExecuteChassisIdTask(requestString).execute();
+
+                    } else {
+                        Intent intent = new Intent(StreetTurnActivity.this, NoInternetActivity.class);
+                        startActivity(intent);
+                    }
+
                     return true;
                 }
+
                 return false;
             }
         });
@@ -384,18 +428,8 @@ public class StreetTurnActivity extends AppCompatActivity {
         ir.setOriginLocCity(city.getText().toString());
         ir.setOriginLocState(state.getText().toString());
         ir.setOriginLocZip(zipCode.getText().toString());
-        ir.setAccessToken(accessToken);
+        ir.setAccessToken(siaSecurityObj.getAccessToken());
         return ir;
-    }
-
-    public <T> void setList(String key, List<T> list) {
-        Gson gson = new Gson();
-        editor.putString(key, gson.toJson(list));
-    }
-
-    public <T> void setObject(String key, T obj) {
-        Gson gson = new Gson();
-        editor.putString(key, gson.toJson(obj));
     }
 
     private void showActionBar() {
@@ -466,19 +500,19 @@ public class StreetTurnActivity extends AppCompatActivity {
         }
 
         if(null == zipCode || zipCode.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_empty_zip_code);
+            return getString(R.string.msg_error_empty_origin_location_zip_code);
         }
         if(null == locationName || locationName.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_empty_location_name);
+            return getString(R.string.msg_error_empty_origin_location_name);
         }
         if(null == locationAddress || locationAddress.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_empty_location_address);
+            return getString(R.string.msg_error_empty_origin_location_address);
         }
         if(null == city || city.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_empty_city);
+            return getString(R.string.msg_error_empty_origin_location_city);
         }
         if(null == state || state.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_empty_state);
+            return getString(R.string.msg_error_empty_origin_location_state);
         }
 
         return GlobalVariables.SUCCESS;
@@ -510,10 +544,10 @@ public class StreetTurnActivity extends AppCompatActivity {
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
                     FilterResults filterResults = new FilterResults();
+
                     if (constraint != null) {
 
-                        final String jsonInString = "role="+oppositeRole+"&requestType="+getString(R.string.request_type_ir_request)+"&companyName="+constraint.toString();
-//                        Log.v("log_tag", "In filterResults with jsonInString:=>"+jsonInString);
+                        final String jsonInString = "role=" + oppositeRole + "&requestType=" + getString(R.string.request_type_ir_request) + "&companyName=" + SIAUtility.replaceWhiteSpaces(constraint.toString());
                         Thread timer = new Thread() { //new thread
                             public void run() {
                                 runOnUiThread(new Runnable() {
@@ -521,7 +555,7 @@ public class StreetTurnActivity extends AppCompatActivity {
                                     public void run() {
                                         new ExecuteTask(jsonInString).execute();
                                     }
-                                });
+                                    });
                             }
                         };
                         timer.start();
@@ -529,6 +563,7 @@ public class StreetTurnActivity extends AppCompatActivity {
                         // object
                         filterResults.values = suggestions;
                         filterResults.count = suggestions.size();
+
                     } else {
                         Log.v("log_tag", "In else when constraint null");
                         Thread timer = new Thread() { //new thread
@@ -536,12 +571,11 @@ public class StreetTurnActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Log.v("log_tag", "In filterResults with oppositeRole:=>"+oppositeRole);
+
                                         if(GlobalVariables.ROLE_MC.equalsIgnoreCase(oppositeRole)) {
                                             ((EditText) findViewById(R.id.mcScac)).setText("");
 
                                         } else if(GlobalVariables.ROLE_EP.equalsIgnoreCase(oppositeRole)){
-                                            Log.v("log_tag", "In else when constraint null set epScac is empty");
                                             ((EditText) findViewById(R.id.epScac)).setText("");
                                         }
                                     }
@@ -556,15 +590,14 @@ public class StreetTurnActivity extends AppCompatActivity {
                 }
 
                 @Override
-                protected void publishResults(CharSequence contraint,
-                                              FilterResults results) {
-                    Log.v("log_tag", "publishResults results:=>"+results);
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+
                     if (results != null && results.count > 0) {
-                        Log.v("log_tag", "notifyDataSetChanged()");
+                        Log.v("log_tag", "publishResults notifyDataSetChanged()");
                         notifyDataSetChanged();
 
                     } else {
-                        Log.v("log_tag", "notifyDataSetChanged()");
+                        Log.v("log_tag", "publishResults notifyDataSetInvalidated()");
                         notifyDataSetInvalidated();
                     }
                 }
@@ -587,7 +620,6 @@ public class StreetTurnActivity extends AppCompatActivity {
 
             @Override
             protected String doInBackground(String... params) {
-                Log.v("log_tag", "api_get_companyname_and_scac_by_companyname:=>"+getString(R.string.base_url) + getString(R.string.api_get_companyname_and_scac_by_companyname) + "?" + requestString);
                 ApiResponse apiResponse = RestApiClient.callGetApi(getString(R.string.base_url) + getString(R.string.api_get_companyname_and_scac_by_companyname) + "?" + requestString);
                 urlResponse = apiResponse.getMessage();
                 urlResponseCode = apiResponse.getCode();
@@ -618,22 +650,26 @@ public class StreetTurnActivity extends AppCompatActivity {
 
                         notifyDataSetChanged();
 
-                    } else if (urlResponseCode != 400) {
+                    } else {
 
-                        suggestions = new ArrayList<>();
-                        notifyDataSetChanged();
+                        try {
+                            suggestions = new ArrayList<>();
+                            notifyDataSetChanged();
 
-                        ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+                            ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+                            new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
 
-                        new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                        } catch(Exception e){
+                            new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), getString(R.string.msg_error_try_after_some_time));
+                        }
 
-                        if(GlobalVariables.ROLE_EP.equalsIgnoreCase(oppositeRole)) {
-                            Log.v("log_tag", "urlResponseCode != 200 epScac is empty:=> ");
+                        if (GlobalVariables.ROLE_EP.equalsIgnoreCase(oppositeRole)) {
                             epScac.setText("");
 
                         } else {
                             mcScac.setText("");
                         }
+
                     }
 
                 } catch (Exception e) {
@@ -660,7 +696,6 @@ public class StreetTurnActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            Log.v("log_tag", "api_get_iep_scac_by_chassis_id:=>"+getString(R.string.base_url) + getString(R.string.api_get_iep_scac_by_chassis_id) + "?" + requestString);
             ApiResponse apiResponse = RestApiClient.callGetApi(getString(R.string.base_url) + getString(R.string.api_get_iep_scac_by_chassis_id) + "?" + requestString);
             urlResponse = apiResponse.getMessage();
             urlResponseCode = apiResponse.getCode();
@@ -679,9 +714,9 @@ public class StreetTurnActivity extends AppCompatActivity {
                 Gson gson = new Gson();
 
                 if (urlResponseCode == 200) {
-
                     JsonObject responseJson = gson.fromJson(result, JsonObject.class);
                     ((EditText) findViewById(R.id.iepScac)).setText(responseJson.get("iepScac").getAsString());
+
                 } else if (urlResponseCode != 400) {
                     ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
                     new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
@@ -710,7 +745,6 @@ public class StreetTurnActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            Log.v("log_tag", "POST Request api_validate_initiate_interchange_details:=>"+getString(R.string.base_url) + getString(R.string.api_validate_initiate_interchange_details) + "?" + requestString);
             ApiResponse apiResponse = RestApiClient.callPostApi(requestString, getString(R.string.base_url) +getString(R.string.api_validate_initiate_interchange_details));
             urlResponse = apiResponse.getMessage();
             urlResponseCode = apiResponse.getCode();
@@ -776,10 +810,14 @@ public class StreetTurnActivity extends AppCompatActivity {
                         }
                     }
 
+                    if(errorMessage.getCode() == 1) {
+                        editor.putString(GlobalVariables.KEY_IEP_SCAC_MESSAGE, errorMessage.getMessage());
+                    }
+
                     editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ORIGIN_FROM_STREET_TURN);
 
-                    setList("fieldInfoList", fieldInfoList);
-                    setObject("streetTurnObject", getInterchangeRequests());
+                    SIAUtility.setList(editor, "fieldInfoList", fieldInfoList);
+                    SIAUtility.setObject(editor, "interchangeRequestObject", getInterchangeRequests());
 
                     editor.commit();
 

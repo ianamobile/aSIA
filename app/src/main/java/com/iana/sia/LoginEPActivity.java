@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.iana.sia.model.SIASecurityObj;
 import com.iana.sia.model.User;
 import com.iana.sia.utility.ApiResponse;
 import com.iana.sia.utility.ApiResponseMessage;
@@ -47,6 +48,8 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
     Animation slideLeft;
 
     Button loginBtn;
+
+    SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,17 +88,17 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
         });
 
         SIAUtility.disableShiftMode(bnv);
-        progressBar = (ProgressBar) findViewById(R.id.processingBar);
+        progressBar = findViewById(R.id.processingBar);
 
         // below code is used to restrict auto populate keypad
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         secondaryUserBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                SharedPreferences sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
 
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ROLE_EP);
+                editor.putString(GlobalVariables.KEY_MEM_TYPE, "");
                 editor.commit();
                 // Perform action on click
                 startActivity(new Intent(LoginEPActivity.this, LoginSECActivity.class));
@@ -103,10 +106,9 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
             }
         });
 
-        troubleSignOn = (TextView) findViewById(R.id.troubleSignOn);
+        troubleSignOn = findViewById(R.id.troubleSignOn);
         troubleSignOn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                SharedPreferences sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
 
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ROLE_EP);
@@ -117,7 +119,7 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
             }
         });
 
-        loginBtn = (Button) findViewById(R.id.loginBtn);
+        loginBtn = findViewById(R.id.loginBtn);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +127,7 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
             }
         });
 
-        passwordEditText    = (EditText) findViewById(R.id.password);
+        passwordEditText    = findViewById(R.id.password);
 
         passwordEditText.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -163,6 +165,10 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
                 user.setScac(scac.trim());
                 user.setPassword(SIAUtility.replaceWhiteSpaces(password.trim()));
                 user.setRole(GlobalVariables.ROLE_EP);
+
+                // code to disable background functionality when progress bar starts
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                 Gson gson = new Gson();
                 String jsonInString = gson.toJson(user, User.class);
@@ -234,6 +240,9 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
 
+            // code to regain disable backend functionality end
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
             try {
                 Log.v("log_tag", "Login Response Code: " + urlResponseCode);
                 Gson gson = new Gson();
@@ -241,19 +250,13 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
 
                 if (urlResponseCode == 200) {
 
-                    User user = gson.fromJson(result, User.class);
+                    SIASecurityObj siaSecurityObj = gson.fromJson(result, SIASecurityObj.class);
 
                     /* Code to store login information start */
 
-                    SharedPreferences sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
-
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ROLE_EP);
-                    editor.putString(GlobalVariables.KEY_ACCESS_TOKEN, user.getAccessToken());
-                    editor.putString(GlobalVariables.KEY_SCAC, user.getScac());
-                    editor.putString(GlobalVariables.KEY_ROLE, user.getRoleName());
-                    editor.putString(GlobalVariables.KEY_COMPANY_NAME, user.getCompanyName());
-                    editor.putString(GlobalVariables.KEY_MEM_TYPE, user.getMemType());
+                    SIAUtility.setObject(editor, GlobalVariables.KEY_SECURITY_OBJ, siaSecurityObj);
                     editor.commit();
 
                     /* Code to store login information end */
@@ -264,13 +267,17 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
                     finish(); /* This method will not display login page once redirected to dashboard */
 
                 } else {
+                    try {
+                        ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+                        new ViewDialog().showDialog(LoginEPActivity.this, getString(R.string.dialog_title_ep_login), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
 
-                    ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
-                    new ViewDialog().showDialog(LoginEPActivity.this, getString(R.string.dialog_title_ep_login), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                    } catch(Exception e) {
+                        new ViewDialog().showDialog(LoginEPActivity.this, getString(R.string.dialog_title_ep_login), getString(R.string.msg_error_try_after_some_time));
+                    }
                 }
 
             } catch (Exception e) {
-                Log.v("log_tag", "Error ", e);
+                Log.v("log_tag", "Login EP Activity Exception Error Message:", e);
             }
 
         }

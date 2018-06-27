@@ -16,7 +16,7 @@ public class NoInternetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_no_internet);
-        intRetryBtn = (Button) findViewById(R.id.intRetryBtn);
+        intRetryBtn = findViewById(R.id.intRetryBtn);
         intRetryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

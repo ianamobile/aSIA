@@ -18,6 +18,7 @@
         android:hint="@string/hint_search_location_text"
         android:textSize="14dp"
         android:drawablePadding="10dip"
+        android:maxLength="@integer/search_location_length"
         />
 
     <ListView

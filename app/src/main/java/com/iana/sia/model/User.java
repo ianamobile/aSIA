@@ -14,6 +14,7 @@ public class User {
 	public String scac;
 	public String companyName;
 	public String memType;
+	public String email;
 
     public String getAccessToken() {
         return accessToken;
@@ -110,6 +111,14 @@ public class User {
 		this.companyName = companyName;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Override
 	public String toString() {
 		return "User{" +
@@ -125,6 +134,7 @@ public class User {
 				", scac='" + scac + '\'' +
 				", companyName='" + companyName + '\'' +
 				", memType='" + memType + '\'' +
+				", email='" + email + '\'' +
 				'}';
 	}
 }

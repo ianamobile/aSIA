@@ -88,7 +88,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Animati
             }
         });
 
-        loginBtn = (Button) findViewById(R.id.loginBtn);
+        loginBtn = findViewById(R.id.loginBtn);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,7 +96,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Animati
             }
         });
 
-        scac    = (EditText) findViewById(R.id.scac);
+        scac    = findViewById(R.id.scac);
 
         scac.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -130,6 +130,10 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Animati
 
                 user.setScac(scac.trim());
                 user.setRole(role);
+
+                // code to disable background functionality when progress bar starts
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                 Gson gson = new Gson();
                 String jsonInString = gson.toJson(user, User.class);
@@ -185,7 +189,6 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Animati
         @Override
         protected String doInBackground(String... params) {
 
-            Log.v("log_tag", " requestString: " + requestString);
             ApiResponse apiResponse = RestApiClient.callPostApi(requestString, getString(R.string.base_url) +getString(R.string.api_forgot_password));
 
             urlResponse = apiResponse.getMessage();
@@ -197,10 +200,12 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Animati
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
 
+            // code to regain disable backend functionality end
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
             try {
                 Log.v("log_tag", dialogTitle + " Response Code: " + urlResponseCode);
                 Gson gson = new Gson();
-
 
                 if (urlResponseCode == 200) {
 
@@ -209,12 +214,17 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Animati
 
                 } else {
 
-                    ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
-                    new ViewDialog().showDialog(ForgotPasswordActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                    try {
+                        ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+                        new ViewDialog().showDialog(ForgotPasswordActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+
+                    } catch(Exception e) {
+                        new ViewDialog().showDialog(ForgotPasswordActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
+                    }
                 }
 
             } catch (Exception e) {
-                Log.v("log_tag", "Error ", e);
+                Log.v("log_tag", "ForgotPasswordActivity Exception Error ", e);
             }
 
         }

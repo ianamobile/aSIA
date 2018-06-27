@@ -128,7 +128,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/scacImg"
                 android:fontFamily="sans-serif-medium"
                 android:backgroundTint="@android:color/transparent"
-                android:maxLength="4"
+                android:maxLength="@integer/scac_length"
                 />
         </LinearLayout>
 
@@ -191,7 +191,7 @@
                 android:layout_marginEnd="18dp"
                 android:paddingLeft="@dimen/edit_text_padding_left"
                 android:ems="10"
-                android:maxLength="9"
+                android:maxLength="@integer/idd_pin_length"
                 android:hint="@string/hint_idd_pin"
                 android:inputType="number"
                 android:textColor="@color/appThemeColor"

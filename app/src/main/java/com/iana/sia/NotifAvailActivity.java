@@ -230,7 +230,7 @@ public class NotifAvailActivity extends AppCompatActivity {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = inflter.inflate(R.layout.custom_spinner_type_user, null);
-            TextView names = (TextView) view.findViewById(R.id.textView);
+            TextView names = view.findViewById(R.id.textView);
             names.setText(countryNames[i]);
             return view;
         }

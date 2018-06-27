@@ -30,8 +30,12 @@ import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 
 import com.google.gson.Gson;
+import com.iana.sia.model.InterchangeRequestsSearch;
+import com.iana.sia.model.SIASecurityObj;
 import com.iana.sia.model.User;
 import com.iana.sia.utility.GlobalVariables;
+import com.iana.sia.utility.Internet_Check;
+import com.iana.sia.utility.SIAUtility;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -67,6 +71,9 @@ public class DashboardActivity extends AppCompatActivity {
     int[] finalArr = null;
 
     SharedPreferences sharedPref = null;
+    SharedPreferences.Editor editor;
+
+    SIASecurityObj siaSecurityObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,23 +83,16 @@ public class DashboardActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.title)).setText(R.string.title_dashboard);
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
 
-        String originFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
-        String accessToken = sharedPref.getString(GlobalVariables.KEY_ACCESS_TOKEN, "");
-        String scac = sharedPref.getString(GlobalVariables.KEY_SCAC, "");
-        String role = sharedPref.getString(GlobalVariables.KEY_ROLE, "");
-        String companyName = sharedPref.getString(GlobalVariables.KEY_COMPANY_NAME, "");
-        String memType = sharedPref.getString(GlobalVariables.KEY_MEM_TYPE, "");
+        siaSecurityObj = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_SECURITY_OBJ, SIASecurityObj.class);
 
-        Log.d("myTag", "DashboardActivity role:============================>"+role);
-        Log.d("myTag", "DashboardActivity accessToken:============================>"+accessToken);
-
-        if(role.equalsIgnoreCase(GlobalVariables.ROLE_MC)) {
+        if(siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_MC)) {
             finalArr = new int[mcMenuArr.length];
             for(int i=0;i<finalArr.length;i++){
                 finalArr[i] = mcMenuArr[i];
             }
-        } else if(role.equalsIgnoreCase(GlobalVariables.ROLE_EP)) {
+        } else if(siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_EP)) {
             finalArr = new int[epMenuArr.length];
             for(int i=0;i<finalArr.length;i++){
                 finalArr[i] = epMenuArr[i];
@@ -116,7 +116,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     public void setupDashboard(int[] finalArr) {
 
-        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.rootLinearLayout);
+        LinearLayout mainLayout = findViewById(R.id.rootLinearLayout);
 
         LinearLayout subLinearLayout = new LinearLayout(this);
         subLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -132,7 +132,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         for(int i = 0; i < count; i++) {
 
-            Log.d("myTag", "DashboardActivity finalArr["+i+"]:============================>"+finalArr[i]);
+//            Log.d("myTag", "DashboardActivity finalArr["+i+"]:============================>"+finalArr[i]);
             if(i > 1 && i%2 == 0) {
                 mainLayout.addView(subLinearLayout);
                 subLinearLayout = new LinearLayout(this);
@@ -173,10 +173,15 @@ public class DashboardActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        if(v.getId() == 20l) {
+                    if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+
+                        if (null != GlobalVariables.menuTitleArr[v.getId()] &&
+                                GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_LOGOUT)) {
+
                             callLogout();
 
-                        } else if(null != GlobalVariables.menuTitleArr[v.getId()] && GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase("Initiate Street Turn")) {
+                        } else if (null != GlobalVariables.menuTitleArr[v.getId()] &&
+                                GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_INITIATE_ST)) {
 
                             SharedPreferences.Editor editor = sharedPref.edit();
                             editor.remove(GlobalVariables.KEY_RETURN_FROM);
@@ -185,8 +190,38 @@ public class DashboardActivity extends AppCompatActivity {
                             Intent intent = new Intent(DashboardActivity.this, StreetTurnActivity.class);
                             startActivity(intent);
                             finish(); /* This method will not display login page when click back (return) from phone */
-                            /* End */
+                                /* End */
+
+                        } else if (null != GlobalVariables.menuTitleArr[v.getId()] &&
+                                GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_INITIATE_SI)) {
+
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.remove(GlobalVariables.KEY_RETURN_FROM);
+                            editor.commit();
+
+                            Intent intent = new Intent(DashboardActivity.this, InitiateInterchangeActivity.class);
+                            startActivity(intent);
+                            finish(); /* This method will not display login page when click back (return) from phone */
+                                /* End */
+
+                        } else if (null != GlobalVariables.menuTitleArr[v.getId()] &&
+                                GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_SEARCH_INTERCHANGE_REQUESTS)) {
+
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.remove(GlobalVariables.KEY_RETURN_FROM);
+                            editor.commit();
+
+                            Intent intent = new Intent(DashboardActivity.this, SearchInterchangeRequestActivity.class);
+                            startActivity(intent);
+                            finish(); /* This method will not display login page when click back (return) from phone */
+                                /* End */
                         }
+
+                    } else {
+                        Intent intent = new Intent(DashboardActivity.this, NoInternetActivity.class);
+                        startActivity(intent);
+                    }
+
                     }
                 });
 
@@ -278,10 +313,4 @@ public class DashboardActivity extends AppCompatActivity {
                     /* End */
     }
 
-    protected int getPixelsFromDPs(int dps){
-        Resources r = getApplicationContext().getResources();
-        int  px = (int) (TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, dps, r.getDisplayMetrics()));
-        return px;
-    }
 }

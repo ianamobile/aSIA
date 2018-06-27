@@ -142,7 +142,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/emailImg"
                         android:fontFamily="sans-serif-medium"
                         android:backgroundTint="@android:color/transparent"
-                        android:maxLength="100"
+                        android:maxLength="@integer/email_length"
                         />
                 </LinearLayout>
 

@@ -24,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.iana.sia.model.SIASecurityObj;
 import com.iana.sia.model.User;
 import com.iana.sia.utility.ApiResponse;
 import com.iana.sia.utility.ApiResponseMessage;
@@ -48,18 +49,20 @@ public class LoginMCActivity extends AppCompatActivity implements Animation.Anim
 
     Button loginBtn;
 
+    SharedPreferences sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_mc);
 
-        secondaryUserBtn = (Button) findViewById(R.id.secondaryUserBtn);
+        secondaryUserBtn = findViewById(R.id.secondaryUserBtn);
 
         slideLeft = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.set_in_left);
         slideLeft.setAnimationListener(this);
 
-        BottomNavigationView bnv = (BottomNavigationView) findViewById(R.id.navigation_login);
+        BottomNavigationView bnv = findViewById(R.id.navigation_login);
         bnv.setSelectedItemId(R.id.navigation_login_mc);
 
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
@@ -87,12 +90,12 @@ public class LoginMCActivity extends AppCompatActivity implements Animation.Anim
         });
 
         SIAUtility.disableShiftMode(bnv);
-        progressBar = (ProgressBar) findViewById(R.id.processingBar);
+        progressBar = findViewById(R.id.processingBar);
 
         // below code is used to restrict auto populate keypad
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        SharedPreferences sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
+        sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
 
         if(sharedPref != null && !sharedPref.getString(GlobalVariables.KEY_ACCESS_TOKEN, "").equalsIgnoreCase("")){
             Intent i = new Intent(LoginMCActivity.this, DashboardActivity.class);
@@ -105,9 +108,9 @@ public class LoginMCActivity extends AppCompatActivity implements Animation.Anim
         secondaryUserBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                SharedPreferences sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ROLE_MC);
+                editor.putString(GlobalVariables.KEY_MEM_TYPE, "");
                 editor.commit();
                 // Perform action on click
                 startActivity(new Intent(LoginMCActivity.this, LoginSECActivity.class));
@@ -115,11 +118,10 @@ public class LoginMCActivity extends AppCompatActivity implements Animation.Anim
             }
         });
 
-        troubleSignOn = (TextView) findViewById(R.id.troubleSignOn);
+        troubleSignOn = findViewById(R.id.troubleSignOn);
         troubleSignOn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                SharedPreferences sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ROLE_MC);
                 editor.commit();
@@ -129,7 +131,7 @@ public class LoginMCActivity extends AppCompatActivity implements Animation.Anim
             }
         });
 
-        loginBtn = (Button) findViewById(R.id.loginBtn);
+        loginBtn = findViewById(R.id.loginBtn);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,7 +139,7 @@ public class LoginMCActivity extends AppCompatActivity implements Animation.Anim
             }
         });
 
-        passwordEditText    = (EditText) findViewById(R.id.password);
+        passwordEditText    = findViewById(R.id.password);
 
         passwordEditText.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -253,19 +255,13 @@ public class LoginMCActivity extends AppCompatActivity implements Animation.Anim
 
                 if (urlResponseCode == 200) {
 
-                    User user = gson.fromJson(result, User.class);
-                    Log.v("log_tag", "Login Response user: " + user);
+                    SIASecurityObj siaSecurityObj = gson.fromJson(result, SIASecurityObj.class);
+                    Log.v("log_tag", "Login Response siaSecurityObj: " + siaSecurityObj);
                     /* Code to store login information start */
-
-                    SharedPreferences sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
 
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ROLE_MC);
-                    editor.putString(GlobalVariables.KEY_ACCESS_TOKEN, user.getAccessToken());
-                    editor.putString(GlobalVariables.KEY_SCAC, user.getScac());
-                    editor.putString(GlobalVariables.KEY_ROLE, user.getRoleName());
-                    editor.putString(GlobalVariables.KEY_COMPANY_NAME, user.getCompanyName());
-                    editor.putString(GlobalVariables.KEY_MEM_TYPE, user.getMemType());
+                    SIAUtility.setObject(editor, GlobalVariables.KEY_SECURITY_OBJ, siaSecurityObj);
                     editor.commit();
 
                     /* Code to store login information end */
@@ -277,12 +273,17 @@ public class LoginMCActivity extends AppCompatActivity implements Animation.Anim
 
                 } else {
 
-                    ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
-                    new ViewDialog().showDialog(LoginMCActivity.this, getString(R.string.dialog_title_mc_login), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                    try {
+                        ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+                        new ViewDialog().showDialog(LoginMCActivity.this, getString(R.string.dialog_title_mc_login), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+
+                    } catch(Exception e) {
+                        new ViewDialog().showDialog(LoginMCActivity.this, getString(R.string.dialog_title_mc_login), getString(R.string.msg_error_try_after_some_time));
+                    }
                 }
 
             } catch (Exception e) {
-                Log.v("log_tag", "Error ", e);
+                Log.v("log_tag", "LoginMCActivity Exception Error ", e);
             }
 
         }

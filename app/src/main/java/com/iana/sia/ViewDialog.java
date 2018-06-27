@@ -33,41 +33,10 @@ public class ViewDialog {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-
-                Intent i = activity.getIntent();
-                Intent intent = null;
-
-                if(activity.getClass().getSimpleName().equalsIgnoreCase("ListDVIRActivity")) {
-                    intent = setSearchDVIRFields(i, activity);
-                    activity.startActivity(intent);
-                    activity.finish(); /* This method will not display this page once redirected to login page */
-
-                }/* else if(activity.getClass().getSimpleName().equalsIgnoreCase("ListDVIRActivity")) {
-
-                }*/
-
-
             }
         });
 
         dialog.show();
 
-    }
-
-    @NonNull
-    private Intent setSearchDVIRFields(Intent i, Activity activity) {
-        Intent intent;
-        /*intent = new Intent(activity, SearchDVIRActivity.class);
-
-        intent.putExtra("dvirNo", (String) i.getSerializableExtra("dvirNo"));
-
-        intent.putExtra("chassisId", (String) i.getSerializableExtra("chassisId"));
-        intent.putExtra("locationCode", (String) i.getSerializableExtra("locationCode"));
-        intent.putExtra("startDate", (String) i.getSerializableExtra("startDate"));
-        intent.putExtra("endDate", (String) i.getSerializableExtra("endDate"));
-        intent.putExtra("originFrom", (String) i.getSerializableExtra("originFrom"));
-        intent.putExtra("includeNoDefects", (String) i.getSerializableExtra("includeNoDefects"));*/
-
-        return null;
     }
 }

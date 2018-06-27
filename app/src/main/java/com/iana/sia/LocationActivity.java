@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ScaleDrawable;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,7 @@ import com.google.gson.reflect.TypeToken;
 import com.iana.sia.model.IanaLocations;
 import com.iana.sia.utility.ApiResponse;
 import com.iana.sia.utility.GlobalVariables;
+import com.iana.sia.utility.Internet_Check;
 import com.iana.sia.utility.RestApiClient;
 
 import java.lang.reflect.Type;
@@ -87,9 +89,26 @@ public class LocationActivity extends AppCompatActivity {
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
         if(sharedPref != null){
-            if(sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_EQUIPMENT)) {
-                tempString = getString(R.string.api_get_equipment_location_list);
-            } else if(sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_ORIGINAL)){
+
+            if(sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE)) {
+
+                if(sharedPref.getString(GlobalVariables.KEY_SEARCH_FOR_LOCATION, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_ORIGINAL)) {
+                    tempString = getString(R.string.api_get_original_location_list);
+                    tempEpScac = sharedPref.getString(GlobalVariables.KEY_EP_SCAC, "");
+
+                } else {
+                    tempString = getString(R.string.api_get_equipment_location_list);
+                }
+
+            }else if(sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl)) {
+
+                if(sharedPref.getString(GlobalVariables.KEY_SEARCH_FOR_LOCATION, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_ORIGINAL)) {
+                    tempString = getString(R.string.api_get_original_location_list);
+                } else {
+                    tempString = getString(R.string.api_get_equipment_location_list);
+                }
+
+            } else if(sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_STREET_TURN)){
                 tempString = getString(R.string.api_get_original_location_list);
                 tempEpScac = sharedPref.getString(GlobalVariables.KEY_EP_SCAC, "");
             }
@@ -106,9 +125,15 @@ public class LocationActivity extends AppCompatActivity {
         searchLocation.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (null != s && s.toString().trim().length() > 1) {
-                    final String requestString = tempRequestString + "?location=" + s.toString().trim() + "&epScac="+epScac;
-                    new ExecuteLocationSearchTask(requestString).execute();
+                if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+                    if (null != s && s.toString().trim().length() > 1) {
+                        final String requestString = tempRequestString + "?location=" + s.toString().trim() + "&epScac="+epScac;
+                        new ExecuteLocationSearchTask(requestString).execute();
+                    }
+
+                } else {
+                    Intent intent = new Intent(LocationActivity.this, NoInternetActivity.class);
+                    startActivity(intent);
                 }
             }
             @Override
@@ -123,6 +148,8 @@ public class LocationActivity extends AppCompatActivity {
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+            if (Internet_Check.checkInternetConnection(getApplicationContext())) {
 
                 SharedPreferences sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
@@ -142,6 +169,11 @@ public class LocationActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish(); /* This method will not display login page when click back (return) from phone */
                             /* End */
+            } else {
+                Intent intent = new Intent(LocationActivity.this, NoInternetActivity.class);
+                startActivity(intent);
+            }
+
             }
         });
 
@@ -202,9 +234,7 @@ public class LocationActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            Log.v("log_tag", "In ListBadOrderActivity: doInBackground get request:=> " + getString(R.string.base_url) + requestString);
             ApiResponse apiResponse = RestApiClient.callGetApi(getString(R.string.base_url) + requestString);
-            Log.v("log_tag", "in ListBadOrderActivity: doInBackground apiResponse:=> " + apiResponse);
             urlResponse = apiResponse.getMessage();
             urlResponseCode = apiResponse.getCode();
             return urlResponse;
@@ -227,7 +257,12 @@ public class LocationActivity extends AppCompatActivity {
                     listView.setAdapter(adapter);
 
                 } else {
-                    new ViewDialog().showDialog(LocationActivity.this, "LOCATION SEARCH", getString(R.string.msg_error_no_records_found));
+                    try {
+                        new ViewDialog().showDialog(LocationActivity.this, getString(R.string.dialog_title_location_search), getString(R.string.msg_error_no_records_found));
+
+                    } catch(Exception e) {
+                        new ViewDialog().showDialog(LocationActivity.this, getString(R.string.dialog_title_location_search), getString(R.string.msg_error_try_after_some_time));
+                    }
                 }
 
             } catch (Exception e) {

@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.iana.sia.model.SIASecurityObj;
 import com.iana.sia.model.User;
 import com.iana.sia.utility.ApiResponse;
 import com.iana.sia.utility.ApiResponseMessage;
@@ -48,6 +49,8 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
     String dialogTitle = "";
     String role = "";
 
+    SharedPreferences sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,24 +60,32 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
                 R.anim.set_in_left);
         slideLeft.setAnimationListener(this);
 
-        progressBar = (ProgressBar) findViewById(R.id.processingBar);
+        progressBar = findViewById(R.id.processingBar);
 
         // below code is used to restrict auto populate keypad
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        SharedPreferences sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
+        sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
 
-        if(sharedPref != null && sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ROLE_MC)) {
+        Log.v("log_tag", "LoginSECActivity GlobalVariables.KEY_ORIGIN_FROM: " + sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, ""));
+
+        if(sharedPref != null &&
+            (sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ROLE_MC) ||
+                sharedPref.getString(GlobalVariables.KEY_MEM_TYPE, "").equalsIgnoreCase(GlobalVariables.ROLE_MC))) {
+
             dialogTitle = getString(R.string.dialog_title_mc_sec_login);
             role = GlobalVariables.ROLE_MC;
 
-        } else if(sharedPref != null && sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ROLE_EP)) {
+        } else if(sharedPref != null &&
+            (sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ROLE_EP)  ||
+                sharedPref.getString(GlobalVariables.KEY_MEM_TYPE, "").equalsIgnoreCase(GlobalVariables.ROLE_EP))) {
+
             dialogTitle = getString(R.string.dialog_title_ep_sec_login);
             role = GlobalVariables.ROLE_EP;
         }
 
 
-        backToHomeBtn = (Button) findViewById(R.id.backToHomeBtn);
+        backToHomeBtn = findViewById(R.id.backToHomeBtn);
         backToHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,15 +104,20 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
             }
         });
 
-        troubleSignOn = (TextView) findViewById(R.id.troubleSignOn);
+        troubleSignOn = findViewById(R.id.troubleSignOn);
         troubleSignOn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(GlobalVariables.KEY_MEM_TYPE, role);
+                editor.commit();
+
                 startActivity(new Intent(LoginSECActivity.this, ForgotPasswordSECActivity.class));
                 finish(); /* This method will not display login page when click back (return) from phone */
             }
         });
 
-        loginBtn = (Button) findViewById(R.id.loginBtn);
+        loginBtn = findViewById(R.id.loginBtn);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +125,7 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
             }
         });
 
-        passwordEditText    = (EditText) findViewById(R.id.password);
+        passwordEditText    = findViewById(R.id.password);
 
         passwordEditText.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -151,11 +167,16 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
                 user.setRole(GlobalVariables.ROLE_SEC);
                 user.setMemType(role.equalsIgnoreCase(GlobalVariables.ROLE_MC) ? GlobalVariables.ROLE_MC : GlobalVariables.ROLE_EP);
 
+                // code to disable background functionality when progress bar starts
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
                 Gson gson = new Gson();
                 String jsonInString = gson.toJson(user, User.class);
                 new LoginSECActivity.ExecuteTask(jsonInString).execute();
 
             } else {
+
                 new ViewDialog().showDialog(LoginSECActivity.this, dialogTitle, error);
 
             }
@@ -229,6 +250,9 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
 
+            // code to regain disable backend functionality end
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
             try {
                 Log.v("log_tag", dialogTitle + " Response Code: " + urlResponseCode);
                 Gson gson = new Gson();
@@ -236,19 +260,13 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
 
                 if (urlResponseCode == 200) {
 
-                    User user = gson.fromJson(result, User.class);
+                    SIASecurityObj siaSecurityObj = gson.fromJson(result, SIASecurityObj.class);
 
                     /* Code to store login information start */
 
-                    SharedPreferences sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
-
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ROLE_SEC);
-                    editor.putString(GlobalVariables.KEY_ACCESS_TOKEN, user.getAccessToken());
-                    editor.putString(GlobalVariables.KEY_SCAC, user.getScac());
-                    editor.putString(GlobalVariables.KEY_ROLE, user.getRoleName());
-                    editor.putString(GlobalVariables.KEY_COMPANY_NAME, user.getCompanyName());
-                    editor.putString(GlobalVariables.KEY_MEM_TYPE, user.getMemType());
+                    SIAUtility.setObject(editor, GlobalVariables.KEY_SECURITY_OBJ, siaSecurityObj);
                     editor.commit();
 
                     /* Code to store login information end */
@@ -260,12 +278,18 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
 
                 } else {
 
-                    ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
-                    new ViewDialog().showDialog(LoginSECActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                    try {
+                        ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+                        new ViewDialog().showDialog(LoginSECActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+
+                    } catch(Exception e) {
+                        new ViewDialog().showDialog(LoginSECActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
+                    }
+
                 }
 
             } catch (Exception e) {
-                Log.v("log_tag", "Error ", e);
+                Log.v("log_tag", dialogTitle + " LoginSECActivity Exception Error ", e);
             }
 
         }

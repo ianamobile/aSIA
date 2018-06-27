@@ -26,4 +26,12 @@
 
     <color name="bg_color_search_location_list">#babebe</color>
 
+    <color name="bg_color_green">#46B163</color>
+
+    <color name="bg_color_approved">#46B163</color>
+    <color name="bg_color_pending">#e98c1d</color>
+    <color name="bg_color_rejected">#d9534f</color>
+    <color name="bg_color_onhold">#d9534f</color>
+    <color name="bg_color_cancelled">#d9534f</color>
+
 </resources>

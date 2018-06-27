@@ -1,10 +1,15 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
 
+    <dimen name="margin_left_8">8dp</dimen>
+    <dimen name="margin_right_8">8dp</dimen>
+
     <!-- button -->
     <dimen name="layout_height_button">50dp</dimen>
     <dimen name="layout_height_animation_button">60dp</dimen>
 
+    <!-- spinner -->
+    <dimen name="spinner_padding_left">20dp</dimen>
     <!-- edit text -->
     <dimen name="layout_width_edit_text">80dp</dimen>
     <dimen name="edit_text_padding_left">25dp</dimen>
@@ -32,5 +37,11 @@
 
     <dimen name="icon_width">20dp</dimen>
     <dimen name="icon_height">20dp</dimen>
+
+    <dimen name="margin_from_left">16dp</dimen>
+    <dimen name="margin_from_right">16dp</dimen>
+
+    <dimen name="height_search_result_ir">1dp</dimen>
+
 
 </resources>

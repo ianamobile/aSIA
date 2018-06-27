@@ -1,8 +1,13 @@
 package com.iana.sia;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -10,7 +15,17 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
+
+import com.google.gson.Gson;
+import com.iana.sia.model.User;
+import com.iana.sia.utility.ApiResponse;
+import com.iana.sia.utility.ApiResponseMessage;
+import com.iana.sia.utility.GlobalVariables;
+import com.iana.sia.utility.Internet_Check;
+import com.iana.sia.utility.RestApiClient;
+import com.iana.sia.utility.SIAUtility;
 
 
 public class ForgotPasswordSECActivity extends AppCompatActivity implements Animation.AnimationListener {
@@ -19,7 +34,21 @@ public class ForgotPasswordSECActivity extends AppCompatActivity implements Anim
 
     Animation slideLeft;
 
-    private ProgressBar progressBar;
+    ProgressBar progressBar;
+
+    Button loginBtn;
+
+    EditText scac;
+    EditText userName;
+
+    String dialogTitle = "";
+    String memType = "";
+
+    SharedPreferences sharedPref;
+
+    private String urlResponse;
+    private int urlResponseCode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,19 +59,54 @@ public class ForgotPasswordSECActivity extends AppCompatActivity implements Anim
                 R.anim.set_in_left);
         slideLeft.setAnimationListener(this);
 
-        progressBar = (ProgressBar) findViewById(R.id.processingBar);
+        progressBar = findViewById(R.id.processingBar);
 
         // below code is used to restrict auto populate keypad
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        backToSECHomeBtn = (Button) findViewById(R.id.backToSECHomeBtn);
+        sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
+
+        if(sharedPref != null && sharedPref.getString(GlobalVariables.KEY_MEM_TYPE, "").equalsIgnoreCase(GlobalVariables.ROLE_MC)) {
+            dialogTitle = getString(R.string.dialog_title_mc_sec_forgot_password);
+            memType = GlobalVariables.ROLE_MC;
+
+        } else if(sharedPref != null && sharedPref.getString(GlobalVariables.KEY_MEM_TYPE, "").equalsIgnoreCase(GlobalVariables.ROLE_EP)) {
+            dialogTitle = getString(R.string.dialog_title_ep_sec_forgot_password);
+            memType = GlobalVariables.ROLE_EP;
+        }
+
+        backToSECHomeBtn = findViewById(R.id.backToSECHomeBtn);
         backToSECHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(GlobalVariables.KEY_MEM_TYPE, memType);
+                editor.commit();
+
                 startActivity(new Intent(ForgotPasswordSECActivity.this, LoginSECActivity.class));
                 finish();
 
+            }
+        });
+
+        loginBtn = findViewById(R.id.loginBtn);
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                processLogin();
+            }
+        });
+
+        userName    = findViewById(R.id.userName);
+        userName.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    processLogin();
+                    return true;
+                }
+                return false;
             }
         });
 
@@ -54,6 +118,126 @@ public class ForgotPasswordSECActivity extends AppCompatActivity implements Anim
                 return true;
             }
         });
+    }
+
+    void processLogin() {
+        if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+
+            String scac          = ((EditText) findViewById(R.id.scac)).getText().toString();
+            String userName      = ((EditText) findViewById(R.id.userName)).getText().toString();
+
+            String error = validateForgotPasswordFields(scac, userName);
+            if(error == "") {
+
+                User user = new User();
+
+                user.setScac(scac.trim());
+                user.setUserName(userName.trim());
+                user.setRole(GlobalVariables.ROLE_SEC);
+                user.setMemType(memType);
+
+                // code to disable background functionality when progress bar starts
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                Gson gson = new Gson();
+                String jsonInString = gson.toJson(user, User.class);
+                new ExecuteTask(jsonInString).execute();
+
+            } else {
+                new ViewDialog().showDialog(ForgotPasswordSECActivity.this, dialogTitle, error);
+
+            }
+
+        } else {
+            Intent intent = new Intent(ForgotPasswordSECActivity.this, NoInternetActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private String validateForgotPasswordFields(String scac, String userName) {
+
+        if(scac == null || scac == "" || scac.toString().trim().length() <= 0) {
+            return getString(R.string.msg_error_blank_scac);
+
+        } else if (!SIAUtility.isAlpha(scac)) {
+            return getString(R.string.msg_error_char_scac);
+
+        } else if (memType.equalsIgnoreCase(GlobalVariables.ROLE_MC) && scac.length() != 4) {
+            return getString(R.string.msg_error_length_scac);
+
+        } else if (memType.equalsIgnoreCase(GlobalVariables.ROLE_EP) &&
+                !(scac.length() >= 2 && scac.length() <= 4) ) {
+            return getString(R.string.msg_error_length_ep_scac);
+        }
+
+        if(userName == null || userName == "" || userName.toString().trim().length() <= 0) {
+            return getString(R.string.msg_error_blank_userName);
+        }
+
+        return "";
+    }
+
+    /**
+     * Method which navigates from Login Activity to Home Activity
+     */
+
+    class ExecuteTask extends AsyncTask<String, Integer, String> {
+        String requestString;
+
+        public ExecuteTask(String requestString) {
+            this.requestString = requestString;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            ApiResponse apiResponse = RestApiClient.callPostApi(requestString, getString(R.string.base_url) +getString(R.string.api_forgot_password));
+
+            urlResponse = apiResponse.getMessage();
+            urlResponseCode = apiResponse.getCode();
+            return urlResponse;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            progressBar.setVisibility(View.GONE);
+
+            // code to regain disable backend functionality end
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+            try {
+                Log.v("log_tag", dialogTitle + " Response Code: " + urlResponseCode);
+                Gson gson = new Gson();
+
+                if (urlResponseCode == 200) {
+
+                    ApiResponseMessage successMessage = gson.fromJson(result, ApiResponseMessage.class);
+                    new ViewDialog().showDialog(ForgotPasswordSECActivity.this, dialogTitle, successMessage.getMessage());
+
+                } else {
+
+                    try {
+                        ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+                        new ViewDialog().showDialog(ForgotPasswordSECActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+
+                    } catch(Exception e) {
+                        new ViewDialog().showDialog(ForgotPasswordSECActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
+                    }
+                }
+
+            } catch (Exception e) {
+                Log.v("log_tag", "ForgotPasswordSECActivity Exception Error ", e);
+            }
+
+        }
+
     }
 
     @Override

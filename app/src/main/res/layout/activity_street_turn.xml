@@ -30,8 +30,8 @@
             android:background="@color/colorBGBase"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginLeft="@dimen/margin_from_left"
+            android:layout_marginRight="@dimen/margin_from_right"
             >
 
             <!-- Motor carrier Name start -->
@@ -43,8 +43,6 @@
                 android:orientation="vertical"
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 >
 
                 <LinearLayout
@@ -102,7 +100,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/mcCompanyNameImg"
                     android:fontFamily="sans-serif-medium"
                     android:backgroundTint="@android:color/transparent"
-                    android:maxLength="100"
+                    android:maxLength="@integer/mc_company_name_length"
                     />
             </LinearLayout>
 
@@ -117,8 +115,6 @@
                 android:layout_below="@+id/mcCompanyNameLayout"
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 >
 
                 <LinearLayout
@@ -191,8 +187,6 @@
                 android:layout_below="@+id/mcScacLayout"
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 >
 
                 <LinearLayout
@@ -250,7 +244,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/epCompanyNameImg"
                     android:fontFamily="sans-serif-medium"
                     android:backgroundTint="@android:color/transparent"
-                    android:maxLength="100"
+                    android:maxLength="@integer/ep_company_name_length"
                     />
             </LinearLayout>
 
@@ -265,8 +259,6 @@
                 android:layout_below="@+id/epCompanyNameLayout"
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 >
 
                 <LinearLayout
@@ -338,8 +330,6 @@
                 android:layout_below="@+id/epScacLayout"
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 >
 
                 <LinearLayout
@@ -397,7 +387,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/containerNumberImg"
                     android:fontFamily="sans-serif-medium"
                     android:backgroundTint="@android:color/transparent"
-                    android:maxLength="30"
+                    android:maxLength="@integer/container_number_length"
                     />
             </LinearLayout>
 
@@ -412,8 +402,6 @@
                 android:layout_below="@+id/containerNumberLayout"
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 >
 
                 <LinearLayout
@@ -471,7 +459,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/exportBookingNumberImg"
                     android:fontFamily="sans-serif-medium"
                     android:backgroundTint="@android:color/transparent"
-                    android:maxLength="30"
+                    android:maxLength="@integer/export_booking_number_length"
                     />
 
             </LinearLayout>
@@ -486,8 +474,6 @@
                 android:layout_below="@+id/exportBookingNumberLayout"
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 >
 
                 <LinearLayout
@@ -545,7 +531,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/importBLImg"
                     android:fontFamily="sans-serif-medium"
                     android:backgroundTint="@android:color/transparent"
-                    android:maxLength="30"
+                    android:maxLength="@integer/import_bl_length"
                     />
 
             </LinearLayout>
@@ -560,8 +546,6 @@
                 android:layout_below="@+id/importBLLayout"
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 >
 
                 <LinearLayout
@@ -619,7 +603,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/chassisNumberImg"
                     android:fontFamily="sans-serif-medium"
                     android:backgroundTint="@android:color/transparent"
-                    android:maxLength="12"
+                    android:maxLength="@integer/chassis_number_length"
                     />
             </LinearLayout>
 
@@ -634,8 +618,6 @@
                 android:layout_below="@+id/chassisNumberLayout"
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 >
 
                 <LinearLayout
@@ -705,27 +687,56 @@
                 android:orientation="horizontal"
                 android:layout_below="@+id/iepScacLayout"
                 android:gravity="center_vertical|center_horizontal"
-                android:layout_margin="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:text="@string/lbl_original_interchange_location"
-                    android:textSize="15sp"
-                    android:textColor="@color/appThemeColor"
-                    android:gravity="center_vertical|center_horizontal"
-                    />
+                <TableLayout
+                    android:id="@+id/scacStatusTableLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:stretchColumns="*"
+                    >
+                    <TableRow
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:gravity="center_horizontal"
+                        >
+                        <LinearLayout
+                            android:layout_weight="0.85"
+                            android:layout_width="0dp"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:gravity="center_vertical|center_horizontal"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAlignment="center"
+                                android:text="@string/lbl_original_interchange_location"
+                                android:textSize="15sp"
+                                android:textColor="@color/appThemeColor"
+                                android:gravity="center_vertical|center_horizontal"
+                                />
+                        </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/search"
-                    android:tint="@android:color/black"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_gravity="center_vertical|right"
-                    android:src="@drawable/search"/>
+                        <LinearLayout
+                            android:layout_weight="0.15"
+                            android:layout_width="0dp"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            >
+                            <ImageView
+                                android:id="@+id/search"
+                                android:tint="@android:color/black"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:layout_gravity="center_vertical|right"
+                                android:src="@drawable/search"/>
+
+                        </LinearLayout>
+                    </TableRow>
+
+                </TableLayout>
 
                 </LinearLayout>
 
@@ -739,8 +750,6 @@
                 android:layout_below="@+id/originalLocationLayout"
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 >
 
                 <LinearLayout
@@ -812,8 +821,6 @@
                 android:layout_below="@+id/zipCodeLayout"
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 >
 
                 <LinearLayout
@@ -886,8 +893,6 @@
                 android:layout_below="@+id/locationNameLayout"
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 >
 
                 <LinearLayout
@@ -958,8 +963,6 @@
                 android:layout_below="@+id/locationAddressLayout"
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 >
 
                 <LinearLayout
@@ -1030,8 +1033,6 @@
                 android:layout_below="@+id/cityLayout"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 >
 
                 <LinearLayout
