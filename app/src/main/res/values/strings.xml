@@ -190,6 +190,10 @@
         <item>CANCELLED</item>
     </string-array>
 
+    <string name="select_container_size">SELECT CONTAINER SIZE</string>
+    <string name="select_container_type">SELECT CONTAINER TYPE</string>
+    <string name="select_chassis_size">SELECT CHASSIS SIZE</string>
+    <string name="select_chassis_type">SELECT CHASSIS TYPE</string>
 
     <!-- page heading start -->
 

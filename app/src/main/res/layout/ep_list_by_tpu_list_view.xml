@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:id="@+id/rLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/location_list_view_shadow"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        >
+
+        <LinearLayout
+            android:id="@+id/epCompanyNameMainLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            >
+
+            <LinearLayout
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <LinearLayout
+                    android:id="@+id/leftPatternColor"
+                    android:layout_width="10dp"
+                    android:layout_height="35dp"
+                    android:orientation="vertical"
+                    android:background="@color/bg_color_approved"
+                    >
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="2dp"
+                >
+
+                <TableLayout
+                    android:id="@+id/epCompanyNameTableLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="*"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="10dp"
+                    >
+                    <TableRow
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:gravity="center_horizontal"
+                        >
+                        <LinearLayout
+                            android:layout_weight="0.8"
+                            android:layout_width="0dp"
+                            android:layout_gravity="left"
+                            >
+                            <TextView
+                                android:id="@+id/epCompanyName"
+                                android:layout_height="wrap_content"
+                                android:text="EP COMPANY NAMEEP COMPANY NAMEEP COMPANY NAME"
+                                android:layout_width="wrap_content"
+                                android:textColor="@color/color_black"
+                                android:gravity="left"
+                                android:fontFamily="sans-serif-medium"
+                                android:textSize="14dp"
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_weight="0.2"
+                            android:layout_width="0dp"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            >
+                            <ImageView
+                                android:id="@+id/statusImageView"
+                                android:layout_height="15dp"
+                                android:layout_width="15dp"
+                                android:layout_marginRight="10dp"
+                                android:src="@drawable/right_arrow"
+                                />
+                        </LinearLayout>
+                    </TableRow>
+
+                </TableLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TableLayout
+            android:id="@+id/scacStatusTableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/epCompanyNameMainLinearLayout"
+            >
+            <TableRow
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:gravity="center_horizontal"
+                >
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_gravity="left"
+                    >
+                    <TextView
+                        android:id="@+id/epScac"
+                        android:layout_height="wrap_content"
+                        android:text="SCAC:"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/appThemeColor"
+                        android:gravity="left"
+                        android:fontFamily="sans-serif-medium"
+                        android:textSize="12dp"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    >
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/status"
+                        android:text="STATUS"
+                        android:layout_marginLeft="5dp"
+                        android:paddingRight="10dp"
+                        android:textColor="@color/appThemeColor"
+                        android:fontFamily="sans-serif-medium"
+                        android:textSize="12dp"
+                        android:minWidth="10dp"
+                        />
+                </LinearLayout>
+            </TableRow>
+
+        </TableLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

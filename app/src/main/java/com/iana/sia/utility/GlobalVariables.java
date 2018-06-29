@@ -50,8 +50,8 @@ public class GlobalVariables {
     public static final String KEY_SCAC = "scac";
     public static final String KEY_IEP_SCAC_MESSAGE = "iepScacMessage";
 
-    public static final String KEY_INTERCHANGE_REQUESTS_SEARCH = "interchangeRequestsSearch";
-    public static final String KEY_INTERCHANGE_REQUESTS = "interchangeRequests";
+    public static final String KEY_INTERCHANGE_REQUESTS_SEARCH_OBJ = "interchangeRequestsSearchObj";
+    public static final String KEY_INTERCHANGE_REQUESTS_OBJ = "interchangeRequestsObj";
 
     public static final String KEY_SECURITY_OBJ = "securityObj";
 
@@ -114,4 +114,9 @@ public class GlobalVariables {
     public static final String STATUS_REJECTED = "REJECTED";
     public static final String STATUS_CANCELLED = "CANCELLED";
     public static final String STATUS_ONHOLD = "ONHOLD";
+    public static final String STATUS_DISABLED = "DISABLED";
+
+    public static final String N = "N";
+    public static final String Y = "Y";
+
 }

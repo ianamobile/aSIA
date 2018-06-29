@@ -62,10 +62,7 @@ public class ForgotUsernameTPUActivity extends AppCompatActivity implements Anim
         backToHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                startActivity(new Intent(ForgotUsernameTPUActivity.this, LoginTPUActivity.class));
-                finish();
-
+                goToPreviousPage();
             }
         });
 
@@ -220,4 +217,19 @@ public class ForgotUsernameTPUActivity extends AppCompatActivity implements Anim
     @Override
     public void onAnimationRepeat(Animation animation) {
     }
+
+    void goToPreviousPage() {
+        startActivity(new Intent(ForgotUsernameTPUActivity.this, LoginTPUActivity.class));
+        finish();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            goToPreviousPage();
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

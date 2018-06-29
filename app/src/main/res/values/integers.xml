@@ -1,0 +1,18 @@
+<resources>
+    <integer name="genset_number_length">20</integer>
+    <integer name="container_number_length">30</integer>
+    <integer name="ep_company_name_length">100</integer>
+    <integer name="mc_company_name_length">100</integer>
+    <integer name="scac_length">4</integer>
+    <integer name="import_bl_length">30</integer>
+    <integer name="export_booking_number_length">30</integer>
+    <integer name="chassis_number_length">12</integer>
+    <integer name="username_length">100</integer>
+    <integer name="email_length">100</integer>
+    <integer name="search_location_length">50</integer>
+    <integer name="password_length">50</integer>
+    <integer name="idd_pin_length">9</integer>
+    <integer name="driver_license_number_length">20</integer>
+    <integer name="state_length">2</integer>
+    <integer name="date_length">10</integer>
+</resources>

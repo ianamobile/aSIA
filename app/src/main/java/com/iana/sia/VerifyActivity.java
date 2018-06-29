@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -72,22 +73,7 @@ public class VerifyActivity extends AppCompatActivity {
 
                     switch (item.getItemId()) {
                         case R.id.navigation_edit:
-
-                            String requestOriginFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
-                            if(GlobalVariables.ORIGIN_FROM_STREET_TURN.equalsIgnoreCase(requestOriginFrom)) {
-
-                                startActivity(new Intent(VerifyActivity.this, StreetTurnActivity.class));
-                                finish(); /* This method will not display login page when click back (return) */
-
-                            } else if(GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE.equalsIgnoreCase(requestOriginFrom)) {
-
-                                startActivity(new Intent(VerifyActivity.this, InitiateInterchangeActivity.class));
-                                finish(); /* This method will not display login page when click back (return) */
-                            }
-
-                            editor.putString(GlobalVariables.KEY_RETURN_FROM, GlobalVariables.RETURN_FROM_VERIFY_DETAILS);
-                            editor.commit();
-
+                                goToPreviousPage();
                             break;
                         case R.id.navigation_submit:
 
@@ -115,7 +101,7 @@ public class VerifyActivity extends AppCompatActivity {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-            InterchangeRequests ir = (InterchangeRequests) readObjectOfModel("interchangeRequestObject");
+            InterchangeRequests ir = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, InterchangeRequests.class);
             Gson gson = new Gson();
             new VerifyActivity.ExecuteTaskSubmit(gson.toJson(ir, InterchangeRequests.class)).execute();
         }
@@ -275,5 +261,39 @@ public class VerifyActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    void goToPreviousPage() {
+        if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+
+            String requestOriginFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
+            if(GlobalVariables.ORIGIN_FROM_STREET_TURN.equalsIgnoreCase(requestOriginFrom)) {
+
+                startActivity(new Intent(VerifyActivity.this, StreetTurnActivity.class));
+                finish(); /* This method will not display login page when click back (return) */
+
+            } else if(GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE.equalsIgnoreCase(requestOriginFrom)) {
+
+                startActivity(new Intent(VerifyActivity.this, InitiateInterchangeActivity.class));
+                finish(); /* This method will not display login page when click back (return) */
+            }
+
+            editor.putString(GlobalVariables.KEY_RETURN_FROM, GlobalVariables.RETURN_FROM_VERIFY_DETAILS);
+            editor.commit();
+
+        } else {
+            Intent intent = new Intent(VerifyActivity.this, NoInternetActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    // Mobile/Phone back key event
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            goToPreviousPage();
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }

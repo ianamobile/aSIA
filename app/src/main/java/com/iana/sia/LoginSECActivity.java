@@ -89,18 +89,7 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
         backToHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(role.equalsIgnoreCase(GlobalVariables.ROLE_MC)) {
-                    // Perform action on click
-                    startActivity(new Intent(LoginSECActivity.this, LoginMCActivity.class));
-
-                } else if(role.equalsIgnoreCase(GlobalVariables.ROLE_EP)) {
-                    // Perform action on click
-                    startActivity(new Intent(LoginSECActivity.this, LoginEPActivity.class));
-                }
-
-                finish();
-
+                goToPreviousPage();
             }
         });
 
@@ -313,6 +302,29 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
 
     @Override
     public void onAnimationRepeat(Animation animation) {
+    }
+
+    void goToPreviousPage() {
+        if(role.equalsIgnoreCase(GlobalVariables.ROLE_MC)) {
+            // Perform action on click
+            startActivity(new Intent(LoginSECActivity.this, LoginMCActivity.class));
+
+        } else if(role.equalsIgnoreCase(GlobalVariables.ROLE_EP)) {
+            // Perform action on click
+            startActivity(new Intent(LoginSECActivity.this, LoginEPActivity.class));
+        }
+
+        finish();
+    }
+
+    // Mobile/Phone back key event
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            goToPreviousPage();
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
 }

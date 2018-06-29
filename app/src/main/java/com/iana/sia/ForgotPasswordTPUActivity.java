@@ -1,6 +1,7 @@
 package com.iana.sia;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -61,8 +62,7 @@ public class ForgotPasswordTPUActivity extends AppCompatActivity implements Anim
         backToHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ForgotPasswordTPUActivity.this, LoginTPUActivity.class));
-                finish();
+                goToPreviousPage();
             }
         });
 
@@ -216,6 +216,20 @@ public class ForgotPasswordTPUActivity extends AppCompatActivity implements Anim
 
     @Override
     public void onAnimationRepeat(Animation animation) {
+    }
+
+    void goToPreviousPage() {
+        startActivity(new Intent(ForgotPasswordTPUActivity.this, LoginTPUActivity.class));
+        finish();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            goToPreviousPage();
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
 }

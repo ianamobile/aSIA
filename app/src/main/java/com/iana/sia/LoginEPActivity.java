@@ -50,6 +50,8 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
     Button loginBtn;
 
     SharedPreferences sharedPref;
+    SharedPreferences.Editor editor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,9 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
         slideLeft = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.set_in_left);
         slideLeft.setAnimationListener(this);
+
+        sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
 
         BottomNavigationView bnv = findViewById(R.id.navigation_login);
         bnv.setSelectedItemId(R.id.navigation_login_ep);
@@ -96,7 +101,6 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
         secondaryUserBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ROLE_EP);
                 editor.putString(GlobalVariables.KEY_MEM_TYPE, "");
                 editor.commit();
@@ -110,7 +114,6 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
         troubleSignOn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ROLE_EP);
                 editor.commit();
                 // Perform action on click
@@ -253,8 +256,6 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
                     SIASecurityObj siaSecurityObj = gson.fromJson(result, SIASecurityObj.class);
 
                     /* Code to store login information start */
-
-                    SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ROLE_EP);
                     SIAUtility.setObject(editor, GlobalVariables.KEY_SECURITY_OBJ, siaSecurityObj);
                     editor.commit();

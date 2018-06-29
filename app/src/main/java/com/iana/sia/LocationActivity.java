@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.location.Location;
 import android.os.AsyncTask;
+import android.provider.Settings;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,10 +35,12 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.iana.sia.model.IanaLocations;
+import com.iana.sia.model.InterchangeRequests;
 import com.iana.sia.utility.ApiResponse;
 import com.iana.sia.utility.GlobalVariables;
 import com.iana.sia.utility.Internet_Check;
 import com.iana.sia.utility.RestApiClient;
+import com.iana.sia.utility.SIAUtility;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -53,11 +56,15 @@ public class LocationActivity extends AppCompatActivity {
     int urlResponseCode;
 
     SharedPreferences sharedPref;
+    SharedPreferences.Editor editor;
+
     EditText searchLocation;
 
     Button backBtn;
 
     ProgressBar progressBar;
+
+    InterchangeRequests ir;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,13 +95,17 @@ public class LocationActivity extends AppCompatActivity {
         String tempEpScac = "";
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
+
+        ir = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, InterchangeRequests.class);
+
         if(sharedPref != null){
 
             if(sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE)) {
 
                 if(sharedPref.getString(GlobalVariables.KEY_SEARCH_FOR_LOCATION, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_ORIGINAL)) {
                     tempString = getString(R.string.api_get_original_location_list);
-                    tempEpScac = sharedPref.getString(GlobalVariables.KEY_EP_SCAC, "");
+                    tempEpScac = ir.getEpScacs();
 
                 } else {
                     tempString = getString(R.string.api_get_equipment_location_list);
@@ -110,12 +121,12 @@ public class LocationActivity extends AppCompatActivity {
 
             } else if(sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_STREET_TURN)){
                 tempString = getString(R.string.api_get_original_location_list);
-                tempEpScac = sharedPref.getString(GlobalVariables.KEY_EP_SCAC, "");
+                tempEpScac = ir.getEpScacs();
             }
         }
 
-        final String epScac = tempEpScac;
         final String tempRequestString = tempString;
+        final String epScac = tempEpScac;
 
         searchLocation = findViewById(R.id.searchLocation);
 
@@ -151,24 +162,11 @@ public class LocationActivity extends AppCompatActivity {
 
             if (Internet_Check.checkInternetConnection(getApplicationContext())) {
 
-                SharedPreferences sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(GlobalVariables.KEY_RETURN_FROM, GlobalVariables.RETURN_FROM_LOCATION_SEARCH);
-
-                editor.putString(GlobalVariables.KEY_LOCATION_NAME, "");
-                editor.putString(GlobalVariables.KEY_LOCATION_ADDRESS, "");
-                editor.putString(GlobalVariables.KEY_LOCATION_ZIP, "");
-                editor.putString(GlobalVariables.KEY_LOCATION_CITY, "");
-                editor.putString(GlobalVariables.KEY_LOCATION_STATE, "");
-                editor.putString(GlobalVariables.KEY_LOCATION_IANA_CODE, "");
-                editor.putString(GlobalVariables.KEY_LOCATION_SPLC_CODE, "");
-
                 editor.commit();
 
-                Intent intent = new Intent(LocationActivity.this, StreetTurnActivity.class);
-                startActivity(intent);
-                finish(); /* This method will not display login page when click back (return) from phone */
-                            /* End */
+                goToPreviousPage();
+
             } else {
                 Intent intent = new Intent(LocationActivity.this, NoInternetActivity.class);
                 startActivity(intent);
@@ -234,6 +232,7 @@ public class LocationActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
+            Log.v("log_tag", "LocationActivity: doInBackground: requestString:=>" + requestString);
             ApiResponse apiResponse = RestApiClient.callGetApi(getString(R.string.base_url) + requestString);
             urlResponse = apiResponse.getMessage();
             urlResponseCode = apiResponse.getCode();
@@ -245,8 +244,8 @@ public class LocationActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
 
             try {
-                Log.v("log_tag", "ListBadOrderActivity: urlResponseCode:=>" + urlResponseCode);
-                Log.v("log_tag", "ListBadOrderActivity: result:=> " + result);
+                Log.v("log_tag", "LocationActivity: urlResponseCode:=>" + urlResponseCode);
+                Log.v("log_tag", "LocationActivity: result:=> " + result);
                 Gson gson = new Gson();
 
                 if (urlResponseCode == 200) {
@@ -324,24 +323,36 @@ public class LocationActivity extends AppCompatActivity {
             v.setOnClickListener(new View.OnClickListener() {
                         @Override
                 public void onClick(View v) {
-                    SharedPreferences sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
 
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString(GlobalVariables.KEY_LOCATION_NAME, dataList.get(position).getLocName());
-                    editor.putString(GlobalVariables.KEY_LOCATION_ADDRESS, dataList.get(position).getAddr());
-                    editor.putString(GlobalVariables.KEY_LOCATION_ZIP, dataList.get(position).getZip());
-                    editor.putString(GlobalVariables.KEY_LOCATION_CITY, dataList.get(position).getCity());
-                    editor.putString(GlobalVariables.KEY_LOCATION_STATE, dataList.get(position).getState());
-                    editor.putString(GlobalVariables.KEY_LOCATION_IANA_CODE, dataList.get(position).getIanaCode());
-                    editor.putString(GlobalVariables.KEY_LOCATION_SPLC_CODE, dataList.get(position).getSplcCode());
-                    editor.putString(GlobalVariables.KEY_RETURN_FROM, GlobalVariables.RETURN_FROM_LOCATION_SEARCH);
+                    if(sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE)) {
+
+                        if(sharedPref.getString(GlobalVariables.KEY_SEARCH_FOR_LOCATION, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_ORIGINAL)) {
+                            setSelectedLocation(position, GlobalVariables.ORIGIN_FROM_ORIGINAL);
+
+                        } else {
+                            setSelectedLocation(position, "");
+                        }
+
+                        SIAUtility.setObject(editor, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, ir);
+
+                    }else if(sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl)) {
+
+                        if(sharedPref.getString(GlobalVariables.KEY_SEARCH_FOR_LOCATION, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_ORIGINAL)) {
+                            setSelectedLocation(position, GlobalVariables.ORIGIN_FROM_ORIGINAL);
+                        } else {
+                            setSelectedLocation(position, "");
+                        }
+
+//                        SIAUtility.setObject(editor, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, ir);
+
+                    } else if(sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_STREET_TURN)){
+                        setSelectedLocation(position, GlobalVariables.ORIGIN_FROM_ORIGINAL);
+                        SIAUtility.setObject(editor, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, ir);
+                    }
 
                     editor.commit();
 
-                    Intent intent = new Intent(LocationActivity.this, StreetTurnActivity.class);
-                    startActivity(intent);
-                    finish(); /* This method will not display login page when click back (return) from phone */
-                    /* End */
+                    goToPreviousPage();
 
                         }
             });
@@ -349,5 +360,61 @@ public class LocationActivity extends AppCompatActivity {
             return v;
         }
     } /* End */
+
+    void setSelectedLocation(int position, String equipOrOrigin){
+
+        if(null != equipOrOrigin && equipOrOrigin.equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_ORIGINAL)) {
+            ir.setOriginLocNm(dataList.get(position).getLocName());
+            ir.setOriginLocAddr(dataList.get(position).getAddr());
+            ir.setOriginLocZip(dataList.get(position).getZip());
+            ir.setOriginLocCity(dataList.get(position).getCity());
+            ir.setOriginLocState(dataList.get(position).getState());
+            ir.setOriginLocIanaCode(dataList.get(position).getIanaCode());
+            ir.setOriginLocSplcCode(dataList.get(position).getSplcCode());
+
+        } else {
+            ir.setEquipLocNm(dataList.get(position).getLocName());
+            ir.setEquipLocAddr(dataList.get(position).getAddr());
+            ir.setEquipLocZip(dataList.get(position).getZip());
+            ir.setEquipLocCity(dataList.get(position).getCity());
+            ir.setEquipLocState(dataList.get(position).getState());
+            ir.setEquipLocIanaCode(dataList.get(position).getIanaCode());
+            ir.setEquipLocSplcCode(dataList.get(position).getSplcCode());
+        }
+    }
+
+
+    void goToPreviousPage() {
+        if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+
+            if(sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE)) {
+                Intent intent = new Intent(LocationActivity.this, InitiateInterchangeActivity.class);
+                startActivity(intent);
+
+            }else if(sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl)) {
+                Intent intent = new Intent(LocationActivity.this, NotifAvailActivity.class);
+                startActivity(intent);
+
+            } else if(sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_STREET_TURN)){
+                Intent intent = new Intent(LocationActivity.this, StreetTurnActivity.class);
+                startActivity(intent);
+            }
+
+            finish(); /* This method will not display login page when click back (return) from phone */
+                    /* End */
+        } else {
+            Intent intent = new Intent(LocationActivity.this, NoInternetActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            goToPreviousPage();
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
 
 }

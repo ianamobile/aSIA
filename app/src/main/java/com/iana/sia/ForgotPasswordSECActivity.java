@@ -79,14 +79,7 @@ public class ForgotPasswordSECActivity extends AppCompatActivity implements Anim
         backToSECHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString(GlobalVariables.KEY_MEM_TYPE, memType);
-                editor.commit();
-
-                startActivity(new Intent(ForgotPasswordSECActivity.this, LoginSECActivity.class));
-                finish();
-
+                goToPreviousPage();
             }
         });
 
@@ -257,6 +250,24 @@ public class ForgotPasswordSECActivity extends AppCompatActivity implements Anim
 
     @Override
     public void onAnimationRepeat(Animation animation) {
+    }
+
+    void goToPreviousPage() {
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(GlobalVariables.KEY_MEM_TYPE, memType);
+        editor.commit();
+
+        startActivity(new Intent(ForgotPasswordSECActivity.this, LoginSECActivity.class));
+        finish();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            goToPreviousPage();
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
 }

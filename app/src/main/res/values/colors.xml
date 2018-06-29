@@ -23,6 +23,7 @@
     <color name="color_bg_dashboard">#F1F5F8</color>
 
     <color name="dark_gray">#A9A9A9</color>
+    <color name="darker_gray">#aaa</color>
 
     <color name="bg_color_search_location_list">#babebe</color>
 
@@ -33,5 +34,6 @@
     <color name="bg_color_rejected">#d9534f</color>
     <color name="bg_color_onhold">#d9534f</color>
     <color name="bg_color_cancelled">#d9534f</color>
+    <color name="bg_color_disabled">#aaa</color>
 
 </resources>

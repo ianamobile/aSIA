@@ -70,21 +70,11 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Animati
         }
 
 
-        backToHomeBtn = (Button) findViewById(R.id.backToHomeBtn);
+        backToHomeBtn = findViewById(R.id.backToHomeBtn);
         backToHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(role.equalsIgnoreCase(GlobalVariables.ROLE_MC)) {
-                    startActivity(new Intent(ForgotPasswordActivity.this, LoginMCActivity.class));
-
-                } else if(role.equalsIgnoreCase(GlobalVariables.ROLE_EP)) {
-                    startActivity(new Intent(ForgotPasswordActivity.this, LoginEPActivity.class));
-
-                }
-
-                finish();
-
+            goToPreviousPage();
             }
         });
 
@@ -248,6 +238,26 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Animati
 
     @Override
     public void onAnimationRepeat(Animation animation) {
+    }
+
+    void goToPreviousPage() {
+        if(role.equalsIgnoreCase(GlobalVariables.ROLE_MC)) {
+            startActivity(new Intent(ForgotPasswordActivity.this, LoginMCActivity.class));
+
+        } else if(role.equalsIgnoreCase(GlobalVariables.ROLE_EP)) {
+            startActivity(new Intent(ForgotPasswordActivity.this, LoginEPActivity.class));
+        }
+
+        finish();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            goToPreviousPage();
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
 }

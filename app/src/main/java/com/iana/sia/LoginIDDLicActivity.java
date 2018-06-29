@@ -53,23 +53,20 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
                 R.anim.set_in_left);
         slideLeft.setAnimationListener(this);
 
-        progressBar = (ProgressBar) findViewById(R.id.processingBar);
+        progressBar = findViewById(R.id.processingBar);
 
         // below code is used to restrict auto populate keypad
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        backToHomeBtn = (Button) findViewById(R.id.backToHomeBtn);
+        backToHomeBtn = findViewById(R.id.backToHomeBtn);
         backToHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Perform action on click
-                startActivity(new Intent(LoginIDDLicActivity.this, LoginIDDActivity.class));
-                finish();
-
+                goToPreviousPage();
             }
         });
 
-        loginBtn = (Button) findViewById(R.id.loginBtn);
+        loginBtn = findViewById(R.id.loginBtn);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +74,7 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
             }
         });
 
-        drvLicState = (EditText) findViewById(R.id.drvLicState);
+        drvLicState = findViewById(R.id.drvLicState);
         drvLicState.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -258,4 +255,20 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
     @Override
     public void onAnimationRepeat(Animation animation) {
     }
+
+    void goToPreviousPage() {
+        startActivity(new Intent(LoginIDDLicActivity.this, LoginIDDActivity.class));
+        finish();
+    }
+
+    // Mobile/Phone back key event
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            goToPreviousPage();
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

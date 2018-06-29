@@ -82,6 +82,8 @@ public class StreetTurnActivity extends AppCompatActivity {
 
     SIASecurityObj siaSecurityObj;
 
+    InterchangeRequests ir;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +93,12 @@ public class StreetTurnActivity extends AppCompatActivity {
         editor = sharedPref.edit();
 
         siaSecurityObj = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_SECURITY_OBJ, SIASecurityObj.class);
+
+        ir = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, InterchangeRequests.class);
+
+        if(ir == null) {
+            ir = new InterchangeRequests();
+        }
 
         mcScac = findViewById(R.id.mcScac);
         mcCompanyName = findViewById(R.id.mcCompanyName);
@@ -145,43 +153,22 @@ public class StreetTurnActivity extends AppCompatActivity {
         zipCode.setLongClickable(false);
 
 
-        if(sharedPref.getString(GlobalVariables.KEY_RETURN_FROM, "").equalsIgnoreCase(GlobalVariables.RETURN_FROM_LOCATION_SEARCH) ||
-            sharedPref.getString(GlobalVariables.KEY_RETURN_FROM, "").equalsIgnoreCase(GlobalVariables.RETURN_FROM_VERIFY_DETAILS)) {
-            locationName.setText(sharedPref.getString(GlobalVariables.KEY_LOCATION_NAME, ""));
-            locationAddress.setText(sharedPref.getString(GlobalVariables.KEY_LOCATION_ADDRESS, ""));
-            zipCode.setText(sharedPref.getString(GlobalVariables.KEY_LOCATION_ZIP, ""));
-            city.setText(sharedPref.getString(GlobalVariables.KEY_LOCATION_CITY, ""));
-            state.setText(sharedPref.getString(GlobalVariables.KEY_LOCATION_STATE, ""));
+        locationName.setText(ir.getOriginLocNm());
+        locationAddress.setText(ir.getOriginLocAddr());
+        zipCode.setText(ir.getOriginLocZip());
+        city.setText(ir.getOriginLocCity());
+        state.setText(ir.getOriginLocState());
 
-            epScac.setText(sharedPref.getString(GlobalVariables.KEY_EP_SCAC, ""));
-            epCompanyName.setText(sharedPref.getString(GlobalVariables.KEY_EP_COMPANY_NAME, ""));
+        epScac.setText(ir.getEpScacs());
+        epCompanyName.setText(ir.getEpCompanyName());
 
-            mcScac.setText(sharedPref.getString(GlobalVariables.KEY_EP_SCAC, ""));
-            mcCompanyName.setText(sharedPref.getString(GlobalVariables.KEY_EP_COMPANY_NAME, ""));
-            containerNumber.setText(sharedPref.getString(GlobalVariables.KEY_CONTAINER_NUMBER, ""));
-            exportBookingNumber.setText(sharedPref.getString(GlobalVariables.KEY_EXPORT_BOOKING_NUMBER, ""));
-            importBL.setText(sharedPref.getString(GlobalVariables.KEY_IMPORT_BL, ""));
-            iepScac.setText(sharedPref.getString(GlobalVariables.KEY_IEP_SCAC, ""));
-            chassisNumber.setText(sharedPref.getString(GlobalVariables.KEY_CHASSIS_ID, ""));
-
-        } else {
-            locationName.setText("");
-            locationAddress.setText("");
-            zipCode.setText("");
-            city.setText("");
-            state.setText("");
-
-            epScac.setText("");
-            epCompanyName.setText("");
-
-            mcScac.setText("");
-            mcCompanyName.setText("");
-            containerNumber.setText("");
-            exportBookingNumber.setText("");
-            importBL.setText("");
-            chassisNumber.setText("");
-            iepScac.setText("");
-        }
+        mcScac.setText(ir.getMcAScac());
+        mcCompanyName.setText(ir.getMcACompanyName());
+        containerNumber.setText(ir.getContNum());
+        exportBookingNumber.setText(ir.getBookingNum());
+        importBL.setText(ir.getImportBookingNum());
+        chassisNumber.setText(ir.getChassisNum());
+        iepScac.setText(ir.getIepScac());
 
         showActionBar();
         ((TextView) findViewById(R.id.title)).setText(R.string.title_street_turn_request);
@@ -203,18 +190,22 @@ public class StreetTurnActivity extends AppCompatActivity {
             if (Internet_Check.checkInternetConnection(getApplicationContext())) {
 
                 if (null != epScac.getText() && (epScac.getText().toString().length() >= 2 && epScac.getText().toString().length() <= 4)) {
+
+                    ir.setEpScacs(epScac.getText().toString());
+                    ir.setEpCompanyName(epCompanyName.getText().toString());
+                    ir.setMcAScac(mcScac.getText().toString());
+                    ir.setMcACompanyName(mcCompanyName.getText().toString());
+                    ir.setContNum(containerNumber.getText().toString());
+                    ir.setBookingNum(exportBookingNumber.getText().toString());
+                    ir.setImportBookingNum(importBL.getText().toString());
+                    ir.setChassisNum(chassisNumber.getText().toString());
+                    ir.setIepScac(iepScac.getText().toString());
+
+                    Log.v("log_tag", "ir before StreerTurn search for Location:"+ir);
+
+                    SIAUtility.setObject(editor, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, ir);
+
                     editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ORIGIN_FROM_STREET_TURN);
-                    editor.putString(GlobalVariables.KEY_EP_SCAC, epScac.getText().toString());
-                    editor.putString(GlobalVariables.KEY_EP_COMPANY_NAME, epCompanyName.getText().toString());
-
-                    editor.putString(GlobalVariables.KEY_MC_SCAC, mcScac.getText().toString());
-                    editor.putString(GlobalVariables.KEY_MC_COMPANY_NAME, mcCompanyName.getText().toString());
-
-                    editor.putString(GlobalVariables.KEY_CONTAINER_NUMBER, containerNumber.getText().toString());
-                    editor.putString(GlobalVariables.KEY_EXPORT_BOOKING_NUMBER, exportBookingNumber.getText().toString());
-                    editor.putString(GlobalVariables.KEY_IMPORT_BL, importBL.getText().toString());
-                    editor.putString(GlobalVariables.KEY_CHASSIS_ID, chassisNumber.getText().toString());
-                    editor.putString(GlobalVariables.KEY_IEP_SCAC, iepScac.getText().toString());
 
                     editor.commit();
 
@@ -239,16 +230,7 @@ public class StreetTurnActivity extends AppCompatActivity {
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-            if (Internet_Check.checkInternetConnection(getApplicationContext())) {
-                Intent intent = new Intent(StreetTurnActivity.this, DashboardActivity.class);
-                startActivity(intent);
-                finish(); /* This method will not display login page when click back (return) from phone */
-                            /* End */
-            } else {
-                Intent intent = new Intent(StreetTurnActivity.this, NoInternetActivity.class);
-                startActivity(intent);
-            }
+            goToPreviousPage();
             }
         });
 
@@ -365,10 +347,7 @@ public class StreetTurnActivity extends AppCompatActivity {
                             }
                             break;
                         case R.id.navigation_cancel:
-                            editor.remove(GlobalVariables.KEY_RETURN_FROM);
-                            editor.commit();
-                            startActivity(new Intent(StreetTurnActivity.this, DashboardActivity.class));
-                            finish(); /* This method will not display login page when click back (return) from phone */
+                            goToPreviousPage();
                             break;
                     }
 
@@ -419,8 +398,12 @@ public class StreetTurnActivity extends AppCompatActivity {
 
         ir.setIrRequestType(GlobalVariables.IR_REQUEST_TYPE_ST);
         ir.setEpScacs(epScac.getText().toString());
+        ir.setEpCompanyName(epCompanyName.getText().toString());
+        ir.setMcAScac(mcScac.getText().toString());
+        ir.setMcACompanyName(mcCompanyName.getText().toString());
         ir.setContNum(containerNumber.getText().toString());
         ir.setChassisNum(chassisNumber.getText().toString());
+        ir.setIepScac(iepScac.getText().toString());
         ir.setBookingNum(exportBookingNumber.getText().toString());
         ir.setImportBookingNum(importBL.getText().toString());
         ir.setOriginLocNm(locationName.getText().toString());
@@ -774,6 +757,7 @@ public class StreetTurnActivity extends AppCompatActivity {
                     if(iepScac.getText() == null || iepScac.getText().toString().trim().length() <= 0 ||
                         null == chassisNumber.getText() || chassisNumber.getText().toString().trim().length() <= 0) {
                         iepScac.setText(GlobalVariables.DEFUALT_CHASSIS_NUM);
+                        ir.setIepScac(GlobalVariables.DEFUALT_CHASSIS_NUM);
                     }
 
                     int[] streetTurnCategories = new int[]{9, 5};
@@ -831,7 +815,7 @@ public class StreetTurnActivity extends AppCompatActivity {
                     editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ORIGIN_FROM_STREET_TURN);
 
                     SIAUtility.setList(editor, "fieldInfoList", fieldInfoList);
-                    SIAUtility.setObject(editor, "interchangeRequestObject", getInterchangeRequests());
+                    SIAUtility.setObject(editor, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, getInterchangeRequests());
 
                     editor.commit();
 
@@ -855,6 +839,33 @@ public class StreetTurnActivity extends AppCompatActivity {
 
         }
 
+    }
+
+
+    void goToPreviousPage() {
+        if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+
+            editor.remove(GlobalVariables.KEY_RETURN_FROM);
+            editor.commit();
+
+            Intent intent = new Intent(StreetTurnActivity.this, DashboardActivity.class);
+            startActivity(intent);
+            finish(); /* This method will not display login page when click back (return) from phone */
+                            /* End */
+        } else {
+            Intent intent = new Intent(StreetTurnActivity.this, NoInternetActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    // Mobile/Phone back key event
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            goToPreviousPage();
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
 }

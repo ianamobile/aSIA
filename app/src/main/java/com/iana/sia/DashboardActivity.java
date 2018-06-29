@@ -30,7 +30,9 @@ import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 
 import com.google.gson.Gson;
+import com.iana.sia.model.InterchangeRequests;
 import com.iana.sia.model.InterchangeRequestsSearch;
+import com.iana.sia.model.Permissions;
 import com.iana.sia.model.SIASecurityObj;
 import com.iana.sia.model.User;
 import com.iana.sia.utility.GlobalVariables;
@@ -92,12 +94,112 @@ public class DashboardActivity extends AppCompatActivity {
             for(int i=0;i<finalArr.length;i++){
                 finalArr[i] = mcMenuArr[i];
             }
+
+        } else if(siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_SEC) &&
+                 null != siaSecurityObj.getMemType() && siaSecurityObj.getMemType().equalsIgnoreCase(GlobalVariables.ROLE_MC)) {
+
+            Permissions permissions = siaSecurityObj.getPermissions();
+            if((null == permissions.getIniIntrchng() || !permissions.getIniIntrchng().equalsIgnoreCase(GlobalVariables.Y)) &&
+                (null == permissions.getIniIntrchngAndApprove() || !permissions.getIniIntrchngAndApprove().equalsIgnoreCase(GlobalVariables.Y))) {
+
+                    finalArr = new int[mcSecDefaultRightsMenuArr.length];
+                    for (int i = 0; i < finalArr.length; i++) {
+                        finalArr[i] = mcSecDefaultRightsMenuArr[i];
+                    }
+
+            } else if(null != permissions.getIniIntrchng() && permissions.getIniIntrchng().equalsIgnoreCase(GlobalVariables.Y) &&
+                    (null == permissions.getIniIntrchngAndApprove() || !permissions.getIniIntrchngAndApprove().equalsIgnoreCase(GlobalVariables.Y))) {
+
+                    finalArr = new int[mcSecSingleRightsMenuArr.length];
+                    for (int i = 0; i < finalArr.length; i++) {
+                        finalArr[i] = mcSecSingleRightsMenuArr[i];
+                    }
+
+            } else {
+
+                    finalArr = new int[mcSecFullRightsMenuArr.length];
+                    for (int i = 0; i < finalArr.length; i++) {
+                        finalArr[i] = mcSecFullRightsMenuArr[i];
+                    }
+            }
+
+
         } else if(siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_EP)) {
             finalArr = new int[epMenuArr.length];
             for(int i=0;i<finalArr.length;i++){
                 finalArr[i] = epMenuArr[i];
             }
+
+        }  else if(siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_SEC) &&
+                null != siaSecurityObj.getMemType() && siaSecurityObj.getMemType().equalsIgnoreCase(GlobalVariables.ROLE_EP)) {
+
+            Permissions permissions = siaSecurityObj.getPermissions();
+            if((null == permissions.getIniIntrchng() || !permissions.getIniIntrchng().equalsIgnoreCase(GlobalVariables.Y)) &&
+                    (null == permissions.getIniIntrchngAndApprove() || !permissions.getIniIntrchngAndApprove().equalsIgnoreCase(GlobalVariables.Y))) {
+
+                finalArr = new int[epSecDefaultRightsMenuArr.length];
+                for (int i = 0; i < finalArr.length; i++) {
+                    finalArr[i] = epSecDefaultRightsMenuArr[i];
+                }
+
+            } else if(null != permissions.getIniIntrchng() && permissions.getIniIntrchng().equalsIgnoreCase(GlobalVariables.Y) &&
+                    (null == permissions.getIniIntrchngAndApprove() || !permissions.getIniIntrchngAndApprove().equalsIgnoreCase(GlobalVariables.Y))) {
+
+                finalArr = new int[epSecSingleRightsMenuArr.length];
+                for (int i = 0; i < finalArr.length; i++) {
+                    finalArr[i] = epSecSingleRightsMenuArr[i];
+                }
+
+            } else {
+
+                finalArr = new int[epSecFullRightsMenuArr.length];
+                for (int i = 0; i < finalArr.length; i++) {
+                    finalArr[i] = epSecFullRightsMenuArr[i];
+                }
+            }
+
+        } else if(siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_IDD)) {
+            finalArr = new int[iddMenuArr.length];
+            for(int i=0;i<finalArr.length;i++){
+                finalArr[i] = iddMenuArr[i];
+            }
+
+        } else if(siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_TPU)) {
+
+            Permissions permissions = siaSecurityObj.getPermissions();
+            if(null == permissions || ((null == permissions.getIniIntrchng() || !permissions.getIniIntrchng().equalsIgnoreCase(GlobalVariables.Y)) &&
+                    (null == permissions.getIniIntrchngAndApprove() || !permissions.getIniIntrchngAndApprove().equalsIgnoreCase(GlobalVariables.Y)))) {
+
+                finalArr = new int[tpuDefaultRightsMenuArr.length];
+                for (int i = 0; i < finalArr.length; i++) {
+                    finalArr[i] = tpuDefaultRightsMenuArr[i];
+                }
+
+            } else if(null != permissions.getIniIntrchng() && permissions.getIniIntrchng().equalsIgnoreCase(GlobalVariables.Y) &&
+                    (null == permissions.getIniIntrchngAndApprove() || !permissions.getIniIntrchngAndApprove().equalsIgnoreCase(GlobalVariables.Y))) {
+
+                finalArr = new int[tpuSingleRightsMenuArr.length];
+                for (int i = 0; i < finalArr.length; i++) {
+                    finalArr[i] = tpuSingleRightsMenuArr[i];
+                }
+
+            } else {
+
+                finalArr = new int[tpuFullRightsMenuArr.length];
+                for (int i = 0; i < finalArr.length; i++) {
+                    finalArr[i] = tpuFullRightsMenuArr[i];
+                }
+            }
+
         }
+
+        editor.remove(GlobalVariables.KEY_ORIGIN_FROM);
+        editor.remove(GlobalVariables.KEY_RETURN_FROM); // used when return from location search screen
+        editor.remove(GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ);
+        editor.remove(GlobalVariables.KEY_INTERCHANGE_REQUESTS_SEARCH_OBJ);
+        editor.remove(GlobalVariables.KEY_SEARCH_FOR_LOCATION);
+
+        editor.commit();
 
         setupDashboard(finalArr);
     }
@@ -126,14 +228,18 @@ public class DashboardActivity extends AppCompatActivity {
         subLinearLayout.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL);
 
         int originalCount = finalArr.length;
-        int count = (finalArr.length % 2 == 0) ? finalArr.length : (finalArr.length + 1);
+//        Log.d("myTag", "DashboardActivity finalArr.length % 2:============================>"+(finalArr.length % 2));
+        int count = (finalArr.length % 2 == 0 ) ? finalArr.length : (finalArr.length + 1);
         int marginBetweenCardView = 5;
         int marginTopBottomCardView = 10;
 
+//        Log.d("myTag", "DashboardActivity count:============================>"+count);
+//        Log.d("myTag", "DashboardActivity originalCount:============================>"+originalCount);
         for(int i = 0; i < count; i++) {
 
 //            Log.d("myTag", "DashboardActivity finalArr["+i+"]:============================>"+finalArr[i]);
-            if(i > 1 && i%2 == 0) {
+            if((i > 1 && i%2 == 0) || (originalCount == 1 && i == 1)) {
+//                Log.d("myTag", "DashboardActivity (i > 1 && i%2 == 0) || (originalCount == 1 && i == 1):============================>"+i);
                 mainLayout.addView(subLinearLayout);
                 subLinearLayout = new LinearLayout(this);
                 subLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -142,7 +248,8 @@ public class DashboardActivity extends AppCompatActivity {
             }
 
             // code is when original count is ODD Number
-            if(i > 1 && originalCount % 2 == 1 && count == (i+1)) {
+            if((i > 1 && originalCount % 2 == 1 && count == (i+1))  || (originalCount == 1 && i == 1)) {
+//                Log.d("myTag", "DashboardActivity (i > 1 && originalCount % 2 == 1 && count == (i+1))  || (originalCount == 1 && i == 1):============================>"+i);
                 LinearLayout lastColumnLinearLayout = new LinearLayout(this);
                 lastColumnLinearLayout.setOrientation(LinearLayout.VERTICAL);
                 LayoutParams lastColumnLinearLayoutParams = new LayoutParams(0, 280, 1.0f);
@@ -183,10 +290,6 @@ public class DashboardActivity extends AppCompatActivity {
                         } else if (null != GlobalVariables.menuTitleArr[v.getId()] &&
                                 GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_INITIATE_ST)) {
 
-                            SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.remove(GlobalVariables.KEY_RETURN_FROM);
-                            editor.commit();
-
                             Intent intent = new Intent(DashboardActivity.this, StreetTurnActivity.class);
                             startActivity(intent);
                             finish(); /* This method will not display login page when click back (return) from phone */
@@ -195,24 +298,33 @@ public class DashboardActivity extends AppCompatActivity {
                         } else if (null != GlobalVariables.menuTitleArr[v.getId()] &&
                                 GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_INITIATE_SI)) {
 
-                            SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.remove(GlobalVariables.KEY_RETURN_FROM);
-                            editor.commit();
-
                             Intent intent = new Intent(DashboardActivity.this, InitiateInterchangeActivity.class);
                             startActivity(intent);
                             finish(); /* This method will not display login page when click back (return) from phone */
                                 /* End */
 
                         } else if (null != GlobalVariables.menuTitleArr[v.getId()] &&
-                                GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_SEARCH_INTERCHANGE_REQUESTS)) {
-
-                            SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.remove(GlobalVariables.KEY_RETURN_FROM);
-                            editor.remove(GlobalVariables.KEY_INTERCHANGE_REQUESTS_SEARCH);
-                            editor.commit();
+                                ( GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_SEARCH_INTERCHANGE_REQUESTS) ||
+                                  GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_SEARCH_INTERCHANGE_REQUESTS_BY_TPU))
+                                ){
 
                             Intent intent = new Intent(DashboardActivity.this, SearchInterchangeRequestActivity.class);
+                            startActivity(intent);
+                            finish(); /* This method will not display login page when click back (return) from phone */
+                                /* End */
+
+                        } else if (null != GlobalVariables.menuTitleArr[v.getId()] &&
+                                GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_LIST_EP_USERS)) {
+
+                            Intent intent = new Intent(DashboardActivity.this, EPListByTPUActivity.class);
+                            startActivity(intent);
+                            finish(); /* This method will not display login page when click back (return) from phone */
+                                /* End */
+
+                        } else if (null != GlobalVariables.menuTitleArr[v.getId()] &&
+                                GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_SEARCH_INTERCHANGE_REQUESTS_BY_TPU)) {
+
+                            Intent intent = new Intent(DashboardActivity.this, EPListByTPUActivity.class);
                             startActivity(intent);
                             finish(); /* This method will not display login page when click back (return) from phone */
                                 /* End */
@@ -293,11 +405,13 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void callLogout() {
-        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove(GlobalVariables.KEY_ORIGIN_FROM);
+        editor.remove(GlobalVariables.KEY_RETURN_FROM); // used when return from location search screen
+        editor.remove(GlobalVariables.KEY_SECURITY_OBJ);
+        editor.remove(GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ);
+        editor.remove(GlobalVariables.KEY_INTERCHANGE_REQUESTS_SEARCH_OBJ);
+        editor.remove(GlobalVariables.KEY_SEARCH_FOR_LOCATION);
 
-        editor.putString(GlobalVariables.KEY_ORIGIN_FROM, "");
-        editor.putString(GlobalVariables.KEY_RETURN_FROM, ""); // used when return from location search screen
-        editor.putString(GlobalVariables.KEY_SECURITY_OBJ, "");
         editor.clear();
         editor.commit(); // commit changes
 
