@@ -280,6 +280,7 @@ public class ListNotifAvailActivity extends AppCompatActivity {
 
                     editor.putString(GlobalVariables.KEY_BASE_ORIGIN_FROM, GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl);
                     InterchangeRequests ir = new InterchangeRequests();
+                    ir.setNaId(dataList.get(position).getNaId());
                     ir.setEpCompanyName(dataList.get(position).getEpCompanyName());
                     ir.setEpScacs(dataList.get(position).getEpScac());
                     ir.setMcACompanyName(dataList.get(position).getMcCompanyName());

@@ -157,7 +157,7 @@ public class ForgotUsernameTPUActivity extends AppCompatActivity implements Anim
         @Override
         protected String doInBackground(String... params) {
 
-            ApiResponse apiResponse = RestApiClient.callPostApi(requestString, getString(R.string.base_url) +getString(R.string.api_forgot_password));
+            ApiResponse apiResponse = RestApiClient.callPostApi(requestString, getString(R.string.base_url) +getString(R.string.api_forgot_username));
 
             urlResponse = apiResponse.getMessage();
             urlResponseCode = apiResponse.getCode();
@@ -177,6 +177,7 @@ public class ForgotUsernameTPUActivity extends AppCompatActivity implements Anim
 
                 if (urlResponseCode == 200) {
 
+                    email.setText("");
                     ApiResponseMessage successMessage = gson.fromJson(result, ApiResponseMessage.class);
                     new ViewDialog().showDialog(ForgotUsernameTPUActivity.this, dialogTitle, successMessage.getMessage());
 

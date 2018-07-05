@@ -42,8 +42,6 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
 
     Animation slideLeft;
 
-    SharedPreferences sharedPref;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,6 +157,9 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
 
         } else if(!SIAUtility.isAlpha(drvLicState)) {
             return getString(R.string.msg_error_char_drvLicState);
+
+        } else if(drvLicState.length() != 2) {
+            return getString(R.string.msg_error_length_drvLicState);
         }
 
         return "";
@@ -205,7 +206,7 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
                     SIASecurityObj siaSecurityObj = gson.fromJson(result, SIASecurityObj.class);
 
                     /* Code to store login information start */
-
+                    SharedPreferences sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ORIGIN_FROM_DRVLIC_STATE_SCAC);
                     SIAUtility.setObject(editor, GlobalVariables.KEY_SECURITY_OBJ, siaSecurityObj);

@@ -199,6 +199,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Animati
 
                 if (urlResponseCode == 200) {
 
+                    scac.setText("");
                     ApiResponseMessage successMessage = gson.fromJson(result, ApiResponseMessage.class);
                     new ViewDialog().showDialog(ForgotPasswordActivity.this, dialogTitle, successMessage.getMessage());
 

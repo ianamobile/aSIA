@@ -1093,6 +1093,54 @@
                     />
             </LinearLayout>
 
+            <!-- NOTE start -->
+            <LinearLayout
+                android:id="@+id/noteLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/stateLayout"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                >
+
+                <TextView
+                    android:id="@+id/noteLbl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="NOTE"
+                    android:textColor="@color/appThemeColor"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:theme="@style/AppTheme"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center_horizontal|center_vertical"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/noteValueLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:gravity="left|top"
+                >
+                    <TextView
+                        android:id="@+id/note"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/note_chassis_number"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="left|top"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
 
         </RelativeLayout>
 

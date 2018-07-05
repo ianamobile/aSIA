@@ -211,6 +211,8 @@ public class ForgotPasswordSECActivity extends AppCompatActivity implements Anim
 
                 if (urlResponseCode == 200) {
 
+                    ((EditText) findViewById(R.id.scac)).setText("");
+                    userName.setText("");
                     ApiResponseMessage successMessage = gson.fromJson(result, ApiResponseMessage.class);
                     new ViewDialog().showDialog(ForgotPasswordSECActivity.this, dialogTitle, successMessage.getMessage());
 

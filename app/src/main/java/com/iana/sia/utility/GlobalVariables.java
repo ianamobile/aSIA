@@ -125,4 +125,8 @@ public class GlobalVariables {
 
     public static final String KEY_BASE_ORIGIN_FROM = "baseOriginFrom";
 
+    public static final String INITIATOR_MCB = "MCB";
+    public static final String INITIATOR_MCA = "MCA";
+    public static final String INITIATOR_EP = "EP";
+
 }

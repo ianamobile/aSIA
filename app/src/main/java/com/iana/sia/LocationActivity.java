@@ -37,6 +37,7 @@ import com.google.gson.reflect.TypeToken;
 import com.iana.sia.model.IanaLocations;
 import com.iana.sia.model.InterchangeRequests;
 import com.iana.sia.utility.ApiResponse;
+import com.iana.sia.utility.ApiResponseMessage;
 import com.iana.sia.utility.GlobalVariables;
 import com.iana.sia.utility.Internet_Check;
 import com.iana.sia.utility.RestApiClient;
@@ -257,7 +258,8 @@ public class LocationActivity extends AppCompatActivity {
 
                 } else {
                     try {
-                        new ViewDialog().showDialog(LocationActivity.this, getString(R.string.dialog_title_location_search), getString(R.string.msg_error_no_records_found));
+                        ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+                        new ViewDialog().showDialog(LocationActivity.this, getString(R.string.dialog_title_location_search), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
 
                     } catch(Exception e) {
                         new ViewDialog().showDialog(LocationActivity.this, getString(R.string.dialog_title_location_search), getString(R.string.msg_error_try_after_some_time));

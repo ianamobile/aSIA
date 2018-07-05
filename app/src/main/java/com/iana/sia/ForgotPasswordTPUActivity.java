@@ -177,6 +177,7 @@ public class ForgotPasswordTPUActivity extends AppCompatActivity implements Anim
 
                 if (urlResponseCode == 200) {
 
+                    userName.setText("");
                     ApiResponseMessage successMessage = gson.fromJson(result, ApiResponseMessage.class);
                     new ViewDialog().showDialog(ForgotPasswordTPUActivity.this, dialogTitle, successMessage.getMessage());
 

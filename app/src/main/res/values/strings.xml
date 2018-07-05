@@ -9,8 +9,9 @@
 
     <string name="api_sia_login">siaLogin</string>
     <string name="api_forgot_password">forgotPassword</string>
-    <string name="api_get_equipment_location_list">getEquipmentLocationList</string>
-    <string name="api_get_original_location_list">getOriginLocationList</string>
+    <string name="api_forgot_username">forgotUserName</string>
+    <string name="api_get_equipment_location_list">getLocationList</string>
+    <string name="api_get_original_location_list">getLocationList</string>
     <string name="api_get_companyname_and_scac_by_companyname">getCompanyNameAndSCACByCompanyName</string>
     <string name="api_get_iep_scac_by_chassis_id">getIEPScacByChassisId</string>
     <string name="api_validate_initiate_interchange_details">validateInitiateInterchangeDetails</string>
@@ -30,6 +31,8 @@
     <string name="default_offset">1</string>
 
     <string name="date_format">MM/dd/yyyy</string>
+
+    <string name="note_chassis_number">In case of blank chassis number, system will populate ZZZZ999999 to identify MC Provided Chassis.</string>
 
     <!-- Dialog title starts -->
     <string name="dialog_title_mc_login">MC LOGIN</string>
@@ -246,6 +249,7 @@
 
     <string name="msg_error_alphanum_drvLicNo">Driver license number should be Alpha-Numeric only.</string>
     <string name="msg_error_char_drvLicState">Driver license state should be characters only.</string>
+    <string name="msg_error_length_drvLicState">Driver license state length should be 2 characters.</string>
 
     <string name="msg_error_mc_ep_login">Please enter scac &amp; password.</string>
     <string name="msg_error_no_records_found">No Records Found.</string>

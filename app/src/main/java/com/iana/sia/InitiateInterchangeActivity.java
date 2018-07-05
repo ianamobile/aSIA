@@ -357,6 +357,9 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                         ((AutoCompleteTextView) findViewById(R.id.epCompanyName)).setText(selectedLocationArray[1]);
                         ((EditText) findViewById(R.id.epScac)).setText(selectedLocationArray[0]);
 
+                        ir.setEpCompanyName(selectedLocationArray[1]);
+                        ir.setEpScacs(selectedLocationArray[0]);
+
                         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
@@ -385,6 +388,9 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
+                        ir.setMcACompanyName(selectedLocationArray[1]);
+                        ir.setMcAScac(selectedLocationArray[0]);
+
                         findViewById(R.id.mcBCompanyName).requestFocus();
 
                     } else {
@@ -407,6 +413,9 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
                     ((AutoCompleteTextView) findViewById(R.id.mcBCompanyName)).setText(selectedLocationArray[1]);
                     ((EditText) findViewById(R.id.mcBScac)).setText(selectedLocationArray[0]);
+
+                    ir.setMcBCompanyName(selectedLocationArray[1]);
+                    ir.setMcBScac(selectedLocationArray[0]);
 
                     InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
@@ -1663,12 +1672,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                         setupList.add(form.getValue());
                         dropDownMap.put(form.getValue(), cnt++);
                     }
-                    Log.v("log_tag", "<=======================after API setupPage result=======================> ");
-                    Log.v("log_tag", "ir.getContType():=> " + ir.getContType());
-                    Log.v("log_tag", "dropDownMap:=> " + dropDownMap);
-                    Log.v("log_tag", "dropDownMap.get(ir.getContType()):=> " + dropDownMap.get(ir.getContType()));
-                    Log.v("log_tag", "setupList after API setupPage result:=> " + setupList);
-                    Log.v("log_tag", "<==============================================> ");
+
                     containerTypeAdapter = new ContainerTypeAdapter(context, setupList.toArray(new String[0]));
                     containerTypeSpinner.setAdapter(containerTypeAdapter);
                     if(null != ir && null != ir.getContType() && ir.getContType().trim().length() > 0) {

@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.iana.sia.model.FieldInfo;
 import com.iana.sia.model.InterchangeRequests;
+import com.iana.sia.model.SIASecurityObj;
 import com.iana.sia.utility.ApiResponse;
 import com.iana.sia.utility.ApiResponseMessage;
 import com.iana.sia.utility.GlobalVariables;
@@ -47,6 +48,8 @@ public class VerifyActivity extends AppCompatActivity {
     String urlResponse;
     int urlResponseCode;
 
+    SIASecurityObj siaSecurityObj;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +62,8 @@ public class VerifyActivity extends AppCompatActivity {
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
         editor = sharedPref.edit();
+
+        siaSecurityObj = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_SECURITY_OBJ, SIASecurityObj.class);
 
         // below code is used to restrict auto populate keypad
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -231,6 +236,15 @@ public class VerifyActivity extends AppCompatActivity {
 
                     } else if (GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE.equalsIgnoreCase(requestOriginFrom)) {
                         editor.putString(GlobalVariables.SUCCESS, getString(R.string.success_msg_street_interchange));
+                        InterchangeRequests ir = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, InterchangeRequests.class);
+                        if(GlobalVariables.INITIATOR_MCA.equalsIgnoreCase(findInitiater(siaSecurityObj.getScac(), ir, siaSecurityObj.getRoleName(), siaSecurityObj.getMemType()))) {
+                            editor.putString("isStreetInterchangeInitiatedByMCA", "true");
+
+                        } else {
+                            editor.putString("isStreetInterchangeInitiatedByMCA", "false");
+
+                        }
+
                     }
 
                     editor.commit();
@@ -296,4 +310,24 @@ public class VerifyActivity extends AppCompatActivity {
 
         return super.onKeyDown(keyCode, event);
     }
+
+    private String findInitiater(String scac, InterchangeRequests ir, String roleName, String memType) {
+
+        if((GlobalVariables.ROLE_MC.equalsIgnoreCase(roleName) || (GlobalVariables.ROLE_SEC.equalsIgnoreCase(roleName)
+                && GlobalVariables.ROLE_MC.equalsIgnoreCase(memType)) || GlobalVariables.ROLE_IDD.equalsIgnoreCase(roleName))
+                && scac.equalsIgnoreCase(ir.getMcBScac())){
+            return GlobalVariables.INITIATOR_MCB;
+
+        }else if(GlobalVariables.ROLE_EP.equalsIgnoreCase(roleName) || (GlobalVariables.ROLE_SEC.equalsIgnoreCase(roleName)
+                && GlobalVariables.ROLE_EP.equalsIgnoreCase(memType)) || GlobalVariables.ROLE_TPU.equalsIgnoreCase(roleName)){
+            return GlobalVariables.INITIATOR_EP;
+
+        }else if(GlobalVariables.ROLE_MC.equalsIgnoreCase(roleName) || (GlobalVariables.ROLE_SEC.equalsIgnoreCase(roleName)
+                && GlobalVariables.ROLE_MC.equalsIgnoreCase(memType)) || GlobalVariables.ROLE_IDD.equalsIgnoreCase(roleName)){
+            return GlobalVariables.INITIATOR_MCA;
+
+        }
+        return "";
+    }
+
 }
