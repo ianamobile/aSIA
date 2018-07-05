@@ -11,14 +11,11 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.BaseAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -26,31 +23,25 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.iana.sia.model.InterchangeRequests;
 import com.iana.sia.model.InterchangeRequestsSearch;
+import com.iana.sia.model.NotifAvailSearch;
 import com.iana.sia.model.SIASecurityObj;
-import com.iana.sia.model.User;
 import com.iana.sia.utility.GlobalVariables;
 import com.iana.sia.utility.Internet_Check;
 import com.iana.sia.utility.SIAUtility;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class SearchInterchangeRequestActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class SearchNotifAvailActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     EditText    containerNumber;
-    EditText    exportBookingNumber;
+    EditText    mcScac;
+    EditText    epScac;
     EditText    fromDate;
     EditText    toDate;
-    Spinner     status;
-    EditText    scac;
-
-    StatusAdapter statusAdapter;
 
     ProgressBar progressBar;
 
@@ -61,16 +52,19 @@ public class SearchInterchangeRequestActivity extends AppCompatActivity implemen
 
     DatePickerFragment fragment;
 
-    String[] statusArray;
     SIASecurityObj siaSecurityObj;
+
+    String dialogTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_interchange_request);
+        setContentView(R.layout.activity_search_notif_avail);
+
+        dialogTitle = getString(R.string.dialog_title_request_pool_search);
 
         showActionBar();
-        ((TextView) findViewById(R.id.title)).setText(R.string.title_search_interchange_request);
+        ((TextView) findViewById(R.id.title)).setText(R.string.title_request_pool_search);
 
         progressBar = findViewById(R.id.processingBar);
 
@@ -79,48 +73,21 @@ public class SearchInterchangeRequestActivity extends AppCompatActivity implemen
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
         editor = sharedPref.edit();
-        InterchangeRequestsSearch irSearch = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_INTERCHANGE_REQUESTS_SEARCH_OBJ, InterchangeRequestsSearch.class);
+        NotifAvailSearch naSearch = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_NOTIF_AVAIL_SEARCH_OBJ, NotifAvailSearch.class);
         siaSecurityObj = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_SECURITY_OBJ, SIASecurityObj.class);
 
         containerNumber = findViewById(R.id.containerNumber);
-        exportBookingNumber = findViewById(R.id.exportBookingNumber);
+        mcScac = findViewById(R.id.mcScac);
+        epScac = findViewById(R.id.epScac);
         fromDate = findViewById(R.id.fromDate);
         toDate = findViewById(R.id.toDate);
 
-        status = findViewById(R.id.status);
-        statusArray = getResources().getStringArray(R.array.status);
-        statusAdapter = new StatusAdapter(this, statusArray);
-        status.setAdapter(statusAdapter);
-
-        scac = findViewById(R.id.scac);
-        if(siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_MC) ||
-                siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_IDD) ||
-                (siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_SEC) && null != siaSecurityObj.getMemType() &&
-                        siaSecurityObj.getMemType().equalsIgnoreCase(GlobalVariables.ROLE_MC))) {
-
-            ((TextView)findViewById(R.id.scacLbl)).setText(getString(R.string.lbl_container_provider_scac));
-        }
-
-        if(null != irSearch) {
-            if(irSearch.getContNum() != null) {
-               containerNumber.setText(irSearch.getContNum());
-            }
-            if(irSearch.getBookingNum() != null) {
-                exportBookingNumber.setText(irSearch.getBookingNum());
-            }
-            if(irSearch.getFromDate() != null) {
-                fromDate.setText(irSearch.getFromDate());
-            }
-            if(irSearch.getToDate() != null) {
-                toDate.setText(irSearch.getToDate());
-            }
-            if(irSearch.getStatus() != null) {
-                int position = Arrays.asList(statusArray).indexOf(irSearch.getStatus());
-                status.setSelection(position);
-            }
-            if(irSearch.getScac() != null) {
-                scac.setText(irSearch.getScac());
-            }
+        if(null != naSearch) {
+            containerNumber.setText(null != naSearch.getContainerNumber() ? naSearch.getContainerNumber() : "");
+            mcScac.setText(null != naSearch.getMcScac() ? naSearch.getMcScac() : "");
+            epScac.setText(null != naSearch.getEpScac() ? naSearch.getEpScac() : "");
+            fromDate.setText(null != naSearch.getFromDate() ? naSearch.getFromDate() : "");
+            toDate.setText(null != naSearch.getToDate() ? naSearch.getToDate() : "");
         }
 
         BottomNavigationView bnv = findViewById(R.id.navigation_search_cancel);
@@ -131,33 +98,29 @@ public class SearchInterchangeRequestActivity extends AppCompatActivity implemen
                 if (Internet_Check.checkInternetConnection(getApplicationContext())) {
                     switch (item.getItemId()) {
                         case R.id.navigation_search:
-                                // code to disable background functionality when progress bar starts
-                                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            String returnMessage = validateFields();
+                            if (!returnMessage.equalsIgnoreCase(GlobalVariables.SUCCESS)) {
+                                new ViewDialog().showDialog(SearchNotifAvailActivity.this, dialogTitle, returnMessage);
 
-                            InterchangeRequestsSearch irSearch = new InterchangeRequestsSearch();
-
-                            irSearch.setContNum(containerNumber.getText().toString());
-                            irSearch.setBookingNum(exportBookingNumber.getText().toString());
-                            irSearch.setFromDate(fromDate.getText().toString());
-                            irSearch.setToDate(toDate.getText().toString());
-
-
-                            LinearLayout ll = (LinearLayout) status.getSelectedView(); // get the parent layout view
-                            TextView selectedText = ll.findViewById(R.id.statusTextView); // get the child text view
-                            if(!statusArray[0].equalsIgnoreCase(selectedText.getText().toString())) {
-                                irSearch.setStatus(selectedText.getText().toString());
                             } else {
-                                irSearch.setStatus("");
+                                NotifAvailSearch naSearch = new NotifAvailSearch();
+
+                                naSearch.setContainerNumber(containerNumber.getText().toString().trim());
+                                naSearch.setMcScac(mcScac.getText().toString().trim());
+                                naSearch.setEpScac(epScac.getText().toString().trim());
+                                naSearch.setFromDate(fromDate.getText().toString());
+                                naSearch.setToDate(toDate.getText().toString());
+                                naSearch.setOffset(Integer.valueOf(getString(R.string.default_offset)));
+                                naSearch.setLimit(Integer.valueOf(getString(R.string.limit)));
+
+                                SIAUtility.setObject(editor, GlobalVariables.KEY_NOTIF_AVAIL_SEARCH_OBJ, naSearch);
+                                editor.commit();
+
+                                startActivity(new Intent(SearchNotifAvailActivity.this, ListNotifAvailActivity.class));
+                                finish(); /* This method will not display login page when click back (return) from phone */
+
                             }
 
-                            irSearch.setScac(scac.getText().toString());
-
-                            SIAUtility.setObject(editor, GlobalVariables.KEY_INTERCHANGE_REQUESTS_SEARCH_OBJ, irSearch);
-                            editor.commit();
-
-                            startActivity(new Intent(SearchInterchangeRequestActivity.this, ListInterchangeRequestActivity.class));
-                            finish(); /* This method will not display login page when click back (return) from phone */
                             break;
 
                         case R.id.navigation_cancel:
@@ -166,7 +129,7 @@ public class SearchInterchangeRequestActivity extends AppCompatActivity implemen
                     }
 
                 } else {
-                    Intent intent = new Intent(SearchInterchangeRequestActivity.this, NoInternetActivity.class);
+                    Intent intent = new Intent(SearchNotifAvailActivity.this, NoInternetActivity.class);
                     startActivity(intent);
                 }
 
@@ -177,8 +140,40 @@ public class SearchInterchangeRequestActivity extends AppCompatActivity implemen
 
         SIAUtility.disableShiftMode(bnv);
 
-
     }
+
+    String validateFields() {
+        String containerNumber = ((EditText)findViewById(R.id.containerNumber)).getText().toString();
+        String epScac = ((EditText)findViewById(R.id.epScac)).getText().toString();
+        String mcScac = ((EditText)findViewById(R.id.mcScac)).getText().toString();
+
+
+        if(null != containerNumber && containerNumber.trim().toString().length() > 0 &&
+                !SIAUtility.isAlphaNumeric(containerNumber)) {
+            return getString(R.string.msg_error_alpha_num_container_number);
+        }
+
+        if(null != mcScac && mcScac.trim().toString().length() > 0) {
+            if(mcScac.length() != 4) {
+                return getString(R.string.msg_error_length_motor_carrier_scac);
+
+            } else if(!SIAUtility.isAlpha(mcScac)) {
+                return getString(R.string.msg_error_char_motor_carrier_scac);
+            }
+        }
+
+        if(null != epScac && epScac.trim().toString().length() > 0) {
+            if(!(epScac.length() >= 2 && epScac.length() <= 4)) {
+                return getString(R.string.lbl_container_provider)+" "+getString(R.string.msg_error_length_ep_scac);
+
+            } else if(!SIAUtility.isAlpha(epScac)) {
+                return getString(R.string.lbl_container_provider)+" "+getString(R.string.msg_error_char_scac);
+            }
+        }
+
+        return GlobalVariables.SUCCESS;
+    }
+
 
     private void showActionBar() {
         LayoutInflater inflater = (LayoutInflater) this
@@ -190,41 +185,6 @@ public class SearchInterchangeRequestActivity extends AppCompatActivity implemen
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setCustomView(v);
-    }
-
-    public class StatusAdapter extends BaseAdapter {
-        Context context;
-        String[] status;
-        LayoutInflater inflter;
-
-        public StatusAdapter(Context applicationContext, String[] status) {
-            this.context = applicationContext;
-            this.status = status;
-            inflter = (LayoutInflater.from(applicationContext));
-        }
-
-        @Override
-        public int getCount() {
-            return status.length;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            view = inflter.inflate(R.layout.custom_spinner_status, null);
-            TextView statusTextView = view.findViewById(R.id.statusTextView);
-            statusTextView.setText(status[i]);
-            return view;
-        }
     }
 
     public void fromDate(View view) {
@@ -273,7 +233,7 @@ public class SearchInterchangeRequestActivity extends AppCompatActivity implemen
     }
 
     void goToPreviousPage() {
-        startActivity(new Intent(SearchInterchangeRequestActivity.this, DashboardActivity.class));
+        startActivity(new Intent(SearchNotifAvailActivity.this, DashboardActivity.class));
         finish(); /* This method will not display login page when click back (return) from phone */
     }
 

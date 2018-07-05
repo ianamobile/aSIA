@@ -19,11 +19,17 @@
     <string name="api_get_ep_user_list_by_tpu">getEPUserListByTPU</string>
     <string name="api_sia_lookup">siaLookup</string>
     <string name="api_setup_page">setupPage</string>
+    <string name="api_get_tpu_token_by_ep">getTPUTokenByEP</string>
+    <string name="api_get_interchange_request_details">getInterchangeRequestDetails</string>
+    <string name="api_get_equipment_list">getEquipmentList</string>
+    <string name="api_delete_notif_avail_request_by_na_id">deleteNotifAvailRequestByNaId</string>
+
     <!-- API Info end -->
 
     <string name="limit">10</string>
     <string name="default_offset">1</string>
 
+    <string name="date_format">MM/dd/yyyy</string>
 
     <!-- Dialog title starts -->
     <string name="dialog_title_mc_login">MC LOGIN</string>
@@ -40,6 +46,7 @@
     <string name="dialog_title_mc_sec_forgot_password">MC SEC FORGOT PASSWORD</string>
     <string name="dialog_title_ep_user_list">EP USER LIST</string>
     <string name="dialog_title_interchange_request_list">SEARCH RESULTS</string>
+    <string name="dialog_title_request_pool_search">REQUEST POOL SEARCH</string>
     <!-- Dialog title end -->
 
     <!-- Success message starts -->
@@ -48,6 +55,7 @@
     <!-- Success message end -->
 
     <!-- label -->
+    <string name="lbl_other">Other</string>
     <string name="lbl_username">USERNAME</string>
     <string name="lbl_password">PASSWORD</string>
 
@@ -75,6 +83,7 @@
 
     <string name="lbl_container_provider_name">CONTAINER PROVIDER NAME</string>
     <string name="lbl_container_provider_scac">CONTAINER PROVIDER SCAC</string>
+    <string name="lbl_container_provider">CONTAINER PROVIDER</string>
 
     <string name="lbl_container_number">CONTAINER NUMBER</string>
     <string name="lbl_export_booking_number">EXPORT BOOKING NUMBER</string>
@@ -101,8 +110,13 @@
     <string name="lbl_motor_carrier_a_scac_result">MOTOR CARRIER A SCAC</string>
     <string name="lbl_motor_carrier_b_name_result">MOTOR CARRIER B NAME</string>
     <string name="lbl_motor_carrier_b_scac_result">MOTOR CARRIER B SCAC</string>
-    <string name="lbl_approved_date_time">APPROVED DATE TIME</string>
+    <string name="lbl_approved_pending_date_time">APPROVED DATE TIME</string>
     <string name="lbl_rejected_date_time">REJECTED DATE TIME</string>
+    <string name="lbl_cancelled_date_time">CANCELLED DATE TIME</string>
+    <string name="lbl_onhold_date_time">ONHOLD DATE TIME</string>
+    <string name="lbl_load_status">LOAD STATUS</string>
+    <string name="lbl_chassis_num">CHASSIS#</string>
+    <string name="lbl_iep_scac">IEP SCAC</string>
 
     <!-- hint -->
     <string name="hint_username">ENTER USERNAME</string>
@@ -134,12 +148,20 @@
     <string name="hint_search_by_container_no">SEARCH BY CONTAINER#</string>
     <string name="hint_search_by_export_booking_no">SEARCH BY EXPORT BOOKING#</string>
     <string name="hint_search_by_scac">SEARCH BY SCAC</string>
+    <string name="hint_search_by_mc_scac">SEARCH BY MC SCAC</string>
+    <string name="hint_search_by_ep_scac">SEARCH BY CONTAINER PROVIDER SCAC</string>
+
+    <string name="hint_other_container_type">ENTER OTHER CONTAINER TYPE</string>
+    <string name="hint_other_container_size">ENTER OTHER CONTAINER SIZE</string>
+    <string name="hint_other_chassis_type">ENTER OTHER CHASSIS TYPE</string>
+    <string name="hint_other_chassis_size">ENTER OTHER CHASIS SIZE</string>
 
 
     <!-- button -->
     <string name="btn_sign_on">SIGN ON</string>
     <string name="btn_submit">SUBMIT</string>
     <string name="btn_search">SEARCH</string>
+    <string name="btn_delete">DELETE</string>
 
     <string name="lbl_trouble_signing_on">TROUBLE SIGNING ON?</string>
     <string name="btn_mc_sec_user">Login to MC Secondary User</string>
@@ -167,6 +189,10 @@
     <string name="title_street_interchange_request">STREET INTERCHANGE REQUEST</string>
     <string name="title_list_ep_user">LIST EP USER</string>
     <string name="title_search_interchange_request">SEARCH INTERCHANGE REQUESTS</string>
+    <string name="title_search_results">SEARCH RESULTS</string>
+    <string name="title_view_details">VIEW DETAILS</string>
+    <string name="title_request_pool_search">REQUEST POOL SEARCH</string>
+    <string name="title_list_results">LIST RESULTS</string>
 
     <string-array name="load_status">
         <item>SELECT LOAD STATUS</item>
@@ -194,6 +220,7 @@
     <string name="select_container_type">SELECT CONTAINER TYPE</string>
     <string name="select_chassis_size">SELECT CHASSIS SIZE</string>
     <string name="select_chassis_type">SELECT CHASSIS TYPE</string>
+
 
     <!-- page heading start -->
 
@@ -252,13 +279,17 @@
 
     <string name="msg_error_select_type_of_interchange">Please select type of interchange.</string>
     <string name="msg_error_select_container_type">Please select container type.</string>
+    <string name="msg_error_empty_container_type">Container type should not be blank.</string>
     <string name="msg_error_select_container_size">Please select container size.</string>
+    <string name="msg_error_empty_container_size">Container size should not be blank.</string>
     <string name="msg_error_select_chassis_type">Please select chassis type.</string>
+    <string name="msg_error_empty_chassis_type">Chassis type should not be blank.</string>
     <string name="msg_error_select_chassis_size">Please select chassis size.</string>
+    <string name="msg_error_empty_chassis_size">Chassis size should not be blank.</string>
 
     <string name="msg_error_empty_equip_location_zip_code">Equipment Location Zip code should not be blank.</string>
-    <string name="msg_error_empty_equip_location_name">Equipment Location Location Name should not be blank.</string>
-    <string name="msg_error_empty_equip_location_address">Equipment Location Location Address should not be blank.</string>
+    <string name="msg_error_empty_equip_location_name">Equipment Location Name should not be blank.</string>
+    <string name="msg_error_empty_equip_location_address">Equipment Location Address should not be blank.</string>
     <string name="msg_error_empty_equip_location_city">Equipment Location City should not be blank.</string>
     <string name="msg_error_empty_equip_location_state">Equipment Location State should not be blank.</string>
 
@@ -271,5 +302,8 @@
 
     <string name="msg_error_empty_email">Please enter email.</string>
     <string name="msg_error_invalid_email">Please enter valid email.</string>
+
+    <string name="msg_error_char_motor_carrier_scac">Motor Carrier SCAC should contains characters only.</string>
+    <string name="msg_error_length_motor_carrier_scac">Motor Carrier SCAC should be 4 characters long.</string>
 
 </resources>

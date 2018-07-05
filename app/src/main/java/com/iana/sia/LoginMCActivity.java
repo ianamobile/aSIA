@@ -63,6 +63,7 @@ public class LoginMCActivity extends AppCompatActivity implements Animation.Anim
         slideLeft.setAnimationListener(this);
 
         BottomNavigationView bnv = findViewById(R.id.navigation_login);
+
         bnv.setSelectedItemId(R.id.navigation_login_mc);
 
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){

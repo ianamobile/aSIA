@@ -1,32 +1,24 @@
 package com.iana.sia.model;
 
-public class InterchangeRequests{
+public class NotificationAvail {
 	
-	private Integer irId;
 	private Integer naId;
-//	private Integer sipId;
-	private String irNum;
-	private String intchgType;
+	private Integer sipId;
 	
-	private String mcACompanyName;
-	private String mcBCompanyName;
+	private String mcCompanyName;
 	private String epCompanyName;
 	
-	
-	private String epScacs;
-	private String mcAScac;
-	private String mcBScac;
-	private String bookingNum;
-	private String importBookingNum;
+	private String mcScac;
+	private String epScac;
+	private String loadStatus;
 	private String contNum;
 	
 	private String contSize;
 	private String contType;
 	private String chassisSize;
 	private String chassisType;
-	
+
 	private String chassisNum;
-	private String iepScac;
 	private String gensetNum;
 	
 	private String equipLocSplcCode;
@@ -44,36 +36,13 @@ public class InterchangeRequests{
 	private String originLocCity;
 	private String originLocState;
 	private String originLocZip;
-	private String eqCondn;
-	private String status;
-	private String lastApprovedBy;
-	private String email;
-	private String reqType;
-	private String items;
-	private String nonuiia;
-	private String remarks;
+	private String iepScac;
 	
-	private String actionRequired;
-	private String irRequestType;
-	private String actionType;
-	private String importBookingNumTemp;
-	
-	private String epApprovedBy;
-	private String epApprovedAt;
-	
-	private String uiiaExhibitStr;
 	private String accessToken;
 	
 	private String createdDate;
-	private String modifiedDate;
-
-	public Integer getIrId() {
-		return irId;
-	}
-
-	public void setIrId(Integer irId) {
-		this.irId = irId;
-	}
+	
+	private String showDeleteBtn ="N";
 
 	public Integer getNaId() {
 		return naId;
@@ -83,36 +52,20 @@ public class InterchangeRequests{
 		this.naId = naId;
 	}
 
-	public String getIrNum() {
-		return irNum;
+	public Integer getSipId() {
+		return sipId;
 	}
 
-	public void setIrNum(String irNum) {
-		this.irNum = irNum;
+	public void setSipId(Integer sipId) {
+		this.sipId = sipId;
 	}
 
-	public String getIntchgType() {
-		return intchgType;
+	public String getMcCompanyName() {
+		return mcCompanyName;
 	}
 
-	public void setIntchgType(String intchgType) {
-		this.intchgType = intchgType;
-	}
-
-	public String getMcACompanyName() {
-		return mcACompanyName;
-	}
-
-	public void setMcACompanyName(String mcACompanyName) {
-		this.mcACompanyName = mcACompanyName;
-	}
-
-	public String getMcBCompanyName() {
-		return mcBCompanyName;
-	}
-
-	public void setMcBCompanyName(String mcBCompanyName) {
-		this.mcBCompanyName = mcBCompanyName;
+	public void setMcCompanyName(String mcCompanyName) {
+		this.mcCompanyName = mcCompanyName;
 	}
 
 	public String getEpCompanyName() {
@@ -123,44 +76,28 @@ public class InterchangeRequests{
 		this.epCompanyName = epCompanyName;
 	}
 
-	public String getEpScacs() {
-		return epScacs;
+	public String getMcScac() {
+		return mcScac;
 	}
 
-	public void setEpScacs(String epScacs) {
-		this.epScacs = epScacs;
+	public void setMcScac(String mcScac) {
+		this.mcScac = mcScac;
 	}
 
-	public String getMcAScac() {
-		return mcAScac;
+	public String getEpScac() {
+		return epScac;
 	}
 
-	public void setMcAScac(String mcAScac) {
-		this.mcAScac = mcAScac;
+	public void setEpScac(String epScac) {
+		this.epScac = epScac;
 	}
 
-	public String getMcBScac() {
-		return mcBScac;
+	public String getLoadStatus() {
+		return loadStatus;
 	}
 
-	public void setMcBScac(String mcBScac) {
-		this.mcBScac = mcBScac;
-	}
-
-	public String getBookingNum() {
-		return bookingNum;
-	}
-
-	public void setBookingNum(String bookingNum) {
-		this.bookingNum = bookingNum;
-	}
-
-	public String getImportBookingNum() {
-		return importBookingNum;
-	}
-
-	public void setImportBookingNum(String importBookingNum) {
-		this.importBookingNum = importBookingNum;
+	public void setLoadStatus(String loadStatus) {
+		this.loadStatus = loadStatus;
 	}
 
 	public String getContNum() {
@@ -209,14 +146,6 @@ public class InterchangeRequests{
 
 	public void setChassisNum(String chassisNum) {
 		this.chassisNum = chassisNum;
-	}
-
-	public String getIepScac() {
-		return iepScac;
-	}
-
-	public void setIepScac(String iepScac) {
-		this.iepScac = iepScac;
 	}
 
 	public String getGensetNum() {
@@ -339,124 +268,12 @@ public class InterchangeRequests{
 		this.originLocZip = originLocZip;
 	}
 
-	public String getEqCondn() {
-		return eqCondn;
+	public String getIepScac() {
+		return iepScac;
 	}
 
-	public void setEqCondn(String eqCondn) {
-		this.eqCondn = eqCondn;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getLastApprovedBy() {
-		return lastApprovedBy;
-	}
-
-	public void setLastApprovedBy(String lastApprovedBy) {
-		this.lastApprovedBy = lastApprovedBy;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getReqType() {
-		return reqType;
-	}
-
-	public void setReqType(String reqType) {
-		this.reqType = reqType;
-	}
-
-	public String getItems() {
-		return items;
-	}
-
-	public void setItems(String items) {
-		this.items = items;
-	}
-
-	public String getNonuiia() {
-		return nonuiia;
-	}
-
-	public void setNonuiia(String nonuiia) {
-		this.nonuiia = nonuiia;
-	}
-
-	public String getRemarks() {
-		return remarks;
-	}
-
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
-	}
-
-	public String getActionRequired() {
-		return actionRequired;
-	}
-
-	public void setActionRequired(String actionRequired) {
-		this.actionRequired = actionRequired;
-	}
-
-	public String getIrRequestType() {
-		return irRequestType;
-	}
-
-	public void setIrRequestType(String irRequestType) {
-		this.irRequestType = irRequestType;
-	}
-
-	public String getActionType() {
-		return actionType;
-	}
-
-	public void setActionType(String actionType) {
-		this.actionType = actionType;
-	}
-
-	public String getImportBookingNumTemp() {
-		return importBookingNumTemp;
-	}
-
-	public void setImportBookingNumTemp(String importBookingNumTemp) {
-		this.importBookingNumTemp = importBookingNumTemp;
-	}
-
-	public String getEpApprovedBy() {
-		return epApprovedBy;
-	}
-
-	public void setEpApprovedBy(String epApprovedBy) {
-		this.epApprovedBy = epApprovedBy;
-	}
-
-	public String getEpApprovedAt() {
-		return epApprovedAt;
-	}
-
-	public void setEpApprovedAt(String epApprovedAt) {
-		this.epApprovedAt = epApprovedAt;
-	}
-
-	public String getUiiaExhibitStr() {
-		return uiiaExhibitStr;
-	}
-
-	public void setUiiaExhibitStr(String uiiaExhibitStr) {
-		this.uiiaExhibitStr = uiiaExhibitStr;
+	public void setIepScac(String iepScac) {
+		this.iepScac = iepScac;
 	}
 
 	public String getAccessToken() {
@@ -475,36 +292,31 @@ public class InterchangeRequests{
 		this.createdDate = createdDate;
 	}
 
-	public String getModifiedDate() {
-		return modifiedDate;
+	public String getShowDeleteBtn() {
+		return showDeleteBtn;
 	}
 
-	public void setModifiedDate(String modifiedDate) {
-		this.modifiedDate = modifiedDate;
+	public void setShowDeleteBtn(String showDeleteBtn) {
+		this.showDeleteBtn = showDeleteBtn;
 	}
+
 
 	@Override
 	public String toString() {
-		return "InterchangeRequests{" +
-				"irId=" + irId +
-				", naId=" + naId +
-				", irNum='" + irNum + '\'' +
-				", intchgType='" + intchgType + '\'' +
-				", mcACompanyName='" + mcACompanyName + '\'' +
-				", mcBCompanyName='" + mcBCompanyName + '\'' +
+		return "NotificationAvail{" +
+				"naId=" + naId +
+				", sipId=" + sipId +
+				", mcCompanyName='" + mcCompanyName + '\'' +
 				", epCompanyName='" + epCompanyName + '\'' +
-				", epScacs='" + epScacs + '\'' +
-				", mcAScac='" + mcAScac + '\'' +
-				", mcBScac='" + mcBScac + '\'' +
-				", bookingNum='" + bookingNum + '\'' +
-				", importBookingNum='" + importBookingNum + '\'' +
+				", mcScac='" + mcScac + '\'' +
+				", epScac='" + epScac + '\'' +
+				", loadStatus='" + loadStatus + '\'' +
 				", contNum='" + contNum + '\'' +
 				", contSize='" + contSize + '\'' +
 				", contType='" + contType + '\'' +
 				", chassisSize='" + chassisSize + '\'' +
 				", chassisType='" + chassisType + '\'' +
 				", chassisNum='" + chassisNum + '\'' +
-				", iepScac='" + iepScac + '\'' +
 				", gensetNum='" + gensetNum + '\'' +
 				", equipLocSplcCode='" + equipLocSplcCode + '\'' +
 				", equipLocIanaCode='" + equipLocIanaCode + '\'' +
@@ -520,24 +332,10 @@ public class InterchangeRequests{
 				", originLocCity='" + originLocCity + '\'' +
 				", originLocState='" + originLocState + '\'' +
 				", originLocZip='" + originLocZip + '\'' +
-				", eqCondn='" + eqCondn + '\'' +
-				", status='" + status + '\'' +
-				", lastApprovedBy='" + lastApprovedBy + '\'' +
-				", email='" + email + '\'' +
-				", reqType='" + reqType + '\'' +
-				", items='" + items + '\'' +
-				", nonuiia='" + nonuiia + '\'' +
-				", remarks='" + remarks + '\'' +
-				", actionRequired='" + actionRequired + '\'' +
-				", irRequestType='" + irRequestType + '\'' +
-				", actionType='" + actionType + '\'' +
-				", importBookingNumTemp='" + importBookingNumTemp + '\'' +
-				", epApprovedBy='" + epApprovedBy + '\'' +
-				", epApprovedAt='" + epApprovedAt + '\'' +
-				", uiiaExhibitStr='" + uiiaExhibitStr + '\'' +
+				", iepScac='" + iepScac + '\'' +
 				", accessToken='" + accessToken + '\'' +
 				", createdDate='" + createdDate + '\'' +
-				", modifiedDate='" + modifiedDate + '\'' +
+				", showDeleteBtn='" + showDeleteBtn + '\'' +
 				'}';
 	}
 }

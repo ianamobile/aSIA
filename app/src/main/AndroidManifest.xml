@@ -66,9 +66,12 @@
         <activity android:name=".VerifyActivity" />
         <activity android:name=".SuccessActivity" />
         <activity android:name=".InitiateInterchangeActivity" />
-        <activity android:name=".SearchInterchangeRequestActivity"/>
+        <activity android:name=".SearchInterchangeRequestActivity" />
         <activity android:name=".EPListByTPUActivity" />
-        <activity android:name=".ListInterchangeRequestActivity"/>
+        <activity android:name=".ListInterchangeRequestActivity" />
+        <activity android:name=".InterchangeRequestOperationActivity" />
+        <activity android:name=".SearchNotifAvailActivity" />
+        <activity android:name=".ListNotifAvailActivity"></activity>
     </application>
 
 </manifest>

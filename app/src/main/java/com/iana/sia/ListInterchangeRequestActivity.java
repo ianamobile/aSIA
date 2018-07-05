@@ -1,5 +1,6 @@
 package com.iana.sia;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AbsListView;
@@ -21,6 +23,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -28,8 +31,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.reflect.TypeToken;
+import com.iana.sia.model.FieldInfo;
 import com.iana.sia.model.IanaLocations;
 import com.iana.sia.model.InterchangeRequests;
+import com.iana.sia.model.InterchangeRequestsJson;
 import com.iana.sia.model.InterchangeRequestsSearch;
 import com.iana.sia.model.SIASecurityObj;
 import com.iana.sia.model.User;
@@ -70,6 +75,8 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
 
     SIASecurityObj siaSecurityObj;
 
+    String requestFrom = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +88,7 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         showActionBar();
-        ((TextView) findViewById(R.id.title)).setText(R.string.title_search_location);
+        ((TextView) findViewById(R.id.title)).setText(R.string.title_search_results);
         backBtn = findViewById(R.id.backBtn);
         backBtn.setText(R.string.title_back);
         backBtn.setVisibility(View.VISIBLE);
@@ -93,6 +100,11 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
 
         irSearch = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_INTERCHANGE_REQUESTS_SEARCH_OBJ, InterchangeRequestsSearch.class);
         siaSecurityObj = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_SECURITY_OBJ, SIASecurityObj.class);
+        requestFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
+
+        if(null == irSearch) {
+            irSearch = new InterchangeRequestsSearch();
+        }
 
         Log.v("log_tag", "ListInterchangeRequestActivity: irSearch:=> " + irSearch);
 
@@ -108,6 +120,11 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
             requestString = requestString + "&epSCAC="+irSearch.getScac();
         } else {
             requestString = requestString + "&mcSCAC="+irSearch.getScac();
+        }
+
+        if(requestFrom != null && requestFrom.equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS)) {
+            requestString = "accessToken="+siaSecurityObj.getAccessToken()+"&actionRequired=Y"+
+                    "&offset="+getString(R.string.default_offset) + "&limit=" + getString(R.string.limit);
         }
 
         progressBar.setVisibility(View.VISIBLE);
@@ -130,6 +147,11 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                     String requestString = "accessToken="+siaSecurityObj.getAccessToken()+"&startDate="+irSearch.getFromDate()+"&endDate="+irSearch.getToDate()+
                             "&status="+irSearch.getStatus()+"&containerNo="+irSearch.getContNum()+"&bookingNo="+irSearch.getBookingNum()+
                             "&offset=" + ((totalItemCount / 10) + 1) + "&limit=" + limit;
+
+                    if(requestFrom != null && requestFrom.equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS)) {
+                        requestString = "accessToken="+siaSecurityObj.getAccessToken()+"&actionRequired=Y"+
+                                "&offset=" + ((totalItemCount / 10) + 1) + "&limit=" + limit;
+                    }
 
                     if (lastRecordMap.size() == 0 || !lastRecordMap.containsKey(lastInScreen)) {
 //                        Log.v("log_tag", "ListInterchangeRequestActivity on scroll: requestString:=> " + requestString);
@@ -189,8 +211,8 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
 
             try {
-                Log.v("log_tag", "ListBadOrderActivity: urlResponseCode:=>" + urlResponseCode);
-                Log.v("log_tag", "ListBadOrderActivity: result:=> " + result);
+                Log.v("log_tag", "ListInterchangeRequestActivity: urlResponseCode:=>" + urlResponseCode);
+                Log.v("log_tag", "ListInterchangeRequestActivity: result:=> " + result);
                 Gson gson = new Gson();
 
                 if (urlResponseCode == 200) {
@@ -265,19 +287,23 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
             }
             if(status.equalsIgnoreCase(GlobalVariables.STATUS_PENDING)) {
                 v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.bg_color_pending));
+                ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_approved_pending_date_time));
 
             } else if(status.equalsIgnoreCase(GlobalVariables.STATUS_APPROVED)) {
                 v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.bg_color_approved));
+                ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_approved_pending_date_time));
 
             } else if(status.equalsIgnoreCase(GlobalVariables.STATUS_REJECTED)) {
                 v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.bg_color_rejected));
-                ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText("REJECTED DATE TIME");
+                ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_rejected_date_time));
 
             } else if(status.equalsIgnoreCase(GlobalVariables.STATUS_CANCELLED)) {
                 v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.bg_color_cancelled));
+                ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_cancelled_date_time));
 
             } else if(status.equalsIgnoreCase(GlobalVariables.STATUS_ONHOLD)) {
                 v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.bg_color_onhold));
+                ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_onhold_date_time));
             }
 
             ((TextView) v.findViewById(R.id.actionRequired)).setText(dataList.get(position).getActionRequired());
@@ -291,25 +317,28 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
             ((TextView) v.findViewById(R.id.mcBCompanyName)).setText(dataList.get(position).getMcBCompanyName());
             ((TextView) v.findViewById(R.id.mcBScac)).setText(dataList.get(position).getMcBScac());
             ((TextView) v.findViewById(R.id.status)).setText(status);
-
+            ((TextView) v.findViewById(R.id.approvedOrRejectedDateTime)).setText(dataList.get(position).getModifiedDate());
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(!siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_TPU) ||
+                        (siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_TPU) &&
+                                null != siaSecurityObj.getScac() && siaSecurityObj.getScac().trim().length() > 0)) {
 
-                    if(!siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_TPU)) {
 
+                        // code to get interchange request details to perform operation
+                        //api_get_interchange_request_details
+                        /*String requestString = "";
+                        Gson gson = new Gson();
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("irId", dataList.get(position).getIrId());
+                        jsonObject.addProperty("actionToken", siaSecurityObj.getAccessToken());
+
+                        Log.v("log_tag", "ListInterchangeRequestActivity jsonObject:=> " + jsonObject.toString());
+                        new ExecuteTaskToGetInterchangeRequestDetails(requestString).execute();*/
 
                     }
-//                    SIAUtility.setObject(editor, GlobalVariables.KEY_INITIATE_INTERCHANGE, );
-//                    editor.putString(GlobalVariables.KEY_LOCATION_NAME, dataList.get(position).getLocName());
-
-//                    editor.commit();
-
-//                    Intent intent = new Intent(ListInterchangeRequestActivity.this, StreetTurnActivity.class);
-//                    startActivity(intent);
-//                    finish(); /* This method will not display login page when click back (return) from phone */
-                    /* End */
                 }
             });
 
@@ -318,10 +347,138 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
     } /* End */
 
 
+    /* code to get interchange request details functionality starts */
+
+    class ExecuteTaskToGetInterchangeRequestDetails extends AsyncTask<String, Integer, String> {
+        String requestString;
+
+        public ExecuteTaskToGetInterchangeRequestDetails(String requestString) {
+            this.requestString = requestString;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            Log.v("log_tag", "POST ExecuteTaskToGetInterchangeRequestDetails doInBackground:=>" + (getString(R.string.base_url) + getString(R.string.api_get_interchange_request_details) + "?" + requestString));
+            ApiResponse apiResponse = RestApiClient.callPostApi(requestString, getString(R.string.base_url) + getString(R.string.api_get_interchange_request_details));
+            urlResponse = apiResponse.getMessage();
+            urlResponseCode = apiResponse.getCode();
+            return urlResponse;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            try {
+                Log.v("log_tag", "ListInterchangeRequestActivity: ExecuteTaskToGetInterchangeRequestDetails: urlResponseCode:=>" + urlResponseCode);
+                Log.v("log_tag", "ListInterchangeRequestActivity: ExecuteTaskToGetInterchangeRequestDetails: result:=> " + result);
+                Gson gson = new Gson();
+
+                if (urlResponseCode == 200) {
+                    InterchangeRequestsJson interchangeRequestsJson = gson.fromJson(result, InterchangeRequestsJson.class);
+                    Log.v("log_tag", "interchangeRequestsJson:=>"+interchangeRequestsJson);
+
+                    int[] categories = null;
+                    String[] categoriesName = null;
+                    String[] labelArray = null;
+                    String[] valueArray = null;
+
+                    InterchangeRequests ir = interchangeRequestsJson.getInterchangeRequests();
+
+                    if(null == ir.getIntchgType() || ir.getIntchgType().trim().length()<= 0) {
+                        categories = new int[]{9, 5};
+                        categoriesName = new String[]{"Street Turn Details", "Original Interchange Location"};
+                        labelArray = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
+                                "MOTOR CARRIER'S NAME", "MOTOR CARRIER'S SCAC",
+                                "IMPORT BL", "EXPORT BOOKING#",
+                                "CONTAINER#", "CHASSIS#", "CHASSIS IEP SCAC",
+                                "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE"};
+
+                        valueArray = new String[]{ir.getEpCompanyName(), ir.getEpScacs(),
+                                ir.getMcACompanyName(), ir.getMcAScac(),
+                                ir.getImportBookingNum(), ir.getBookingNum(),
+                                ir.getContNum(), ir.getChassisNum(),
+                                ir.getIepScac(),
+                                ir.getOriginLocNm(), ir.getOriginLocAddr(),
+                                ir.getOriginLocZip(), ir.getOriginLocCity(),
+                                ir.getOriginLocState()};
+
+                    } else {
+                        categories = new int[]{17, 5, 5};
+                        categoriesName = new String[]{"Street Interchange Details", "Equipment Interchange Location", "Original Interchange Location"};
+                        labelArray = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
+                                "MOTOR CARRIER A'S NAME", "MOTOR CARRIER A'S SCAC",
+                                "MOTOR CARRIER B'S NAME", "MOTOR CARRIER B'S SCAC",
+                                "TYPE OF INTERCHANGE", "CONTAINER TYPE",
+                                "CONTAINER SIZE", "IMPORT BL", "EXPORT BOOKING#",
+                                "CONTAINER#", "CHASSIS#", "CHASSIS IEP SCAC",
+                                "CHASSIS TYPE", "CHASSIS SIZE", "GENSET#",
+                                "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE",
+                                "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE"};
+
+                        valueArray = new String[]{ir.getEpCompanyName(), ir.getEpScacs(),
+                                ir.getMcACompanyName(), ir.getMcAScac(),
+                                ir.getMcBCompanyName(), ir.getMcBScac(),
+                                ir.getIntchgType(), ir.getContType(),
+                                ir.getContSize(), ir.getImportBookingNum(),
+                                ir.getBookingNum(), ir.getContNum(),
+                                ir.getChassisNum(), ir.getIepScac(),
+                                ir.getChassisType(), ir.getChassisSize(),
+                                ir.getGensetNum(),
+                                ir.getEquipLocNm(), ir.getEquipLocAddr(),
+                                ir.getEquipLocZip(), ir.getEquipLocCity(),
+                                ir.getEquipLocState(),
+                                ir.getOriginLocNm(), ir.getOriginLocAddr(),
+                                ir.getOriginLocZip(), ir.getOriginLocCity(),
+                                ir.getOriginLocState()
+                        };
+                    }
+
+                    List<FieldInfo> fieldInfoList = SIAUtility.prepareAndGetFieldInfoList(categories, categoriesName, labelArray, valueArray);
+                    SIAUtility.setList(editor, "fieldInfoList", fieldInfoList);
+
+                    editor.commit();
+
+                    Intent intent = new Intent(ListInterchangeRequestActivity.this, InterchangeRequestOperationActivity.class);
+                    startActivity(intent);
+                    finish(); /* This method will not display login page when click back (return) from phone */
+                            /* End */
+
+                } else {
+                    try {
+                        ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+                        new ViewDialog().showDialog(ListInterchangeRequestActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+
+                    } catch(Exception e) {
+                        new ViewDialog().showDialog(ListInterchangeRequestActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
+                    }
+                }
+
+            } catch (Exception e) {
+                Log.v("log_tag", "Error ", e);
+            }
+
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+
+
     void goToPreviousPage() {
         if (Internet_Check.checkInternetConnection(getApplicationContext())) {
 
-            Intent intent = new Intent(ListInterchangeRequestActivity.this, SearchInterchangeRequestActivity.class);
+            Intent intent = null;
+            if(requestFrom != null && requestFrom.equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS)) {
+                intent = new Intent(ListInterchangeRequestActivity.this, DashboardActivity.class);
+
+            } else {
+                intent = new Intent(ListInterchangeRequestActivity.this, SearchInterchangeRequestActivity.class);
+            }
+
             startActivity(intent);
             finish(); /* This method will not display login page when click back (return) from phone */
                             /* End */

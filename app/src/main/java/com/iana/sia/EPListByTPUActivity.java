@@ -282,7 +282,12 @@ public class EPListByTPUActivity extends AppCompatActivity {
                     RelativeLayout mainL = ((RelativeLayout) v);
                     RelativeLayout r = (RelativeLayout) mainL.getChildAt(0);
 
-                    Toast.makeText(getBaseContext(), dataList.get(position).getCompanyName(), Toast.LENGTH_SHORT).show();
+                    if(GlobalVariables.STATUS_ACTIVE.equalsIgnoreCase(dataList.get(position).getStatus())) {
+
+                        String requestString = "accessToken="+siaSecurityObj.getAccessToken()+"&epScac="+dataList.get(position).getScac();
+                        new ExecuteTaskToGetEPAccessToken(requestString).execute();
+
+                    }
                 }
             });
 
@@ -290,6 +295,72 @@ public class EPListByTPUActivity extends AppCompatActivity {
             return v;
         }
     } /* End */
+
+    class ExecuteTaskToGetEPAccessToken extends AsyncTask<String, Integer, String> {
+        String requestString;
+
+        public ExecuteTaskToGetEPAccessToken(String requestString) {
+            this.requestString = requestString;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            Log.v("log_tag", "In EPListByTPUActivity: ExecuteTaskToGetEPAccessToken: doInBackground requestString:=> " + requestString);
+            ApiResponse apiResponse = RestApiClient.callGetApi(getString(R.string.base_url) + getString(R.string.api_get_tpu_token_by_ep)+"?"+requestString);
+            urlResponse = apiResponse.getMessage();
+            urlResponseCode = apiResponse.getCode();
+            return urlResponse;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            progressBar.setVisibility(View.GONE);
+
+            try {
+                Log.v("log_tag", "EPListByTPUActivity: urlResponseCode:=>" + urlResponseCode);
+                Log.v("log_tag", "EPListByTPUActivity: result:=> " + result);
+                Gson gson = new Gson();
+
+                if (urlResponseCode == 200) {
+
+                    SIASecurityObj siaSecurityObj = gson.fromJson(result, SIASecurityObj.class);
+                    Log.v("log_tag", "EPListByTPU getTPUAccessTokenByEP Response siaSecurityObj: " + siaSecurityObj);
+                    /* Code to store login information start */
+
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    SIAUtility.setObject(editor, GlobalVariables.KEY_SECURITY_OBJ, siaSecurityObj);
+                    editor.commit();
+
+                    Intent intent = new Intent(EPListByTPUActivity.this, DashboardActivity.class);
+                    startActivity(intent);
+                    finish(); /* This method will not display login page when click back (return) from phone */
+                            /* End */
+
+                } else {
+
+                    try {
+
+                        ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+                        new ViewDialog().showDialog(EPListByTPUActivity.this, getString(R.string.dialog_title_ep_user_list), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+
+                    } catch(Exception e) {
+                        new ViewDialog().showDialog(EPListByTPUActivity.this, getString(R.string.dialog_title_ep_user_list), getString(R.string.msg_error_try_after_some_time));
+                    }
+                }
+
+            } catch (Exception e) {
+                Log.v("log_tag", "Error ", e);
+            }
+
+        }
+
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)  {

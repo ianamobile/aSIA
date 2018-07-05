@@ -14,7 +14,7 @@
         >
 
         <LinearLayout
-            android:id="@+id/interchangeRequestListMainLinearLayout"
+            android:id="@+id/notifAvailListMainLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -37,7 +37,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/irRequestTypeStatusLinearLayout"
+                android:id="@+id/createdDateLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -47,7 +47,7 @@
                 >
 
                 <TableLayout
-                    android:id="@+id/irRequestTypeStatusTableLayout"
+                    android:id="@+id/createdDateTableLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:stretchColumns="*"
@@ -60,14 +60,14 @@
                         android:gravity="center_horizontal"
                         >
                         <LinearLayout
-                            android:layout_weight="0.6"
+                            android:layout_weight="0.45"
                             android:layout_width="0dp"
                             android:layout_gravity="left"
                             >
                             <TextView
-                                android:id="@+id/irRequestType"
+                                android:id="@+id/createdDateLbl"
                                 android:layout_height="wrap_content"
-                                android:text="STREET INTERCHANGE"
+                                android:text="CREATED DATE"
                                 android:layout_width="wrap_content"
                                 android:textColor="@color/color_black"
                                 android:gravity="left"
@@ -77,15 +77,15 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_weight="0.3"
+                            android:layout_weight="0.45"
                             android:layout_width="0dp"
                             android:layout_gravity="right"
                             android:gravity="right"
                             >
                             <TextView
-                                android:id="@+id/status"
+                                android:id="@+id/createdDate"
                                 android:layout_height="wrap_content"
-                                android:text="APPROVED"
+                                android:text="05/20/2018"
                                 android:layout_width="wrap_content"
                                 android:textColor="@color/appThemeColor"
                                 android:gravity="right"
@@ -125,7 +125,8 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="15dp"
             android:layout_marginBottom="10dp"
-            android:layout_below="@+id/interchangeRequestListMainLinearLayout"
+            android:layout_marginRight="15dp"
+            android:layout_below="@+id/notifAvailListMainLinearLayout"
             >
             <TableRow
                 android:layout_height="wrap_content"
@@ -138,9 +139,9 @@
                     android:layout_gravity="left|center_vertical"
                     >
                     <TextView
-                        android:id="@+id/actionRequiredLbl"
+                        android:id="@+id/mcCompanyNameLbl"
                         android:layout_height="wrap_content"
-                        android:text="@string/lbl_action_required"
+                        android:text="@string/lbl_motor_carrier_name"
                         android:layout_width="wrap_content"
                         android:textColor="@color/color_black"
                         android:gravity="left"
@@ -158,10 +159,9 @@
                     <TextView
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:id="@+id/actionRequired"
+                        android:id="@+id/mcCompanyName"
                         android:text="Y"
                         android:layout_marginLeft="5dp"
-                        android:paddingRight="10dp"
                         android:textColor="@color/appThemeColor"
                         android:fontFamily="sans-serif-medium"
                         android:textSize="12dp"
@@ -173,7 +173,6 @@
             <View
                 android:layout_height="@dimen/height_search_result_ir"
                 android:layout_width="match_parent"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
                 android:background="@android:color/darker_gray"
@@ -191,9 +190,9 @@
                     android:layout_gravity="left|center_vertical"
                     >
                     <TextView
-                        android:id="@+id/createdDateLbl"
+                        android:id="@+id/mcScacLbl"
                         android:layout_height="wrap_content"
-                        android:text="@string/lbl_created_date"
+                        android:text="@string/lbl_motor_carrier_scac"
                         android:layout_width="wrap_content"
                         android:textColor="@color/color_black"
                         android:gravity="left"
@@ -211,10 +210,9 @@
                     <TextView
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:id="@+id/createdDate"
-                        android:text="06/20/2018 12:58:49"
+                        android:id="@+id/mcScac"
+                        android:text="XXXX"
                         android:layout_marginLeft="5dp"
-                        android:paddingRight="10dp"
                         android:textColor="@color/appThemeColor"
                         android:fontFamily="sans-serif-medium"
                         android:textSize="12dp"
@@ -226,7 +224,6 @@
             <View
                 android:layout_height="@dimen/height_search_result_ir"
                 android:layout_width="match_parent"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
                 android:background="@android:color/darker_gray"
@@ -234,116 +231,6 @@
             </View>
 
             <!-- container number start -->
-            <TableRow
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                >
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_gravity="left|center_vertical"
-                    >
-                    <TextView
-                        android:id="@+id/containerNumberLbl"
-                        android:layout_height="wrap_content"
-                        android:text="@string/lbl_container_num"
-                        android:layout_width="wrap_content"
-                        android:textColor="@color/color_black"
-                        android:gravity="left"
-                        android:fontFamily="sans-serif-medium"
-                        android:textSize="12dp"
-                        />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_gravity="right"
-                    android:gravity="right"
-                    >
-                    <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:id="@+id/containerNumber"
-                        android:text="06/20/2018 12:58:49"
-                        android:layout_marginLeft="5dp"
-                        android:paddingRight="10dp"
-                        android:textColor="@color/appThemeColor"
-                        android:fontFamily="sans-serif-medium"
-                        android:textSize="12dp"
-                        android:minWidth="10dp"
-                        />
-                </LinearLayout>
-            </TableRow>
-
-            <View
-                android:layout_height="@dimen/height_search_result_ir"
-                android:layout_width="match_parent"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="3dp"
-                android:background="@android:color/darker_gray"
-                >
-            </View>
-
-            <!-- export booking number start -->
-            <TableRow
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                >
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_gravity="left|center_vertical"
-                    >
-                    <TextView
-                        android:id="@+id/exportBookingNumberLbl"
-                        android:layout_height="wrap_content"
-                        android:text="@string/lbl_export_booking_num"
-                        android:layout_width="wrap_content"
-                        android:textColor="@color/color_black"
-                        android:gravity="left"
-                        android:fontFamily="sans-serif-medium"
-                        android:textSize="12dp"
-                        />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_gravity="right"
-                    android:gravity="right"
-                    >
-                    <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:id="@+id/exportBookingNumber"
-                        android:text="EXPBOOK06261801"
-                        android:layout_marginLeft="5dp"
-                        android:paddingRight="10dp"
-                        android:textColor="@color/appThemeColor"
-                        android:fontFamily="sans-serif-medium"
-                        android:textSize="12dp"
-                        android:minWidth="10dp"
-                        />
-                </LinearLayout>
-            </TableRow>
-
-            <View
-                android:layout_height="@dimen/height_search_result_ir"
-                android:layout_width="match_parent"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="3dp"
-                android:background="@android:color/darker_gray"
-                >
-            </View>
-
-            <!-- container ep name start -->
             <TableRow
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
@@ -377,308 +264,26 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:id="@+id/epCompanyName"
-                        android:text="Mediterranean Shipping Company S. A."
+                        android:text="@string/lbl_container_ep_name"
                         android:layout_marginLeft="5dp"
-                        android:paddingRight="10dp"
                         android:textColor="@color/appThemeColor"
                         android:fontFamily="sans-serif-medium"
                         android:textSize="12dp"
                         android:minWidth="10dp"
-                        android:gravity="right"
                         />
                 </LinearLayout>
             </TableRow>
 
-        <View
-            android:layout_height="@dimen/height_search_result_ir"
-            android:layout_width="match_parent"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:background="@android:color/darker_gray"
-            >
-        </View>
-
-        <!-- container ep scac start -->
-        <TableRow
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="5dp"
-            >
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_gravity="left|center_vertical"
-                >
-                <TextView
-                    android:id="@+id/epScacLbl"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lbl_container_ep_scac"
-                    android:layout_width="wrap_content"
-                    android:textColor="@color/color_black"
-                    android:gravity="left"
-                    android:fontFamily="sans-serif-medium"
-                    android:textSize="12dp"
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_gravity="right"
-                android:gravity="right"
-                >
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:id="@+id/epScac"
-                    android:text="MSCU"
-                    android:layout_marginLeft="5dp"
-                    android:paddingRight="10dp"
-                    android:textColor="@color/appThemeColor"
-                    android:fontFamily="sans-serif-medium"
-                    android:textSize="12dp"
-                    android:minWidth="10dp"
-                    />
-            </LinearLayout>
-        </TableRow>
-
-
-        <View
-            android:layout_height="@dimen/height_search_result_ir"
-            android:layout_width="match_parent"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:background="@android:color/darker_gray"
-            >
-        </View>
-
-        <!-- motor carrier a name start -->
-        <TableRow
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="5dp"
-            >
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_gravity="left|center_vertical"
-                >
-                <TextView
-                    android:id="@+id/mcACompanyNameLbl"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lbl_motor_carrier_a_name_result"
-                    android:layout_width="wrap_content"
-                    android:textColor="@color/color_black"
-                    android:gravity="left"
-                    android:fontFamily="sans-serif-medium"
-                    android:textSize="12dp"
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_gravity="right"
-                android:gravity="right"
-                >
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:id="@+id/mcACompanyName"
-                    android:text="ContainerPort Group, Inc.ContainerPort Group, Inc."
-                    android:layout_marginLeft="5dp"
-                    android:paddingRight="10dp"
-                    android:textColor="@color/appThemeColor"
-                    android:fontFamily="sans-serif-medium"
-                    android:textSize="12dp"
-                    android:minWidth="10dp"
-                    android:gravity="right"
-                    />
-            </LinearLayout>
-        </TableRow>
-
-
-        <View
-            android:layout_height="@dimen/height_search_result_ir"
-            android:layout_width="match_parent"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:background="@android:color/darker_gray"
-            >
-        </View>
-
-        <!-- motor carrier a scac start -->
-        <TableRow
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="5dp"
-            >
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_gravity="left|center_vertical"
-                >
-                <TextView
-                    android:id="@+id/mcAScacLbl"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lbl_motor_carrier_a_scac_result"
-                    android:layout_width="wrap_content"
-                    android:textColor="@color/color_black"
-                    android:gravity="left"
-                    android:fontFamily="sans-serif-medium"
-                    android:textSize="12dp"
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_gravity="right"
-                android:gravity="right"
-                >
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:id="@+id/mcAScac"
-                    android:text="CPGP"
-                    android:layout_marginLeft="5dp"
-                    android:paddingRight="10dp"
-                    android:textColor="@color/appThemeColor"
-                    android:fontFamily="sans-serif-medium"
-                    android:textSize="12dp"
-                    android:minWidth="10dp"
-                    />
-            </LinearLayout>
-        </TableRow>
-
-        <View
-            android:layout_height="@dimen/height_search_result_ir"
-            android:layout_width="match_parent"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:background="@android:color/darker_gray"
-            >
-        </View>
-
-        <!-- motor carrier b company name start -->
-        <TableRow
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="5dp"
-            >
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_gravity="left|center_vertical"
-                >
-                <TextView
-                    android:id="@+id/mcBCompanyNameLbl"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lbl_motor_carrier_b_name_result"
-                    android:layout_width="wrap_content"
-                    android:textColor="@color/color_black"
-                    android:gravity="left"
-                    android:fontFamily="sans-serif-medium"
-                    android:textSize="12dp"
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_gravity="right"
-                android:gravity="right"
-                >
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:id="@+id/mcBCompanyName"
-                    android:text="1st Class Transportation &amp; Warehouseing Inc."
-                    android:layout_marginLeft="5dp"
-                    android:paddingRight="10dp"
-                    android:textColor="@color/appThemeColor"
-                    android:fontFamily="sans-serif-medium"
-                    android:textSize="12dp"
-                    android:minWidth="10dp"
-                    android:gravity="right"
-                    />
-            </LinearLayout>
-        </TableRow>
-
-        <View
-            android:layout_height="@dimen/height_search_result_ir"
-            android:layout_width="match_parent"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:background="@android:color/darker_gray"
-            >
-        </View>
-
-        <!-- motor carrier b scac start -->
-        <TableRow
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="5dp"
-            >
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_gravity="left|center_vertical"
-                >
-                <TextView
-                    android:id="@+id/mcBScacLbl"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lbl_motor_carrier_b_scac_result"
-                    android:layout_width="wrap_content"
-                    android:textColor="@color/color_black"
-                    android:gravity="left"
-                    android:fontFamily="sans-serif-medium"
-                    android:textSize="12dp"
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_gravity="right"
-                android:gravity="right"
-                >
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:id="@+id/mcBScac"
-                    android:text="FCXT"
-                    android:layout_marginLeft="5dp"
-                    android:paddingRight="10dp"
-                    android:textColor="@color/appThemeColor"
-                    android:fontFamily="sans-serif-medium"
-                    android:textSize="12dp"
-                    android:minWidth="10dp"
-                    />
-            </LinearLayout>
-        </TableRow>
-
             <View
                 android:layout_height="@dimen/height_search_result_ir"
                 android:layout_width="match_parent"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
                 android:background="@android:color/darker_gray"
                 >
             </View>
 
-            <!-- approved or rejected date time start -->
+            <!-- export booking number start -->
             <TableRow
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
@@ -691,9 +296,9 @@
                     android:layout_gravity="left|center_vertical"
                     >
                     <TextView
-                        android:id="@+id/approvedOrRejectedDateTimeLbl"
+                        android:id="@+id/epScacLbl"
                         android:layout_height="wrap_content"
-                        android:text="@string/lbl_approved_pending_date_time"
+                        android:text="@string/lbl_container_ep_scac"
                         android:layout_width="wrap_content"
                         android:textColor="@color/color_black"
                         android:gravity="left"
@@ -711,10 +316,9 @@
                     <TextView
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:id="@+id/approvedOrRejectedDateTime"
-                        android:text="06/26/2018 45:45:45"
+                        android:id="@+id/epScac"
+                        android:text="XXXX"
                         android:layout_marginLeft="5dp"
-                        android:paddingRight="10dp"
                         android:textColor="@color/appThemeColor"
                         android:fontFamily="sans-serif-medium"
                         android:textSize="12dp"
@@ -726,12 +330,468 @@
             <View
                 android:layout_height="@dimen/height_search_result_ir"
                 android:layout_width="match_parent"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
                 android:background="@android:color/darker_gray"
                 >
             </View>
+
+            <!-- load status start -->
+            <TableRow
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                >
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_gravity="left|center_vertical"
+                    >
+                    <TextView
+                        android:id="@+id/loadStatusLbl"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_load_status"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/color_black"
+                        android:gravity="left"
+                        android:fontFamily="sans-serif-medium"
+                        android:textSize="12dp"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    >
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/loadStatus"
+                        android:text="LOAD STATUS"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/appThemeColor"
+                        android:fontFamily="sans-serif-medium"
+                        android:textSize="12dp"
+                        android:minWidth="10dp"
+                        android:gravity="right"
+                        />
+                </LinearLayout>
+            </TableRow>
+
+        <View
+            android:layout_height="@dimen/height_search_result_ir"
+            android:layout_width="match_parent"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="@android:color/darker_gray"
+            >
+        </View>
+
+        <!-- container number start -->
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            >
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_gravity="left|center_vertical"
+                >
+                <TextView
+                    android:id="@+id/containerNumberLbl"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_container_num"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/color_black"
+                    android:gravity="left"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="12dp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_gravity="right"
+                android:gravity="right"
+                >
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/containerNumber"
+                    android:text="CONTAINER NUMBER"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/appThemeColor"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="12dp"
+                    android:minWidth="10dp"
+                    />
+            </LinearLayout>
+        </TableRow>
+
+
+        <View
+            android:layout_height="@dimen/height_search_result_ir"
+            android:layout_width="match_parent"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="@android:color/darker_gray"
+            >
+        </View>
+
+        <!-- container type start -->
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            >
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_gravity="left|center_vertical"
+                >
+                <TextView
+                    android:id="@+id/containerTypeLbl"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_container_type"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/color_black"
+                    android:gravity="left"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="12dp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_gravity="right"
+                android:gravity="right"
+                >
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/containerType"
+                    android:text="CONTAINER TYPE"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/appThemeColor"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="12dp"
+                    android:minWidth="10dp"
+                    android:gravity="right"
+                    />
+            </LinearLayout>
+        </TableRow>
+
+
+        <View
+            android:layout_height="@dimen/height_search_result_ir"
+            android:layout_width="match_parent"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="@android:color/darker_gray"
+            >
+        </View>
+
+        <!-- container size start -->
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            >
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_gravity="left|center_vertical"
+                >
+                <TextView
+                    android:id="@+id/containerSizeLbl"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_container_size"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/color_black"
+                    android:gravity="left"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="12dp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_gravity="right"
+                android:gravity="right"
+                >
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/containerSize"
+                    android:text="CONTAINER SIZE"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/appThemeColor"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="12dp"
+                    android:minWidth="10dp"
+                    />
+            </LinearLayout>
+        </TableRow>
+
+        <View
+            android:layout_height="@dimen/height_search_result_ir"
+            android:layout_width="match_parent"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="@android:color/darker_gray"
+            >
+        </View>
+
+        <!-- chassis type start -->
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            >
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_gravity="left|center_vertical"
+                >
+                <TextView
+                    android:id="@+id/chassisTypeLbl"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_chassis_type"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/color_black"
+                    android:gravity="left"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="12dp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_gravity="right"
+                android:gravity="right"
+                >
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/chassisType"
+                    android:text="CHASSIS TYPE"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/appThemeColor"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="12dp"
+                    android:minWidth="10dp"
+                    android:gravity="right"
+                    />
+            </LinearLayout>
+        </TableRow>
+
+        <View
+            android:layout_height="@dimen/height_search_result_ir"
+            android:layout_width="match_parent"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="@android:color/darker_gray"
+            >
+        </View>
+
+        <!-- chassis size start -->
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            >
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_gravity="left|center_vertical"
+                >
+                <TextView
+                    android:id="@+id/chassisSizeLbl"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_chassis_size"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/color_black"
+                    android:gravity="left"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="12dp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_gravity="right"
+                android:gravity="right"
+                >
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/chassisSize"
+                    android:text="CHASSIS SIZE"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/appThemeColor"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="12dp"
+                    android:minWidth="10dp"
+                    />
+            </LinearLayout>
+        </TableRow>
+
+            <View
+                android:layout_height="@dimen/height_search_result_ir"
+                android:layout_width="match_parent"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="@android:color/darker_gray"
+                >
+            </View>
+
+            <!-- chassis number start -->
+            <TableRow
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                >
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_gravity="left|center_vertical"
+                    >
+                    <TextView
+                        android:id="@+id/chassisNumberLbl"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_chassis_num"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/color_black"
+                        android:gravity="left"
+                        android:fontFamily="sans-serif-medium"
+                        android:textSize="12dp"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    >
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/chassisNumber"
+                        android:text="CHASSIS NUMBER"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/appThemeColor"
+                        android:fontFamily="sans-serif-medium"
+                        android:textSize="12dp"
+                        android:minWidth="10dp"
+                        />
+                </LinearLayout>
+            </TableRow>
+
+            <View
+                android:layout_height="@dimen/height_search_result_ir"
+                android:layout_width="match_parent"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="@android:color/darker_gray"
+                >
+            </View>
+
+            <!-- iep scac start -->
+            <TableRow
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                >
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_gravity="left|center_vertical"
+                    >
+                    <TextView
+                        android:id="@+id/iepScacLbl"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_iep_scac"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/color_black"
+                        android:gravity="left"
+                        android:fontFamily="sans-serif-medium"
+                        android:textSize="12dp"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    >
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/iepScac"
+                        android:text="IEP SCAC"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/appThemeColor"
+                        android:fontFamily="sans-serif-medium"
+                        android:textSize="12dp"
+                        android:minWidth="10dp"
+                        />
+                </LinearLayout>
+            </TableRow>
+
+            <View
+                android:layout_height="@dimen/height_search_result_ir"
+                android:layout_width="match_parent"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="@android:color/darker_gray"
+                >
+            </View>
+
+            <!-- delete button start -->
+            <TableRow
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:gravity="center_horizontal|center_vertical"
+                android:layout_marginTop="5dp"
+                android:id="@+id/deleteBtnRow"
+                >
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    >
+                    <Button
+                        android:id="@+id/deleteBtn"
+                        android:layout_height="wrap_content"
+                        android:text="@string/btn_delete"
+                        android:layout_width="match_parent"
+                        android:textColor="@android:color/white"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:fontFamily="sans-serif-medium"
+                        android:textSize="14dp"
+                        android:background="@color/appThemeColor"
+                        />
+                </LinearLayout>
+            </TableRow>
+
 
         </TableLayout>
 

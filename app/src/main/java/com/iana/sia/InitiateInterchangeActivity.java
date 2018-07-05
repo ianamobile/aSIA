@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ import com.iana.sia.model.Company;
 import com.iana.sia.model.FieldInfo;
 import com.iana.sia.model.FormOption;
 import com.iana.sia.model.InterchangeRequests;
+import com.iana.sia.model.NotificationAvail;
 import com.iana.sia.model.SIASecurityObj;
 import com.iana.sia.utility.ApiResponse;
 import com.iana.sia.utility.ApiResponseMessage;
@@ -54,7 +56,9 @@ import com.iana.sia.utility.SIAUtility;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class InitiateInterchangeActivity extends AppCompatActivity {
@@ -119,10 +123,15 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
     InterchangeRequests ir;
 
+    String baseOriginFrom = null;
+
+    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initiate_interchange);
+
+        context = getApplicationContext();
 
         showActionBar();
         ((TextView) findViewById(R.id.title)).setText(R.string.title_street_interchange_request);
@@ -237,53 +246,94 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         typeOfInterchangeAdapter = new TypeOfInterchangeAdapter(this, getResources().getStringArray(R.array.type_of_interchange));
         typeOfInterchangeSpinner.setAdapter(typeOfInterchangeAdapter);
 
-            new ExecuteSetupPageTask().execute();
+        new ExecuteSetupPageTask().execute();
 
-            ir = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, InterchangeRequests.class);
+        ir = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, InterchangeRequests.class);
 
-            if(null == ir) {
-                ir = new InterchangeRequests();
-            }
+        if (null == ir) {
+            ir = new InterchangeRequests();
+        }
 
-            Log.v("log_tag", "InitiateInterchangeActivity: InterchangeRequests:=> " + ir);
+        Log.v("log_tag", "InitiateInterchangeActivity: InterchangeRequests:=> " + ir);
 
-            epCompanyName.setText(null == ir.getEpCompanyName() ? "" : ir.getEpCompanyName());
-            epScac.setText(null == ir.getEpScacs() ? "" : ir.getEpScacs());
+        epCompanyName.setText(null == ir.getEpCompanyName() ? "" : ir.getEpCompanyName());
+        epScac.setText(null == ir.getEpScacs() ? "" : ir.getEpScacs());
 
-            mcACompanyName.setText(null == ir.getMcACompanyName() ? "" : ir.getMcACompanyName());
-            mcAScac.setText(null == ir.getMcAScac() ? "" : ir.getMcAScac());
-            mcBCompanyName.setText(null == ir.getMcBCompanyName() ? "" : ir.getMcBCompanyName());
-            mcBScac.setText(null == ir.getMcBScac() ? "" : ir.getMcBScac());
+        mcACompanyName.setText(null == ir.getMcACompanyName() ? "" : ir.getMcACompanyName());
+        mcAScac.setText(null == ir.getMcAScac() ? "" : ir.getMcAScac());
+        mcBCompanyName.setText(null == ir.getMcBCompanyName() ? "" : ir.getMcBCompanyName());
+        mcBScac.setText(null == ir.getMcBScac() ? "" : ir.getMcBScac());
 
-            if(null != ir && null != ir.getIntchgType()) {
-                for(int i=0;i<typeOfInterchangeSpinner.getCount();i++) {
-                    if(typeOfInterchangeSpinner.getItemAtPosition(i).equals(ir.getIntchgType())) {
-                        typeOfInterchangeSpinner.setSelection(i);
-                    }
+        if (null != ir && null != ir.getIntchgType()) {
+            for (int i = 0; i < typeOfInterchangeSpinner.getCount(); i++) {
+                if (typeOfInterchangeSpinner.getItemAtPosition(i).equals(ir.getIntchgType())) {
+                    typeOfInterchangeSpinner.setSelection(i);
                 }
             }
+        }
 
-            importBL.setText(ir.getImportBookingNum());
-            exportBookingNumber.setText(ir.getBookingNum());
-            containerNumber.setText(ir.getContNum());
+        importBL.setText(ir.getImportBookingNum());
+        exportBookingNumber.setText(ir.getBookingNum());
+        containerNumber.setText(ir.getContNum());
 
-            chassisNumber.setText(ir.getChassisNum());
-            iepScac.setText(ir.getIepScac());
+        chassisNumber.setText(ir.getChassisNum());
+        iepScac.setText(ir.getIepScac());
 
-            gensetNumber.setText(ir.getGensetNum());
+        gensetNumber.setText(ir.getGensetNum());
 
-            equipLocationName.setText(ir.getEquipLocNm());
-            equipLocationAddress.setText(ir.getEquipLocAddr());
-            equipLocationZipCode.setText(ir.getEquipLocZip());
-            equipLocationCity.setText(ir.getEquipLocCity());
-            equipLocationState.setText(ir.getEquipLocState());
+        equipLocationName.setText(ir.getEquipLocNm());
+        equipLocationAddress.setText(ir.getEquipLocAddr());
+        equipLocationZipCode.setText(ir.getEquipLocZip());
+        equipLocationCity.setText(ir.getEquipLocCity());
+        equipLocationState.setText(ir.getEquipLocState());
 
-            originLocationName.setText(ir.getOriginLocNm());
-            originLocationAddress.setText(ir.getOriginLocAddr());
-            originLocationZipCode.setText(ir.getOriginLocZip());
-            originLocationCity.setText(ir.getOriginLocCity());
-            originLocationState.setText(ir.getOriginLocState());
+        originLocationName.setText(ir.getOriginLocNm());
+        originLocationAddress.setText(ir.getOriginLocAddr());
+        originLocationZipCode.setText(ir.getOriginLocZip());
+        originLocationCity.setText(ir.getOriginLocCity());
+        originLocationState.setText(ir.getOriginLocState());
 
+        mcBCompanyName.setThreshold(2); //type char in after work....
+        mcBCompanyNameAdapter = new MCBLocationAdapter(this);
+        mcBCompanyName.setAdapter(mcBCompanyNameAdapter);
+
+        // code when request come from notification of available starts
+
+        baseOriginFrom = sharedPref.getString(GlobalVariables.KEY_BASE_ORIGIN_FROM, "");
+        if (null != baseOriginFrom && GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl.equalsIgnoreCase(baseOriginFrom)) {
+
+            epCompanyName.setFocusable(false);
+            epCompanyName.setClickable(false);
+            epCompanyName.setLongClickable(false);
+            epCompanyName.setTextColor(ContextCompat.getColor(context, R.color.darker_gray));
+
+            mcACompanyName.setFocusable(false);
+            mcACompanyName.setClickable(false);
+            mcACompanyName.setLongClickable(false);
+            mcACompanyName.setTextColor(ContextCompat.getColor(context, R.color.darker_gray));
+
+            mcBCompanyName.setText(siaSecurityObj.getCompanyName());
+
+            mcBScac.setText(siaSecurityObj.getScac());
+
+            containerNumber.setFocusable(false);
+            containerNumber.setClickable(false);
+            containerNumber.setLongClickable(false);
+            containerNumber.setTextColor(ContextCompat.getColor(context, R.color.darker_gray));
+
+            chassisNumber.setFocusable(false);
+            chassisNumber.setClickable(false);
+            chassisNumber.setLongClickable(false);
+            chassisNumber.setTextColor(ContextCompat.getColor(context, R.color.darker_gray));
+
+            iepScac.setTextColor(ContextCompat.getColor(context, R.color.darker_gray));
+
+            gensetNumber.setFocusable(false);
+            gensetNumber.setClickable(false);
+            gensetNumber.setLongClickable(false);
+            gensetNumber.setTextColor(ContextCompat.getColor(context, R.color.darker_gray));
+
+        } else {
             epCompanyName.setThreshold(2); //type char in after work....
             epCompanyNameAdapter = new EPLocationAdapter(this);
             epCompanyName.setAdapter(epCompanyNameAdapter);
@@ -293,67 +343,64 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
             mcACompanyNameAdapter = new MCALocationAdapter(this);
             mcACompanyName.setAdapter(mcACompanyNameAdapter);
 
-            mcBCompanyName.setThreshold(2); //type char in after work....
-            mcBCompanyNameAdapter = new MCBLocationAdapter(this);
-            mcBCompanyName.setAdapter(mcBCompanyNameAdapter);
 
+            epCompanyName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-        epCompanyName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
+                    if (Internet_Check.checkInternetConnection(context)) {
 
-                if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+                        String selectedString = (String) parent.getItemAtPosition(position);
+                        String[] selectedLocationArray = selectedString.split(Pattern.quote("|"));
 
-                    String selectedString = (String) parent.getItemAtPosition(position);
-                    String[] selectedLocationArray = selectedString.split(Pattern.quote("|"));
+                        ((AutoCompleteTextView) findViewById(R.id.epCompanyName)).setText(selectedLocationArray[1]);
+                        ((EditText) findViewById(R.id.epScac)).setText(selectedLocationArray[0]);
 
-                    ((AutoCompleteTextView) findViewById(R.id.epCompanyName)).setText(selectedLocationArray[1]);
-                    ((EditText) findViewById(R.id.epScac)).setText(selectedLocationArray[0]);
+                        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
-                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                        findViewById(R.id.mcACompanyName).requestFocus();
 
-                    findViewById(R.id.mcACompanyName).requestFocus();
-
-                } else {
-                    Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
-                    startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
+                        startActivity(intent);
+                    }
                 }
-            }
-        });
+            });
 
-        mcACompanyName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            mcACompanyName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
 
-                if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+                    if (Internet_Check.checkInternetConnection(context)) {
 
-                    String selectedString = (String) parent.getItemAtPosition(position);
-                    String[] selectedLocationArray = selectedString.split(Pattern.quote("|"));
+                        String selectedString = (String) parent.getItemAtPosition(position);
+                        String[] selectedLocationArray = selectedString.split(Pattern.quote("|"));
 
-                    ((AutoCompleteTextView) findViewById(R.id.mcACompanyName)).setText(selectedLocationArray[1]);
-                    ((EditText) findViewById(R.id.mcAScac)).setText(selectedLocationArray[0]);
+                        ((AutoCompleteTextView) findViewById(R.id.mcACompanyName)).setText(selectedLocationArray[1]);
+                        ((EditText) findViewById(R.id.mcAScac)).setText(selectedLocationArray[0]);
 
-                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
-                    findViewById(R.id.mcBCompanyName).requestFocus();
+                        findViewById(R.id.mcBCompanyName).requestFocus();
 
-                } else {
-                    Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
-                    startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
+                        startActivity(intent);
+                    }
                 }
-            }
-        });
+            });
 
+        }
         mcBCompanyName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
 
-                if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+                if (Internet_Check.checkInternetConnection(context)) {
 
                     String selectedString = (String) parent.getItemAtPosition(position);
                     String[] selectedLocationArray = selectedString.split(Pattern.quote("|"));
@@ -373,13 +420,99 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
             }
         });
 
+        containerTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String str =(String)parentView.getSelectedItem();
+                if(str.equalsIgnoreCase(getString(R.string.lbl_other))) {
+                    findViewById(R.id.containerTypeOtherLayout).setVisibility(View.VISIBLE);
+                    findViewById(R.id.containerTypeOther).requestFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(findViewById(R.id.containerTypeOther), InputMethodManager.SHOW_IMPLICIT);
+
+                } else {
+                    findViewById(R.id.containerTypeOtherLayout).setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                return;
+            }
+
+        });
+        containerSizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String str =(String)parentView.getSelectedItem();
+                if(str.equalsIgnoreCase(getString(R.string.lbl_other))) {
+                    findViewById(R.id.containerSizeOtherLayout).setVisibility(View.VISIBLE);
+                    findViewById(R.id.containerSizeOther).requestFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(findViewById(R.id.containerSizeOther), InputMethodManager.SHOW_IMPLICIT);
+
+                } else {
+                    findViewById(R.id.containerSizeOtherLayout).setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                return;
+            }
+
+        });
+
+        chassisTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String str =(String)parentView.getSelectedItem();
+                if(str.equalsIgnoreCase(getString(R.string.lbl_other))) {
+                    findViewById(R.id.chassisTypeOtherLayout).setVisibility(View.VISIBLE);
+                    findViewById(R.id.chassisTypeOther).requestFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(findViewById(R.id.chassisTypeOther), InputMethodManager.SHOW_IMPLICIT);
+                } else {
+                    findViewById(R.id.chassisTypeOtherLayout).setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                return;
+            }
+
+        });
+
+        chassisSizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String str =(String)parentView.getSelectedItem();
+                if(str.equalsIgnoreCase(getString(R.string.lbl_other))) {
+                    findViewById(R.id.chassisSizeOtherLayout).setVisibility(View.VISIBLE);
+                    findViewById(R.id.chassisSizeOther).requestFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(findViewById(R.id.chassisSizeOther), InputMethodManager.SHOW_IMPLICIT);
+
+                } else {
+                    findViewById(R.id.chassisSizeOtherLayout).setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                return;
+            }
+
+        });
+
         // code is to search Equipment Location start
         equipLocationSearch = findViewById(R.id.equipLocationSearch);
         equipLocationSearch.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
 
-                if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+                if (Internet_Check.checkInternetConnection(context)) {
 
                     setAndGetInterchangeRequestData();
 
@@ -408,7 +541,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
             public void onClick(View v)
             {
 
-                if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+                if (Internet_Check.checkInternetConnection(context)) {
 
                     if (null != epScac.getText() && (epScac.getText().toString().length() >= 2 && epScac.getText().toString().length() <= 4)) {
 
@@ -444,7 +577,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
 
-                    if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+                    if (Internet_Check.checkInternetConnection(context)) {
                         // code to disable background functionality when progress bar starts
                         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -471,7 +604,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+                if (Internet_Check.checkInternetConnection(context)) {
                     switch (item.getItemId()) {
                         case R.id.navigation_next:
                             String returnMessage = validateFields();
@@ -498,8 +631,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                         case R.id.navigation_cancel:
                             editor.remove(GlobalVariables.KEY_RETURN_FROM);
                             editor.commit();
-                            startActivity(new Intent(InitiateInterchangeActivity.this, DashboardActivity.class));
-                            finish(); /* This method will not display login page when click back (return) from phone */
+                            goToPreviousPage();
                             break;
                     }
 
@@ -540,10 +672,16 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         ll = (LinearLayout) containerTypeSpinner.getSelectedView(); // get the parent layout view
         selectedText = ll.findViewById(R.id.containerTypeTextView); // get the child text view
         ir.setContType(selectedText.getText().toString());
+        if(selectedText.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
+            ir.setContType(((EditText) findViewById(R.id.containerTypeOther)).getText().toString().trim());
+        }
 
         ll = (LinearLayout) containerSizeSpinner.getSelectedView(); // get the parent layout view
         selectedText = ll.findViewById(R.id.containerSizeTextView); // get the child text view
         ir.setContSize(selectedText.getText().toString());
+        if(selectedText.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
+            ir.setContSize(((EditText) findViewById(R.id.containerSizeOther)).getText().toString().trim());
+        }
 
         ir.setImportBookingNum(importBL.getText().toString());
         ir.setBookingNum(exportBookingNumber.getText().toString());
@@ -554,24 +692,30 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         ll = (LinearLayout) chassisTypeSpinner.getSelectedView(); // get the parent layout view
         selectedText = ll.findViewById(R.id.chassisTypeTextView); // get the child text view
         ir.setChassisType(selectedText.getText().toString());
+        if(selectedText.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
+            ir.setChassisType(((EditText) findViewById(R.id.chassisTypeOther)).getText().toString().trim());
+        }
 
         ll = (LinearLayout) chassisSizeSpinner.getSelectedView(); // get the parent layout view
         selectedText = ll.findViewById(R.id.chassisSizeTextView); // get the child text view
         ir.setChassisSize(selectedText.getText().toString());
+        if(selectedText.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
+            ir.setChassisSize(((EditText) findViewById(R.id.chassisSizeOther)).getText().toString().trim());
+        }
 
         ir.setGensetNum(gensetNumber.getText().toString());
 
         ir.setOriginLocNm(originLocationName.getText().toString());
-        ir.setOriginLocNm(originLocationAddress.getText().toString());
-        ir.setOriginLocNm(originLocationCity.getText().toString());
-        ir.setOriginLocNm(originLocationState.getText().toString());
-        ir.setOriginLocNm(originLocationZipCode.getText().toString());
+        ir.setOriginLocAddr(originLocationAddress.getText().toString());
+        ir.setOriginLocCity(originLocationCity.getText().toString());
+        ir.setOriginLocState(originLocationState.getText().toString());
+        ir.setOriginLocZip(originLocationZipCode.getText().toString());
 
         ir.setEquipLocNm(equipLocationName.getText().toString());
-        ir.setEquipLocNm(equipLocationAddress.getText().toString());
-        ir.setEquipLocNm(equipLocationCity.getText().toString());
-        ir.setEquipLocNm(equipLocationState.getText().toString());
-        ir.setEquipLocNm(equipLocationZipCode.getText().toString());
+        ir.setEquipLocAddr(equipLocationAddress.getText().toString());
+        ir.setEquipLocCity(equipLocationCity.getText().toString());
+        ir.setEquipLocState(equipLocationState.getText().toString());
+        ir.setEquipLocZip(equipLocationZipCode.getText().toString());
 
     }
 
@@ -650,11 +794,25 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         if(null == selectedContainerType || null == selectedContainerType.getText() ||
                 selectedContainerType.getText().toString().trim().equalsIgnoreCase(getString(R.string.select_container_type))) {
             return getString(R.string.msg_error_select_container_type);
+
+        } else if(selectedContainerType.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))){
+            EditText containerTypeOtherEditText = findViewById(R.id.containerTypeOther);
+            if(null == containerTypeOtherEditText || null == containerTypeOtherEditText.getText() ||
+                    containerTypeOtherEditText.getText().toString().trim().length() <= 0) {
+                return getString(R.string.msg_error_empty_container_type);
+            }
         }
 
         if(null == selectedContainerSize || null == selectedContainerSize.getText() ||
                 selectedContainerSize.getText().toString().trim().equalsIgnoreCase(getString(R.string.select_container_size))) {
             return getString(R.string.msg_error_select_container_size);
+
+        } else if(selectedContainerSize.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))){
+            EditText containerSizeOtherEditText = findViewById(R.id.containerSizeOther);
+            if(null == containerSizeOtherEditText || null == containerSizeOtherEditText.getText() ||
+                    containerSizeOtherEditText.getText().toString().trim().length() <= 0) {
+                return getString(R.string.msg_error_empty_container_size);
+            }
         }
 
         if(null != importBL && importBL.toString().trim().length() > 0 && !SIAUtility.isAlphaNumeric(importBL)) {
@@ -682,11 +840,25 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         if(null == selectedChassisType || null == selectedChassisType.getText() ||
                 selectedChassisType.getText().toString().trim().equalsIgnoreCase(getString(R.string.select_chassis_type))) {
             return getString(R.string.msg_error_select_chassis_type);
+
+        } else if(selectedChassisType.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))){
+            EditText chassisTypeOtherEditText = findViewById(R.id.chassisTypeOther);
+            if(null == chassisTypeOtherEditText || null == chassisTypeOtherEditText.getText() ||
+                    chassisTypeOtherEditText.getText().toString().trim().length() <= 0) {
+                return getString(R.string.msg_error_empty_chassis_type);
+            }
         }
 
         if(null == selectedChassisSize || null == selectedChassisSize.getText() ||
                 selectedChassisSize.getText().toString().trim().equalsIgnoreCase(getString(R.string.select_chassis_size))) {
             return getString(R.string.msg_error_select_chassis_size);
+
+        } else if(selectedChassisSize.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))){
+            EditText chassisSizeOtherEditText = findViewById(R.id.chassisSizeOther);
+            if(null == chassisSizeOtherEditText || null == chassisSizeOtherEditText.getText() ||
+                    chassisSizeOtherEditText.getText().toString().trim().length() <= 0) {
+                return getString(R.string.msg_error_empty_chassis_size);
+            }
         }
 
         if(null != gensetNumber && gensetNumber.toString().trim().length() > 0 && !SIAUtility.isAlphaNumeric(gensetNumber)) {
@@ -1203,33 +1375,19 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
                         notifyDataSetChanged();
 
-                    } else if (urlResponseCode != 0) {
-
-                        try {
-                            suggestions = new ArrayList<>();
-                            notifyDataSetChanged();
-
-                            ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
-
-                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
-
-                            mcBScac.setText("");
-
-                        } catch(Exception e) {
-                            suggestions = new ArrayList<>();
-                            notifyDataSetChanged();
-                            mcBScac.setText("");
-
-                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), getString(R.string.msg_error_try_after_some_time));
-                        }
-
                     } else {
 
                         suggestions = new ArrayList<>();
                         notifyDataSetChanged();
 
-                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), getString(R.string.msg_error_try_after_some_time));
+                        try {
 
+                            ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+
+                        } catch(Exception e) {
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), getString(R.string.msg_error_try_after_some_time));
+                        }
                         mcBScac.setText("");
                     }
 
@@ -1373,6 +1531,27 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                         ir.setIepScac(GlobalVariables.DEFUALT_CHASSIS_NUM);
                     }
 
+                    String containerType = containerTypeSpinner.getSelectedItem().toString();
+                    if(getString(R.string.lbl_other).equalsIgnoreCase(containerType)) {
+                        containerType = ((EditText) findViewById(R.id.containerTypeOther)).getText().toString().trim();
+                    }
+
+                    String containerSize = containerSizeSpinner.getSelectedItem().toString();
+                    if(getString(R.string.lbl_other).equalsIgnoreCase(containerSize)) {
+                        containerSize = ((EditText) findViewById(R.id.containerSizeOther)).getText().toString().trim();
+                    }
+
+                    String chassisType = chassisTypeSpinner.getSelectedItem().toString();
+                    if(getString(R.string.lbl_other).equalsIgnoreCase(chassisType)) {
+                        chassisType = ((EditText) findViewById(R.id.chassisTypeOther)).getText().toString().trim();
+                    }
+
+                    String chassisSize = chassisSizeSpinner.getSelectedItem().toString();
+                    if(getString(R.string.lbl_other).equalsIgnoreCase(chassisSize)) {
+                        chassisSize = ((EditText) findViewById(R.id.chassisSizeOther)).getText().toString().trim();
+                    }
+
+
                     int[] categories = new int[]{17, 5, 5};
                     String[] categoriesName = new String[]{"Street Interchange Details", "Equipment Interchange Location", "Original Interchange Location"};
                     String[] labelArray = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
@@ -1387,11 +1566,11 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                     String[] valueArray = new String[]{epCompanyName.getText().toString(), epScac.getText().toString(),
                             mcACompanyName.getText().toString(), mcAScac.getText().toString(),
                             mcBCompanyName.getText().toString(), mcBScac.getText().toString(),
-                            typeOfInterchangeSpinner.getSelectedItem().toString(), containerTypeSpinner.getSelectedItem().toString(),
-                            containerSizeSpinner.getSelectedItem().toString(), importBL.getText().toString(),
+                            typeOfInterchangeSpinner.getSelectedItem().toString(), containerType,
+                            containerSize, importBL.getText().toString(),
                             exportBookingNumber.getText().toString(), containerNumber.getText().toString(),
                             chassisNumber.getText().toString(), iepScac.getText().toString(),
-                            chassisTypeSpinner.getSelectedItem().toString(), chassisSizeSpinner.getSelectedItem().toString(),
+                            chassisType, chassisSize,
                             gensetNumber.getText().toString(),
                             equipLocationName.getText().toString(), equipLocationAddress.getText().toString(),
                             equipLocationZipCode.getText().toString(), equipLocationCity.getText().toString(),
@@ -1420,7 +1599,6 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                             /* End */
 
                 } else  {
-
 
                         try {
                             new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
@@ -1477,63 +1655,90 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                     List<FormOption> chassisTypeList = gson.fromJson(jObj.get("chassisTypeList"), listType);
                     List<FormOption> chassisSizeList = gson.fromJson(jObj.get("chassisSizeList"), listType);
 
+                    Map<String, Integer> dropDownMap = new HashMap<>();
                     List<String> setupList = new ArrayList<>();
+                    int cnt = 1;
                     setupList.add(getString(R.string.select_container_type));
                     for(FormOption form : contTypeList){
                         setupList.add(form.getValue());
+                        dropDownMap.put(form.getValue(), cnt++);
                     }
-                    containerTypeAdapter = new ContainerTypeAdapter(getApplicationContext(), setupList.toArray(new String[0]));
+                    Log.v("log_tag", "<=======================after API setupPage result=======================> ");
+                    Log.v("log_tag", "ir.getContType():=> " + ir.getContType());
+                    Log.v("log_tag", "dropDownMap:=> " + dropDownMap);
+                    Log.v("log_tag", "dropDownMap.get(ir.getContType()):=> " + dropDownMap.get(ir.getContType()));
+                    Log.v("log_tag", "setupList after API setupPage result:=> " + setupList);
+                    Log.v("log_tag", "<==============================================> ");
+                    containerTypeAdapter = new ContainerTypeAdapter(context, setupList.toArray(new String[0]));
                     containerTypeSpinner.setAdapter(containerTypeAdapter);
-                    if(null != ir && null != ir.getContType()) {
-                        for(int i=0;i<containerTypeSpinner.getCount();i++) {
-                            if(containerTypeSpinner.getItemAtPosition(i).equals(ir.getContType())) {
-                                containerTypeSpinner.setSelection(i);
-                            }
+                    if(null != ir && null != ir.getContType() && ir.getContType().trim().length() > 0) {
+                        if(setupList.contains(ir.getContType())) {
+                            containerTypeSpinner.setSelection(dropDownMap.get(ir.getContType()));
+                        } else {
+                            containerTypeSpinner.setSelection(dropDownMap.get(getString(R.string.lbl_other)));
+                            findViewById(R.id.containerTypeOtherLayout).setVisibility(View.VISIBLE);
+                            ((EditText) findViewById(R.id.containerTypeOther)).setText(ir.getContType());
                         }
+
                     }
 
+                    cnt = 1;
+                    dropDownMap.clear();
                     setupList = new ArrayList<>();
                     setupList.add(getString(R.string.select_container_size));
                     for(FormOption form : contSizeList){
                         setupList.add(form.getValue());
+                        dropDownMap.put(form.getValue(), cnt++);
                     }
-                    containerSizeAdapter = new ContainerSizeAdapter(getApplicationContext(), setupList.toArray(new String[0]));
+                    containerSizeAdapter = new ContainerSizeAdapter(context, setupList.toArray(new String[0]));
                     containerSizeSpinner.setAdapter(containerSizeAdapter);
-                    if(null != ir && null != ir.getContSize()) {
-                        for(int i=0;i<containerSizeSpinner.getCount();i++) {
-                            if(containerSizeSpinner.getItemAtPosition(i).equals(ir.getContSize())) {
-                                containerSizeSpinner.setSelection(i);
-                            }
+                    if(null != ir && null != ir.getContSize() && ir.getContSize().trim().length() > 0) {
+                        if(setupList.contains(ir.getContSize())) {
+                            containerSizeSpinner.setSelection(dropDownMap.get(ir.getContSize()));
+                        } else {
+                            containerSizeSpinner.setSelection(dropDownMap.get(getString(R.string.lbl_other)));
+                            findViewById(R.id.containerSizeOtherLayout).setVisibility(View.VISIBLE);
+                            ((EditText) findViewById(R.id.containerSizeOther)).setText(ir.getContSize());
                         }
                     }
 
+                    cnt = 1;
+                    dropDownMap.clear();
                     setupList = new ArrayList<>();
                     setupList.add(getString(R.string.select_chassis_type));
                     for(FormOption form : chassisTypeList){
                         setupList.add(form.getValue());
+                        dropDownMap.put(form.getValue(), cnt++);
                     }
-                    chassisTypeAdapter = new ChassisTypeAdapter(getApplicationContext(), setupList.toArray(new String[0]));
+                    chassisTypeAdapter = new ChassisTypeAdapter(context, setupList.toArray(new String[0]));
                     chassisTypeSpinner.setAdapter(chassisTypeAdapter);
-                    if(null != ir && null != ir.getChassisType()) {
-                        for(int i=0;i<chassisTypeSpinner.getCount();i++) {
-                            if(chassisTypeSpinner.getItemAtPosition(i).equals(ir.getChassisType())) {
-                                chassisTypeSpinner.setSelection(i);
-                            }
+                    if(null != ir && null != ir.getChassisType() && ir.getChassisType().trim().length() > 0) {
+                        if(setupList.contains(ir.getChassisType())) {
+                            chassisTypeSpinner.setSelection(dropDownMap.get(ir.getChassisType()));
+                        } else {
+                            chassisTypeSpinner.setSelection(dropDownMap.get(getString(R.string.lbl_other)));
+                            findViewById(R.id.chassisTypeOtherLayout).setVisibility(View.VISIBLE);
+                            ((EditText) findViewById(R.id.chassisTypeOther)).setText(ir.getChassisType());
                         }
                     }
 
+                    cnt = 1;
+                    dropDownMap.clear();
                     setupList = new ArrayList<>();
                     setupList.add(getString(R.string.select_chassis_size));
                     for(FormOption form : chassisSizeList){
                         setupList.add(form.getValue());
+                        dropDownMap.put(form.getValue(), cnt++);
                     }
-                    chassisSizeAdapter = new ChassisSizeAdapter(getApplicationContext(), setupList.toArray(new String[0]));
+                    chassisSizeAdapter = new ChassisSizeAdapter(context, setupList.toArray(new String[0]));
                     chassisSizeSpinner.setAdapter(chassisSizeAdapter);
-                    if(null != ir && null != ir.getChassisSize()) {
-                        for(int i=0;i<chassisSizeSpinner.getCount();i++) {
-                            if(chassisSizeSpinner.getItemAtPosition(i).equals(ir.getChassisSize())) {
-                                chassisSizeSpinner.setSelection(i);
-                            }
+                    if(null != ir && null != ir.getChassisSize() && ir.getChassisSize().trim().length() > 0) {
+                        if(setupList.contains(ir.getChassisSize())) {
+                            chassisSizeSpinner.setSelection(dropDownMap.get(ir.getChassisSize()));
+                        } else {
+                            chassisSizeSpinner.setSelection(dropDownMap.get(getString(R.string.lbl_other)));
+                            findViewById(R.id.chassisSizeOtherLayout).setVisibility(View.VISIBLE);
+                            ((EditText) findViewById(R.id.chassisSizeOther)).setText(ir.getChassisSize());
                         }
                     }
 
@@ -1558,11 +1763,21 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
     }
 
     void goToPreviousPage() {
-        if (Internet_Check.checkInternetConnection(getApplicationContext())) {
-            Intent intent = new Intent(InitiateInterchangeActivity.this, DashboardActivity.class);
+        if (Internet_Check.checkInternetConnection(context)) {
+
+            Intent intent = null;
+
+            baseOriginFrom = sharedPref.getString(GlobalVariables.KEY_BASE_ORIGIN_FROM, "");
+            if (null != baseOriginFrom && GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl.equalsIgnoreCase(baseOriginFrom)) {
+                intent = new Intent(InitiateInterchangeActivity.this, ListNotifAvailActivity.class);
+
+            } else {
+                intent = new Intent(InitiateInterchangeActivity.this, DashboardActivity.class);
+            }
             startActivity(intent);
             finish(); /* This method will not display login page when click back (return) from phone */
                             /* End */
+
         } else {
             Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
             startActivity(intent);

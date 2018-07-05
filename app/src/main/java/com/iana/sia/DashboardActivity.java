@@ -43,30 +43,30 @@ public class DashboardActivity extends AppCompatActivity {
 
     //MC Section Start
 
-    int[] mcMenuArr = new int[]{4, 2, 3, 0, 1, 20};
+    int[] mcMenuArr = new int[]{4, 2, 7, 3, 0, 1, 20};
     int[] mcSecDefaultRightsMenuArr = new int[]{0, 20};
     int[] mcSecSingleRightsMenuArr = new int[]{4, 2, 0, 1, 20};
-    int[] mcSecFullRightsMenuArr = new int[]{4, 2, 3, 0, 1, 20};
+    int[] mcSecFullRightsMenuArr = new int[]{4, 2, 7, 3, 0, 1, 20};
 
 
     //EP Section Start
 
-    int[] epMenuArr = new int[]{2, 3, 0, 1, 20};
+    int[] epMenuArr = new int[]{2, 7, 3, 0, 1, 20};
     int[] epSecDefaultRightsMenuArr = new int[]{20};
     int[] epSecSingleRightsMenuArr = new int[]{2, 0, 1, 20};
-    int[] epSecFullRightsMenuArr = new int[]{2, 3, 0, 1, 20};
+    int[] epSecFullRightsMenuArr = new int[]{2, 7, 3, 0, 1, 20};
 
 
     //IDD Section
 
-    int[] iddMenuArr = new int[]{4, 2, 3, 0, 1, 20};
+    int[] iddMenuArr = new int[]{4, 2, 7, 3, 0, 1, 20};
 
 
     //TPU Section
 
     int[] tpuDefaultRightsMenuArr = new int[]{5, 6, 20};
     int[] tpuSingleRightsMenuArr = new int[]{2, 0, 1, 5, 6, 20};
-    int[] tpuFullRightsMenuArr = new int[]{2, 3, 0, 1, 5, 6, 20};
+    int[] tpuFullRightsMenuArr = new int[]{2, 7, 3, 0, 1, 5, 6, 20};
 
 
     //final array which hold run time value from the rights based login.
@@ -198,7 +198,8 @@ public class DashboardActivity extends AppCompatActivity {
         editor.remove(GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ);
         editor.remove(GlobalVariables.KEY_INTERCHANGE_REQUESTS_SEARCH_OBJ);
         editor.remove(GlobalVariables.KEY_SEARCH_FOR_LOCATION);
-
+        editor.remove(GlobalVariables.KEY_NOTIF_AVAIL_SEARCH_OBJ);
+        editor.remove(GlobalVariables.KEY_BASE_ORIGIN_FROM);
         editor.commit();
 
         setupDashboard(finalArr);
@@ -281,6 +282,7 @@ public class DashboardActivity extends AppCompatActivity {
                     public void onClick(View v) {
 
                     if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+                        Log.d("myTag", "DashboardActivity GlobalVariables.menuTitleArr[v.getId()]:============================>"+GlobalVariables.menuTitleArr[v.getId()]);
 
                         if (null != GlobalVariables.menuTitleArr[v.getId()] &&
                                 GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_LOGOUT)) {
@@ -325,6 +327,24 @@ public class DashboardActivity extends AppCompatActivity {
                                 GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_SEARCH_INTERCHANGE_REQUESTS_BY_TPU)) {
 
                             Intent intent = new Intent(DashboardActivity.this, EPListByTPUActivity.class);
+                            startActivity(intent);
+                            finish(); /* This method will not display login page when click back (return) from phone */
+                                /* End */
+
+                        } else if (null != GlobalVariables.menuTitleArr[v.getId()] &&
+                                GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS)) {
+
+                            editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS);
+                            editor.commit();
+                            Intent intent = new Intent(DashboardActivity.this, ListInterchangeRequestActivity.class);
+                            startActivity(intent);
+                            finish(); /* This method will not display login page when click back (return) from phone */
+                                /* End */
+
+                        } else if (null != GlobalVariables.menuTitleArr[v.getId()] &&
+                                GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_SEARCH_EQUIP_AVAIL)) {
+
+                            Intent intent = new Intent(DashboardActivity.this, SearchNotifAvailActivity.class);
                             startActivity(intent);
                             finish(); /* This method will not display login page when click back (return) from phone */
                                 /* End */
@@ -411,6 +431,7 @@ public class DashboardActivity extends AppCompatActivity {
         editor.remove(GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ);
         editor.remove(GlobalVariables.KEY_INTERCHANGE_REQUESTS_SEARCH_OBJ);
         editor.remove(GlobalVariables.KEY_SEARCH_FOR_LOCATION);
+        editor.remove(GlobalVariables.KEY_NOTIF_AVAIL_SEARCH_OBJ);
 
         editor.clear();
         editor.commit(); // commit changes

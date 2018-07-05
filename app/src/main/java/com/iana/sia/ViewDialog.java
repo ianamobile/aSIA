@@ -28,7 +28,7 @@ public class ViewDialog {
         ((TextView) dialog.findViewById(R.id.titleTextView)).setText(title);
         ((TextView) dialog.findViewById(R.id.messageTextView)).setText(message);
 
-        Button dialogButton = (Button) dialog.findViewById(R.id.okBtnDialog);
+        Button dialogButton = dialog.findViewById(R.id.okBtnDialog);
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

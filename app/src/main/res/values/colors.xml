@@ -26,6 +26,7 @@
     <color name="darker_gray">#aaa</color>
 
     <color name="bg_color_search_location_list">#babebe</color>
+    <color name="bg_color_ep_user_list">#fcfcfc</color>
 
     <color name="bg_color_green">#46B163</color>
 

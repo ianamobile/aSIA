@@ -129,4 +129,54 @@ public class RestApiClient {
 
     }
 
+    public static ApiResponse callDeleteApi(String requestURL) {
+        StringBuffer responseBuffer = new StringBuffer();
+        ApiResponse apiResponse = new ApiResponse();
+        int statusCode = 0;
+
+        HttpURLConnection httpURLConnection = null;
+        BufferedReader reader = null;
+
+        try {
+
+            URL url = new URL(requestURL);
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setRequestMethod("DELETE");
+            statusCode = httpURLConnection.getResponseCode();
+            Log.v("log_tag", "Status Code " + statusCode);
+
+            if(statusCode != HttpURLConnection.HTTP_OK) {
+                reader = new BufferedReader(new InputStreamReader(
+                        httpURLConnection.getErrorStream()));
+            } else {
+                reader = new BufferedReader(new InputStreamReader(
+                        httpURLConnection.getInputStream()));
+            }
+            String line = null;
+            while((line = reader.readLine()) != null) {
+                responseBuffer.append(line);
+            }
+            apiResponse.setCode(statusCode);
+            apiResponse.setMessage(responseBuffer.toString());
+
+        } catch(MalformedURLException e) {
+            //e.printStackTrace();
+            Log.v("log_tag", "Exception: " + e.toString());
+        } catch(IOException e) {
+            //e.printStackTrace();
+            Log.v("log_tag", "Exception: " + e.toString());
+        } finally {
+            if(reader != null) {
+                try {
+                    reader.close();
+                    httpURLConnection.disconnect();
+                } catch(IOException e) {
+                    // Do nothing
+                    //e.printStackTrace();
+                }
+            }
+        }
+        return apiResponse;
+    }
+
 }

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.util.Patterns;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.iana.sia.model.FieldInfo;
 import com.iana.sia.model.InterchangeRequests;
 
@@ -106,6 +107,13 @@ public class SIAUtility {
     public static <T> T getObjectOfModel(SharedPreferences sharedPref, String string, Class<T> obj) {
         Gson gson = new Gson();
         return (gson.fromJson(sharedPref.getString(string, ""), obj));
+    }
+
+    public static <T> T getObjectOfModel(SharedPreferences sharedPref, String string, List<T> obj) {
+        Gson gson = new Gson();
+        return (gson.fromJson(sharedPref.getString(string, "[]"),
+                new TypeToken<List<T>>() {
+                }.getType()));
     }
 
     public static List<FieldInfo> prepareAndGetFieldInfoList(int[] categories, String[] categoriesName,

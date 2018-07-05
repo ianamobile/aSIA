@@ -53,6 +53,9 @@ public class GlobalVariables {
     public static final String KEY_INTERCHANGE_REQUESTS_SEARCH_OBJ = "interchangeRequestsSearchObj";
     public static final String KEY_INTERCHANGE_REQUESTS_OBJ = "interchangeRequestsObj";
 
+    public static final String KEY_NOTIF_AVAIL_SEARCH_OBJ = "notifAvailSearchObj";
+    public static final String KEY_NOTIF_AVAIL_OBJ = "notifAvailObj";
+
     public static final String KEY_SECURITY_OBJ = "securityObj";
 
     public static final String ORIGIN_FROM_IDDPIN_SCAC = "IDDPIN_SCAC";
@@ -66,6 +69,7 @@ public class GlobalVariables {
     public static final String MENU_TITLE_INITIATE_ST = "Initiate Street Turn";
     public static final String MENU_TITLE_SEARCH_INTERCHANGE_REQUESTS_BY_TPU = "Search Interchange Requests Submitted By you";
     public static final String MENU_TITLE_LIST_EP_USERS = "List EP Users";
+    public static final String MENU_TITLE_PENDING_INTERCHANGE_REQUESTS = "Pending Interchange Requests";
     public static final String MENU_TITLE_LOGOUT = "Logout";
 
     public static final String[]  menuTitleArr = new String[]
@@ -77,13 +81,13 @@ public class GlobalVariables {
                                                             "Initiate Street Turn",
                                                             "Search Interchange Requests Submitted By you",
                                                             "List EP Users",
-                                                            "", "", "", "", "", "", "", "", "", "", "", "", "",
+                                                            "Pending Interchange Requests", "", "", "", "", "", "", "", "", "", "", "", "",
                                                             "Logout"
                                                         };
 
     public static final String[] menuIconArr = new String[]
                                                         {   "plus","search","plus","search","plus","search","search",
-                                                            "","","","","","","","","","","","","",
+                                                            "search","","","","","","","","","","","","",
                                                             "logout"
                                                         };
 
@@ -118,5 +122,7 @@ public class GlobalVariables {
 
     public static final String N = "N";
     public static final String Y = "Y";
+
+    public static final String KEY_BASE_ORIGIN_FROM = "baseOriginFrom";
 
 }

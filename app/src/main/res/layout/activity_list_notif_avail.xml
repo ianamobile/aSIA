@@ -4,25 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.iana.sia.EPListByTPUActivity">
-
+    tools:context="com.iana.sia.ListNotifAvailActivity">
 
     <ListView
+        android:paddingTop="10dp"
         android:id="@+id/listView"
-        android:layout_below="@+id/searchLocation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@null"
         android:dividerHeight="0dp"
-        android:background="@color/bg_color_ep_user_list"
+        android:background="@color/backgroundcolor"
         >
     </ListView>
 
     <ProgressBar
         android:id="@+id/processingBar"
         android:indeterminateDrawable="@drawable/processing_bar"
-        android:layout_height="@dimen/processing_bar_height"
-        android:layout_width="@dimen/processing_bar_width"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
         android:layout_centerInParent="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

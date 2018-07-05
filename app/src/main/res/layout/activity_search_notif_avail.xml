@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainRelLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    android:layout_centerVertical="true"
+    android:gravity="center_horizontal|center_vertical"
+    android:background="@color/colorBGBase"
+    tools:context="com.iana.sia.SearchNotifAvailActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBGBase"
+        android:id="@+id/scrollView"
+        android:layout_above="@+id/navigation_search_cancel"
+        >
+
+        <RelativeLayout
+            android:id="@+id/subMainRelLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_horizontal|center_vertical"
+            android:background="@color/colorBGBase"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="@dimen/margin_from_left"
+            android:layout_marginRight="@dimen/margin_from_right"
+            >
+
+            <!-- Container Number start -->
+            <LinearLayout
+                android:id="@+id/containerNumberLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:id="@+id/containerNumberLblLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/background_light">
+
+                    <ImageView
+                        android:id="@+id/containerNumberImg"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:srcCompat="@drawable/hash" />
+
+                    <TextView
+                        android:id="@+id/containerNumberLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:text="@string/lbl_container_number"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintLeft_toRightOf="@+id/containerNumberImg"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/containerNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:paddingLeft="@dimen/edit_text_padding_left"
+                    android:ems="10"
+                    android:hint="@string/hint_search_by_container_no"
+                    android:inputType="textPersonName"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/containerNumberImg"
+                    android:fontFamily="sans-serif-medium"
+                    android:backgroundTint="@android:color/transparent"
+                    android:maxLength="@integer/container_number_length"
+                    />
+            </LinearLayout>
+
+            <!-- Motor Carrier SCAC start -->
+            <LinearLayout
+                android:id="@+id/mcScacLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                android:layout_below="@+id/containerNumberLayout"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/mcScacLblLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/background_light">
+
+                    <ImageView
+                        android:id="@+id/mcScacImg"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:srcCompat="@drawable/scac" />
+
+                    <TextView
+                        android:id="@+id/mcScacLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:text="@string/lbl_motor_carrier_scac"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintLeft_toRightOf="@+id/mcScacImg"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/mcScac"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:paddingLeft="@dimen/edit_text_padding_left"
+                    android:ems="10"
+                    android:hint="@string/hint_search_by_mc_scac"
+                    android:inputType="textPersonName"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/mcScacImg"
+                    android:fontFamily="sans-serif-medium"
+                    android:backgroundTint="@android:color/transparent"
+                    android:maxLength="@integer/scac_length"
+                    />
+
+            </LinearLayout>
+
+            <!-- Container Provider SCAC start -->
+            <LinearLayout
+                android:id="@+id/epScacLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                android:layout_below="@+id/mcScacLayout"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/epScacLblLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/background_light">
+
+                    <ImageView
+                        android:id="@+id/epScacImg"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:srcCompat="@drawable/scac" />
+
+                    <TextView
+                        android:id="@+id/epScacLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:text="@string/lbl_container_provider_scac"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintLeft_toRightOf="@+id/epScacImg"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/epScac"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:paddingLeft="@dimen/edit_text_padding_left"
+                    android:ems="10"
+                    android:hint="@string/hint_search_by_ep_scac"
+                    android:inputType="textPersonName"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/epScacImg"
+                    android:fontFamily="sans-serif-medium"
+                    android:backgroundTint="@android:color/transparent"
+                    android:maxLength="@integer/scac_length"
+                    />
+
+            </LinearLayout>
+
+            <!-- From Date Start -->
+            <LinearLayout
+                android:id="@+id/fromDateLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                android:layout_below="@+id/epScacLayout"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/fromDateLblLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/background_light">
+
+                    <ImageView
+                        android:id="@+id/fromDateImg"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:srcCompat="@drawable/date" />
+
+                    <TextView
+                        android:id="@+id/fromDateLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:text="@string/lbl_from_date"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintLeft_toRightOf="@+id/fromDateImg"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/fromDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:paddingLeft="@dimen/edit_text_padding_left"
+                    android:ems="10"
+                    android:hint="@string/hint_from_date"
+                    android:inputType="textPersonName"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/fromDateImg"
+                    android:fontFamily="sans-serif-medium"
+                    android:backgroundTint="@android:color/transparent"
+                    android:maxLength="@integer/date_length"
+                    android:onClick="fromDate"
+                    android:focusableInTouchMode="false"
+                    />
+
+            </LinearLayout>
+
+            <!-- To Date Start -->
+            <LinearLayout
+                android:id="@+id/toDateLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_width_edit_text"
+                android:background="@android:color/background_light"
+                android:orientation="vertical"
+                android:layout_below="@+id/fromDateLayout"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/toDateLblLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/background_light">
+
+                    <ImageView
+                        android:id="@+id/toDateImg"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:srcCompat="@drawable/date" />
+
+                    <TextView
+                        android:id="@+id/toDateLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:text="@string/lbl_to_date"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        app:layout_constraintLeft_toRightOf="@+id/toDateImg"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/siaImg" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/toDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:paddingLeft="@dimen/edit_text_padding_left"
+                    android:ems="10"
+                    android:hint="@string/hint_to_date"
+                    android:inputType="textPersonName"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/toDateImg"
+                    android:fontFamily="sans-serif-medium"
+                    android:backgroundTint="@android:color/transparent"
+                    android:maxLength="@integer/date_length"
+                    android:onClick="toDate"
+                    android:focusableInTouchMode="false"
+                    />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation_search_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@android:color/black"
+        android:color="@android:color/white"
+        android:visibility="visible"
+        app:itemBackground="@android:color/black"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white"
+        app:menu="@menu/navigation_search_cancel"
+        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <ProgressBar
+        android:id="@+id/processingBar"
+        android:indeterminateDrawable="@drawable/processing_bar"
+        android:layout_height="@dimen/processing_bar_height"
+        android:layout_width="@dimen/processing_bar_width"
+        android:layout_centerInParent="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        android:windowCloseOnTouchOutside="false"
+        >
+    </ProgressBar>
+
+
+</RelativeLayout>
