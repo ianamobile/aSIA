@@ -8,12 +8,13 @@
 
     <ListView
         android:id="@+id/listView"
+        android:paddingTop="10dp"
         android:layout_below="@+id/searchLocation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@null"
         android:dividerHeight="0dp"
-        android:background="@color/bg_color_search_location_list"
+        android:background="@color/backgroundcolor"
         >
     </ListView>
 

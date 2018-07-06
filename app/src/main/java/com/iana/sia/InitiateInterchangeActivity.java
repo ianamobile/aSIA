@@ -182,29 +182,10 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         iepScac.setLongClickable(false);
 
         equipLocationName = findViewById(R.id.equipLocationName);
-        equipLocationName.setFocusable(false);
-        equipLocationName.setClickable(false);
-        equipLocationName.setLongClickable(false);
-
         equipLocationAddress = findViewById(R.id.equipLocationAddress);
-        equipLocationAddress.setFocusable(false);
-        equipLocationAddress.setClickable(false);
-        equipLocationAddress.setLongClickable(false);
-
         equipLocationCity = findViewById(R.id.equipLocationCity);
-        equipLocationCity.setFocusable(false);
-        equipLocationCity.setClickable(false);
-        equipLocationCity.setLongClickable(false);
-
         equipLocationState = findViewById(R.id.equipLocationState);
-        equipLocationState.setFocusable(false);
-        equipLocationState.setClickable(false);
-        equipLocationState.setLongClickable(false);
-
         equipLocationZipCode = findViewById(R.id.equipLocationZipCode);
-        equipLocationZipCode.setFocusable(false);
-        equipLocationZipCode.setClickable(false);
-        equipLocationZipCode.setLongClickable(false);
 
         originLocationName = findViewById(R.id.originLocationName);
         originLocationName.setFocusable(false);
@@ -246,13 +227,18 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         typeOfInterchangeAdapter = new TypeOfInterchangeAdapter(this, getResources().getStringArray(R.array.type_of_interchange));
         typeOfInterchangeSpinner.setAdapter(typeOfInterchangeAdapter);
 
-        new ExecuteSetupPageTask().execute();
+
+        // code to disable background functionality when progress bar starts
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
         ir = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, InterchangeRequests.class);
 
         if (null == ir) {
             ir = new InterchangeRequests();
         }
+
+        new ExecuteSetupPageTask().execute();
 
         Log.v("log_tag", "InitiateInterchangeActivity: InterchangeRequests:=> " + ir);
 
@@ -1647,8 +1633,6 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
-            // code to regain disable backend functionality end
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
             try {
                 Log.v("log_tag", "API setupPage urlResponseCode:=>" + urlResponseCode);
@@ -1675,7 +1659,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
                     containerTypeAdapter = new ContainerTypeAdapter(context, setupList.toArray(new String[0]));
                     containerTypeSpinner.setAdapter(containerTypeAdapter);
-                    if(null != ir && null != ir.getContType() && ir.getContType().trim().length() > 0) {
+                    if(null != ir && null != ir.getContType() && ir.getContType().trim().length() > 0 && !ir.getContType().equalsIgnoreCase(getString(R.string.select_container_type))) {
                         if(setupList.contains(ir.getContType())) {
                             containerTypeSpinner.setSelection(dropDownMap.get(ir.getContType()));
                         } else {
@@ -1696,7 +1680,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                     }
                     containerSizeAdapter = new ContainerSizeAdapter(context, setupList.toArray(new String[0]));
                     containerSizeSpinner.setAdapter(containerSizeAdapter);
-                    if(null != ir && null != ir.getContSize() && ir.getContSize().trim().length() > 0) {
+                    if(null != ir && null != ir.getContSize() && ir.getContSize().trim().length() > 0 && !ir.getContSize().equalsIgnoreCase(getString(R.string.select_container_size))) {
                         if(setupList.contains(ir.getContSize())) {
                             containerSizeSpinner.setSelection(dropDownMap.get(ir.getContSize()));
                         } else {
@@ -1761,6 +1745,9 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
             } catch (Exception e) {
                 Log.v("log_tag", "Error ", e);
             }
+
+            // code to regain disable backend functionality end
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
         }
 

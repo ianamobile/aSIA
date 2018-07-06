@@ -24,6 +24,7 @@
     <string name="api_get_interchange_request_details">getInterchangeRequestDetails</string>
     <string name="api_get_equipment_list">getEquipmentList</string>
     <string name="api_delete_notif_avail_request_by_na_id">deleteNotifAvailRequestByNaId</string>
+    <string name="api_validate_notif_avail_equip_details">validateNotifAvailEquipDetails</string>
 
     <!-- API Info end -->
 
@@ -50,6 +51,7 @@
     <string name="dialog_title_ep_user_list">EP USER LIST</string>
     <string name="dialog_title_interchange_request_list">SEARCH RESULTS</string>
     <string name="dialog_title_request_pool_search">REQUEST POOL SEARCH</string>
+    <string name="dialog_title_add_equipment_to_pool">ADD EQUIPMENT TO POOL</string>
     <!-- Dialog title end -->
 
     <!-- Success message starts -->
@@ -120,6 +122,8 @@
     <string name="lbl_load_status">LOAD STATUS</string>
     <string name="lbl_chassis_num">CHASSIS#</string>
     <string name="lbl_iep_scac">IEP SCAC</string>
+    <string name="lbl_chassis_number">CHASSIS NUMBER</string>
+    <string name="lbl_chassis_iep_scac">CHASSIS IEP SCAC</string>
 
     <!-- hint -->
     <string name="hint_username">ENTER USERNAME</string>
@@ -184,7 +188,7 @@
 
     <!-- title start -->
     <string name="title_back">BACK</string>
-    <string name="title_notif_avail">Notification Available</string>
+    <string name="title_add_equipment_to_pool">ADD EQUIPMENT TO POOL</string>
     <string name="title_street_turn_request">STREET TURN REQUEST</string>
     <string name="title_search_location">SEARCH LOCATION</string>
     <string name="title_verify_details">VERIFY DETAILS</string>
@@ -223,11 +227,12 @@
     <string name="select_container_type">SELECT CONTAINER TYPE</string>
     <string name="select_chassis_size">SELECT CHASSIS SIZE</string>
     <string name="select_chassis_type">SELECT CHASSIS TYPE</string>
-
+    <string name="select_load_status">SELECT LOAD STATUS</string>
 
     <!-- page heading start -->
 
     <string name="heading_initiate_interchange_request">INITIATE INTERCHANGE REQUEST</string>
+    <string name="heading_notification_of_available_equipment">Notification of Available Equipment</string>
 
     <!-- Error Messages start -->
 
@@ -310,4 +315,5 @@
     <string name="msg_error_char_motor_carrier_scac">Motor Carrier SCAC should contains characters only.</string>
     <string name="msg_error_length_motor_carrier_scac">Motor Carrier SCAC should be 4 characters long.</string>
 
+    <string name="msg_error_select_load_status">Please select load status.</string>
 </resources>

@@ -18,7 +18,6 @@
         android:background="@color/colorBGBase"
         android:id="@+id/scrollView"
         android:layout_above="@+id/navigation_next_cancel"
-        android:backgroundTint="@color/appThemeColor"
         >
 
         <RelativeLayout
@@ -1012,7 +1011,7 @@
                         android:id="@+id/chassisNumberLbl"
                         android:layout_width="match_parent"
                         android:layout_height="18dp"
-                        android:text="Chassis Number"
+                        android:text="@string/lbl_chassis_number"
                         android:textColor="@android:color/black"
                         android:textSize="10sp"
                         android:textStyle="bold"
@@ -1084,7 +1083,7 @@
                         android:id="@+id/iepScacLbl"
                         android:layout_width="match_parent"
                         android:layout_height="18dp"
-                        android:text="Chassis IEP SCAC"
+                        android:text="@string/lbl_chassis_iep_scac"
                         android:textColor="@android:color/black"
                         android:textSize="10sp"
                         android:textStyle="bold"

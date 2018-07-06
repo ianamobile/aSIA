@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.iana.sia.model.FieldInfo;
 import com.iana.sia.model.InterchangeRequests;
+import com.iana.sia.model.NotificationAvail;
 import com.iana.sia.model.SIASecurityObj;
 import com.iana.sia.utility.ApiResponse;
 import com.iana.sia.utility.ApiResponseMessage;
@@ -108,7 +109,17 @@ public class VerifyActivity extends AppCompatActivity {
 
             InterchangeRequests ir = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, InterchangeRequests.class);
             Gson gson = new Gson();
-            new VerifyActivity.ExecuteTaskSubmit(gson.toJson(ir, InterchangeRequests.class)).execute();
+            new ExecuteTaskSubmit(gson.toJson(ir, InterchangeRequests.class)).execute();
+
+        } else if(GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl.equalsIgnoreCase(requestOriginFrom)) {
+
+            // code to disable background functionality when progress bar starts
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+            NotificationAvail na = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_NOTIF_AVAIL_OBJ, NotificationAvail.class);
+            Gson gson = new Gson();
+            new ExecuteTaskSubmit(gson.toJson(na, NotificationAvail.class)).execute();
         }
     }
     public List<FieldInfo> readListOfModel() {
@@ -230,12 +241,11 @@ public class VerifyActivity extends AppCompatActivity {
 
                 if (urlResponseCode == 200) {
 
-                    String requestOriginFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
-                    if (GlobalVariables.ORIGIN_FROM_STREET_TURN.equalsIgnoreCase(requestOriginFrom)) {
-                        editor.putString(GlobalVariables.SUCCESS, getString(R.string.success_msg_street_turn));
+                    editor.putString(GlobalVariables.SUCCESS, errorMessage.getMessage());
 
-                    } else if (GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE.equalsIgnoreCase(requestOriginFrom)) {
-                        editor.putString(GlobalVariables.SUCCESS, getString(R.string.success_msg_street_interchange));
+                    String requestOriginFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
+                    if (GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE.equalsIgnoreCase(requestOriginFrom)) {
+
                         InterchangeRequests ir = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, InterchangeRequests.class);
                         if(GlobalVariables.INITIATOR_MCA.equalsIgnoreCase(findInitiater(siaSecurityObj.getScac(), ir, siaSecurityObj.getRoleName(), siaSecurityObj.getMemType()))) {
                             editor.putString("isStreetInterchangeInitiatedByMCA", "true");
@@ -244,7 +254,6 @@ public class VerifyActivity extends AppCompatActivity {
                             editor.putString("isStreetInterchangeInitiatedByMCA", "false");
 
                         }
-
                     }
 
                     editor.commit();
@@ -254,19 +263,13 @@ public class VerifyActivity extends AppCompatActivity {
                     finish(); /* This method will not display login page when click back (return) from phone */
                             /* End */
 
-                } else if (urlResponseCode != 0) {
+                } else {
 
                     try {
-                        String requestOriginFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
-                        if (GlobalVariables.ORIGIN_FROM_STREET_TURN.equalsIgnoreCase(requestOriginFrom)) {
-                            new ViewDialog().showDialog(VerifyActivity.this, getString(R.string.dialog_title_verify_details), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
-                        }
+                        new ViewDialog().showDialog(VerifyActivity.this, getString(R.string.dialog_title_verify_details), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
                     } catch(Exception e){
                         new ViewDialog().showDialog(VerifyActivity.this, getString(R.string.dialog_title_verify_details), getString(R.string.msg_error_try_after_some_time));
                     }
-
-                } else {
-                    new ViewDialog().showDialog(VerifyActivity.this, getString(R.string.dialog_title_verify_details), getString(R.string.msg_error_try_after_some_time));
                 }
 
             } catch (Exception e) {
@@ -281,19 +284,21 @@ public class VerifyActivity extends AppCompatActivity {
         if (Internet_Check.checkInternetConnection(getApplicationContext())) {
 
             String requestOriginFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
-            if(GlobalVariables.ORIGIN_FROM_STREET_TURN.equalsIgnoreCase(requestOriginFrom)) {
 
+            if(GlobalVariables.ORIGIN_FROM_STREET_TURN.equalsIgnoreCase(requestOriginFrom)) {
                 startActivity(new Intent(VerifyActivity.this, StreetTurnActivity.class));
-                finish(); /* This method will not display login page when click back (return) */
 
             } else if(GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE.equalsIgnoreCase(requestOriginFrom)) {
-
                 startActivity(new Intent(VerifyActivity.this, InitiateInterchangeActivity.class));
-                finish(); /* This method will not display login page when click back (return) */
+
+            } else if(GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl.equalsIgnoreCase(requestOriginFrom)) {
+                startActivity(new Intent(VerifyActivity.this, NotifAvailActivity.class));
             }
 
             editor.putString(GlobalVariables.KEY_RETURN_FROM, GlobalVariables.RETURN_FROM_VERIFY_DETAILS);
             editor.commit();
+
+            finish(); /* This method will not display login page when click back (return) */
 
         } else {
             Intent intent = new Intent(VerifyActivity.this, NoInternetActivity.class);

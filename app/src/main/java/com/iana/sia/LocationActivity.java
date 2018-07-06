@@ -36,6 +36,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.iana.sia.model.IanaLocations;
 import com.iana.sia.model.InterchangeRequests;
+import com.iana.sia.model.NotificationAvail;
 import com.iana.sia.utility.ApiResponse;
 import com.iana.sia.utility.ApiResponseMessage;
 import com.iana.sia.utility.GlobalVariables;
@@ -66,6 +67,7 @@ public class LocationActivity extends AppCompatActivity {
     ProgressBar progressBar;
 
     InterchangeRequests ir;
+    NotificationAvail na;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,9 +100,18 @@ public class LocationActivity extends AppCompatActivity {
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
         editor = sharedPref.edit();
 
-        ir = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, InterchangeRequests.class);
-
         if(sharedPref != null){
+
+            if(sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE) ||
+                sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_STREET_TURN)) {
+
+                ir = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, InterchangeRequests.class);
+
+            } else {
+                na = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_NOTIF_AVAIL_OBJ, NotificationAvail.class);
+            }
+
+
 
             if(sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE)) {
 
@@ -329,10 +340,10 @@ public class LocationActivity extends AppCompatActivity {
                     if(sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE)) {
 
                         if(sharedPref.getString(GlobalVariables.KEY_SEARCH_FOR_LOCATION, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_ORIGINAL)) {
-                            setSelectedLocation(position, GlobalVariables.ORIGIN_FROM_ORIGINAL);
+                            setSelectedLocation(GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE, position, GlobalVariables.ORIGIN_FROM_ORIGINAL);
 
                         } else {
-                            setSelectedLocation(position, "");
+                            setSelectedLocation(GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE, position, "");
                         }
 
                         SIAUtility.setObject(editor, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, ir);
@@ -340,15 +351,15 @@ public class LocationActivity extends AppCompatActivity {
                     }else if(sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl)) {
 
                         if(sharedPref.getString(GlobalVariables.KEY_SEARCH_FOR_LOCATION, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_ORIGINAL)) {
-                            setSelectedLocation(position, GlobalVariables.ORIGIN_FROM_ORIGINAL);
+                            setSelectedLocation(GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl, position, GlobalVariables.ORIGIN_FROM_ORIGINAL);
                         } else {
-                            setSelectedLocation(position, "");
+                            setSelectedLocation(GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl, position, "");
                         }
 
-//                        SIAUtility.setObject(editor, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, ir);
+                        SIAUtility.setObject(editor, GlobalVariables.KEY_NOTIF_AVAIL_OBJ, na);
 
                     } else if(sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_STREET_TURN)){
-                        setSelectedLocation(position, GlobalVariables.ORIGIN_FROM_ORIGINAL);
+                        setSelectedLocation(GlobalVariables.ORIGIN_FROM_STREET_TURN, position, GlobalVariables.ORIGIN_FROM_ORIGINAL);
                         SIAUtility.setObject(editor, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, ir);
                     }
 
@@ -363,25 +374,47 @@ public class LocationActivity extends AppCompatActivity {
         }
     } /* End */
 
-    void setSelectedLocation(int position, String equipOrOrigin){
+    void setSelectedLocation(String originFrom, int position, String equipOrOrigin){
 
-        if(null != equipOrOrigin && equipOrOrigin.equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_ORIGINAL)) {
-            ir.setOriginLocNm(dataList.get(position).getLocName());
-            ir.setOriginLocAddr(dataList.get(position).getAddr());
-            ir.setOriginLocZip(dataList.get(position).getZip());
-            ir.setOriginLocCity(dataList.get(position).getCity());
-            ir.setOriginLocState(dataList.get(position).getState());
-            ir.setOriginLocIanaCode(dataList.get(position).getIanaCode());
-            ir.setOriginLocSplcCode(dataList.get(position).getSplcCode());
+        if(GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl.equalsIgnoreCase(originFrom)) {
+            if (null != equipOrOrigin && equipOrOrigin.equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_ORIGINAL)) {
+                na.setOriginLocNm(dataList.get(position).getLocName());
+                na.setOriginLocAddr(dataList.get(position).getAddr());
+                na.setOriginLocZip(dataList.get(position).getZip());
+                na.setOriginLocCity(dataList.get(position).getCity());
+                na.setOriginLocState(dataList.get(position).getState());
+                na.setOriginLocIanaCode(dataList.get(position).getIanaCode());
+                na.setOriginLocSplcCode(dataList.get(position).getSplcCode());
+
+            } else {
+                na.setEquipLocNm(dataList.get(position).getLocName());
+                na.setEquipLocAddr(dataList.get(position).getAddr());
+                na.setEquipLocZip(dataList.get(position).getZip());
+                na.setEquipLocCity(dataList.get(position).getCity());
+                na.setEquipLocState(dataList.get(position).getState());
+                na.setEquipLocIanaCode(dataList.get(position).getIanaCode());
+                na.setEquipLocSplcCode(dataList.get(position).getSplcCode());
+            }
 
         } else {
-            ir.setEquipLocNm(dataList.get(position).getLocName());
-            ir.setEquipLocAddr(dataList.get(position).getAddr());
-            ir.setEquipLocZip(dataList.get(position).getZip());
-            ir.setEquipLocCity(dataList.get(position).getCity());
-            ir.setEquipLocState(dataList.get(position).getState());
-            ir.setEquipLocIanaCode(dataList.get(position).getIanaCode());
-            ir.setEquipLocSplcCode(dataList.get(position).getSplcCode());
+            if (null != equipOrOrigin && equipOrOrigin.equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_ORIGINAL)) {
+                ir.setOriginLocNm(dataList.get(position).getLocName());
+                ir.setOriginLocAddr(dataList.get(position).getAddr());
+                ir.setOriginLocZip(dataList.get(position).getZip());
+                ir.setOriginLocCity(dataList.get(position).getCity());
+                ir.setOriginLocState(dataList.get(position).getState());
+                ir.setOriginLocIanaCode(dataList.get(position).getIanaCode());
+                ir.setOriginLocSplcCode(dataList.get(position).getSplcCode());
+
+            } else {
+                ir.setEquipLocNm(dataList.get(position).getLocName());
+                ir.setEquipLocAddr(dataList.get(position).getAddr());
+                ir.setEquipLocZip(dataList.get(position).getZip());
+                ir.setEquipLocCity(dataList.get(position).getCity());
+                ir.setEquipLocState(dataList.get(position).getState());
+                ir.setEquipLocIanaCode(dataList.get(position).getIanaCode());
+                ir.setEquipLocSplcCode(dataList.get(position).getSplcCode());
+            }
         }
     }
 

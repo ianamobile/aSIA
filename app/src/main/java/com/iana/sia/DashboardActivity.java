@@ -348,6 +348,16 @@ public class DashboardActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish(); /* This method will not display login page when click back (return) from phone */
                                 /* End */
+
+                        } else if (null != GlobalVariables.menuTitleArr[v.getId()] &&
+                                GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_NOTIF_AVAIL)) {
+
+                            editor.remove(GlobalVariables.KEY_NOTIF_AVAIL_OBJ);
+                            editor.commit();
+                            Intent intent = new Intent(DashboardActivity.this, NotifAvailActivity.class);
+                            startActivity(intent);
+                            finish(); /* This method will not display login page when click back (return) from phone */
+                                /* End */
                         }
 
                     } else {
@@ -432,6 +442,7 @@ public class DashboardActivity extends AppCompatActivity {
         editor.remove(GlobalVariables.KEY_INTERCHANGE_REQUESTS_SEARCH_OBJ);
         editor.remove(GlobalVariables.KEY_SEARCH_FOR_LOCATION);
         editor.remove(GlobalVariables.KEY_NOTIF_AVAIL_SEARCH_OBJ);
+        editor.remove(GlobalVariables.KEY_BASE_ORIGIN_FROM);
 
         editor.clear();
         editor.commit(); // commit changes
