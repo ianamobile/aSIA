@@ -165,14 +165,13 @@ public class LoginTPUActivity extends AppCompatActivity {
     }
 
     private String validateLoginFields(String userName, String password) {
-        if(userName == null || userName == "" || userName.toString().trim().length() <= 0 ||
-                password == null || password == "" || password.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_all_mandatory);
+        if((userName == null || userName == "" || userName.toString().trim().length() <= 0) &&
+                (password == null || password == "" || password.toString().trim().length() <= 0)) {
+            return getString(R.string.msg_error_empty_username_password);
         }
 
         if(userName == null || userName == "" || userName.toString().trim().length() <= 0) {
             return getString(R.string.msg_error_blank_userName);
-
         }
 
         if(password == null || password == "" || password.toString().trim().length() <= 0) {

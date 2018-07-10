@@ -53,7 +53,9 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Animati
                 R.anim.set_in_left);
         slideLeft.setAnimationListener(this);
 
-        progressBar = (ProgressBar) findViewById(R.id.processingBar);
+        progressBar = findViewById(R.id.processingBar);
+
+        dialogTitle = getString(R.string.dialog_title_forgot_password);
 
         // below code is used to restrict auto populate keypad
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -61,11 +63,9 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Animati
         SharedPreferences sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
 
         if(sharedPref != null && sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ROLE_MC)) {
-            dialogTitle = getString(R.string.dialog_title_mc_login);
             role = GlobalVariables.ROLE_MC;
 
         } else if(sharedPref != null && sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ROLE_EP)) {
-            dialogTitle = getString(R.string.dialog_title_ep_login);
             role = GlobalVariables.ROLE_EP;
         }
 

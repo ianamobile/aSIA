@@ -1231,13 +1231,13 @@
                     android:paddingLeft="@dimen/edit_text_padding_left"
                     android:ems="10"
                     android:hint="@string/hint_auto_populated"
-                    android:textColor="@android:color/darker_gray"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/equipLocationZipCodeImg"
                     android:fontFamily="sans-serif-medium"
                     android:backgroundTint="@android:color/transparent"
+                    android:inputType="textPersonName"
                     />
             </LinearLayout>
 
@@ -1311,6 +1311,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:backgroundTint="@android:color/transparent"
                     android:lines="3"
+                    android:inputType="textPersonName"
                     />
             </LinearLayout>
 
@@ -1381,6 +1382,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/equipLocationAddressImg"
                     android:fontFamily="sans-serif-medium"
                     android:backgroundTint="@android:color/transparent"
+                    android:inputType="textPersonName"
                     />
             </LinearLayout>
 
@@ -1451,6 +1453,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/equipLocationCityImg"
                     android:fontFamily="sans-serif-medium"
                     android:backgroundTint="@android:color/transparent"
+                    android:inputType="textPersonName"
                     />
             </LinearLayout>
 
@@ -1521,6 +1524,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/equipLocationStateImg"
                     android:fontFamily="sans-serif-medium"
                     android:backgroundTint="@android:color/transparent"
+                    android:inputType="textPersonName"
                     />
             </LinearLayout>
 
@@ -1654,6 +1658,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/originLocationZipCodeImg"
                     android:fontFamily="sans-serif-medium"
                     android:backgroundTint="@android:color/transparent"
+                    android:inputType="textPersonName"
                     />
             </LinearLayout>
 
@@ -1727,6 +1732,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:backgroundTint="@android:color/transparent"
                     android:lines="3"
+                    android:inputType="textPersonName"
                     />
             </LinearLayout>
 
@@ -1797,6 +1803,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/originLocationAddressImg"
                     android:fontFamily="sans-serif-medium"
                     android:backgroundTint="@android:color/transparent"
+                    android:inputType="textPersonName"
                     />
             </LinearLayout>
 
@@ -1867,6 +1874,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/originLocationCityImg"
                     android:fontFamily="sans-serif-medium"
                     android:backgroundTint="@android:color/transparent"
+                    android:inputType="textPersonName"
                     />
             </LinearLayout>
 
@@ -1937,6 +1945,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/originLocationStateImg"
                     android:fontFamily="sans-serif-medium"
                     android:backgroundTint="@android:color/transparent"
+                    android:inputType="textPersonName"
                     />
             </LinearLayout>
 

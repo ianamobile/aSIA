@@ -98,6 +98,11 @@ public class ListNotifAvailActivity extends AppCompatActivity {
                 "&containerNo="+naSearch.getContainerNumber()+"&epSCAC="+naSearch.getEpScac()+"&mcSCAC="+naSearch.getMcScac()+
                 "&offset="+naSearch.getOffset() + "&limit=" + naSearch.getLimit();
 
+
+        // code to disable background functionality when progress bar starts
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
         progressBar.setVisibility(View.VISIBLE);
 
         Log.v("log_tag", "ListInterchangeRequestActivity: requestString:=> " + requestString);
@@ -212,6 +217,9 @@ public class ListNotifAvailActivity extends AppCompatActivity {
             }
 
             progressBar.setVisibility(View.GONE);
+
+            // code to regain disable backend functionality end
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
     }
 

@@ -127,6 +127,11 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                     "&offset="+getString(R.string.default_offset) + "&limit=" + getString(R.string.limit);
         }
 
+
+        // code to disable background functionality when progress bar starts
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
         progressBar.setVisibility(View.VISIBLE);
         Log.v("log_tag", "ListInterchangeRequestActivity: requestString:=> " + requestString);
         new ExecuteInterchangeRequestSearchTask(requestString).execute();
@@ -245,6 +250,9 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
             }
 
             progressBar.setVisibility(View.GONE);
+
+            // code to regain disable backend functionality end
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
     }
 

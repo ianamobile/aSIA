@@ -129,9 +129,9 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
     }
 
     private String validateLoginFields(String scac, String drvLicNo, String drvLicState) {
-        if(scac == null || scac == "" || scac.toString().trim().length() <= 0 ||
-            drvLicNo == null || drvLicNo == "" || drvLicNo.toString().trim().length() <= 0 ||
-            drvLicState == null || drvLicState == "" || drvLicState.toString().trim().length() <= 0) {
+        if((scac == null || scac == "" || scac.toString().trim().length() <= 0) &&
+            (drvLicNo == null || drvLicNo == "" || drvLicNo.toString().trim().length() <= 0) &&
+            (drvLicState == null || drvLicState == "" || drvLicState.toString().trim().length() <= 0)) {
             return getString(R.string.msg_error_all_mandatory);
         }
 

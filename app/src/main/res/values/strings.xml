@@ -52,6 +52,7 @@
     <string name="dialog_title_interchange_request_list">SEARCH RESULTS</string>
     <string name="dialog_title_request_pool_search">REQUEST POOL SEARCH</string>
     <string name="dialog_title_add_equipment_to_pool">ADD EQUIPMENT TO POOL</string>
+    <string name="dialog_title_forgot_password">FORGOT PASSWORD</string>
     <!-- Dialog title end -->
 
     <!-- Success message starts -->
@@ -237,15 +238,15 @@
     <!-- Error Messages start -->
 
     <string name="msg_error_try_after_some_time">Opp! An error has occurred, please try after some time.</string>
-    <string name="msg_error_all_mandatory">All fields are mandatory. Please make sure that all fields should not be blank.</string>
+    <string name="msg_error_all_mandatory">All fields are mandatory.</string>
 
-    <string name="msg_error_blank_scac">Please enter SCAC.</string>
+    <string name="msg_error_blank_scac">SCAC should not be blank.</string>
     <string name="msg_error_length_scac">SCAC should be 4 characters long.</string>
     <string name="msg_error_char_scac">SCAC should contains characters only.</string>
     <string name="msg_error_length_ep_scac">SCAC should be between 2-4 characters long.</string>
 
     <string name="msg_error_blank_password">Please enter password.</string>
-    <string name="msg_error_blank_userName">Please enter userName.</string>
+    <string name="msg_error_blank_userName">Username should not be blank.</string>
 
     <string name="msg_error_blank_iddpin">Please enter IDD PIN.</string>
 
@@ -279,21 +280,21 @@
     <string name="msg_error_alpha_num_container_number_st">Container Number should be Alpha-Numeric value.</string>
     <string name="msg_error_alpha_num_container_number">Container Number should be Alpha-Numeric value.</string>
 
-    <string name="msg_error_empty_export_booking_number">Export Booking Number should not be blank.</string>
-    <string name="msg_error_alpha_num_export_booking_number">Export Booking Number should be Alpha-Numeric value.</string>
+    <string name="msg_error_empty_export_booking_number">Export booking# should not be blank.</string>
+    <string name="msg_error_alpha_num_export_booking_number">Export booking# should be Alpha-Numeric value.</string>
 
     <string name="msg_error_alpha_num_import_booking_number">Import B/L should be Alpha-Numeric value.</string>
 
     <string name="msg_error_alpha_num_chassis_number">Chassis Number should be Alpha-Numeric value.</string>
 
-    <string name="msg_error_select_type_of_interchange">Please select type of interchange.</string>
-    <string name="msg_error_select_container_type">Please select container type.</string>
+    <string name="msg_error_select_type_of_interchange">Please select valid type of interchange.</string>
+    <string name="msg_error_select_container_type">Please select valid container type.</string>
     <string name="msg_error_empty_container_type">Container type should not be blank.</string>
-    <string name="msg_error_select_container_size">Please select container size.</string>
+    <string name="msg_error_select_container_size">Please select valid container size.</string>
     <string name="msg_error_empty_container_size">Container size should not be blank.</string>
-    <string name="msg_error_select_chassis_type">Please select chassis type.</string>
+    <string name="msg_error_select_chassis_type">Please select valid chassis type.</string>
     <string name="msg_error_empty_chassis_type">Chassis type should not be blank.</string>
-    <string name="msg_error_select_chassis_size">Please select chassis size.</string>
+    <string name="msg_error_select_chassis_size">Please select valid chassis size.</string>
     <string name="msg_error_empty_chassis_size">Chassis size should not be blank.</string>
 
     <string name="msg_error_empty_equip_location_zip_code">Equipment Location Zip code should not be blank.</string>
@@ -309,11 +310,16 @@
     <string name="msg_error_empty_origin_location_state">Original Location State should not be blank.</string>
     <string name="msg_error_alpha_num_genset_number">Genset Number should be Alpha-Numeric value.</string>
 
-    <string name="msg_error_empty_email">Please enter email.</string>
+    <string name="msg_error_empty_email">Email should not be blank.</string>
     <string name="msg_error_invalid_email">Please enter valid email.</string>
 
     <string name="msg_error_char_motor_carrier_scac">Motor Carrier SCAC should contains characters only.</string>
     <string name="msg_error_length_motor_carrier_scac">Motor Carrier SCAC should be 4 characters long.</string>
 
     <string name="msg_error_select_load_status">Please select load status.</string>
+
+    <string name="msg_error_empty_pin_scac">Please enter idd pin# and SCAC.</string>
+
+    <string name="msg_error_empty_username_password">Please enter username &amp; password.</string>
+
 </resources>

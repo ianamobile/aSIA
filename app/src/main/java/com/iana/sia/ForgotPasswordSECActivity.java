@@ -61,17 +61,17 @@ public class ForgotPasswordSECActivity extends AppCompatActivity implements Anim
 
         progressBar = findViewById(R.id.processingBar);
 
+        dialogTitle = getString(R.string.dialog_title_forgot_password);
+
         // below code is used to restrict auto populate keypad
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
 
         if(sharedPref != null && sharedPref.getString(GlobalVariables.KEY_MEM_TYPE, "").equalsIgnoreCase(GlobalVariables.ROLE_MC)) {
-            dialogTitle = getString(R.string.dialog_title_mc_sec_forgot_password);
             memType = GlobalVariables.ROLE_MC;
 
         } else if(sharedPref != null && sharedPref.getString(GlobalVariables.KEY_MEM_TYPE, "").equalsIgnoreCase(GlobalVariables.ROLE_EP)) {
-            dialogTitle = getString(R.string.dialog_title_ep_sec_forgot_password);
             memType = GlobalVariables.ROLE_EP;
         }
 

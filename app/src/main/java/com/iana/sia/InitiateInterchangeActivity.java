@@ -1700,7 +1700,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                     }
                     chassisTypeAdapter = new ChassisTypeAdapter(context, setupList.toArray(new String[0]));
                     chassisTypeSpinner.setAdapter(chassisTypeAdapter);
-                    if(null != ir && null != ir.getChassisType() && ir.getChassisType().trim().length() > 0) {
+                    if(null != ir && null != ir.getChassisType() && ir.getChassisType().trim().length() > 0 && !ir.getChassisType().equalsIgnoreCase(getString(R.string.select_chassis_type))) {
                         if(setupList.contains(ir.getChassisType())) {
                             chassisTypeSpinner.setSelection(dropDownMap.get(ir.getChassisType()));
                         } else {
@@ -1720,7 +1720,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                     }
                     chassisSizeAdapter = new ChassisSizeAdapter(context, setupList.toArray(new String[0]));
                     chassisSizeSpinner.setAdapter(chassisSizeAdapter);
-                    if(null != ir && null != ir.getChassisSize() && ir.getChassisSize().trim().length() > 0) {
+                    if(null != ir && null != ir.getChassisSize() && ir.getChassisSize().trim().length() > 0 && !ir.getChassisSize().equalsIgnoreCase(getString(R.string.select_chassis_size))) {
                         if(setupList.contains(ir.getChassisSize())) {
                             chassisSizeSpinner.setSelection(dropDownMap.get(ir.getChassisSize()));
                         } else {

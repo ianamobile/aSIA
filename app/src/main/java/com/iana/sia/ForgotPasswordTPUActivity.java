@@ -47,7 +47,7 @@ public class ForgotPasswordTPUActivity extends AppCompatActivity implements Anim
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password_tpu);
 
-        dialogTitle = getString(R.string.dialog_title_tpu_login);
+        dialogTitle = getString(R.string.dialog_title_forgot_password);
 
         slideLeft = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.set_in_left);
