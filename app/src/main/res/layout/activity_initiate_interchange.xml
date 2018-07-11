@@ -91,7 +91,7 @@
                         android:layout_height="18dp"
                         android:text="@string/lbl_container_provider_name"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/epCompanyNameImg"
@@ -142,35 +142,32 @@
                 <LinearLayout
                     android:id="@+id/epScacLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/epScacImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_width="@dimen/icon_width_scac"
+                        android:layout_height="@dimen/icon_height_scac"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:srcCompat="@drawable/scac" />
 
                     <TextView
                         android:id="@+id/epScacLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height_scac"
                         android:text="@string/lbl_container_provider_scac"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/epScacImg"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
                         android:fontFamily="sans-serif-medium"
+                        android:gravity="center_vertical"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -235,7 +232,7 @@
                         android:layout_height="18dp"
                         android:text="@string/lbl_motor_carrier_a_name"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/mcACompanyNameImg"
@@ -286,35 +283,32 @@
                 <LinearLayout
                     android:id="@+id/mcAScacLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/mcAScacImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_width="@dimen/icon_width_scac"
+                        android:layout_height="@dimen/icon_height_scac"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:srcCompat="@drawable/scac" />
 
                     <TextView
                         android:id="@+id/mcAScacLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height_scac"
                         android:text="@string/lbl_motor_carrier_a_scac"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/mcAScacImg"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
                         android:fontFamily="sans-serif-medium"
+                        android:gravity="center_vertical"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -358,28 +352,25 @@
                 <LinearLayout
                     android:id="@+id/mcBCompanyNameLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/mcBCompanyNameImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_width="@dimen/icon_width_scac"
+                        android:layout_height="@dimen/icon_height_scac"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:srcCompat="@drawable/mc_login" />
 
                     <TextView
                         android:id="@+id/mcBCompanyNameLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height_scac"
                         android:text="@string/lbl_motor_carrier_b_name"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/mcACompanyNameImg"
@@ -387,6 +378,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
                         android:fontFamily="sans-serif-medium"
+                        android:gravity="center_vertical"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -430,35 +422,32 @@
                 <LinearLayout
                     android:id="@+id/mcBScacLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/mcBScacImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_width="@dimen/icon_width_scac"
+                        android:layout_height="@dimen/icon_height_scac"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:srcCompat="@drawable/scac" />
 
                     <TextView
                         android:id="@+id/mcBScacLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height_scac"
                         android:text="@string/lbl_motor_carrier_b_scac"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/mcBScacImg"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
                         android:fontFamily="sans-serif-medium"
+                        android:gravity="center_vertical"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -524,7 +513,7 @@
                     android:layout_height="18dp"
                     android:text="@string/lbl_type_of_interchange"
                     android:textColor="@android:color/black"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/lbl_text_size"
                     android:textStyle="bold"
                     android:theme="@style/AppTheme"
                     app:layout_constraintLeft_toRightOf="@+id/typeOfInterchangeImg"
@@ -591,7 +580,7 @@
                         android:layout_height="18dp"
                         android:text="@string/lbl_container_type"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/containerTypeImg"
@@ -694,7 +683,7 @@
                         android:layout_height="18dp"
                         android:text="@string/lbl_container_size"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/containerSizeImg"
@@ -796,7 +785,7 @@
                         android:layout_height="18dp"
                         android:text="@string/lbl_import_bl"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/importBLImg"
@@ -869,7 +858,7 @@
                         android:layout_height="18dp"
                         android:text="@string/lbl_export_booking_number"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/exportBookingNumberImg"
@@ -942,7 +931,7 @@
                         android:layout_height="18dp"
                         android:text="@string/lbl_container_number"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/containerNumberImg"
@@ -1013,7 +1002,7 @@
                         android:layout_height="18dp"
                         android:text="@string/lbl_chassis_number"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/chassisNumberImg"
@@ -1064,35 +1053,32 @@
                 <LinearLayout
                     android:id="@+id/iepScacLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/iepScacImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_width="@dimen/icon_width_scac"
+                        android:layout_height="@dimen/icon_height_scac"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:srcCompat="@drawable/scac" />
 
                     <TextView
                         android:id="@+id/iepScacLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height_scac"
                         android:text="@string/lbl_chassis_iep_scac"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/iepScacImg"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
                         android:fontFamily="sans-serif-medium"
+                        android:gravity="center_vertical"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -1158,7 +1144,7 @@
                         android:layout_height="18dp"
                         android:text="@string/lbl_chassis_type"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/chassisTypeImg"
@@ -1262,7 +1248,7 @@
                         android:layout_height="18dp"
                         android:text="@string/lbl_chassis_size"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/chassisSizeImg"
@@ -1363,7 +1349,7 @@
                         android:layout_height="18dp"
                         android:text="@string/lbl_genset_number"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/gensetNumberImg"
@@ -1496,7 +1482,7 @@
                         android:layout_height="18dp"
                         android:text="ZIP CODE"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/equipLocationZipCodeImg"
@@ -1568,7 +1554,7 @@
                         android:layout_height="18dp"
                         android:text="LOCATION NAME"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/equipLocationNameImg"
@@ -1641,7 +1627,7 @@
                         android:layout_height="18dp"
                         android:text="LOCATION ADDRESS"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/equipLocationAddressImg"
@@ -1712,7 +1698,7 @@
                         android:layout_height="18dp"
                         android:text="CITY"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/equipLocationCityImg"
@@ -1783,7 +1769,7 @@
                         android:layout_height="18dp"
                         android:text="STATE"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/equipLocationStateImg"
@@ -1917,7 +1903,7 @@
                         android:layout_height="18dp"
                         android:text="ZIP CODE"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/originLocationZipCodeImg"
@@ -1989,7 +1975,7 @@
                         android:layout_height="18dp"
                         android:text="LOCATION NAME"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/originLocationNameImg"
@@ -2062,7 +2048,7 @@
                         android:layout_height="18dp"
                         android:text="LOCATION ADDRESS"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/originLocationAddressImg"
@@ -2133,7 +2119,7 @@
                         android:layout_height="18dp"
                         android:text="CITY"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/originLocationCityImg"
@@ -2204,7 +2190,7 @@
                         android:layout_height="18dp"
                         android:text="STATE"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/originLocationStateImg"
@@ -2239,6 +2225,54 @@
                     />
             </LinearLayout>
 
+
+            <!-- NOTE start -->
+            <LinearLayout
+                android:id="@+id/noteLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/originLocationStateLayout"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                >
+
+                <TextView
+                    android:id="@+id/noteLbl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="NOTE"
+                    android:textColor="@color/appThemeColor"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:theme="@style/AppTheme"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center_horizontal|center_vertical"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/noteValueLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:gravity="left|top"
+                    >
+                    <TextView
+                        android:id="@+id/note"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/note_chassis_number"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:theme="@style/AppTheme"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="left|top"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
 
 
         </RelativeLayout>

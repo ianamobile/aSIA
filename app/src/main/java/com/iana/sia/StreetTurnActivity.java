@@ -1,9 +1,12 @@
 package com.iana.sia;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -12,12 +15,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -36,6 +41,7 @@ import com.google.gson.reflect.TypeToken;
 import com.iana.sia.model.Company;
 import com.iana.sia.model.FieldInfo;
 import com.iana.sia.model.InterchangeRequests;
+import com.iana.sia.model.NotificationAvail;
 import com.iana.sia.model.SIASecurityObj;
 import com.iana.sia.model.User;
 import com.iana.sia.utility.ApiResponse;
@@ -84,10 +90,18 @@ public class StreetTurnActivity extends AppCompatActivity {
 
     InterchangeRequests ir;
 
+    Context context;
+
+    String dialogTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_street_turn);
+
+        context = this;
+
+        dialogTitle = getString(R.string.dialog_title_street_turn_request);
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
         editor = sharedPref.edit();
@@ -105,9 +119,13 @@ public class StreetTurnActivity extends AppCompatActivity {
         epScac = findViewById(R.id.epScac);
         epCompanyName = findViewById(R.id.epCompanyName);
         containerNumber = findViewById(R.id.containerNumber);
+        SIAUtility.setUpperCase(containerNumber);
+
         exportBookingNumber = findViewById(R.id.exportBookingNumber);
         importBL = findViewById(R.id.importBL);
         chassisNumber = findViewById(R.id.chassisNumber);
+        SIAUtility.setUpperCase(chassisNumber);
+
         iepScac = findViewById(R.id.iepScac);
 
         epScac = findViewById(R.id.epScac);
@@ -181,6 +199,24 @@ public class StreetTurnActivity extends AppCompatActivity {
         // below code is used to restrict auto populate keypad
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+        containerNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //here is your code
+
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+                // TODO Auto-generated method stub
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
         // code is to search Original Location start
         search = findViewById(R.id.search);
         search.setOnClickListener(new View.OnClickListener() {
@@ -215,7 +251,7 @@ public class StreetTurnActivity extends AppCompatActivity {
                             /* End */
 
                 } else {
-                    new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), getString(R.string.msg_error_enter_container_provider_name_first));
+                    new ViewDialog().showDialog(StreetTurnActivity.this, dialogTitle, getString(R.string.msg_error_enter_container_provider_name_first));
                 }
 
             } else {
@@ -333,7 +369,7 @@ public class StreetTurnActivity extends AppCompatActivity {
                         case R.id.navigation_next:
                             String returnMessage = validateFields();
                             if (!returnMessage.equalsIgnoreCase(GlobalVariables.SUCCESS)) {
-                                new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), returnMessage);
+                                new ViewDialog().showDialog(StreetTurnActivity.this, dialogTitle, returnMessage);
 
                             } else {
 
@@ -371,12 +407,14 @@ public class StreetTurnActivity extends AppCompatActivity {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
 
                     if (Internet_Check.checkInternetConnection(getApplicationContext())) {
-                        // code to disable background functionality when progress bar starts
-                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        if(chassisNumber.getText() != null && chassisNumber.getText().toString().trim().length() > 0) {
+                            // code to disable background functionality when progress bar starts
+                            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                        String requestString = "chassisId=" + chassisNumber.getText().toString().trim();
-                        new ExecuteChassisIdTask(requestString).execute();
+                            String requestString = "chassisId=" + chassisNumber.getText().toString().trim();
+                            new ExecuteChassisIdTask(requestString).execute();
+                        }
 
                     } else {
                         Intent intent = new Intent(StreetTurnActivity.this, NoInternetActivity.class);
@@ -463,8 +501,8 @@ public class StreetTurnActivity extends AppCompatActivity {
         if(null == containerNumber || containerNumber.trim().toString().length() <= 0) {
             return getString(R.string.msg_error_empty_container_number);
 
-        } else if(!SIAUtility.isValidSTContNum(containerNumber)) {
-            return getString(R.string.msg_error_alpha_num_container_number_st);
+        } else if(!SIAUtility.isValidContNum(containerNumber)) {
+            return getString(R.string.msg_error_invalid_container_number);
         }
 
         if(null == exportBookingNumber || exportBookingNumber.toString().trim().length() <= 0) {
@@ -640,10 +678,10 @@ public class StreetTurnActivity extends AppCompatActivity {
                             notifyDataSetChanged();
 
                             ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
-                            new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                            new ViewDialog().showDialog(StreetTurnActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
 
                         } catch(Exception e){
-                            new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), getString(R.string.msg_error_try_after_some_time));
+                            new ViewDialog().showDialog(StreetTurnActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
                         }
 
                         if (GlobalVariables.ROLE_EP.equalsIgnoreCase(oppositeRole)) {
@@ -705,10 +743,10 @@ public class StreetTurnActivity extends AppCompatActivity {
 
                     try {
                         ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
-                        new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                        new ViewDialog().showDialog(StreetTurnActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
 
                     } catch(Exception e) {
-                        new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), getString(R.string.msg_error_try_after_some_time));
+                        new ViewDialog().showDialog(StreetTurnActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
                     }
                 }
 
@@ -754,16 +792,17 @@ public class StreetTurnActivity extends AppCompatActivity {
 
                 if (urlResponseCode == 200) {
 
-                    if(iepScac.getText() == null || iepScac.getText().toString().trim().length() <= 0 ||
-                        null == chassisNumber.getText() || chassisNumber.getText().toString().trim().length() <= 0) {
-                        iepScac.setText(GlobalVariables.DEFUALT_CHASSIS_NUM);
-                        ir.setIepScac(GlobalVariables.DEFUALT_CHASSIS_NUM);
+                    if(null == chassisNumber.getText() || chassisNumber.getText().toString().trim().length() <= 0) {
+                        iepScac.setText("");
+                        ir.setIepScac("");
+                        ir.setChassisNum(GlobalVariables.DEFUALT_CHASSIS_NUM);
+                        chassisNumber.setText(GlobalVariables.DEFUALT_CHASSIS_NUM);
                     }
 
                     int[] streetTurnCategories = new int[]{9, 5};
                     String[] streetTurnCategoriesName = new String[]{"Street Turn Details", "Original Interchange Location"};
                     String[] streetTurnTitles = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
-                            "MOTOR CARRIER'S NAME", "MOTOR CARRIER'S SCAC",
+                            "MOTOR CARRIER NAME", "MOTOR CARRIER SCAC",
                             "IMPORT BL", "EXPORT BOOKING#",
                             "CONTAINER#", "CHASSIS#", "CHASSIS IEP SCAC",
                             "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE"};
@@ -826,10 +865,10 @@ public class StreetTurnActivity extends AppCompatActivity {
 
                 } else {
                     try {
-                        new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                        new ViewDialog().showDialog(StreetTurnActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
 
                     } catch(Exception e) {
-                        new ViewDialog().showDialog(StreetTurnActivity.this, getString(R.string.dialog_title_street_turn_request), getString(R.string.msg_error_try_after_some_time));
+                        new ViewDialog().showDialog(StreetTurnActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
                     }
                 }
 
@@ -845,13 +884,49 @@ public class StreetTurnActivity extends AppCompatActivity {
     void goToPreviousPage() {
         if (Internet_Check.checkInternetConnection(getApplicationContext())) {
 
-            editor.remove(GlobalVariables.KEY_RETURN_FROM);
-            editor.commit();
+            // Create custom dialog object
+            final Dialog dialog = new Dialog(context);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(false);
 
-            Intent intent = new Intent(StreetTurnActivity.this, DashboardActivity.class);
-            startActivity(intent);
-            finish(); /* This method will not display login page when click back (return) from phone */
+            // Include dialog.xml file
+            dialog.setContentView(R.layout.dialog_popup);
+
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            ((TextView) dialog.findViewById(R.id.titleTextView)).setText(dialogTitle);
+            ((TextView) dialog.findViewById(R.id.messageTextView)).setText(getString(R.string.dialog_cancel_confirm_msg));
+
+            dialog.show();
+
+            Button declineButton = dialog.findViewById(R.id.noButton);
+            // if decline button is clicked, close the custom dialog
+            declineButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Close dialog
+                    dialog.dismiss();
+                }
+            });
+
+            Button acceptButton = dialog.findViewById(R.id.yesButton);
+            // if decline button is clicked, close the custom dialog
+            acceptButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Close dialog
+                    dialog.dismiss();
+
+                    editor.remove(GlobalVariables.KEY_RETURN_FROM);
+                    editor.commit();
+
+                    Intent intent = new Intent(StreetTurnActivity.this, DashboardActivity.class);
+                    startActivity(intent);
+                    finish(); /* This method will not display login page when click back (return) from phone */
                             /* End */
+                }
+            });
+
         } else {
             Intent intent = new Intent(StreetTurnActivity.this, NoInternetActivity.class);
             startActivity(intent);

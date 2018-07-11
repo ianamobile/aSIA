@@ -1,10 +1,12 @@
 package com.iana.sia;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,21 +15,19 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.iana.sia.model.InterchangeRequests;
-import com.iana.sia.model.InterchangeRequestsSearch;
 import com.iana.sia.model.NotifAvailSearch;
 import com.iana.sia.model.NotificationAvail;
 import com.iana.sia.model.SIASecurityObj;
@@ -67,10 +67,14 @@ public class ListNotifAvailActivity extends AppCompatActivity {
 
     SIASecurityObj siaSecurityObj;
 
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_notif_avail);
+
+        context = this;
 
         progressBar = findViewById(R.id.processingBar);
 
@@ -195,7 +199,7 @@ public class ListNotifAvailActivity extends AppCompatActivity {
                     dataList.addAll(notificationAvailList);
 
                     if(dataList.size() <= 10) {
-                        adapter = new NotifAvailListAdapter(getApplicationContext(), dataList);
+                        adapter = new NotifAvailListAdapter(context, dataList);
                         listView.setAdapter(adapter);
 
                     } else {
@@ -260,7 +264,50 @@ public class ListNotifAvailActivity extends AppCompatActivity {
                 deleteBtn.setVisibility(View.VISIBLE);
                 deleteBtn.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        new ExecuteDeleteNotifAvailTask("naId="+dataList.get(position).getNaId()+"&accessToken="+siaSecurityObj.getAccessToken()).execute();
+
+                        // Create custom dialog object
+                        final Dialog dialog = new Dialog(ListNotifAvailActivity.this);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setCancelable(false);
+
+                        // Include dialog.xml file
+                        dialog.setContentView(R.layout.dialog_popup);
+
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                        // Set dialog title
+                        ((TextView) dialog.findViewById(R.id.titleTextView)).setText(getString(R.string.dialog_title_request_pool_search));
+                        ((TextView) dialog.findViewById(R.id.messageTextView)).setText(getString(R.string.delete_confirm_msg));
+
+                        dialog.show();
+
+                        Button declineButton = dialog.findViewById(R.id.noButton);
+                        // if decline button is clicked, close the custom dialog
+                        declineButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // Close dialog
+                                dialog.dismiss();
+                            }
+                        });
+
+                        Button acceptButton = dialog.findViewById(R.id.yesButton);
+                        // if decline button is clicked, close the custom dialog
+                        acceptButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // Close dialog
+                                dialog.dismiss();
+
+                                // code to disable background functionality when progress bar starts
+                                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                new ExecuteDeleteNotifAvailTask("naId="+dataList.get(position).getNaId()+"&accessToken="+siaSecurityObj.getAccessToken()).execute();
+                            }
+                        });
+
+
                     }
                 });
 
@@ -345,6 +392,7 @@ public class ListNotifAvailActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -357,6 +405,11 @@ public class ListNotifAvailActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
+
+            progressBar.setVisibility(View.GONE);
+
+            // code to regain disable backend functionality end
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
             try {
                 Log.v("log_tag", "ListNotifAvailActivity api_delete_notif_avail_request_by_na_id: urlResponseCode:=>" + urlResponseCode);
@@ -395,7 +448,7 @@ public class ListNotifAvailActivity extends AppCompatActivity {
 
 
     void goToPreviousPage() {
-        if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+        if (Internet_Check.checkInternetConnection(context)) {
 
             Intent intent = new Intent(ListNotifAvailActivity.this, SearchNotifAvailActivity.class);
             startActivity(intent);

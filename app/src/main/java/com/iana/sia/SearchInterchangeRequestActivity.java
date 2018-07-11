@@ -6,6 +6,8 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
@@ -17,8 +19,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -64,10 +68,18 @@ public class SearchInterchangeRequestActivity extends AppCompatActivity implemen
     String[] statusArray;
     SIASecurityObj siaSecurityObj;
 
+    Context context;
+
+    String dialogTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_interchange_request);
+
+        context = this;
+
+        dialogTitle = getString(R.string.title_search_interchange_request);
 
         showActionBar();
         ((TextView) findViewById(R.id.title)).setText(R.string.title_search_interchange_request);
@@ -163,6 +175,21 @@ public class SearchInterchangeRequestActivity extends AppCompatActivity implemen
                         case R.id.navigation_cancel:
                             goToPreviousPage();
                             break;
+
+                        case R.id.navigation_reset:
+
+                            containerNumber.setText("");
+                            exportBookingNumber.setText("");
+                            fromDate.setText("");
+                            toDate.setText("");
+                            status.setSelection(0); // get the parent layout view
+                            scac.setText("");
+
+                            editor.remove(GlobalVariables.KEY_INTERCHANGE_REQUESTS_SEARCH_OBJ);
+                            editor.commit();
+
+                            break;
+
                     }
 
                 } else {
@@ -273,8 +300,50 @@ public class SearchInterchangeRequestActivity extends AppCompatActivity implemen
     }
 
     void goToPreviousPage() {
-        startActivity(new Intent(SearchInterchangeRequestActivity.this, DashboardActivity.class));
-        finish(); /* This method will not display login page when click back (return) from phone */
+
+        // Create custom dialog object
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+
+        // Include dialog.xml file
+        dialog.setContentView(R.layout.dialog_popup);
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        // Set dialog title
+        ((TextView) dialog.findViewById(R.id.titleTextView)).setText(dialogTitle);
+        ((TextView) dialog.findViewById(R.id.messageTextView)).setText(getString(R.string.dialog_cancel_confirm_msg));
+
+        dialog.show();
+
+        Button declineButton = dialog.findViewById(R.id.noButton);
+        // if decline button is clicked, close the custom dialog
+        declineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Close dialog
+                dialog.dismiss();
+            }
+        });
+
+        Button acceptButton = dialog.findViewById(R.id.yesButton);
+        // if decline button is clicked, close the custom dialog
+        acceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Close dialog
+                dialog.dismiss();
+
+                editor.remove(GlobalVariables.KEY_RETURN_FROM);
+                editor.commit();
+
+                startActivity(new Intent(SearchInterchangeRequestActivity.this, DashboardActivity.class));
+                finish(); /* This method will not display login page when click back (return) from phone */
+
+            }
+        });
+
     }
 
     // Mobile/Phone back key event

@@ -127,6 +127,7 @@ public class LocationActivity extends AppCompatActivity {
 
                 if(sharedPref.getString(GlobalVariables.KEY_SEARCH_FOR_LOCATION, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_ORIGINAL)) {
                     tempString = getString(R.string.api_get_original_location_list);
+                    tempEpScac = na.getEpScac();
                 } else {
                     tempString = getString(R.string.api_get_equipment_location_list);
                 }

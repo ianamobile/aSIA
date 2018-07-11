@@ -693,7 +693,7 @@
                     <TextView
                         android:id="@+id/approvedOrRejectedDateTimeLbl"
                         android:layout_height="wrap_content"
-                        android:text="@string/lbl_approved_pending_date_time"
+                        android:text="@string/lbl_approved_pending_date"
                         android:layout_width="wrap_content"
                         android:textColor="@color/color_black"
                         android:gravity="left"

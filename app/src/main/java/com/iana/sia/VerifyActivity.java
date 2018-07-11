@@ -1,8 +1,11 @@
 package com.iana.sia;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.Settings;
@@ -17,7 +20,9 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TableLayout;
@@ -51,10 +56,14 @@ public class VerifyActivity extends AppCompatActivity {
 
     SIASecurityObj siaSecurityObj;
 
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify);
+
+        context = this;
 
         showActionBar();
         ((TextView) findViewById(R.id.title)).setText(R.string.title_verify_details);
@@ -75,7 +84,7 @@ public class VerifyActivity extends AppCompatActivity {
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+                if (Internet_Check.checkInternetConnection(context)) {
 
                     switch (item.getItemId()) {
                         case R.id.navigation_edit:
@@ -99,28 +108,81 @@ public class VerifyActivity extends AppCompatActivity {
     }
 
     private void submitRequest() {
+
+        // Create custom dialog object
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+
+        // Include dialog.xml file
+        dialog.setContentView(R.layout.dialog_popup);
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        // Set dialog title
+        String dialogTitle = "";
+
         String requestOriginFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
-        if(GlobalVariables.ORIGIN_FROM_STREET_TURN.equalsIgnoreCase(requestOriginFrom) ||
-            GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE.equalsIgnoreCase(requestOriginFrom)) {
+        if(GlobalVariables.ORIGIN_FROM_STREET_TURN.equalsIgnoreCase(requestOriginFrom)) {
+            dialogTitle = getString(R.string.dialog_title_street_turn_request);
 
-            // code to disable background functionality when progress bar starts
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-            InterchangeRequests ir = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, InterchangeRequests.class);
-            Gson gson = new Gson();
-            new ExecuteTaskSubmit(gson.toJson(ir, InterchangeRequests.class)).execute();
+        } else if(GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE.equalsIgnoreCase(requestOriginFrom)) {
+            dialogTitle = getString(R.string.dialog_title_street_interchange_request);
 
         } else if(GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl.equalsIgnoreCase(requestOriginFrom)) {
-
-            // code to disable background functionality when progress bar starts
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-            NotificationAvail na = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_NOTIF_AVAIL_OBJ, NotificationAvail.class);
-            Gson gson = new Gson();
-            new ExecuteTaskSubmit(gson.toJson(na, NotificationAvail.class)).execute();
+            dialogTitle = getString(R.string.dialog_title_add_equipment_to_pool);
         }
+
+        ((TextView) dialog.findViewById(R.id.titleTextView)).setText(dialogTitle);
+        ((TextView) dialog.findViewById(R.id.messageTextView)).setText(getString(R.string.dialog_submit_confirm_msg));
+
+        dialog.show();
+
+        Button declineButton = dialog.findViewById(R.id.noButton);
+        // if decline button is clicked, close the custom dialog
+        declineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Close dialog
+                dialog.dismiss();
+            }
+        });
+
+        Button acceptButton = dialog.findViewById(R.id.yesButton);
+        // if decline button is clicked, close the custom dialog
+        acceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Close dialog
+                dialog.dismiss();
+
+                String requestOriginFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
+                if(GlobalVariables.ORIGIN_FROM_STREET_TURN.equalsIgnoreCase(requestOriginFrom) ||
+                        GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE.equalsIgnoreCase(requestOriginFrom)) {
+
+                    // code to disable background functionality when progress bar starts
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                    InterchangeRequests ir = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, InterchangeRequests.class);
+                    Gson gson = new Gson();
+                    new ExecuteTaskSubmit(gson.toJson(ir, InterchangeRequests.class)).execute();
+
+                } else if(GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl.equalsIgnoreCase(requestOriginFrom)) {
+
+                    // code to disable background functionality when progress bar starts
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                    NotificationAvail na = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_NOTIF_AVAIL_OBJ, NotificationAvail.class);
+                    Gson gson = new Gson();
+                    new ExecuteTaskSubmit(gson.toJson(na, NotificationAvail.class)).execute();
+                }
+
+
+            }
+        });
+
     }
     public List<FieldInfo> readListOfModel() {
         Gson gson = new Gson();
@@ -244,7 +306,8 @@ public class VerifyActivity extends AppCompatActivity {
                     editor.putString(GlobalVariables.SUCCESS, errorMessage.getMessage());
 
                     String requestOriginFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
-                    if (GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE.equalsIgnoreCase(requestOriginFrom)) {
+                    if (GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE.equalsIgnoreCase(requestOriginFrom) ||
+                        GlobalVariables.ORIGIN_FROM_STREET_TURN.equalsIgnoreCase(requestOriginFrom)) {
 
                         InterchangeRequests ir = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, InterchangeRequests.class);
                         if(GlobalVariables.INITIATOR_MCA.equalsIgnoreCase(findInitiater(siaSecurityObj.getScac(), ir, siaSecurityObj.getRoleName(), siaSecurityObj.getMemType()))) {
@@ -281,7 +344,7 @@ public class VerifyActivity extends AppCompatActivity {
     }
 
     void goToPreviousPage() {
-        if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+        if (Internet_Check.checkInternetConnection(context)) {
 
             String requestOriginFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
 

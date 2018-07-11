@@ -67,7 +67,7 @@
                         android:layout_height="18dp"
                         android:text="@string/lbl_container_number"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/containerNumberImg"
@@ -117,35 +117,32 @@
                 <LinearLayout
                     android:id="@+id/mcScacLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/mcScacImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_width="@dimen/icon_width_scac"
+                        android:layout_height="@dimen/icon_height_scac"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:srcCompat="@drawable/scac" />
 
                     <TextView
                         android:id="@+id/mcScacLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height_scac"
                         android:text="@string/lbl_motor_carrier_scac"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/mcScacImg"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
                         android:fontFamily="sans-serif-medium"
+                        android:gravity="center_vertical"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -189,35 +186,32 @@
                 <LinearLayout
                     android:id="@+id/epScacLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/epScacImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_width="@dimen/icon_width_scac"
+                        android:layout_height="@dimen/icon_height_scac"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:srcCompat="@drawable/scac" />
 
                     <TextView
                         android:id="@+id/epScacLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height_scac"
                         android:text="@string/lbl_container_provider_scac"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/epScacImg"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
                         android:fontFamily="sans-serif-medium"
+                        android:gravity="center_vertical"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -282,7 +276,7 @@
                         android:layout_height="18dp"
                         android:text="@string/lbl_from_date"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/fromDateImg"
@@ -356,7 +350,7 @@
                         android:layout_height="18dp"
                         android:text="@string/lbl_to_date"
                         android:textColor="@android:color/black"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/lbl_text_size"
                         android:textStyle="bold"
                         android:theme="@style/AppTheme"
                         app:layout_constraintLeft_toRightOf="@+id/toDateImg"
@@ -406,8 +400,8 @@
         android:color="@android:color/white"
         android:visibility="visible"
         app:itemBackground="@android:color/black"
-        app:itemIconTint="@android:color/white"
-        app:itemTextColor="@android:color/white"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
         app:menu="@menu/navigation_search_cancel"
         android:layout_alignParentBottom="true"
         app:layout_constraintBottom_toBottomOf="parent"

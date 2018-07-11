@@ -3,13 +3,13 @@
 
     <item
         android:id="@+id/navigation_edit"
-        android:icon="@drawable/if_pen_checkbox_353430"
+        android:icon="@drawable/edit"
         android:title="EDIT"
         />
 
     <item
         android:id="@+id/navigation_submit"
-        android:icon="@drawable/if_remove_01_186389"
+        android:icon="@drawable/submit"
         android:title="SUBMIT"
         />
 

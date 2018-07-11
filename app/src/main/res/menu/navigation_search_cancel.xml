@@ -8,8 +8,14 @@
         />
 
     <item
+        android:id="@+id/navigation_reset"
+        android:icon="@drawable/reset"
+        android:title="RESET"
+        />
+
+    <item
         android:id="@+id/navigation_cancel"
-        android:icon="@drawable/if_remove_01_186389"
+        android:icon="@drawable/if_remove"
         android:title="CANCEL"
         />
 
