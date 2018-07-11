@@ -28,15 +28,15 @@
         android:layout_height="match_parent"
         android:divider="@null"
         android:dividerHeight="0dp"
-        android:background="@color/bg_color_search_location_list"
+        android:background="@color/backgroundcolor"
         >
     </ListView>
 
     <ProgressBar
         android:id="@+id/processingBar"
         android:indeterminateDrawable="@drawable/processing_bar"
-        android:layout_height="0dp"
-        android:layout_width="0dp"
+        android:layout_height="@dimen/processing_bar_height"
+        android:layout_width="@dimen/processing_bar_width"
         android:layout_centerInParent="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

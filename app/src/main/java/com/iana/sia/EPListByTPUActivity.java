@@ -93,6 +93,10 @@ public class EPListByTPUActivity extends AppCompatActivity {
 
             siaSecurityObj = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_SECURITY_OBJ, SIASecurityObj.class);
 
+            // code to disable background functionality when progress bar starts
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
             String requestString = "accessToken="+siaSecurityObj.getAccessToken()+"&offset=" + getString(R.string.default_offset) + "&limit=" + getString(R.string.limit);
             new ExecuteTask(requestString).execute();
 
@@ -112,6 +116,11 @@ public class EPListByTPUActivity extends AppCompatActivity {
                         String requestString = "accessToken=" + siaSecurityObj.getAccessToken() + "&offset=" + ((totalItemCount / 10) + 1) + "&limit=" + limit;
 
                         if (lastRecordMap.size() == 0 || !lastRecordMap.containsKey(lastInScreen)) {
+
+                            // code to disable background functionality when progress bar starts
+                            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
                             Log.v("log_tag", "EPListByTPUActivity on scroll: requestString:=> " + requestString);
                             lastRecordMap.put(lastInScreen, lastInScreen);
                             new ExecuteTask(requestString).execute();
@@ -170,7 +179,7 @@ public class EPListByTPUActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            Log.v("log_tag", "In EPListByTPUActivity: doInBackground requestString:=> " + requestString);
+            Log.v("log_tag", "In EPListByTPUActivity: ExecuteTask: doInBackground requestString:=> " + requestString);
             ApiResponse apiResponse = RestApiClient.callGetApi(getString(R.string.base_url) + getString(R.string.api_get_ep_user_list_by_tpu)+"?"+requestString);
             urlResponse = apiResponse.getMessage();
             urlResponseCode = apiResponse.getCode();
@@ -181,16 +190,19 @@ public class EPListByTPUActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
 
+            // code to regain disable backend functionality end
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
             try {
-                Log.v("log_tag", "ListBadOrderActivity: urlResponseCode:=>" + urlResponseCode);
-                Log.v("log_tag", "ListBadOrderActivity: result:=> " + result);
+                Log.v("log_tag", "EPListByTPUActivity: urlResponseCode:=>" + urlResponseCode);
+//                Log.v("log_tag", "EPListByTPUActivity: result:=> " + result);
                 Gson gson = new Gson();
 
                 if (urlResponseCode == 200) {
                     Type listType = new TypeToken<EPUsersByTPUResult>() {}.getType();
                     EPUsersByTPUResult epUsersByTPUResult = gson.fromJson(result, listType);
                     List<Profile> epUserList = epUsersByTPUResult.getEpUserList();
-                    Log.v("log_tag", "EPListByTPUActivity response: epUserList:=> " + epUserList);
+//                    Log.v("log_tag", "EPListByTPUActivity response: epUserList:=> " + epUserList);
                     for (Profile profile: epUserList) {
                         dataList.add(profile);
                     }
@@ -284,6 +296,9 @@ public class EPListByTPUActivity extends AppCompatActivity {
 
                     if(GlobalVariables.STATUS_ACTIVE.equalsIgnoreCase(dataList.get(position).getStatus())) {
 
+                        // code to disable background functionality when progress bar starts
+                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         String requestString = "accessToken="+siaSecurityObj.getAccessToken()+"&epScac="+dataList.get(position).getScac();
                         new ExecuteTaskToGetEPAccessToken(requestString).execute();
 
@@ -321,6 +336,9 @@ public class EPListByTPUActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
+
+            // code to regain disable backend functionality end
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
             try {
                 Log.v("log_tag", "EPListByTPUActivity: urlResponseCode:=>" + urlResponseCode);

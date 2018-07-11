@@ -37,4 +37,10 @@
     <color name="bg_color_cancelled">#d9534f</color>
     <color name="bg_color_disabled">#aaa</color>
 
+
+    <color name="wf_bg_color_approved">#006400</color>
+    <color name="wf_bg_color_awaiting">#ec971f</color>
+
+    <color name="bg_color_lbl_note">#FF0000</color>
+
 </resources>

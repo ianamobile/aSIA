@@ -3,15 +3,24 @@ package com.iana.sia;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -25,6 +34,8 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.iana.sia.model.FieldInfo;
+import com.iana.sia.model.InterchangeRequestsJson;
+import com.iana.sia.model.WorkFlow;
 import com.iana.sia.utility.GlobalVariables;
 import com.iana.sia.utility.SIAUtility;
 
@@ -43,7 +54,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
 
     RelativeLayout layoutMain;
     RelativeLayout layoutContent;
-    RelativeLayout layoutButtons;
+    LinearLayout layoutButtons;
 
     Button button;
 
@@ -54,10 +65,14 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
 
     private boolean show = true;
 
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interchange_request_operation);
+
+        context = getApplicationContext();
 
         showActionBar();
         ((TextView) findViewById(R.id.title)).setText(R.string.title_view_details);
@@ -163,7 +178,6 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 new TypeToken<List<FieldInfo>>() {
                 }.getType()));
 
-
         for(int i=0; i < fieldInfoList.size();i++) {
             FieldInfo fieldInfo = fieldInfoList.get(i);
             TableRow row;
@@ -222,11 +236,102 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
             anim.start();
             isOpen = true;
             button.setText("CLOSE FLOW");
+
+
+
             /*if(null == fromFam || "" == fromFam) {
                 if (fam.isOpened()) {
                     fam.close(true);
                 }
             }*/
+
+            layoutButtons.removeAllViews();
+
+            InterchangeRequestsJson interchangeRequestsJson = SIAUtility.getObjectOfModel(sharedPref, "interchangeRequestsJson", InterchangeRequestsJson.class);
+            List<WorkFlow> workFlowList = interchangeRequestsJson.getWorkFlowList();
+            for(int i = 0; i< workFlowList.size();i++) {
+
+                WorkFlow workFlow = workFlowList.get(i);
+
+                LinearLayout workFlowLL = new LinearLayout(this);
+                workFlowLL.setGravity(Gravity.CENTER);
+                workFlowLL.setOrientation(LinearLayout.VERTICAL);
+                LinearLayout.LayoutParams relativeLayoutInCardViewLayoutParams =
+                        new LinearLayout.LayoutParams(850, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                relativeLayoutInCardViewLayoutParams.setMargins(20, 20, 20, 5);
+                workFlowLL.setLayoutParams(relativeLayoutInCardViewLayoutParams);
+                workFlowLL.setGravity(Gravity.CENTER);
+                workFlowLL.setElevation(16f);
+                if(getString(R.string.STATUS_APPROVED).equalsIgnoreCase(workFlow.getStatus())) {
+                    workFlowLL.setBackgroundColor(ContextCompat.getColor(this, R.color.wf_bg_color_approved));
+
+                } else {
+                    workFlowLL.setBackgroundColor(ContextCompat.getColor(this, R.color.wf_bg_color_awaiting));
+                }
+
+                // ImageView in Linear Layout starts
+                ImageView imageView = new ImageView(this);
+
+                if(getString(R.string.STATUS_APPROVED).equalsIgnoreCase(workFlow.getStatus())) {
+                    imageView.setBackground(ContextCompat.getDrawable(this, R.drawable.circle_background));
+                    Drawable mDrawable = ContextCompat.getDrawable(context, R.drawable.approve);
+                    mDrawable.setColorFilter(new
+                            PorterDuffColorFilter(Color.parseColor("#006400"), PorterDuff.Mode.SRC_IN));
+
+                    imageView.setImageDrawable(mDrawable);
+
+                } else {
+                    Drawable mDrawable = ContextCompat.getDrawable(context, R.drawable.if_hourglass_start_1608934_3);
+                    mDrawable.setColorFilter(new
+                            PorterDuffColorFilter(Color.parseColor("#006400"), PorterDuff.Mode.SRC_IN));
+                    imageView.setImageDrawable(mDrawable);
+                }
+
+
+                imageView.setPadding(20, 20, 20, 20);
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+                LinearLayout.LayoutParams imageViewLayputParams = new LinearLayout.LayoutParams(96, 96);
+                imageViewLayputParams.setLayoutDirection(Gravity.CENTER);
+                imageViewLayputParams.setMargins(0, 30, 0, 0);
+                imageView.setLayoutParams(imageViewLayputParams);
+                // ImageView in Linear Layout end
+
+                workFlowLL.addView(imageView);
+
+                // text view starts
+                TextView textView = new TextView(this);
+                LinearLayout.LayoutParams textViewLayoutParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                textViewLayoutParams.setMargins(20, 20, 0, 0);
+                textView.setLayoutParams(textViewLayoutParams);
+                textView.setText(workFlow.getAction());
+                textView.setTextColor(ContextCompat.getColor(this, android.R.color.white));
+                textView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+                textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
+                textView.setTextSize(6 * getResources().getDisplayMetrics().density);
+                // text view end
+
+                TextView dateTextView = new TextView(this);
+                textViewLayoutParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                textViewLayoutParams.setMargins(20, 0, 0, 20);
+                dateTextView.setLayoutParams(textViewLayoutParams);
+                dateTextView.setText(workFlow.getApprovedDate());
+                dateTextView.setTextColor(ContextCompat.getColor(this, android.R.color.white));
+                dateTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+                dateTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+                dateTextView.setGravity(Gravity.CENTER_VERTICAL);
+                dateTextView.setTypeface(textView.getTypeface(), Typeface.BOLD);
+                dateTextView.setTextSize(6 * getResources().getDisplayMetrics().density);
+
+                workFlowLL.addView(textView);
+                workFlowLL.addView(dateTextView);
+
+                layoutButtons.addView(workFlowLL);
+            }
+
 
         } else {
 

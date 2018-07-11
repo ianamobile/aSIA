@@ -51,13 +51,13 @@ public class LoginIDDActivity extends AppCompatActivity implements Animation.Ani
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_idd);
 
-        secondaryUserBtn = (Button) findViewById(R.id.secondaryUserBtn);
+        secondaryUserBtn = findViewById(R.id.secondaryUserBtn);
 
         slideLeft = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.set_in_left);
         slideLeft.setAnimationListener(this);
 
-        BottomNavigationView bnv = (BottomNavigationView) findViewById(R.id.navigation_login);
+        BottomNavigationView bnv = findViewById(R.id.navigation_login);
         bnv.setSelectedItemId(R.id.navigation_login_idd);
 
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
@@ -82,7 +82,7 @@ public class LoginIDDActivity extends AppCompatActivity implements Animation.Ani
         });
 
         SIAUtility.disableShiftMode(bnv);
-        progressBar = (ProgressBar) findViewById(R.id.processingBar);
+        progressBar = findViewById(R.id.processingBar);
 
         // below code is used to restrict auto populate keypad
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -95,7 +95,7 @@ public class LoginIDDActivity extends AppCompatActivity implements Animation.Ani
             }
         });
 
-        loginBtn = (Button) findViewById(R.id.loginBtn);
+        loginBtn = findViewById(R.id.loginBtn);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,7 +103,7 @@ public class LoginIDDActivity extends AppCompatActivity implements Animation.Ani
             }
         });
 
-        iddPinEditText = (EditText) findViewById(R.id.iddPin);
+        iddPinEditText = findViewById(R.id.iddPin);
         iddPinEditText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -142,9 +142,13 @@ public class LoginIDDActivity extends AppCompatActivity implements Animation.Ani
                 user.setRole(GlobalVariables.ROLE_IDD);
                 user.setOriginFrom(GlobalVariables.ORIGIN_FROM_IDDPIN_SCAC);
 
+                // code to disable background functionality when progress bar starts
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
                 Gson gson = new Gson();
                 String jsonInString = gson.toJson(user, User.class);
-                new LoginIDDActivity.ExecuteTask(jsonInString).execute();
+                new ExecuteTask(jsonInString).execute();
 
             } else {
                 new ViewDialog().showDialog(LoginIDDActivity.this, getString(R.string.dialog_title_idd_login), error);
@@ -164,7 +168,7 @@ public class LoginIDDActivity extends AppCompatActivity implements Animation.Ani
         }
 
         if(scac == null || scac == "" || scac.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_blank_scac);
+            return getString(R.string.msg_error_empty_scac);
 
         } else if (!SIAUtility.isAlpha(scac)) {
             return getString(R.string.msg_error_char_scac);
@@ -174,7 +178,7 @@ public class LoginIDDActivity extends AppCompatActivity implements Animation.Ani
         }
 
         if(iddPin == null || iddPin == "" || iddPin.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_blank_iddpin);
+            return getString(R.string.msg_error_empty_iddpin);
         }
 
         return "";
@@ -210,6 +214,9 @@ public class LoginIDDActivity extends AppCompatActivity implements Animation.Ani
         @Override
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
+
+            // code to regain disable backend functionality end
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
             try {
                 Log.v("log_tag", " IDD PIN Login Response Code: " + urlResponseCode);

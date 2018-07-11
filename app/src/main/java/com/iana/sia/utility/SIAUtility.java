@@ -4,8 +4,10 @@ import android.content.SharedPreferences;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
+import android.text.InputFilter;
 import android.util.Log;
 import android.util.Patterns;
+import android.widget.EditText;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -76,7 +78,7 @@ public class SIAUtility {
         return numericPattern.matcher(str).matches();
     }
 
-    public static boolean isValidSTContNum(String str) {
+    public static boolean isValidContNum(String str) {
 
         if (null == str || str.toString().trim().length() <= 0) {
             return false;
@@ -116,7 +118,7 @@ public class SIAUtility {
                 }.getType()));
     }
 
-    public static List<FieldInfo> prepareAndGetFieldInfoList(int[] categories, String[] categoriesName,
+    public static List<FieldInfo> prepareAndGetFieldInfoList(Integer[] categories, String[] categoriesName,
                                                              String[] labelArray, String[] valueArray) {
 
             List<FieldInfo> fieldInfoList = new ArrayList<>();
@@ -155,4 +157,25 @@ public class SIAUtility {
     public static boolean isValidEmail(String target) {
         return (null != target && target.trim().toString().length() > 0 && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
+
+    public static void setUpperCase(EditText txt){
+        InputFilter[] editFilters = txt.getFilters();
+        InputFilter[] newFilters = new InputFilter[editFilters.length + 1];
+        System.arraycopy(editFilters, 0, newFilters, 0, editFilters.length);
+        newFilters[editFilters.length] = new InputFilter.AllCaps();
+        txt.setFilters(newFilters);
+    }
+
+    public static void removeAllKey(SharedPreferences.Editor editor) {
+        editor.remove(GlobalVariables.KEY_ORIGIN_FROM);
+        editor.remove(GlobalVariables.KEY_RETURN_FROM); // used when return from location search screen
+        editor.remove(GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ);
+        editor.remove(GlobalVariables.KEY_INTERCHANGE_REQUESTS_SEARCH_OBJ);
+        editor.remove(GlobalVariables.KEY_SEARCH_FOR_LOCATION);
+        editor.remove(GlobalVariables.KEY_NOTIF_AVAIL_SEARCH_OBJ);
+        editor.remove(GlobalVariables.KEY_BASE_ORIGIN_FROM);
+        editor.commit();
+
+    }
+
 }

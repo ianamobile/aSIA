@@ -47,7 +47,9 @@ import com.iana.sia.utility.SIAUtility;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -88,12 +90,12 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         showActionBar();
-        ((TextView) findViewById(R.id.title)).setText(R.string.title_search_results);
+        ((TextView) findViewById(R.id.title)).setText(R.string.title_list_results);
         backBtn = findViewById(R.id.backBtn);
         backBtn.setText(R.string.title_back);
         backBtn.setVisibility(View.VISIBLE);
 
-        dialogTitle = getString(R.string.dialog_title_interchange_request_list);
+        dialogTitle = getString(R.string.title_list_results);
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
         editor = sharedPref.edit();
@@ -295,23 +297,23 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
             }
             if(status.equalsIgnoreCase(GlobalVariables.STATUS_PENDING)) {
                 v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.bg_color_pending));
-                ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_approved_pending_date_time));
+                ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_approved_pending_date));
 
             } else if(status.equalsIgnoreCase(GlobalVariables.STATUS_APPROVED)) {
                 v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.bg_color_approved));
-                ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_approved_pending_date_time));
+                ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_approved_pending_date));
 
             } else if(status.equalsIgnoreCase(GlobalVariables.STATUS_REJECTED)) {
                 v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.bg_color_rejected));
-                ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_rejected_date_time));
+                ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_rejected_date));
 
             } else if(status.equalsIgnoreCase(GlobalVariables.STATUS_CANCELLED)) {
                 v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.bg_color_cancelled));
-                ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_cancelled_date_time));
+                ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_cancelled_date));
 
             } else if(status.equalsIgnoreCase(GlobalVariables.STATUS_ONHOLD)) {
                 v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.bg_color_onhold));
-                ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_onhold_date_time));
+                ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_onhold_date));
             }
 
             ((TextView) v.findViewById(R.id.actionRequired)).setText(dataList.get(position).getActionRequired());
@@ -337,14 +339,12 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
 
                         // code to get interchange request details to perform operation
                         //api_get_interchange_request_details
-                        /*String requestString = "";
-                        Gson gson = new Gson();
                         JsonObject jsonObject = new JsonObject();
                         jsonObject.addProperty("irId", dataList.get(position).getIrId());
-                        jsonObject.addProperty("actionToken", siaSecurityObj.getAccessToken());
+                        jsonObject.addProperty("accessToken", siaSecurityObj.getAccessToken());
 
                         Log.v("log_tag", "ListInterchangeRequestActivity jsonObject:=> " + jsonObject.toString());
-                        new ExecuteTaskToGetInterchangeRequestDetails(requestString).execute();*/
+                        new ExecuteTaskToGetInterchangeRequestDetails(jsonObject.toString()).execute();
 
                     }
                 }
@@ -371,7 +371,6 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            Log.v("log_tag", "POST ExecuteTaskToGetInterchangeRequestDetails doInBackground:=>" + (getString(R.string.base_url) + getString(R.string.api_get_interchange_request_details) + "?" + requestString));
             ApiResponse apiResponse = RestApiClient.callPostApi(requestString, getString(R.string.base_url) + getString(R.string.api_get_interchange_request_details));
             urlResponse = apiResponse.getMessage();
             urlResponseCode = apiResponse.getCode();
@@ -390,64 +389,155 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                     InterchangeRequestsJson interchangeRequestsJson = gson.fromJson(result, InterchangeRequestsJson.class);
                     Log.v("log_tag", "interchangeRequestsJson:=>"+interchangeRequestsJson);
 
-                    int[] categories = null;
+                    Integer[] categories = null;
                     String[] categoriesName = null;
                     String[] labelArray = null;
                     String[] valueArray = null;
 
+                    List<String> labelList = new ArrayList<>();
+                    List<String> valueList = new ArrayList<>();
+
+                    List<Integer> categoriesList = new ArrayList<>();
+                    List<String> categoriesNameList = new ArrayList<>();
+
                     InterchangeRequests ir = interchangeRequestsJson.getInterchangeRequests();
 
                     if(null == ir.getIntchgType() || ir.getIntchgType().trim().length()<= 0) {
-                        categories = new int[]{9, 5};
-                        categoriesName = new String[]{"Street Turn Details", "Original Interchange Location"};
-                        labelArray = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
-                                "MOTOR CARRIER'S NAME", "MOTOR CARRIER'S SCAC",
-                                "IMPORT BL", "EXPORT BOOKING#",
-                                "CONTAINER#", "CHASSIS#", "CHASSIS IEP SCAC",
-                                "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE"};
+                        categoriesList.add(9);
+                        categoriesList.add(5);
 
-                        valueArray = new String[]{ir.getEpCompanyName(), ir.getEpScacs(),
-                                ir.getMcACompanyName(), ir.getMcAScac(),
-                                ir.getImportBookingNum(), ir.getBookingNum(),
-                                ir.getContNum(), ir.getChassisNum(),
-                                ir.getIepScac(),
-                                ir.getOriginLocNm(), ir.getOriginLocAddr(),
-                                ir.getOriginLocZip(), ir.getOriginLocCity(),
-                                ir.getOriginLocState()};
+                        categoriesNameList.add("Street Turn Details");
+                        categoriesNameList.add("Original Interchange Location");
+
+                        labelList.add("CONTAINER PROVIDER NAME");
+                        labelList.add("CONTAINER PROVIDER SCAC");
+                        labelList.add("MOTOR CARRIER'S NAME");
+                        labelList.add("MOTOR CARRIER'S SCAC");
+                        labelList.add("IMPORT BL");
+                        labelList.add("EXPORT BOOKING#");
+                        labelList.add("CONTAINER#");
+                        labelList.add("CHASSIS#");
+                        labelList.add("CHASSIS IEP SCAC");
+                        labelList.add("LOCATION NAME");
+                        labelList.add("LOCATION ADDRESS");
+                        labelList.add("ZIP CODE");
+                        labelList.add("CITY");
+                        labelList.add("STATE");
+
+                        valueList.add(ir.getEpCompanyName());
+                        valueList.add(ir.getEpScacs());
+                        valueList.add(ir.getMcACompanyName());
+                        valueList.add(ir.getMcAScac());
+                        valueList.add(ir.getImportBookingNum());
+                        valueList.add(ir.getBookingNum());
+                        valueList.add(ir.getContNum());
+                        valueList.add(ir.getChassisNum());
+                        valueList.add(ir.getIepScac());
+                        valueList.add(ir.getOriginLocNm());
+                        valueList.add(ir.getOriginLocAddr());
+                        valueList.add(ir.getOriginLocZip());
+                        valueList.add(ir.getOriginLocCity());
+                        valueList.add(ir.getOriginLocState());
 
                     } else {
-                        categories = new int[]{17, 5, 5};
-                        categoriesName = new String[]{"Street Interchange Details", "Equipment Interchange Location", "Original Interchange Location"};
-                        labelArray = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
-                                "MOTOR CARRIER A'S NAME", "MOTOR CARRIER A'S SCAC",
-                                "MOTOR CARRIER B'S NAME", "MOTOR CARRIER B'S SCAC",
-                                "TYPE OF INTERCHANGE", "CONTAINER TYPE",
-                                "CONTAINER SIZE", "IMPORT BL", "EXPORT BOOKING#",
-                                "CONTAINER#", "CHASSIS#", "CHASSIS IEP SCAC",
-                                "CHASSIS TYPE", "CHASSIS SIZE", "GENSET#",
-                                "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE",
-                                "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE"};
 
-                        valueArray = new String[]{ir.getEpCompanyName(), ir.getEpScacs(),
-                                ir.getMcACompanyName(), ir.getMcAScac(),
-                                ir.getMcBCompanyName(), ir.getMcBScac(),
-                                ir.getIntchgType(), ir.getContType(),
-                                ir.getContSize(), ir.getImportBookingNum(),
-                                ir.getBookingNum(), ir.getContNum(),
-                                ir.getChassisNum(), ir.getIepScac(),
-                                ir.getChassisType(), ir.getChassisSize(),
-                                ir.getGensetNum(),
-                                ir.getEquipLocNm(), ir.getEquipLocAddr(),
-                                ir.getEquipLocZip(), ir.getEquipLocCity(),
-                                ir.getEquipLocState(),
-                                ir.getOriginLocNm(), ir.getOriginLocAddr(),
-                                ir.getOriginLocZip(), ir.getOriginLocCity(),
-                                ir.getOriginLocState()
-                        };
+                        categoriesList.add(17);
+                        categoriesList.add(5);
+                        categoriesList.add(5);
+
+                        categoriesNameList.add("Street Interchange Details");
+                        categoriesNameList.add("Equipment Interchange Location");
+                        categoriesNameList.add("Original Interchange Location");
+
+
+                        labelList.add("CONTAINER PROVIDER NAME");
+                        labelList.add("CONTAINER PROVIDER SCAC");
+                        labelList.add("MOTOR CARRIER A'S NAME");
+                        labelList.add("MOTOR CARRIER A'S SCAC");
+                        labelList.add("MOTOR CARRIER B'S NAME");
+                        labelList.add("MOTOR CARRIER B'S SCAC");
+                        labelList.add("TYPE OF INTERCHANGE");
+                        labelList.add("CONTAINER TYPE");
+                        labelList.add("CONTAINER SIZE");
+                        labelList.add("IMPORT BL");
+                        labelList.add("EXPORT BOOKING#");
+                        labelList.add("CONTAINER#");
+                        labelList.add("CHASSIS#");
+                        labelList.add("CHASSIS IEP SCAC");
+                        labelList.add("CHASSIS TYPE");
+                        labelList.add("CHASSIS SIZE");
+                        labelList.add("GENSET#");
+                        labelList.add("LOCATION NAME");
+                        labelList.add("LOCATION ADDRESS");
+                        labelList.add("ZIP CODE");
+                        labelList.add("CITY");
+                        labelList.add("STATE");
+                        labelList.add("LOCATION NAME");
+                        labelList.add("LOCATION ADDRESS");
+                        labelList.add("ZIP CODE");
+                        labelList.add("CITY");
+                        labelList.add("STATE");
+
+                        valueList.add(ir.getEpCompanyName());
+                        valueList.add(ir.getEpScacs());
+                        valueList.add(ir.getMcACompanyName());
+                        valueList.add(ir.getMcAScac());
+                        valueList.add(ir.getMcBCompanyName());
+                        valueList.add(ir.getMcBScac());
+                        valueList.add(ir.getIntchgType());
+                        valueList.add(ir.getContType());
+                        valueList.add(ir.getContSize());
+                        valueList.add(ir.getImportBookingNum());
+                        valueList.add(ir.getBookingNum());
+                        valueList.add(ir.getContNum());
+                        valueList.add(ir.getChassisNum());
+                        valueList.add(ir.getIepScac());
+                        valueList.add(ir.getChassisType());
+                        valueList.add(ir.getChassisSize());
+                        valueList.add(ir.getGensetNum());
+
+                        valueList.add(ir.getEquipLocNm());
+                        valueList.add(ir.getEquipLocAddr());
+                        valueList.add(ir.getEquipLocZip());
+                        valueList.add(ir.getEquipLocCity());
+                        valueList.add(ir.getEquipLocState());
+
+                        valueList.add(ir.getOriginLocNm());
+                        valueList.add(ir.getOriginLocAddr());
+                        valueList.add(ir.getOriginLocZip());
+                        valueList.add(ir.getOriginLocCity());
+                        valueList.add(ir.getOriginLocState());
+
                     }
+                        if(null != interchangeRequestsJson.getUiiaExhibitDataList() && interchangeRequestsJson.getUiiaExhibitDataList().size() > 0) {
+                            categoriesList.add(interchangeRequestsJson.getUiiaExhibitDataList().size());
+                            categoriesNameList.add("Equipment Condition (per UIIA Exhibit A)");
+
+                            for(int i= 0; i < interchangeRequestsJson.getUiiaExhibitDataList().size(); i++) {
+                                labelList.add(interchangeRequestsJson.getUiiaExhibitDataList().get(i).get("item").toString());
+                                valueList.add(interchangeRequestsJson.getUiiaExhibitDataList().get(i).get("item_desc").toString());
+                            }
+                        }
+
+                        if(null != ir.getRemarks() && ir.getRemarks().length() > 0) {
+                            String[] remarksArray = ir.getRemarks().split("\\|\\|");
+                            categoriesList.add(remarksArray.length);
+                            categoriesNameList.add("Previous Comments");
+                            for(int i=0;i<remarksArray.length;i++) {
+                                labelList.add("Remarks"+(i+1));
+                                valueList.add(remarksArray[i]);
+                            }
+                        }
+
+                    categories = categoriesList.toArray(new Integer[0]);
+                    categoriesName = categoriesNameList.toArray(new String[0]);
+                    labelArray = labelList.toArray(new String[0]);
+                    valueArray = valueList.toArray(new String[0]);
 
                     List<FieldInfo> fieldInfoList = SIAUtility.prepareAndGetFieldInfoList(categories, categoriesName, labelArray, valueArray);
                     SIAUtility.setList(editor, "fieldInfoList", fieldInfoList);
+
+                    SIAUtility.setObject(editor, "interchangeRequestsJson", interchangeRequestsJson);
 
                     editor.commit();
 

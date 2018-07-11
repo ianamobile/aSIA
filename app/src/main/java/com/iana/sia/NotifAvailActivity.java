@@ -1,9 +1,11 @@
 package com.iana.sia;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -18,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -126,7 +129,7 @@ public class NotifAvailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notif_avail);
 
-        context = getApplicationContext();
+        context = this;
 
         progressBar = findViewById(R.id.processingBar);
 
@@ -162,10 +165,15 @@ public class NotifAvailActivity extends AppCompatActivity {
         loadStatusSpinner.setAdapter(loadStatusAdapter);
 
         containerNumber = findViewById(R.id.containerNumber);
+        SIAUtility.setUpperCase(containerNumber);
+
         chassisNumber = findViewById(R.id.chassisNumber);
+        SIAUtility.setUpperCase(chassisNumber);
+
         iepScac = findViewById(R.id.iepScac);
 
         gensetNumber = findViewById(R.id.gensetNumber);
+        SIAUtility.setUpperCase(gensetNumber);
 
         containerTypeSpinner = findViewById(R.id.containerType);
         containerSizeSpinner = findViewById(R.id.containerSize);
@@ -269,6 +277,8 @@ public class NotifAvailActivity extends AppCompatActivity {
             epCompanyName.setFocusable(false);
             epCompanyName.setClickable(false);
             epCompanyName.setLongClickable(false);
+            epCompanyName.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
+
 
             epScac.setText(siaSecurityObj.getScac());
 
@@ -314,6 +324,7 @@ public class NotifAvailActivity extends AppCompatActivity {
             mcCompanyName.setFocusable(false);
             mcCompanyName.setClickable(false);
             mcCompanyName.setLongClickable(false);
+            mcCompanyName.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
 
             mcScac.setText(siaSecurityObj.getScac());
             epCompanyName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -440,14 +451,15 @@ public class NotifAvailActivity extends AppCompatActivity {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
 
                     if (Internet_Check.checkInternetConnection(context)) {
-                        // code to disable background functionality when progress bar starts
-                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        if(chassisNumber.getText() != null && chassisNumber.getText().toString().trim().length() > 0) {
+                            // code to disable background functionality when progress bar starts
+                            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                        if (chassisNumber.getText() != null && chassisNumber.getText().toString().trim().length() > 0) {
-                            String requestString = "chassisId=" + chassisNumber.getText().toString().trim();
-                            new ExecuteChassisIdTask(requestString).execute();
+                                String requestString = "chassisId=" + chassisNumber.getText().toString().trim();
+                                new ExecuteChassisIdTask(requestString).execute();
                         }
+
                     } else {
                         Intent intent = new Intent(NotifAvailActivity.this, NoInternetActivity.class);
                         startActivity(intent);
@@ -498,6 +510,7 @@ public class NotifAvailActivity extends AppCompatActivity {
 
                 if (Internet_Check.checkInternetConnection(context)) {
 
+                    if (null != epScac.getText() && (epScac.getText().toString().length() >= 2 && epScac.getText().toString().length() <= 4)) {
                         setAndGetNotifAvailData();
                         SIAUtility.setObject(editor, GlobalVariables.KEY_NOTIF_AVAIL_OBJ, na);
 
@@ -508,6 +521,10 @@ public class NotifAvailActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish(); /* This method will not display login page when click back (return) from phone */
                             /* End */
+
+                    } else {
+                        new ViewDialog().showDialog(NotifAvailActivity.this, dialogTitle, getString(R.string.msg_error_enter_container_provider_name_first));
+                    }
 
                 } else {
                     Intent intent = new Intent(NotifAvailActivity.this, NoInternetActivity.class);
@@ -1237,10 +1254,12 @@ public class NotifAvailActivity extends AppCompatActivity {
 
                 if (urlResponseCode == 200) {
 
-                    if(iepScac.getText() == null || iepScac.getText().toString().trim().length() <= 0 ||
-                            null == chassisNumber.getText() || chassisNumber.getText().toString().trim().length() <= 0) {
-                        iepScac.setText(GlobalVariables.DEFUALT_CHASSIS_NUM);
-                        na.setIepScac(GlobalVariables.DEFUALT_CHASSIS_NUM);
+                    if(null == chassisNumber.getText() || chassisNumber.getText().toString().trim().length() <= 0) {
+                        iepScac.setText("");
+                        na.setIepScac("");
+                        na.setChassisNum(GlobalVariables.DEFUALT_CHASSIS_NUM);
+                        chassisNumber.setText(GlobalVariables.DEFUALT_CHASSIS_NUM);
+
                     }
 
                     String containerType = containerTypeSpinner.getSelectedItem().toString();
@@ -1264,7 +1283,7 @@ public class NotifAvailActivity extends AppCompatActivity {
                     }
 
 
-                    int[] categories = new int[]{13, 5, 5};
+                    Integer[] categories = new Integer[]{13, 5, 5};
                     String[] categoriesName = new String[]{"Notification of Available Equipment Details", "Equipment Interchange Location", "Original Interchange Location"};
                     String[] labelArray = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
                             "MOTOR CARRIER NAME", "MOTOR CARRIER SCAC",
@@ -1468,10 +1487,50 @@ public class NotifAvailActivity extends AppCompatActivity {
     void goToPreviousPage() {
         if (Internet_Check.checkInternetConnection(context)) {
 
-            Intent intent = new Intent(NotifAvailActivity.this, DashboardActivity.class);
-            startActivity(intent);
-            finish(); /* This method will not display login page when click back (return) from phone */
+            // Create custom dialog object
+            final Dialog dialog = new Dialog(context);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(false);
+
+            // Include dialog.xml file
+            dialog.setContentView(R.layout.dialog_popup);
+
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            // Set dialog title
+            ((TextView) dialog.findViewById(R.id.titleTextView)).setText(dialogTitle);
+            ((TextView) dialog.findViewById(R.id.messageTextView)).setText(getString(R.string.dialog_cancel_confirm_msg));
+
+            dialog.show();
+
+            Button declineButton = dialog.findViewById(R.id.noButton);
+            // if decline button is clicked, close the custom dialog
+            declineButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Close dialog
+                    dialog.dismiss();
+                }
+            });
+
+            Button acceptButton = dialog.findViewById(R.id.yesButton);
+            // if decline button is clicked, close the custom dialog
+            acceptButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Close dialog
+                    dialog.dismiss();
+
+                    editor.remove(GlobalVariables.KEY_RETURN_FROM);
+                    editor.commit();
+
+                    startActivity(new Intent(NotifAvailActivity.this, DashboardActivity.class));
+                    finish(); /* This method will not display login page when click back (return) from phone */
                             /* End */
+
+                }
+            });
+
         } else {
             Intent intent = new Intent(NotifAvailActivity.this, NoInternetActivity.class);
             startActivity(intent);

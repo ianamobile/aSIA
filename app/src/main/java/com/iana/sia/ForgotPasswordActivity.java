@@ -143,7 +143,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Animati
     private String validateForgotPasswordFields(String scac) {
 
         if(scac == null || scac == "" || scac.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_blank_scac);
+            return getString(R.string.msg_error_empty_scac);
 
         } else if (!SIAUtility.isAlpha(scac)) {
             return getString(R.string.msg_error_char_scac);

@@ -136,7 +136,7 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
         }
 
         if(scac == null || scac == "" || scac.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_blank_scac);
+            return getString(R.string.msg_error_empty_scac);
 
         } else if (!SIAUtility.isAlpha(scac)) {
             return getString(R.string.msg_error_char_scac);
@@ -146,14 +146,14 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
         }
 
         if(drvLicNo == null || drvLicNo == "" || drvLicNo.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_blank_drvLicNo);
+            return getString(R.string.msg_error_empty_drvLicNo);
 
         } else if(!SIAUtility.isAlphaNumeric(drvLicNo)) {
             return getString(R.string.msg_error_alphanum_drvLicNo);
         }
 
         if(drvLicState == null || drvLicState == "" || drvLicState.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_blank_drvLicState);
+            return getString(R.string.msg_error_empty_drvLicState);
 
         } else if(!SIAUtility.isAlpha(drvLicState)) {
             return getString(R.string.msg_error_char_drvLicState);

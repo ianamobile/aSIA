@@ -131,7 +131,7 @@ public class ForgotPasswordTPUActivity extends AppCompatActivity implements Anim
     private String validateForgotPasswordFields(String userName) {
 
         if(userName == null || userName == "" || userName.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_blank_userName);
+            return getString(R.string.msg_error_empty_userName);
         }
 
         return "";

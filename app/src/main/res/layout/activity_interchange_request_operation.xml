@@ -13,84 +13,56 @@
         android:id="@+id/layoutMain"
         >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/layoutContent"
-        android:layout_marginBottom="5dp"
-        >
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="60dp"
-            >
-            <TableLayout
-                android:id="@+id/tableLayout"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:stretchColumns="*"
+                android:id="@+id/layoutContent"
                 android:layout_marginBottom="5dp"
                 >
-            </TableLayout>
 
-        </ScrollView>
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="60dp"
+                    >
+                        <TableLayout
+                            android:id="@+id/tableLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:stretchColumns="*"
+                            android:layout_marginBottom="5dp"
+                            >
+                        </TableLayout>
+                </ScrollView>
 
-     <ProgressBar
-        android:id="@+id/processingBar"
-        android:indeterminateDrawable="@drawable/processing_bar"
-        android:layout_height="@dimen/processing_bar_height"
-        android:layout_width="@dimen/processing_bar_width"
-        android:layout_centerInParent="true"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:visibility="gone"
-        android:windowCloseOnTouchOutside="false"
-        >
-    </ProgressBar>
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/layoutButtons"
-            android:gravity="center"
-            android:background="@android:color/white"
-            android:visibility="gone"
-            >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center"
+             <ProgressBar
+                android:id="@+id/processingBar"
+                android:indeterminateDrawable="@drawable/processing_bar"
+                android:layout_height="@dimen/processing_bar_height"
+                android:layout_width="@dimen/processing_bar_width"
+                android:layout_centerInParent="true"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"
+                android:windowCloseOnTouchOutside="false"
                 >
-                <Button
-                    android:layout_width="160dp"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/colorPrimaryDark"
-                    android:text="Button One"
-                    />
+            </ProgressBar>
 
-                <Button
-                    android:layout_width="160dp"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/colorPrimaryDark"
-                    android:text="Button Two"
-                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/layoutButtons"
+                    android:gravity="center"
+                    android:background="@android:color/white"
+                    android:visibility="gone"
+                    android:orientation="vertical"
+                    >
 
-                <Button
-                    android:layout_width="160dp"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/colorPrimaryDark"
-                    android:text="Button Three"
-                    />
-
-            </LinearLayout>
-        </RelativeLayout>
-
-        </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
 
     </RelativeLayout>
 

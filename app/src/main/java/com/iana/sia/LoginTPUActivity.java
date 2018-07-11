@@ -171,11 +171,11 @@ public class LoginTPUActivity extends AppCompatActivity {
         }
 
         if(userName == null || userName == "" || userName.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_blank_userName);
+            return getString(R.string.msg_error_empty_userName);
         }
 
         if(password == null || password == "" || password.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_blank_password);
+            return getString(R.string.msg_error_empty_password);
 
         }
 

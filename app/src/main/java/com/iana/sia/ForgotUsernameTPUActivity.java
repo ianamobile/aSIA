@@ -47,7 +47,7 @@ public class ForgotUsernameTPUActivity extends AppCompatActivity implements Anim
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_username_tpu);
 
-        dialogTitle = getString(R.string.dialog_title_forgot_password);
+        dialogTitle = getString(R.string.dialog_title_forgot_username);
 
         slideLeft = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.set_in_left);
         slideLeft.setAnimationListener(this);

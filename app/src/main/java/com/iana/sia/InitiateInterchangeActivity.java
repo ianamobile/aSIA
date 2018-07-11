@@ -1,9 +1,12 @@
 package com.iana.sia;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -17,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -126,12 +130,17 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
     String baseOriginFrom = null;
 
     Context context;
+
+    String dialogTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initiate_interchange);
 
-        context = getApplicationContext();
+        context = this;
+
+        dialogTitle = getString(R.string.dialog_title_street_interchange_request);
 
         showActionBar();
         ((TextView) findViewById(R.id.title)).setText(R.string.title_street_interchange_request);
@@ -147,12 +156,17 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         epCompanyName = findViewById(R.id.epCompanyName);
 
         containerNumber = findViewById(R.id.containerNumber);
+        SIAUtility.setUpperCase(containerNumber);
+
         exportBookingNumber = findViewById(R.id.exportBookingNumber);
         importBL = findViewById(R.id.importBL);
         chassisNumber = findViewById(R.id.chassisNumber);
+        SIAUtility.setUpperCase(chassisNumber);
+
         iepScac = findViewById(R.id.iepScac);
 
         gensetNumber = findViewById(R.id.gensetNumber);
+        SIAUtility.setUpperCase(gensetNumber);
 
         typeOfInterchangeSpinner = findViewById(R.id.typeOfInterchange);
         containerTypeSpinner = findViewById(R.id.containerType);
@@ -552,7 +566,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                             /* End */
 
                     } else {
-                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), getString(R.string.msg_error_enter_container_provider_name_first));
+                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_enter_container_provider_name_first));
                     }
 
                 } else {
@@ -573,11 +587,10 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
 
                     if (Internet_Check.checkInternetConnection(context)) {
-                        // code to disable background functionality when progress bar starts
-                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
                         if(chassisNumber.getText() != null && chassisNumber.getText().toString().trim().length() > 0) {
+                            // code to disable background functionality when progress bar starts
+                            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                             String requestString = "chassisId=" + chassisNumber.getText().toString().trim();
                             new ExecuteChassisIdTask(requestString).execute();
                         }
@@ -604,7 +617,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                         case R.id.navigation_next:
                             String returnMessage = validateFields();
                             if (!returnMessage.equalsIgnoreCase(GlobalVariables.SUCCESS)) {
-                                new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), returnMessage);
+                                new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, returnMessage);
 
                             } else {
 
@@ -620,12 +633,10 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                                 Gson gson = new Gson();
                                 String jsonString = gson.toJson(ir, InterchangeRequests.class);
                                 Log.v("log_tag", "Validate InitiateInterchangeActivity: jsonString:=> " + jsonString);
-                                new InitiateInterchangeActivity.ExecuteTaskToValidate(jsonString).execute();
+                                new ExecuteTaskToValidate(jsonString).execute();
                             }
                             break;
                         case R.id.navigation_cancel:
-                            editor.remove(GlobalVariables.KEY_RETURN_FROM);
-                            editor.commit();
                             goToPreviousPage();
                             break;
                     }
@@ -946,6 +957,10 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+
+                                        // code to disable background functionality when progress bar starts
+                                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                         new ExecuteEPTask(jsonInString).execute();
                                     }
                                 });
@@ -1044,7 +1059,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
                             ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
 
-                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
 
                             epScac.setText("");
 
@@ -1053,7 +1068,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                             notifyDataSetChanged();
                             epScac.setText("");
 
-                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), getString(R.string.msg_error_try_after_some_time));
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
                         }
 
                     } else {
@@ -1061,7 +1076,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                         suggestions = new ArrayList<>();
                         notifyDataSetChanged();
 
-                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), getString(R.string.msg_error_try_after_some_time));
+                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
 
                         epScac.setText("");
                     }
@@ -1113,6 +1128,10 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        // code to disable background functionality when progress bar starts
+                                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
                                         new ExecuteMCATask(jsonInString).execute();
                                     }
                                 });
@@ -1212,7 +1231,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
                             ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
 
-                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
 
                             mcAScac.setText("");
 
@@ -1221,7 +1240,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                             notifyDataSetChanged();
                             mcAScac.setText("");
 
-                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), getString(R.string.msg_error_try_after_some_time));
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
                         }
 
                 } else {
@@ -1229,7 +1248,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                         suggestions = new ArrayList<>();
                         notifyDataSetChanged();
 
-                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), getString(R.string.msg_error_try_after_some_time));
+                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
 
                         mcAScac.setText("");
                     }
@@ -1279,6 +1298,9 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        // code to disable background functionality when progress bar starts
+                                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                         new ExecuteMCBTask(jsonInString).execute();
                                     }
                                 });
@@ -1378,10 +1400,10 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                         try {
 
                             ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
-                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
 
                         } catch(Exception e) {
-                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), getString(R.string.msg_error_try_after_some_time));
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
                         }
                         mcBScac.setText("");
                     }
@@ -1471,10 +1493,10 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
                     try {
                         ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
-                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
 
                     } catch(Exception e) {
-                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), getString(R.string.msg_error_try_after_some_time));
+                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
                     }
                 }
 
@@ -1511,6 +1533,9 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
 
+            // code to regain disable backend functionality end
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
             try {
                 Log.v("log_tag", "urlResponseCode:=>" + urlResponseCode);
                 Log.v("log_tag", "verify result:=> " + result);
@@ -1520,10 +1545,11 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
                 if (urlResponseCode == 200) {
 
-                    if(iepScac.getText() == null || iepScac.getText().toString().trim().length() <= 0 ||
-                            null == chassisNumber.getText() || chassisNumber.getText().toString().trim().length() <= 0) {
-                        iepScac.setText(GlobalVariables.DEFUALT_CHASSIS_NUM);
-                        ir.setIepScac(GlobalVariables.DEFUALT_CHASSIS_NUM);
+                    if(null == chassisNumber.getText() || chassisNumber.getText().toString().trim().length() <= 0) {
+                        iepScac.setText("");
+                        ir.setIepScac("");
+                        ir.setChassisNum(GlobalVariables.DEFUALT_CHASSIS_NUM);
+                        chassisNumber.setText(GlobalVariables.DEFUALT_CHASSIS_NUM);
                     }
 
                     String containerType = containerTypeSpinner.getSelectedItem().toString();
@@ -1547,7 +1573,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                     }
 
 
-                    int[] categories = new int[]{17, 5, 5};
+                    Integer[] categories = new Integer[]{17, 5, 5};
                     String[] categoriesName = new String[]{"Street Interchange Details", "Equipment Interchange Location", "Original Interchange Location"};
                     String[] labelArray = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
                             "MOTOR CARRIER A'S NAME", "MOTOR CARRIER A'S SCAC",
@@ -1596,10 +1622,10 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                 } else  {
 
                         try {
-                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
 
                         } catch(Exception e) {
-                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), getString(R.string.msg_error_try_after_some_time));
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
                         }
 
                     Log.v("log_tag", "verify result Error :=> ");
@@ -1735,10 +1761,10 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
                     try {
                         ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
-                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
 
                     } catch(Exception e) {
-                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, getString(R.string.dialog_title_street_interchange_request), getString(R.string.msg_error_try_after_some_time));
+                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
                     }
                 }
 
@@ -1756,18 +1782,59 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
     void goToPreviousPage() {
         if (Internet_Check.checkInternetConnection(context)) {
 
-            Intent intent = null;
+            // Create custom dialog object
+            final Dialog dialog = new Dialog(context);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(false);
 
-            baseOriginFrom = sharedPref.getString(GlobalVariables.KEY_BASE_ORIGIN_FROM, "");
-            if (null != baseOriginFrom && GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl.equalsIgnoreCase(baseOriginFrom)) {
-                intent = new Intent(InitiateInterchangeActivity.this, ListNotifAvailActivity.class);
+            // Include dialog.xml file
+            dialog.setContentView(R.layout.dialog_popup);
 
-            } else {
-                intent = new Intent(InitiateInterchangeActivity.this, DashboardActivity.class);
-            }
-            startActivity(intent);
-            finish(); /* This method will not display login page when click back (return) from phone */
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            // Set dialog title
+            ((TextView) dialog.findViewById(R.id.titleTextView)).setText(dialogTitle);
+            ((TextView) dialog.findViewById(R.id.messageTextView)).setText(getString(R.string.dialog_cancel_confirm_msg));
+
+            dialog.show();
+
+            Button declineButton = dialog.findViewById(R.id.noButton);
+            // if decline button is clicked, close the custom dialog
+            declineButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Close dialog
+                    dialog.dismiss();
+                }
+            });
+
+            Button acceptButton = dialog.findViewById(R.id.yesButton);
+            // if decline button is clicked, close the custom dialog
+            acceptButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Close dialog
+                    dialog.dismiss();
+
+                    editor.remove(GlobalVariables.KEY_RETURN_FROM);
+                    editor.commit();
+
+                    Intent intent = null;
+
+                    baseOriginFrom = sharedPref.getString(GlobalVariables.KEY_BASE_ORIGIN_FROM, "");
+                    if (null != baseOriginFrom && GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl.equalsIgnoreCase(baseOriginFrom)) {
+                        intent = new Intent(InitiateInterchangeActivity.this, ListNotifAvailActivity.class);
+
+                    } else {
+                        intent = new Intent(InitiateInterchangeActivity.this, DashboardActivity.class);
+                    }
+                    startActivity(intent);
+                    finish(); /* This method will not display login page when click back (return) from phone */
                             /* End */
+
+                }
+            });
+
 
         } else {
             Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);

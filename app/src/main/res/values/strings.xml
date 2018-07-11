@@ -28,12 +28,29 @@
 
     <!-- API Info end -->
 
+    <string name="dialog_title">STREET INTERCHANGE</string>
+    <string name="dialog_lbl">Are you sure you want to exit?</string>
+    <string name="dialog_yes_btn">Yes</string>
+    <string name="dialog_no_btn">No</string>
+    <string name="dialog_cancel_btn">CANCEL</string>
+    <string name="dialog_ok_btn">OK</string>
+
+    <string name="delete_confirm_msg">Are you sure want to delete this record?</string>
+
+    <string name="dialog_cancel_confirm_msg">Are you sure want to cancel this request?</string>
+    <string name="dialog_submit_confirm_msg">Are you sure want to submit this request?</string>
+
+    <string name="STATUS_APPROVED">APPROVED</string>
+
     <string name="limit">10</string>
     <string name="default_offset">1</string>
 
     <string name="date_format">MM/dd/yyyy</string>
 
     <string name="note_chassis_number">In case of blank chassis number, system will populate ZZZZ999999 to identify MC Provided Chassis.</string>
+
+    <string name="lbl_disclaimerText">Motor Carrier A (the originating MC) will continue to be the responsible party for the equipment under the terms of the UIIA until the street interchange request has been approved and accepted by all parties.</string>
+    <string name="lbl_disclaimerText_st">Motor Carrier A (the originating MC) will continue to be the responsible party for the equipment under the terms of the UIIA until the street turn request has been approved and accepted by all parties.</string>
 
     <!-- Dialog title starts -->
     <string name="dialog_title_mc_login">MC LOGIN</string>
@@ -53,12 +70,9 @@
     <string name="dialog_title_request_pool_search">REQUEST POOL SEARCH</string>
     <string name="dialog_title_add_equipment_to_pool">ADD EQUIPMENT TO POOL</string>
     <string name="dialog_title_forgot_password">FORGOT PASSWORD</string>
+    <string name="dialog_title_forgot_username">FORGOT USERNAME</string>
+    <string name="dialog_title_delete_from_pool">Delete from Pool</string>
     <!-- Dialog title end -->
-
-    <!-- Success message starts -->
-    <string name="success_msg_street_turn">Your request for Street Turn has been successfully processed.</string>
-    <string name="success_msg_street_interchange">Your request for Street Interchange has been successfully processed.</string>
-    <!-- Success message end -->
 
     <!-- label -->
     <string name="lbl_other">Other</string>
@@ -112,14 +126,14 @@
     <string name="lbl_export_booking_num">EXPORT BOOKING#</string>
     <string name="lbl_container_ep_name">CONTAINER EP NAME</string>
     <string name="lbl_container_ep_scac">CONTAINER EP SCAC</string>
-    <string name="lbl_motor_carrier_a_name_result">MOTOR CARRIER A NAME</string>
-    <string name="lbl_motor_carrier_a_scac_result">MOTOR CARRIER A SCAC</string>
-    <string name="lbl_motor_carrier_b_name_result">MOTOR CARRIER B NAME</string>
-    <string name="lbl_motor_carrier_b_scac_result">MOTOR CARRIER B SCAC</string>
-    <string name="lbl_approved_pending_date_time">APPROVED DATE TIME</string>
-    <string name="lbl_rejected_date_time">REJECTED DATE TIME</string>
-    <string name="lbl_cancelled_date_time">CANCELLED DATE TIME</string>
-    <string name="lbl_onhold_date_time">ONHOLD DATE TIME</string>
+    <string name="lbl_motor_carrier_a_name_result">MOTOR CARRIER A\'S NAME</string>
+    <string name="lbl_motor_carrier_a_scac_result">MOTOR CARRIER A\'S SCAC</string>
+    <string name="lbl_motor_carrier_b_name_result">MOTOR CARRIER B\'S NAME</string>
+    <string name="lbl_motor_carrier_b_scac_result">MOTOR CARRIER B\'S SCAC</string>
+    <string name="lbl_approved_pending_date">APPROVAL DATE</string>
+    <string name="lbl_rejected_date">REJECTION DATE</string>
+    <string name="lbl_cancelled_date">CANCELLED DATE</string>
+    <string name="lbl_onhold_date">ONHOLD DATE</string>
     <string name="lbl_load_status">LOAD STATUS</string>
     <string name="lbl_chassis_num">CHASSIS#</string>
     <string name="lbl_iep_scac">IEP SCAC</string>
@@ -240,18 +254,18 @@
     <string name="msg_error_try_after_some_time">Opp! An error has occurred, please try after some time.</string>
     <string name="msg_error_all_mandatory">All fields are mandatory.</string>
 
-    <string name="msg_error_blank_scac">SCAC should not be blank.</string>
+    <string name="msg_error_empty_scac">SCAC should not be blank.</string>
     <string name="msg_error_length_scac">SCAC should be 4 characters long.</string>
     <string name="msg_error_char_scac">SCAC should contains characters only.</string>
     <string name="msg_error_length_ep_scac">SCAC should be between 2-4 characters long.</string>
 
-    <string name="msg_error_blank_password">Please enter password.</string>
-    <string name="msg_error_blank_userName">Username should not be blank.</string>
+    <string name="msg_error_empty_password">Password should not be blank.</string>
+    <string name="msg_error_empty_userName">Username should not be blank.</string>
 
-    <string name="msg_error_blank_iddpin">Please enter IDD PIN.</string>
+    <string name="msg_error_empty_iddpin">IDD PIN should not be blank.</string>
 
-    <string name="msg_error_blank_drvLicNo">Please enter Driver License Number.</string>
-    <string name="msg_error_blank_drvLicState">Please enter Driver License State.</string>
+    <string name="msg_error_empty_drvLicNo">Driver License Number should not be blank.</string>
+    <string name="msg_error_empty_drvLicState">Driver License State should not be blank.</string>
 
     <string name="msg_error_alphanum_drvLicNo">Driver license number should be Alpha-Numeric only.</string>
     <string name="msg_error_char_drvLicState">Driver license state should be characters only.</string>
@@ -278,7 +292,7 @@
 
     <string name="msg_error_empty_container_number">Container Number should not be blank.</string>
     <string name="msg_error_alpha_num_container_number_st">Container Number should be Alpha-Numeric value.</string>
-    <string name="msg_error_alpha_num_container_number">Container Number should be Alpha-Numeric value.</string>
+    <string name="msg_error_alpha_num_container_number">Container Number should be first 4 characters then number.</string>
 
     <string name="msg_error_empty_export_booking_number">Export booking# should not be blank.</string>
     <string name="msg_error_alpha_num_export_booking_number">Export booking# should be Alpha-Numeric value.</string>

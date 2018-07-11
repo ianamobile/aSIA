@@ -151,7 +151,7 @@ public class ForgotPasswordSECActivity extends AppCompatActivity implements Anim
     private String validateForgotPasswordFields(String scac, String userName) {
 
         if(scac == null || scac == "" || scac.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_blank_scac);
+            return getString(R.string.msg_error_empty_scac);
 
         } else if (!SIAUtility.isAlpha(scac)) {
             return getString(R.string.msg_error_char_scac);
@@ -165,7 +165,7 @@ public class ForgotPasswordSECActivity extends AppCompatActivity implements Anim
         }
 
         if(userName == null || userName == "" || userName.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_blank_userName);
+            return getString(R.string.msg_error_empty_userName);
         }
 
         return "";

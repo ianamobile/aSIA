@@ -58,7 +58,7 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_ep);
 
-        secondaryUserBtn = (Button) findViewById(R.id.secondaryUserBtn);
+        secondaryUserBtn = findViewById(R.id.secondaryUserBtn);
 
         slideLeft = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.set_in_left);
@@ -175,7 +175,7 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
 
                 Gson gson = new Gson();
                 String jsonInString = gson.toJson(user, User.class);
-                new LoginEPActivity.ExecuteTask(jsonInString).execute();
+                new ExecuteTask(jsonInString).execute();
 
             } else {
                 new ViewDialog().showDialog(LoginEPActivity.this, getString(R.string.dialog_title_ep_login), error);
@@ -195,11 +195,11 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
         }
 
         if(scac == null || scac == "" || scac.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_blank_scac);
+            return getString(R.string.msg_error_empty_scac);
         }
 
         if(password == null || password == "" || password.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_blank_password);
+            return getString(R.string.msg_error_empty_password);
         }
 
         if (!SIAUtility.isAlpha(scac)) {

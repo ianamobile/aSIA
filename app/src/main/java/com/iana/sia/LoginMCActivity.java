@@ -201,11 +201,11 @@ public class LoginMCActivity extends AppCompatActivity implements Animation.Anim
         }
 
         if(scac == null || scac == "" || scac.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_blank_scac);
+            return getString(R.string.msg_error_empty_scac);
         }
 
         if(password == null || password == "" || password.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_blank_password);
+            return getString(R.string.msg_error_empty_password);
         }
 
         if (!SIAUtility.isAlpha(scac)) {

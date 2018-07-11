@@ -184,7 +184,7 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
         }
 
         if(scac == null || scac == "" || scac.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_blank_scac);
+            return getString(R.string.msg_error_empty_scac);
 
         } else if (!SIAUtility.isAlpha(scac)) {
             return getString(R.string.msg_error_char_scac);
@@ -198,11 +198,11 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
         }
 
         if(userName == null || userName == "" || userName.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_blank_userName);
+            return getString(R.string.msg_error_empty_userName);
         }
 
         if(password == null || password == "" || password.toString().trim().length() <= 0) {
-            return getString(R.string.msg_error_blank_password);
+            return getString(R.string.msg_error_empty_password);
         }
 
         return "";
