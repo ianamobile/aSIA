@@ -11,6 +11,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.iana.sia.utility.GlobalVariables;
+
 /**
  * Created by Saumil on 3/15/2018.
  */
@@ -33,6 +35,13 @@ public class ViewDialog {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+
+                if(activity instanceof ListInterchangeRequestActivity) {
+                    ((ListInterchangeRequestActivity) activity).goToPreviousPage();
+
+                } else if(activity instanceof ListNotifAvailActivity) {
+                    ((ListNotifAvailActivity) activity).goToPreviousPage();
+                }
             }
         });
 

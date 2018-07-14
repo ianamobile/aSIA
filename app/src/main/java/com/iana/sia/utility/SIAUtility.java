@@ -174,6 +174,7 @@ public class SIAUtility {
         editor.remove(GlobalVariables.KEY_SEARCH_FOR_LOCATION);
         editor.remove(GlobalVariables.KEY_NOTIF_AVAIL_SEARCH_OBJ);
         editor.remove(GlobalVariables.KEY_BASE_ORIGIN_FROM);
+        editor.remove(GlobalVariables.KEY_NOTIF_AVAIL_OBJ);
         editor.commit();
 
     }

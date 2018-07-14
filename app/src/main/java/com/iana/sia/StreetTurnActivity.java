@@ -408,12 +408,19 @@ public class StreetTurnActivity extends AppCompatActivity {
 
                     if (Internet_Check.checkInternetConnection(getApplicationContext())) {
                         if(chassisNumber.getText() != null && chassisNumber.getText().toString().trim().length() > 0) {
-                            // code to disable background functionality when progress bar starts
-                            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                            String requestString = "chassisId=" + chassisNumber.getText().toString().trim();
-                            new ExecuteChassisIdTask(requestString).execute();
+                            if(!chassisNumber.getText().toString().trim().equalsIgnoreCase(GlobalVariables.DEFUALT_CHASSIS_NUM)) {
+                                // code to disable background functionality when progress bar starts
+                                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                String requestString = "chassisId=" + chassisNumber.getText().toString().trim();
+                                new ExecuteChassisIdTask(requestString).execute();
+
+                            } else {
+                                iepScac.setText("");
+                            }
+
                         }
 
                     } else {
@@ -440,8 +447,17 @@ public class StreetTurnActivity extends AppCompatActivity {
         ir.setMcAScac(mcScac.getText().toString());
         ir.setMcACompanyName(mcCompanyName.getText().toString());
         ir.setContNum(containerNumber.getText().toString());
-        ir.setChassisNum(chassisNumber.getText().toString());
-        ir.setIepScac(iepScac.getText().toString());
+        if(null == chassisNumber.getText() || chassisNumber.getText().toString().trim().length() <= 0 ||
+                chassisNumber.getText().toString().trim().equalsIgnoreCase(GlobalVariables.DEFUALT_CHASSIS_NUM)) {
+
+            ir.setChassisNum(GlobalVariables.DEFUALT_CHASSIS_NUM);
+            ir.setIepScac("");
+
+        } else {
+            ir.setChassisNum(chassisNumber.getText().toString());
+            ir.setIepScac(iepScac.getText().toString());
+        }
+
         ir.setBookingNum(exportBookingNumber.getText().toString());
         ir.setImportBookingNum(importBL.getText().toString());
         ir.setOriginLocNm(locationName.getText().toString());
@@ -574,7 +590,12 @@ public class StreetTurnActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        // code to disable background functionality when progress bar starts
+                                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
                                         new ExecuteTask(jsonInString).execute();
+
                                     }
                                     });
                             }
@@ -800,10 +821,10 @@ public class StreetTurnActivity extends AppCompatActivity {
                     }
 
                     int[] streetTurnCategories = new int[]{9, 5};
-                    String[] streetTurnCategoriesName = new String[]{"Street Turn Details", "Original Interchange Location"};
+                    String[] streetTurnCategoriesName = new String[]{"Street Turn Details", "Original Location"};
                     String[] streetTurnTitles = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
                             "MOTOR CARRIER NAME", "MOTOR CARRIER SCAC",
-                            "IMPORT BL", "EXPORT BOOKING#",
+                            "IMPORT B/L", "EXPORT BOOKING#",
                             "CONTAINER#", "CHASSIS#", "CHASSIS IEP SCAC",
                             "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE"};
                     String[] streetTurnValues = new String[]{epCompanyName.getText().toString(), epScac.getText().toString(),
@@ -875,6 +896,9 @@ public class StreetTurnActivity extends AppCompatActivity {
             } catch (Exception e) {
                 Log.v("log_tag", "Error ", e);
             }
+
+            // code to regain disable backend functionality end
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
         }
 

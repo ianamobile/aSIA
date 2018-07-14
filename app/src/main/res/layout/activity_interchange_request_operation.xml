@@ -13,18 +13,15 @@
         android:id="@+id/layoutMain"
         >
 
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/layoutContent"
-                android:layout_marginBottom="5dp"
                 >
 
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="60dp"
                     >
                         <TableLayout
                             android:id="@+id/tableLayout"
@@ -36,32 +33,18 @@
                         </TableLayout>
                 </ScrollView>
 
-             <ProgressBar
-                android:id="@+id/processingBar"
-                android:indeterminateDrawable="@drawable/processing_bar"
-                android:layout_height="@dimen/processing_bar_height"
-                android:layout_width="@dimen/processing_bar_width"
-                android:layout_centerInParent="true"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:visibility="gone"
-                android:windowCloseOnTouchOutside="false"
-                >
-            </ProgressBar>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/layoutButtons"
+                        android:gravity="top|center_horizontal"
+                        android:background="@android:color/white"
+                        android:visibility="gone"
+                        android:orientation="vertical"
+                        >
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/layoutButtons"
-                    android:gravity="center"
-                    android:background="@android:color/white"
-                    android:visibility="gone"
-                    android:orientation="vertical"
-                    >
+                    </LinearLayout>
 
-                </LinearLayout>
             </RelativeLayout>
 
     </RelativeLayout>
@@ -104,33 +87,68 @@
                  fab:menu_labels_singleLine="true">
 
                  <com.github.clans.fab.FloatingActionButton
-                     android:id="@+id/fab1"
+                     android:id="@+id/cancelBtn"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:src="@android:drawable/ic_menu_edit"
-                     fab:fab_label="Edit an item"
+                     fab:fab_label="Cancel an item"
                      android:visibility="gone"
                      fab:fab_size="mini" />
 
-                 <com.github.clans.fab.FloatingActionButton
-                     android:id="@+id/fab2"
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/approveBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@android:drawable/ic_menu_add"
+                    fab:fab_label="APPROVE an item"
+                    android:visibility="gone"
+                    fab:fab_size="mini" />
+
+                <com.github.clans.fab.FloatingActionButton
+                     android:id="@+id/onholdBtn"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:src="@android:drawable/ic_menu_add"
-                     fab:fab_label="Menu item 2"
+                     fab:fab_label="ONHOLD an item"
                      android:visibility="gone"
                      fab:fab_size="mini" />
 
                  <com.github.clans.fab.FloatingActionButton
-                     android:id="@+id/fab3"
+                     android:id="@+id/rejectBtn"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:src="@android:drawable/ic_menu_delete"
                      fab:fab_colorNormal="@color/colorPrimaryDark"
-                     fab:fab_label="Delete"
+                     fab:fab_label="REJECT an item"
                      android:visibility="gone"
                      fab:fab_size="mini" />
 
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/reinitiateBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@android:drawable/ic_menu_delete"
+                    fab:fab_colorNormal="@color/colorPrimaryDark"
+                    fab:fab_label="RE-INITIATE REQUEST"
+                    android:visibility="gone"
+                    fab:fab_size="mini" />
+
+
              </com.github.clans.fab.FloatingActionMenu>
+
+    <ProgressBar
+        android:id="@+id/processingBar"
+        android:indeterminateDrawable="@drawable/processing_bar"
+        android:layout_height="@dimen/processing_bar_height"
+        android:layout_width="@dimen/processing_bar_width"
+        android:layout_centerInParent="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        android:windowCloseOnTouchOutside="false"
+        >
+    </ProgressBar>
 
 </RelativeLayout>

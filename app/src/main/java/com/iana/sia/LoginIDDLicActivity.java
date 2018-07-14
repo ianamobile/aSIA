@@ -73,6 +73,7 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
         });
 
         drvLicState = findViewById(R.id.drvLicState);
+        SIAUtility.setUpperCase(drvLicState);
         drvLicState.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {

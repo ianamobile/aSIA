@@ -20,7 +20,7 @@ public class InterchangeRequestsJson {
 	private String endDate;
 	private String uiiaExhibitStr;
 	private Integer naId;
-	private boolean isLoggedInUserEligibleForApproval = false;
+	private boolean loggedInUserEligibleForApproval = false;
 	private String isEPUser = GlobalVariables.N;
 	private String uiiaExhibitInputReq = GlobalVariables.N;
 	private String tpuEpScac;
@@ -138,11 +138,11 @@ public class InterchangeRequestsJson {
 	}
 
 	public boolean isLoggedInUserEligibleForApproval() {
-		return isLoggedInUserEligibleForApproval;
+		return loggedInUserEligibleForApproval;
 	}
 
 	public void setLoggedInUserEligibleForApproval(boolean loggedInUserEligibleForApproval) {
-		isLoggedInUserEligibleForApproval = loggedInUserEligibleForApproval;
+		this.loggedInUserEligibleForApproval = loggedInUserEligibleForApproval;
 	}
 
 	public String getIsEPUser() {
@@ -225,7 +225,7 @@ public class InterchangeRequestsJson {
 				", endDate='" + endDate + '\'' +
 				", uiiaExhibitStr='" + uiiaExhibitStr + '\'' +
 				", naId=" + naId +
-				", isLoggedInUserEligibleForApproval=" + isLoggedInUserEligibleForApproval +
+				", loggedInUserEligibleForApproval=" + loggedInUserEligibleForApproval +
 				", isEPUser='" + isEPUser + '\'' +
 				", uiiaExhibitInputReq='" + uiiaExhibitInputReq + '\'' +
 				", tpuEpScac='" + tpuEpScac + '\'' +
@@ -236,5 +236,4 @@ public class InterchangeRequestsJson {
 				", holdButtonShow='" + holdButtonShow + '\'' +
 				'}';
 	}
-
 }

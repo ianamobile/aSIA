@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -388,7 +390,13 @@ public class DashboardActivity extends AppCompatActivity {
             // ImageView in Linear Layout starts
                 ImageView imageView = new ImageView(this);
                 imageView.setBackground(ContextCompat.getDrawable(this, R.drawable.circle_background));
+
                 imageView.setImageResource(this.getResources().getIdentifier(GlobalVariables.menuIconArr[finalArr[i]], "drawable", this.getPackageName()));
+                Drawable mDrawable = imageView.getDrawable();
+                mDrawable.setColorFilter(new
+                    PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
+                imageView.setImageDrawable(mDrawable);
+
                 imageView.setPadding(20, 20, 20, 20);
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 

@@ -86,20 +86,11 @@ public class GlobalVariables {
                                                         };
 
     public static final String[] menuIconArr = new String[]
-                                                        {   "plus","search","plus","search","plus","search","search",
-                                                            "search","","","","","","","","","","","","",
+                                                        {   "plus","search","plus","search","plus","search","menu",
+                                                            "pending_hourglass","","","","","","","","","","","","",
                                                             "logout"
                                                         };
 
-    public static final String KEY_INITIATE_INTERCHANGE = "initiateInterchange";
-
-    public static final String KEY_LOCATION_NAME = "locationCode";
-    public static final String KEY_LOCATION_ADDRESS = "locationAddress";
-    public static final String KEY_LOCATION_CITY = "locationCity";
-    public static final String KEY_LOCATION_STATE = "locationState";
-    public static final String KEY_LOCATION_ZIP = "locationZip";
-    public static final String KEY_LOCATION_IANA_CODE = "locationIanaCode";
-    public static final String KEY_LOCATION_SPLC_CODE = "locationSplcCode";
     public static final String KEY_RETURN_FROM = "returnFrom";
 
     public static final String RETURN_FROM_LOCATION_SEARCH = "locationSearch";
@@ -129,4 +120,5 @@ public class GlobalVariables {
     public static final String INITIATOR_MCA = "MCA";
     public static final String INITIATOR_EP = "EP";
 
+    public static final String KEY_OPERATION_IR_OBJ = "interchangeRequestsJson";
 }

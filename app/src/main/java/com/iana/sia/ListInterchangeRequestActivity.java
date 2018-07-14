@@ -219,7 +219,7 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
 
             try {
                 Log.v("log_tag", "ListInterchangeRequestActivity: urlResponseCode:=>" + urlResponseCode);
-                Log.v("log_tag", "ListInterchangeRequestActivity: result:=> " + result);
+//                Log.v("log_tag", "ListInterchangeRequestActivity: result:=> " + result);
                 Gson gson = new Gson();
 
                 if (urlResponseCode == 200) {
@@ -245,6 +245,9 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                     } catch(Exception e) {
                         new ViewDialog().showDialog(ListInterchangeRequestActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
                     }
+
+//                    goToPreviousPage();
+
                 }
 
             } catch (Exception e) {
@@ -407,13 +410,13 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                         categoriesList.add(5);
 
                         categoriesNameList.add("Street Turn Details");
-                        categoriesNameList.add("Original Interchange Location");
+                        categoriesNameList.add("Original Location");
 
                         labelList.add("CONTAINER PROVIDER NAME");
                         labelList.add("CONTAINER PROVIDER SCAC");
-                        labelList.add("MOTOR CARRIER'S NAME");
-                        labelList.add("MOTOR CARRIER'S SCAC");
-                        labelList.add("IMPORT BL");
+                        labelList.add("MOTOR CARRIER A'S NAME");
+                        labelList.add("MOTOR CARRIER A'S SCAC");
+                        labelList.add("IMPORT B/L");
                         labelList.add("EXPORT BOOKING#");
                         labelList.add("CONTAINER#");
                         labelList.add("CHASSIS#");
@@ -446,8 +449,8 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                         categoriesList.add(5);
 
                         categoriesNameList.add("Street Interchange Details");
-                        categoriesNameList.add("Equipment Interchange Location");
-                        categoriesNameList.add("Original Interchange Location");
+                        categoriesNameList.add("Equipment Location");
+                        categoriesNameList.add("Original Location");
 
 
                         labelList.add("CONTAINER PROVIDER NAME");
@@ -459,7 +462,7 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                         labelList.add("TYPE OF INTERCHANGE");
                         labelList.add("CONTAINER TYPE");
                         labelList.add("CONTAINER SIZE");
-                        labelList.add("IMPORT BL");
+                        labelList.add("IMPORT B/L");
                         labelList.add("EXPORT BOOKING#");
                         labelList.add("CONTAINER#");
                         labelList.add("CHASSIS#");
@@ -537,7 +540,7 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                     List<FieldInfo> fieldInfoList = SIAUtility.prepareAndGetFieldInfoList(categories, categoriesName, labelArray, valueArray);
                     SIAUtility.setList(editor, "fieldInfoList", fieldInfoList);
 
-                    SIAUtility.setObject(editor, "interchangeRequestsJson", interchangeRequestsJson);
+                    SIAUtility.setObject(editor, GlobalVariables.KEY_OPERATION_IR_OBJ, interchangeRequestsJson);
 
                     editor.commit();
 

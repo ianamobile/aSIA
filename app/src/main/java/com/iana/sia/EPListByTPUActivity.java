@@ -68,10 +68,14 @@ public class EPListByTPUActivity extends AppCompatActivity {
 
     Button backBtn;
 
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eplist_by_tpu);
+
+        context = this;
 
         progressBar = findViewById(R.id.processingBar);
 
@@ -85,7 +89,7 @@ public class EPListByTPUActivity extends AppCompatActivity {
         backBtn.setVisibility(View.VISIBLE);
 
         listView = findViewById(R.id.listView);
-        adapter = new EPUserListAdapter(getApplicationContext(), dataList);
+        adapter = new EPUserListAdapter(context, dataList);
         listView.setAdapter(adapter);
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
@@ -141,7 +145,7 @@ public class EPListByTPUActivity extends AppCompatActivity {
     }
 
     void goToPreviousPage() {
-        if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+        if (Internet_Check.checkInternetConnection(context)) {
             Intent intent = new Intent(EPListByTPUActivity.this, DashboardActivity.class);
             startActivity(intent);
             finish(); /* This method will not display login page when click back (return) from phone */
@@ -210,7 +214,7 @@ public class EPListByTPUActivity extends AppCompatActivity {
                     Log.v("log_tag", "ListBadOrderActivity: result: dataList.size() => " + dataList.size());
 
                     if(dataList.size() <= 10) {
-                        adapter = new EPUserListAdapter(getApplicationContext(), dataList);
+                        adapter = new EPUserListAdapter(context, dataList);
                         listView.setAdapter(adapter);
                     } else {
                         adapter.notifyDataSetChanged();
@@ -280,12 +284,12 @@ public class EPListByTPUActivity extends AppCompatActivity {
             status.setText(dataList.get(position).getStatus().toUpperCase());
 
             if(GlobalVariables.STATUS_PENDING.equalsIgnoreCase(dataList.get(position).getStatus())) {
-                statusImageView.setImageDrawable(getApplicationContext().getDrawable(R.drawable.if_hourglass_start_1608934));
-                leftPatternColor.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.bg_color_pending));
+                statusImageView.setImageDrawable(context.getDrawable(R.drawable.pending_hourglass));
+                leftPatternColor.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_color_pending));
 
             } else if(GlobalVariables.STATUS_DISABLED.equalsIgnoreCase(dataList.get(position).getStatus())) {
-                statusImageView.setImageDrawable(getApplicationContext().getDrawable(R.drawable.if_hourglass_start_1608934));
-                leftPatternColor.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.bg_color_disabled));
+                statusImageView.setImageDrawable(context.getDrawable(R.drawable.pending_hourglass));
+                leftPatternColor.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_color_disabled));
             }
 
             v.setOnClickListener(new View.OnClickListener() {

@@ -34,6 +34,27 @@
             android:layout_marginRight="@dimen/margin_from_right"
             >
 
+            <LinearLayout
+                android:id="@+id/headingLayout"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/heading_street_turn_details"
+                    android:textColor="@color/appThemeColor"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="14dp"
+                    />
+            </LinearLayout>
+
+
             <!-- Motor carrier Name start -->
             <LinearLayout
                 android:id="@+id/mcCompanyNameLayout"
@@ -42,7 +63,8 @@
                 android:background="@android:color/background_light"
                 android:orientation="vertical"
                 android:layout_marginBottom="1dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="1dp"
+                android:layout_below="@+id/headingLayout"
                 >
 
                 <LinearLayout
@@ -61,7 +83,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:srcCompat="@drawable/container" />
+                        app:srcCompat="@drawable/mc_login" />
 
                     <TextView
                         android:id="@+id/mcCompanyNameLbl"
@@ -202,7 +224,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:srcCompat="@drawable/mc_login" />
+                        app:srcCompat="@drawable/container" />
 
                     <TextView
                         android:id="@+id/epCompanyNameLbl"
@@ -722,7 +744,7 @@
                                 android:layout_width="36dp"
                                 android:layout_height="36dp"
                                 android:layout_gravity="center_vertical|right"
-                                android:src="@drawable/search"/>
+                                android:src="@drawable/search_black"/>
 
                         </LinearLayout>
                     </TableRow>

@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/navigation_search"
-        android:icon="@drawable/search"
+        android:icon="@drawable/search_black"
         android:title="SEARCH"
         />
 

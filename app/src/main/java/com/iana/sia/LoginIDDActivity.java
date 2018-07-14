@@ -162,8 +162,8 @@ public class LoginIDDActivity extends AppCompatActivity implements Animation.Ani
     }
 
     private String validateLoginFields(String scac, String iddPin) {
-        if(scac == null || scac == "" || scac.toString().trim().length() <= 0 ||
-                iddPin == null || iddPin == "" || iddPin.toString().trim().length() <= 0) {
+        if((scac == null || scac == "" || scac.toString().trim().length() <= 0) &&
+                (iddPin == null || iddPin == "" || iddPin.toString().trim().length() <= 0)) {
             return getString(R.string.msg_error_empty_pin_scac);
         }
 

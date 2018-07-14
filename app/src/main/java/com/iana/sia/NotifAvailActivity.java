@@ -452,12 +452,19 @@ public class NotifAvailActivity extends AppCompatActivity {
 
                     if (Internet_Check.checkInternetConnection(context)) {
                         if(chassisNumber.getText() != null && chassisNumber.getText().toString().trim().length() > 0) {
-                            // code to disable background functionality when progress bar starts
-                            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                            if(!chassisNumber.getText().toString().trim().equalsIgnoreCase(GlobalVariables.DEFUALT_CHASSIS_NUM)) {
+                                iepScac.setText("");
+                                // code to disable background functionality when progress bar starts
+                                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                                 String requestString = "chassisId=" + chassisNumber.getText().toString().trim();
                                 new ExecuteChassisIdTask(requestString).execute();
+
+                            } else {
+                                iepScac.setText("");
+                            }
                         }
 
                     } else {
@@ -644,6 +651,8 @@ public class NotifAvailActivity extends AppCompatActivity {
     }
 
     private void setAndGetNotifAvailData() {
+        na = new NotificationAvail();
+        na.setAccessToken(siaSecurityObj.getAccessToken());
         na.setEpCompanyName(epCompanyName.getText().toString());
         na.setEpScac(epScac.getText().toString());
         na.setMcCompanyName(mcCompanyName.getText().toString());
@@ -668,20 +677,35 @@ public class NotifAvailActivity extends AppCompatActivity {
         }
 
         na.setContNum(containerNumber.getText().toString());
-        na.setChassisNum(chassisNumber.getText().toString());
-        na.setIepScac(iepScac.getText().toString());
+
+        if(null == chassisNumber.getText() || chassisNumber.getText().toString().trim().length() <= 0 ||
+                chassisNumber.getText().toString().trim().equalsIgnoreCase(GlobalVariables.DEFUALT_CHASSIS_NUM)) {
+
+            na.setChassisNum(GlobalVariables.DEFUALT_CHASSIS_NUM);
+            na.setIepScac("");
+
+        } else {
+            na.setChassisNum(chassisNumber.getText().toString());
+            na.setIepScac(iepScac.getText().toString());
+        }
 
         ll = (LinearLayout) chassisTypeSpinner.getSelectedView(); // get the parent layout view
         selectedText = ll.findViewById(R.id.chassisTypeTextView); // get the child text view
         na.setChassisType(selectedText.getText().toString());
-        if (selectedText.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
+        if(selectedText.getText().toString().equalsIgnoreCase(getString(R.string.select_chassis_type))) {
+            na.setChassisType("");
+
+        } else if (selectedText.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
             na.setChassisType(((EditText) findViewById(R.id.chassisTypeOther)).getText().toString().trim());
         }
 
         ll = (LinearLayout) chassisSizeSpinner.getSelectedView(); // get the parent layout view
         selectedText = ll.findViewById(R.id.chassisSizeTextView); // get the child text view
         na.setChassisSize(selectedText.getText().toString());
-        if (selectedText.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
+        if(selectedText.getText().toString().equalsIgnoreCase(getString(R.string.select_chassis_size))) {
+            na.setChassisSize("");
+
+        } else if (selectedText.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
             na.setChassisSize(((EditText) findViewById(R.id.chassisSizeOther)).getText().toString().trim());
         }
 
@@ -766,8 +790,8 @@ public class NotifAvailActivity extends AppCompatActivity {
         if (null == containerNumber || containerNumber.trim().toString().length() <= 0) {
             return getString(R.string.msg_error_empty_container_number);
 
-        } else if (!SIAUtility.isAlphaNumeric(containerNumber)) {
-            return getString(R.string.msg_error_alpha_num_container_number);
+        } else if (!SIAUtility.isValidContNum(containerNumber)) {
+            return getString(R.string.msg_error_invalid_container_number);
         }
 
         if (null == selectedContainerType || null == selectedContainerType.getText() ||
@@ -798,27 +822,31 @@ public class NotifAvailActivity extends AppCompatActivity {
             return getString(R.string.msg_error_alpha_num_chassis_number);
         }
 
-        if (null == selectedChassisType || null == selectedChassisType.getText() ||
-                selectedChassisType.getText().toString().trim().equalsIgnoreCase(getString(R.string.select_chassis_type))) {
-            return getString(R.string.msg_error_select_chassis_type);
+        if(chassisNumber != null && chassisNumber.trim().length() > 0 &&
+                !GlobalVariables.DEFUALT_CHASSIS_NUM.equalsIgnoreCase(chassisNumber)) {
 
-        } else if (selectedChassisType.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
-            EditText chassisTypeOtherEditText = findViewById(R.id.chassisTypeOther);
-            if (null == chassisTypeOtherEditText || null == chassisTypeOtherEditText.getText() ||
-                    chassisTypeOtherEditText.getText().toString().trim().length() <= 0) {
-                return getString(R.string.msg_error_empty_chassis_type);
+            if (null == selectedChassisType || null == selectedChassisType.getText() ||
+                    selectedChassisType.getText().toString().trim().equalsIgnoreCase(getString(R.string.select_chassis_type))) {
+                return getString(R.string.msg_error_select_chassis_type);
+
+            } else if (selectedChassisType.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
+                EditText chassisTypeOtherEditText = findViewById(R.id.chassisTypeOther);
+                if (null == chassisTypeOtherEditText || null == chassisTypeOtherEditText.getText() ||
+                        chassisTypeOtherEditText.getText().toString().trim().length() <= 0) {
+                    return getString(R.string.msg_error_empty_chassis_type);
+                }
             }
-        }
 
-        if (null == selectedChassisSize || null == selectedChassisSize.getText() ||
-                selectedChassisSize.getText().toString().trim().equalsIgnoreCase(getString(R.string.select_chassis_size))) {
-            return getString(R.string.msg_error_select_chassis_size);
+            if (null == selectedChassisSize || null == selectedChassisSize.getText() ||
+                    selectedChassisSize.getText().toString().trim().equalsIgnoreCase(getString(R.string.select_chassis_size))) {
+                return getString(R.string.msg_error_select_chassis_size);
 
-        } else if (selectedChassisSize.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
-            EditText chassisSizeOtherEditText = findViewById(R.id.chassisSizeOther);
-            if (null == chassisSizeOtherEditText || null == chassisSizeOtherEditText.getText() ||
-                    chassisSizeOtherEditText.getText().toString().trim().length() <= 0) {
-                return getString(R.string.msg_error_empty_chassis_size);
+            } else if (selectedChassisSize.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
+                EditText chassisSizeOtherEditText = findViewById(R.id.chassisSizeOther);
+                if (null == chassisSizeOtherEditText || null == chassisSizeOtherEditText.getText() ||
+                        chassisSizeOtherEditText.getText().toString().trim().length() <= 0) {
+                    return getString(R.string.msg_error_empty_chassis_size);
+                }
             }
         }
 
@@ -1284,9 +1312,9 @@ public class NotifAvailActivity extends AppCompatActivity {
 
 
                     Integer[] categories = new Integer[]{13, 5, 5};
-                    String[] categoriesName = new String[]{"Notification of Available Equipment Details", "Equipment Interchange Location", "Original Interchange Location"};
+                    String[] categoriesName = new String[]{"Notification of Available Equipment Details", "Equipment Location", "Original Location"};
                     String[] labelArray = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
-                            "MOTOR CARRIER NAME", "MOTOR CARRIER SCAC",
+                            "MOTOR CARRIER A'S NAME", "MOTOR CARRIER A'S SCAC",
                             "LOAD STATUS", "CONTAINER#", "CONTAINER TYPE", "CONTAINER SIZE",
                             "CHASSIS#", "CHASSIS IEP SCAC", "CHASSIS TYPE", "CHASSIS SIZE", "GENSET#",
                             "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE",

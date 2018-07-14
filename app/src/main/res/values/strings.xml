@@ -25,6 +25,7 @@
     <string name="api_get_equipment_list">getEquipmentList</string>
     <string name="api_delete_notif_avail_request_by_na_id">deleteNotifAvailRequestByNaId</string>
     <string name="api_validate_notif_avail_equip_details">validateNotifAvailEquipDetails</string>
+    <string name="api_interchange_request_operations">interchangeRequestOperations</string>
 
     <!-- API Info end -->
 
@@ -39,6 +40,10 @@
 
     <string name="dialog_cancel_confirm_msg">Are you sure want to cancel this request?</string>
     <string name="dialog_submit_confirm_msg">Are you sure want to submit this request?</string>
+
+    <string name="dialog_cancel_request_confirm_msg">Are you sure want to cancel Interchange Request?</string>
+    <string name="dialog_reject_request_confirm_msg">Are you sure want to reject Interchange Request?</string>
+    <string name="dialog_approve_request_confirm_msg">Are you sure want to approve Interchange Request?</string>
 
     <string name="STATUS_APPROVED">APPROVED</string>
 
@@ -67,11 +72,12 @@
     <string name="dialog_title_mc_sec_forgot_password">MC SEC FORGOT PASSWORD</string>
     <string name="dialog_title_ep_user_list">EP USER LIST</string>
     <string name="dialog_title_interchange_request_list">SEARCH RESULTS</string>
-    <string name="dialog_title_request_pool_search">REQUEST POOL SEARCH</string>
+    <string name="dialog_title_request_pool_search">SEARCH EQUIPMENT AVAILABILITY</string>
     <string name="dialog_title_add_equipment_to_pool">ADD EQUIPMENT TO POOL</string>
     <string name="dialog_title_forgot_password">FORGOT PASSWORD</string>
     <string name="dialog_title_forgot_username">FORGOT USERNAME</string>
     <string name="dialog_title_delete_from_pool">Delete from Pool</string>
+    <string name="dialog_title_interchange_request_operation">Interchange Request Operation</string>
     <!-- Dialog title end -->
 
     <!-- label -->
@@ -108,7 +114,7 @@
     <string name="lbl_container_number">CONTAINER NUMBER</string>
     <string name="lbl_export_booking_number">EXPORT BOOKING NUMBER</string>
     <string name="lbl_import_bl">IMPORT B/L</string>
-    <string name="lbl_original_interchange_location">Original Interchange Location</string>
+    <string name="lbl_original_interchange_location">Original Location</string>
     <string name="lbl_equipment_location">Equipment Location</string>
     <string name="lbl_type_of_interchange">TYPE OF INTERCHANGE</string>
     <string name="lbl_container_type">CONTAINER TYPE</string>
@@ -213,7 +219,7 @@
     <string name="title_search_interchange_request">SEARCH INTERCHANGE REQUESTS</string>
     <string name="title_search_results">SEARCH RESULTS</string>
     <string name="title_view_details">VIEW DETAILS</string>
-    <string name="title_request_pool_search">REQUEST POOL SEARCH</string>
+    <string name="title_request_pool_search">SEARCH EQUIPMENT AVAILABILITY</string>
     <string name="title_list_results">LIST RESULTS</string>
 
     <string-array name="load_status">
@@ -246,8 +252,9 @@
 
     <!-- page heading start -->
 
-    <string name="heading_initiate_interchange_request">INITIATE INTERCHANGE REQUEST</string>
+    <string name="heading_initiate_interchange_request">Initiate Interchange Request</string>
     <string name="heading_notification_of_available_equipment">Notification of Available Equipment</string>
+    <string name="heading_street_turn_details">Street Turn Details</string>
 
     <!-- Error Messages start -->
 
@@ -257,21 +264,21 @@
     <string name="msg_error_empty_scac">SCAC should not be blank.</string>
     <string name="msg_error_length_scac">SCAC should be 4 characters long.</string>
     <string name="msg_error_char_scac">SCAC should contains characters only.</string>
-    <string name="msg_error_length_ep_scac">SCAC should be between 2-4 characters long.</string>
+    <string name="msg_error_length_ep_scac">SCAC should be 2-4 characters long.</string>
 
     <string name="msg_error_empty_password">Password should not be blank.</string>
     <string name="msg_error_empty_userName">Username should not be blank.</string>
 
-    <string name="msg_error_empty_iddpin">IDD PIN should not be blank.</string>
+    <string name="msg_error_empty_iddpin">Idd Pin# should not be blank.</string>
 
-    <string name="msg_error_empty_drvLicNo">Driver License Number should not be blank.</string>
-    <string name="msg_error_empty_drvLicState">Driver License State should not be blank.</string>
+    <string name="msg_error_empty_drvLicNo">Driver license# should not be blank.</string>
+    <string name="msg_error_empty_drvLicState">Driver license State should not be blank.</string>
 
-    <string name="msg_error_alphanum_drvLicNo">Driver license number should be Alpha-Numeric only.</string>
+    <string name="msg_error_alphanum_drvLicNo">Driver license# should be Alpha-Numeric only.</string>
     <string name="msg_error_char_drvLicState">Driver license state should be characters only.</string>
-    <string name="msg_error_length_drvLicState">Driver license state length should be 2 characters.</string>
+    <string name="msg_error_length_drvLicState">Driver license state should be 2 characters long.</string>
 
-    <string name="msg_error_mc_ep_login">Please enter scac &amp; password.</string>
+    <string name="msg_error_mc_ep_login">Scac &amp; Password should not be blank.</string>
     <string name="msg_error_no_records_found">No Records Found.</string>
 
     <string name="msg_error_enter_motor_carrier_name_first">Please enter Motor Carrier Name first.</string>
@@ -291,38 +298,37 @@
     <string name="msg_error_select_container_provider_name">Please select valid Container Provider Name to populate SCAC.</string>
 
     <string name="msg_error_empty_container_number">Container Number should not be blank.</string>
-    <string name="msg_error_alpha_num_container_number_st">Container Number should be Alpha-Numeric value.</string>
-    <string name="msg_error_alpha_num_container_number">Container Number should be first 4 characters then number.</string>
+    <string name="msg_error_invalid_container_number">Container Number should contain the first 4 characters and then 7 numbers. e.g. ABCD1234567.</string>
 
-    <string name="msg_error_empty_export_booking_number">Export booking# should not be blank.</string>
-    <string name="msg_error_alpha_num_export_booking_number">Export booking# should be Alpha-Numeric value.</string>
+    <string name="msg_error_empty_export_booking_number">Export Booking Number should not be blank.</string>
+    <string name="msg_error_alpha_num_export_booking_number">Export Booking Number should be Alpha-Numeric value.</string>
 
     <string name="msg_error_alpha_num_import_booking_number">Import B/L should be Alpha-Numeric value.</string>
 
-    <string name="msg_error_alpha_num_chassis_number">Chassis Number should be Alpha-Numeric value.</string>
+    <string name="msg_error_alpha_num_chassis_number">Chassis# should be Alpha-Numeric value.</string>
 
     <string name="msg_error_select_type_of_interchange">Please select valid type of interchange.</string>
-    <string name="msg_error_select_container_type">Please select valid container type.</string>
+    <string name="msg_error_select_container_type">Please select valid Container Type.</string>
     <string name="msg_error_empty_container_type">Container type should not be blank.</string>
-    <string name="msg_error_select_container_size">Please select valid container size.</string>
+    <string name="msg_error_select_container_size">Please select valid Container Size.</string>
     <string name="msg_error_empty_container_size">Container size should not be blank.</string>
-    <string name="msg_error_select_chassis_type">Please select valid chassis type.</string>
+    <string name="msg_error_select_chassis_type">Please select valid Chassis Type.</string>
     <string name="msg_error_empty_chassis_type">Chassis type should not be blank.</string>
-    <string name="msg_error_select_chassis_size">Please select valid chassis size.</string>
+    <string name="msg_error_select_chassis_size">Please select valid Chassis Size.</string>
     <string name="msg_error_empty_chassis_size">Chassis size should not be blank.</string>
 
-    <string name="msg_error_empty_equip_location_zip_code">Equipment Location Zip code should not be blank.</string>
+    <string name="msg_error_empty_equip_location_zip_code">Please select valid Equipment Location from the list.</string>
     <string name="msg_error_empty_equip_location_name">Equipment Location Name should not be blank.</string>
     <string name="msg_error_empty_equip_location_address">Equipment Location Address should not be blank.</string>
     <string name="msg_error_empty_equip_location_city">Equipment Location City should not be blank.</string>
     <string name="msg_error_empty_equip_location_state">Equipment Location State should not be blank.</string>
 
-    <string name="msg_error_empty_origin_location_zip_code">Original Location Zip code should not be blank.</string>
+    <string name="msg_error_empty_origin_location_zip_code">Please select valid Original Location from the list.</string>
     <string name="msg_error_empty_origin_location_name">Original Location Name should not be blank.</string>
     <string name="msg_error_empty_origin_location_address">Original Location Address should not be blank.</string>
     <string name="msg_error_empty_origin_location_city">Original Location City should not be blank.</string>
     <string name="msg_error_empty_origin_location_state">Original Location State should not be blank.</string>
-    <string name="msg_error_alpha_num_genset_number">Genset Number should be Alpha-Numeric value.</string>
+    <string name="msg_error_alpha_num_genset_number">Genset# should be Alpha-Numeric value.</string>
 
     <string name="msg_error_empty_email">Email should not be blank.</string>
     <string name="msg_error_invalid_email">Please enter valid email.</string>
@@ -330,10 +336,10 @@
     <string name="msg_error_char_motor_carrier_scac">Motor Carrier SCAC should contains characters only.</string>
     <string name="msg_error_length_motor_carrier_scac">Motor Carrier SCAC should be 4 characters long.</string>
 
-    <string name="msg_error_select_load_status">Please select load status.</string>
+    <string name="msg_error_select_load_status">Please select valid Load Status details.</string>
 
-    <string name="msg_error_empty_pin_scac">Please enter idd pin# and SCAC.</string>
+    <string name="msg_error_empty_pin_scac">Idd Pin# and SCAC should not be blank.</string>
 
-    <string name="msg_error_empty_username_password">Please enter username &amp; password.</string>
+    <string name="msg_error_empty_username_password">Username &amp; password should not be blank.</string>
 
 </resources>
