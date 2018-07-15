@@ -26,6 +26,7 @@
     <string name="api_delete_notif_avail_request_by_na_id">deleteNotifAvailRequestByNaId</string>
     <string name="api_validate_notif_avail_equip_details">validateNotifAvailEquipDetails</string>
     <string name="api_interchange_request_operations">interchangeRequestOperations</string>
+    <string name="api_get_uiia_exhibit_list">getUIIAExhibitList</string>
 
     <!-- API Info end -->
 
@@ -341,5 +342,7 @@
     <string name="msg_error_empty_pin_scac">Idd Pin# and SCAC should not be blank.</string>
 
     <string name="msg_error_empty_username_password">Username &amp; password should not be blank.</string>
+
+    <string name="msg_error_select_uiia_exhibit">Please select at least one equipment condition or none.</string>
 
 </resources>

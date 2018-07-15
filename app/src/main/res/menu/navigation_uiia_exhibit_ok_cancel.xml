@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_ok"
+        android:icon="@drawable/approve"
+        android:title="OK"
+        />
+
+    <item
+        android:id="@+id/navigation_cancel"
+        android:icon="@drawable/if_remove"
+        android:title="CANCEL"
+        />
+
+</menu>

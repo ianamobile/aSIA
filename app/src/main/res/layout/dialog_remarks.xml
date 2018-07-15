@@ -31,6 +31,8 @@
         android:layout_gravity="center_vertical"
         android:textColorHint="@android:color/darker_gray"
         android:textCursorDrawable="@drawable/color_cursor"
+        android:fontFamily="sans-serif-medium"
+        android:backgroundTint="@android:color/transparent"
         android:textSize="14sp"
         android:minLines="1"
         />

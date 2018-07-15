@@ -3,6 +3,7 @@ package com.iana.sia;
 import android.animation.Animator;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -12,24 +13,35 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.ActionMode;
 import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -42,10 +54,13 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.iana.sia.adapter.ListViewAdapter;
+import com.iana.sia.model.Company;
 import com.iana.sia.model.FieldInfo;
 import com.iana.sia.model.InterchangeRequests;
 import com.iana.sia.model.InterchangeRequestsJson;
 import com.iana.sia.model.SIASecurityObj;
+import com.iana.sia.model.UIIAExhibit;
 import com.iana.sia.model.WorkFlow;
 import com.iana.sia.utility.ApiResponse;
 import com.iana.sia.utility.ApiResponseMessage;
@@ -54,6 +69,7 @@ import com.iana.sia.utility.Internet_Check;
 import com.iana.sia.utility.RestApiClient;
 import com.iana.sia.utility.SIAUtility;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -91,6 +107,13 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
     String dialogTitle;
 
     SIASecurityObj siaSecurityObj;
+
+    ArrayList<UIIAExhibit> uiiaExhibitList = new ArrayList<>();
+
+    ListView dialog_ListView;
+    UIIAExhibitListViewAdapter uiiaExhibitListViewAdapter;
+
+    List<Integer> selectedUIIAExhibitList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,7 +204,6 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 RelativeLayout relativeLayout = findViewById(R.id.layoutMain);
                 if (opened) {
                     relativeLayout.setAlpha(0);
-                    viewMenu("fromFam");
                     setButtonVisibility(View.VISIBLE);
 
                 } else {
@@ -252,10 +274,25 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     performOperation("onhold");
 
                 } else if(view == reinitiateBtn) {
-                    performOperation("reinitiate");
+
+                    SIAUtility.setObject(editor, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, irJson.getInterchangeRequests());
+                    editor.commit();
+
+                    if(GlobalVariables.IR_REQUEST_TYPE_SI.equalsIgnoreCase(irJson.getInterchangeRequests().getIrRequestType())) {
+                        startActivity(new Intent(InterchangeRequestOperationActivity.this, InitiateInterchangeActivity.class));
+                        finish(); /* This method will not display login page when click back (return) from phone */
+                            /* End */
+
+                    } else {
+                        startActivity(new Intent(InterchangeRequestOperationActivity.this, StreetTurnActivity.class));
+                        finish(); /* This method will not display login page when click back (return) from phone */
+                            /* End */
+                    }
+
+                } else {
+                    fam.close(true);
                 }
 
-                fam.close(true);
             }
         };
     }
@@ -753,15 +790,25 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
         if(null != opt) {
 
             boolean uiiaExhibits = false;
+
             if(opt.equalsIgnoreCase("approve") && "StreetInterchange".equalsIgnoreCase(irJson.getInterchangeRequests().getIrRequestType())) {
+
                 if(null != irJson.getInProcessWf().getWfSeqType() && "MCB".equalsIgnoreCase(irJson.getInProcessWf().getWfSeqType())) {
-                    //TODO exhibit functionality
                     uiiaExhibits = true;
                 }
             }
 
             if(!uiiaExhibits) {
-                performRemarks(opt);
+                performRemarks(opt, "");
+
+            } else {
+
+
+                fam.close(true);
+                isOpen = true;
+                viewMenu("");
+
+                new ExecuteGetUIIAExhibitListTask(opt).execute();
             }
         }
 
@@ -1084,8 +1131,187 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
         }
     }
 
-    private void performRemarks(final String opt) {
+    class ExecuteGetUIIAExhibitListTask extends AsyncTask<String, Integer, String> {
 
+        final String opt;
+        public ExecuteGetUIIAExhibitListTask(String opt) {
+            this.opt = opt;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            ApiResponse apiResponse = RestApiClient.callGetApi(getString(R.string.base_url) +getString(R.string.api_get_uiia_exhibit_list));
+
+            urlResponse = apiResponse.getMessage();
+            urlResponseCode = apiResponse.getCode();
+            return urlResponse;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            progressBar.setVisibility(View.GONE);
+
+            try {
+
+                Log.v("log_tag", "Interchange api_get_uiia_exhibit_list urlResponseCode: " + urlResponseCode);
+//                Log.v("log_tag", "Interchange api_get_uiia_exhibit_list urlResponse: " + urlResponse);
+                Gson gson = new Gson();
+
+                if (urlResponseCode == 200) {
+
+                    Type listType = new TypeToken<ArrayList<UIIAExhibit>>() {
+                    }.getType();
+                    uiiaExhibitList = gson.fromJson(result, listType);
+
+                    processUIIAExhibitList(opt);
+
+                } else {
+
+                    try {
+                        ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+                        new ViewDialog().showDialog(InterchangeRequestOperationActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+
+                    } catch(Exception e) {
+                        new ViewDialog().showDialog(InterchangeRequestOperationActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
+                    }
+                }
+
+            } catch (Exception e) {
+                Log.v("log_tag", "InterchangeRequestOperationActivity: getUIIExhibitList:Exception Error ", e);
+            }
+
+            // code to regain disable backend functionality end
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+        }
+
+    }
+
+    private void processUIIAExhibitList(final String opt) {
+
+        selectedUIIAExhibitList = new ArrayList<>();
+
+        final Dialog dialog = new Dialog(InterchangeRequestOperationActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(false);
+            dialog.setContentView(R.layout.dialog_uiia_exhibit);
+
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            dialog_ListView = dialog.findViewById(R.id.listViewExhibit);
+            uiiaExhibitListViewAdapter = new UIIAExhibitListViewAdapter(InterchangeRequestOperationActivity.this, uiiaExhibitList);
+            dialog_ListView.setAdapter(uiiaExhibitListViewAdapter);
+
+        BottomNavigationView bnv = dialog.findViewById(R.id.navigation_uiia_exhibit);
+        bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                if (Internet_Check.checkInternetConnection(context)) {
+                    switch (item.getItemId()) {
+                        case R.id.navigation_ok:
+                            if (null == selectedUIIAExhibitList || selectedUIIAExhibitList.size() <= 0) {
+                                new ViewDialog().showDialog(InterchangeRequestOperationActivity.this, dialogTitle, getString(R.string.msg_error_select_uiia_exhibit));
+
+                            } else {
+
+                                // code to disable background functionality when progress bar starts
+                                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                String uiiaExhibitStr = "";
+                                for(Integer ueId : selectedUIIAExhibitList) {
+                                    uiiaExhibitStr = uiiaExhibitStr + "," + String.valueOf(ueId);
+                                }
+                                uiiaExhibitStr = uiiaExhibitStr.substring(1);
+
+                                performRemarks(opt, uiiaExhibitStr);
+                                dialog.dismiss();
+                            }
+                            break;
+                        case R.id.navigation_cancel:
+                            dialog.dismiss();
+                            break;
+                    }
+
+                } else {
+                    Intent intent = new Intent(InterchangeRequestOperationActivity.this, NoInternetActivity.class);
+                    startActivity(intent);
+                }
+
+
+                return true;
+            }
+        });
+
+        SIAUtility.disableShiftMode(bnv);
+
+
+        dialog.show();
+    }
+
+    class UIIAExhibitListViewAdapter extends BaseAdapter {
+
+        private Context mContext;
+        private List<UIIAExhibit> mProductList;
+
+        // Constructor
+        public UIIAExhibitListViewAdapter(Context mContext, List<UIIAExhibit> mProductList) {
+            this.mContext = mContext;
+            this.mProductList = mProductList;
+        }
+
+        @Override
+        public int getCount() {
+            return mProductList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mProductList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            View v = View.inflate(mContext, R.layout.uiia_exhibit_list_view, null);
+
+            ((TextView) v.findViewById(R.id.item)).setText(uiiaExhibitList.get(position).getItem());
+
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    ImageView img = v.findViewById(R.id.selectImage);
+
+                    if(img.getVisibility() == View.INVISIBLE) {
+                        img.setVisibility(View.VISIBLE);
+                        selectedUIIAExhibitList.add(mProductList.get(position).getUeId());
+                    } else {
+                        img.setVisibility(View.INVISIBLE);
+                        selectedUIIAExhibitList.remove(mProductList.get(position).getUeId());
+                    }
+                }
+            });
+
+            return v;
+        }
+    } /* End */
+
+    private void performRemarks(final String opt, final String uiiaExhibitStr) {
+
+        Log.v("log_tag", "uiiaExhibitStr start performRemarks(final String opt, final String uiiaExhibitStr):=>"+uiiaExhibitStr);
         // Create custom dialog object
         final Dialog dialog = new Dialog(InterchangeRequestOperationActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -1120,7 +1346,8 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 dialog.dismiss();
                 EditText remarks = dialog.findViewById(R.id.remarks);
 
-                callInterchangeRequestOperations(opt, "", remarks.getText().toString());
+                Log.v("log_tag", "uiiaExhibitStr before callInterchangeRequestOperations:=>"+uiiaExhibitStr);
+                callInterchangeRequestOperations(opt, uiiaExhibitStr, remarks.getText().toString());
             }
         });
     }

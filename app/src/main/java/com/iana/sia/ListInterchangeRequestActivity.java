@@ -346,6 +346,12 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                         jsonObject.addProperty("irId", dataList.get(position).getIrId());
                         jsonObject.addProperty("accessToken", siaSecurityObj.getAccessToken());
 
+                        // code to disable background functionality when progress bar starts
+                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                        progressBar.setVisibility(View.VISIBLE);
+
                         Log.v("log_tag", "ListInterchangeRequestActivity jsonObject:=> " + jsonObject.toString());
                         new ExecuteTaskToGetInterchangeRequestDetails(jsonObject.toString()).execute();
 
@@ -564,6 +570,9 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
             }
 
             progressBar.setVisibility(View.GONE);
+
+            // code to regain disable backend functionality end
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
     }
 
