@@ -44,6 +44,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -115,6 +116,8 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
 
     List<Integer> selectedUIIAExhibitList = new ArrayList<>();
 
+    Drawable mDrawable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,9 +179,9 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
             }
 
             rejectBtn = findViewById(R.id.rejectBtn);
-            reinitiateBtn = findViewById(R.id.reinitiateBtn);
-
             rejectBtn.setOnClickListener(onButtonClick());
+
+            reinitiateBtn = findViewById(R.id.reinitiateBtn);
             reinitiateBtn.setOnClickListener(onButtonClick());
 
 
@@ -196,6 +199,12 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
         }
 
         fam = findViewById(R.id.fab_menu);
+        fam.setIconAnimated(false);
+//        mDrawable = ContextCompat.getDrawable(context, R.drawable.menu);
+//        mDrawable.setColorFilter(new
+//                PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
+//        fam.getMenuIconView().setImageDrawable(mDrawable);
+
 
         //handling menu status (open or close)
         fam.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
@@ -203,10 +212,18 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
             public void onMenuToggle(boolean opened) {
                 RelativeLayout relativeLayout = findViewById(R.id.layoutMain);
                 if (opened) {
+                    mDrawable = ContextCompat.getDrawable(context, R.drawable.cross);
+                    mDrawable.setColorFilter(new
+                            PorterDuffColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_IN));
+                    fam.getMenuIconView().setImageDrawable(mDrawable);
                     relativeLayout.setAlpha(0);
                     setButtonVisibility(View.VISIBLE);
 
                 } else {
+                    mDrawable = ContextCompat.getDrawable(context, R.drawable.menu);
+                    mDrawable.setColorFilter(new
+                            PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
+                    fam.getMenuIconView().setImageDrawable(mDrawable);
                     relativeLayout.setAlpha(1);
                     setButtonVisibility(View.GONE);
                 }
@@ -235,25 +252,65 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
 
             if(null != irJson.getShowCancelButtons() && GlobalVariables.Y.equalsIgnoreCase(irJson.getShowCancelButtons())) {
                 cancelBtn.setVisibility(visibleOrGone);
+                mDrawable = ContextCompat.getDrawable(context, R.drawable.cross);
+                mDrawable.setColorFilter(new
+                        PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
+                cancelBtn.setImageDrawable(mDrawable);
+//                cancelBtn.setLabelTextColor(R.color.color_black);
             }
 
             approveBtn.setVisibility(visibleOrGone);
+                mDrawable = ContextCompat.getDrawable(context, R.drawable.approve);
+                mDrawable.setColorFilter(new
+                        PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
+            approveBtn.setImageDrawable(mDrawable);
+
+//            approveBtn.setPadding(40, 10, 10, 10);
+//            approveBtn.setLabelTextColor(R.color.color_black);
+
 
             if(null != irJson.getInProcessWf().getWfSeqType() && GlobalVariables.INITIATOR_MCA.equalsIgnoreCase(irJson.getInProcessWf().getWfSeqType())) {
                 onholdBtn.setVisibility(visibleOrGone);
+                    mDrawable = ContextCompat.getDrawable(context, R.drawable.onhold);
+                    mDrawable.setColorFilter(new
+                            PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
+                onholdBtn.setImageDrawable(mDrawable);
+//                onholdBtn.setLabelTextColor(R.color.color_black);
             }
 
             rejectBtn.setVisibility(visibleOrGone);
+                mDrawable = ContextCompat.getDrawable(context, R.drawable.reject);
+                mDrawable.setColorFilter(new
+                        PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
+            rejectBtn.setImageDrawable(mDrawable);
+//            rejectBtn.setLabelTextColor(R.color.color_black);
+
             reinitiateBtn.setVisibility(visibleOrGone);
+                mDrawable = ContextCompat.getDrawable(context, R.drawable.reinitiate);
+                mDrawable.setColorFilter(new
+                        PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
+            reinitiateBtn.setImageDrawable(mDrawable);
+//            reinitiateBtn.setLabelTextColor(R.color.color_black);
 
         } else {
 
                 if(GlobalVariables.STATUS_PENDING.equalsIgnoreCase(irJson.getInterchangeRequests().getStatus())) {
                     if (null != irJson.getShowCancelButtons() && GlobalVariables.Y.equalsIgnoreCase(irJson.getShowCancelButtons())) {
                         cancelBtn.setVisibility(visibleOrGone);
+                            mDrawable = ContextCompat.getDrawable(context, R.drawable.cross);
+                            mDrawable.setColorFilter(new
+                                    PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
+                        cancelBtn.setImageDrawable(mDrawable);
+//                        cancelBtn.setLabelTextColor(R.color.color_black);
                     }
                 }
+
             reinitiateBtn.setVisibility(visibleOrGone);
+                mDrawable = ContextCompat.getDrawable(context, R.drawable.reinitiate);
+                mDrawable.setColorFilter(new
+                        PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
+            reinitiateBtn.setImageDrawable(mDrawable);
+//            reinitiateBtn.setLabelTextColor(R.color.color_black);
         }
     }
 
@@ -297,18 +354,12 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
         };
     }
 
-    private void showToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-    }
-
-
     private void processViewContent() {
         TableLayout tl = findViewById(R.id.tableLayout);
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
         editor = sharedPref.edit();
 
-//        List<FieldInfo> fieldInfoList =  SIAUtility.getObjectOfModel(sharedPref, "fieldInfoList", List.class);
         Gson gson = new Gson();
         List<FieldInfo> fieldInfoList =  (gson.fromJson(sharedPref.getString("fieldInfoList", "[]"),
                 new TypeToken<List<FieldInfo>>() {
@@ -367,17 +418,16 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
             int startRadius = 0;
             int endRadius = (int) Math.hypot(layoutMain.getWidth(), layoutMain.getHeight());
 
-            Log.v("log_tag", "Show Workflow: x:=>"+x);
-            Log.v("log_tag", "Show Workflow: y:=>"+y);
+//            Log.v("log_tag", "Show Workflow: x:=>"+x);
+//            Log.v("log_tag", "Show Workflow: y:=>"+y);
 
-            Log.v("log_tag", "Show Workflow: startRadius:=>"+startRadius);
-            Log.v("log_tag", "Show Workflow: endRadius:=>"+endRadius);
+//            Log.v("log_tag", "Show Workflow: startRadius:=>"+startRadius);
+//            Log.v("log_tag", "Show Workflow: endRadius:=>"+endRadius);
 
             Animator anim = ViewAnimationUtils.createCircularReveal(layoutButtons, x, y, startRadius, endRadius);
             layoutButtons.setVisibility(View.VISIBLE);
             anim.start();
             isOpen = true;
-            workFlowBtn.setText("CLOSE FLOW");
 
             layoutButtons.removeAllViews();
 
@@ -397,6 +447,16 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 iconMap.put("fa fa-clock-o fa-2x", ContextCompat.getDrawable(context, R.drawable.onhold_32));
                 iconMap.put("fa fa-check-circle fa-2x", ContextCompat.getDrawable(context, R.drawable.approve));
 
+
+            LinearLayout allWorkFlowLL = new LinearLayout(this);
+            allWorkFlowLL.setGravity(Gravity.CENTER);
+            allWorkFlowLL.setOrientation(LinearLayout.VERTICAL);
+            LinearLayout.LayoutParams allWorkFlowLLLayoutParams =
+                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+            allWorkFlowLL.setLayoutParams(allWorkFlowLLLayoutParams);
+            allWorkFlowLL.setGravity(Gravity.CENTER);
+
             int textSizeAction = 8;
             int textSizeDate = 8;
 
@@ -410,8 +470,8 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 String cssClassValue = "";
                 String iconClassValue = "";
 
-                Log.v("log_tag", "Operation: cssClassValue:=>"+cssClassValue);
-                Log.v("log_tag", "Operation: iconClassValue:=>"+iconClassValue);
+//                Log.v("log_tag", "Operation: cssClassValue:=>"+cssClassValue);
+//                Log.v("log_tag", "Operation: iconClassValue:=>"+iconClassValue);
 
                 if(GlobalVariables.STATUS_ONHOLD.equalsIgnoreCase(wf.getStatus()) || GlobalVariables.STATUS_REJECTED.equalsIgnoreCase(wf.getStatus()) ||
                         GlobalVariables.STATUS_CANCELLED.equalsIgnoreCase(wf.getStatus())) {
@@ -742,8 +802,16 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 }
 
 
-                layoutButtons.addView(workFlowLL);
+                allWorkFlowLL.addView(workFlowLL);
             }
+
+
+            ScrollView scroll = new ScrollView(context);
+            scroll.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT));
+            scroll.addView(allWorkFlowLL);
+
+            layoutButtons.addView(scroll);
 
 
         } else {
@@ -780,7 +848,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
             anim.start();
             isOpen = false;
 
-            workFlowBtn.setText("VIEW FLOW");
+//            workFlowBtn.setText("VIEW FLOW");
         }
     }
 

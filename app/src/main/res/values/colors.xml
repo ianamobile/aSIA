@@ -36,12 +36,15 @@
     <color name="bg_color_onhold">#d9534f</color>
     <color name="bg_color_cancelled">#d9534f</color>
     <color name="bg_color_disabled">#aaa</color>
-
+    <color name="bg_color_reinitiate">#5bc0de</color>
 
     <color name="wf_bg_color_approved">#006400</color>
     <color name="wf_bg_color_stop">#c9302c</color>
     <color name="wf_bg_color_inprocess">#ec971f</color>
     <color name="wf_bg_color_pending">#808080</color>
     <color name="bg_color_lbl_note">#FF0000</color>
+
+    <color name="wf_circle_bg_color_white">#FFFFFF</color>
+
 
 </resources>

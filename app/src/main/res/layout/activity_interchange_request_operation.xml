@@ -57,7 +57,6 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="5dp"
         android:layout_marginBottom="5dp"
-        android:text="FLOW"
         android:textColor="@android:color/white"
         android:background="@drawable/border_view_workflow"
         />
@@ -70,15 +69,13 @@
                  android:layout_alignParentBottom="true"
                  android:layout_alignParentRight="true"
                  fab:menu_backgroundColor="@android:color/transparent"
-                 fab:menu_fab_label="Choose an action"
-                 fab:fab_colorNormal="#DA4336"
+                 fab:fab_colorNormal="#E75043"
                  fab:fab_colorPressed="#E75043"
                  fab:fab_colorRipple="#99FFFFFF"
                  fab:fab_showShadow="true"
                  fab:menu_labels_colorNormal="#333333"
                  fab:menu_labels_colorPressed="#444444"
                  fab:menu_labels_colorRipple="#66FFFFFF"
-                 fab:menu_labels_showShadow="true"
                  fab:menu_labels_maxLines="-1"
                  fab:menu_labels_position="left"
                  fab:menu_openDirection="up"
@@ -90,48 +87,64 @@
                      android:id="@+id/cancelBtn"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
-                     android:src="@android:drawable/ic_menu_edit"
-                     fab:fab_label="Cancel an item"
+                     fab:fab_label="Cancel"
                      android:visibility="gone"
-                     fab:fab_size="mini" />
+                     fab:fab_size="mini"
+                     app:menu_icon="@drawable/cross"
+                     />
 
                 <com.github.clans.fab.FloatingActionButton
                     android:id="@+id/approveBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_menu_add"
-                    fab:fab_label="APPROVE an item"
+                    app:menu_icon="@drawable/approve"
+                    fab:fab_label="Approve"
                     android:visibility="gone"
-                    fab:fab_size="mini" />
+                    fab:fab_size="mini"
+                    fab:fab_colorNormal="@color/bg_color_approved"
+                    fab:fab_colorPressed="@color/bg_color_approved"
+                    fab:fab_colorRipple="@color/bg_color_approved"
+                    android:padding="5dp"
+                    />
 
                 <com.github.clans.fab.FloatingActionButton
                      android:id="@+id/onholdBtn"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
-                     android:src="@android:drawable/ic_menu_add"
+                     app:menu_icon="@drawable/onhold"
                      fab:fab_label="ONHOLD an item"
                      android:visibility="gone"
-                     fab:fab_size="mini" />
+                     fab:fab_size="mini"
+                     fab:fab_colorNormal="@color/bg_color_rejected"
+                     fab:fab_colorPressed="@color/bg_color_rejected"
+                     fab:fab_colorRipple="@color/bg_color_rejected"
+                    />
 
                  <com.github.clans.fab.FloatingActionButton
                      android:id="@+id/rejectBtn"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
-                     android:src="@android:drawable/ic_menu_delete"
-                     fab:fab_colorNormal="@color/colorPrimaryDark"
-                     fab:fab_label="REJECT an item"
+                     app:menu_icon="@drawable/reject"
+                     fab:fab_label="Reject"
                      android:visibility="gone"
-                     fab:fab_size="mini" />
+                     fab:fab_size="mini"
+                     fab:fab_colorNormal="@color/bg_color_rejected"
+                     fab:fab_colorPressed="@color/bg_color_rejected"
+                     fab:fab_colorRipple="@color/bg_color_rejected"
+                     />
 
                 <com.github.clans.fab.FloatingActionButton
                     android:id="@+id/reinitiateBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_menu_delete"
-                    fab:fab_colorNormal="@color/colorPrimaryDark"
-                    fab:fab_label="RE-INITIATE REQUEST"
+                    app:menu_icon="@drawable/reinitiate"
+                    fab:fab_label="Re-Initiate Request"
                     android:visibility="gone"
-                    fab:fab_size="mini" />
+                    fab:fab_size="mini"
+                    fab:fab_colorNormal="@color/bg_color_reinitiate"
+                    fab:fab_colorPressed="@color/bg_color_reinitiate"
+                    fab:fab_colorRipple="@color/bg_color_reinitiate"
+                    />
 
 
              </com.github.clans.fab.FloatingActionMenu>

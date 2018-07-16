@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
     <item>
         <shape android:shape="oval">
-            <stroke android:color="@color/colorAccent"/>
-            <solid android:color="@color/colorAccent"/>
+            <stroke android:color="@color/appThemeColor"/>
+            <solid android:color="@color/appThemeColor"/>
         </shape>
     </item>
-</selector>
+    <item android:drawable="@drawable/eye"
+        android:bottom="15dp"
+        android:left="15dp"
+        android:right="15dp"
+        android:top="15dp"
+        />
+</layer-list>

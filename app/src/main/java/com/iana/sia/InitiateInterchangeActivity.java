@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -293,7 +294,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         originLocationCity.setText(ir.getOriginLocCity());
         originLocationState.setText(ir.getOriginLocState());
 
-        mcBCompanyName.setThreshold(2); //type char in after work....
+//        mcBCompanyName.setThreshold(2); //type char in after work....
         mcBCompanyNameAdapter = new MCBLocationAdapter(this);
         mcBCompanyName.setAdapter(mcBCompanyNameAdapter);
 
@@ -343,7 +344,6 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
             mcACompanyNameAdapter = new MCALocationAdapter(this);
             mcACompanyName.setAdapter(mcACompanyNameAdapter);
 
-
             epCompanyName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 @Override
@@ -364,6 +364,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
                         findViewById(R.id.mcACompanyName).requestFocus();
+                        epCompanyName.dismissDropDown();
 
                     } else {
                         Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
@@ -1316,7 +1317,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
                     FilterResults filterResults = new FilterResults();
-                    if (constraint != null) {
+                    if (constraint != null && constraint.toString().length() > 2) {
 
                         final String jsonInString = "role="+ GlobalVariables.ROLE_MC+"&requestType="+getString(R.string.request_type_ir_request)+"&companyName="+SIAUtility.replaceWhiteSpaces(constraint.toString());
 //                        Log.v("log_tag", "In filterResults with jsonInString:=>"+jsonInString);
