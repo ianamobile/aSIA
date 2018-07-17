@@ -134,6 +134,9 @@ public class ListNotifAvailActivity extends AppCompatActivity {
                         lastRecordMap.put(lastInScreen, lastInScreen);
 
                         progressBar.setVisibility(View.VISIBLE);
+                        // code to disable background functionalities when progress bar starts
+                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         new ExecuteNotifAvailSearchTask(requestString).execute();
                     }
 
@@ -207,12 +210,15 @@ public class ListNotifAvailActivity extends AppCompatActivity {
                     }
 
                 } else {
+                    Map<String, Object> extraMap = new HashMap<>();
+                    extraMap.put("goToPreviousPage", true);
+
                     try {
                         ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
-                        new ViewDialog().showDialog(ListNotifAvailActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                        new ViewDialog().showDialog(ListNotifAvailActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage(), extraMap);
 
                     } catch(Exception e) {
-                        new ViewDialog().showDialog(ListNotifAvailActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
+                        new ViewDialog().showDialog(ListNotifAvailActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time), extraMap);
                     }
                 }
 
@@ -303,6 +309,8 @@ public class ListNotifAvailActivity extends AppCompatActivity {
                                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
+                                progressBar.setVisibility(View.VISIBLE);
+
                                 new ExecuteDeleteNotifAvailTask("naId="+dataList.get(position).getNaId()+"&accessToken="+siaSecurityObj.getAccessToken()).execute();
                             }
                         });
@@ -392,7 +400,6 @@ public class ListNotifAvailActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -424,9 +431,13 @@ public class ListNotifAvailActivity extends AppCompatActivity {
 
                     String requestString = "accessToken="+siaSecurityObj.getAccessToken()+"&startDate="+naSearch.getFromDate()+"&endDate="+naSearch.getToDate()+
                             "&containerNo="+naSearch.getContainerNumber()+"&epSCAC="+naSearch.getEpScac()+"&mcSCAC="+naSearch.getMcScac()+
-                            "&offset="+naSearch.getOffset() + "&limit=" + naSearch.getLimit();
+                            "&offset="+getString(R.string.default_offset) + "&limit=" + getString(R.string.limit);
 
                     progressBar.setVisibility(View.VISIBLE);
+                    // code to disable background functionality when progress bar starts
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
                     new ExecuteNotifAvailSearchTask(requestString).execute();
 
                 } else {

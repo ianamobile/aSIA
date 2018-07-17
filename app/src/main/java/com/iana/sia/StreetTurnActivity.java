@@ -824,8 +824,8 @@ public class StreetTurnActivity extends AppCompatActivity {
                     String[] streetTurnCategoriesName = new String[]{"Street Turn Details", "Original Location"};
                     String[] streetTurnTitles = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
                             "MOTOR CARRIER NAME", "MOTOR CARRIER SCAC",
-                            "IMPORT B/L", "EXPORT BOOKING#",
-                            "CONTAINER#", "CHASSIS#", "CHASSIS IEP SCAC",
+                            "IMPORT B/L", "EXPORT BOOKING #",
+                            "CONTAINER #", "CHASSIS #", "CHASSIS IEP SCAC",
                             "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE"};
                     String[] streetTurnValues = new String[]{epCompanyName.getText().toString(), epScac.getText().toString(),
                             mcCompanyName.getText().toString(), mcScac.getText().toString(),

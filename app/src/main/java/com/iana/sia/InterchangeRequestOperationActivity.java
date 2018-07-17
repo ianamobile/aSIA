@@ -200,10 +200,10 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
 
         fam = findViewById(R.id.fab_menu);
         fam.setIconAnimated(false);
-//        mDrawable = ContextCompat.getDrawable(context, R.drawable.menu);
-//        mDrawable.setColorFilter(new
-//                PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
-//        fam.getMenuIconView().setImageDrawable(mDrawable);
+        mDrawable = ContextCompat.getDrawable(context, R.drawable.menu);
+        mDrawable.setColorFilter(new
+                PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
+        fam.getMenuIconView().setImageDrawable(mDrawable);
 
 
         //handling menu status (open or close)
@@ -255,7 +255,8 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 mDrawable = ContextCompat.getDrawable(context, R.drawable.cross);
                 mDrawable.setColorFilter(new
                         PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
-                cancelBtn.setImageDrawable(mDrawable);
+
+                cancelBtn.setImageDrawable(SIAUtility.resizeIcon(mDrawable, getResources(), 50, 50));
 //                cancelBtn.setLabelTextColor(R.color.color_black);
             }
 
@@ -263,7 +264,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 mDrawable = ContextCompat.getDrawable(context, R.drawable.approve);
                 mDrawable.setColorFilter(new
                         PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
-            approveBtn.setImageDrawable(mDrawable);
+            approveBtn.setImageDrawable(SIAUtility.resizeIcon(mDrawable, getResources(), 50, 50));
 
 //            approveBtn.setPadding(40, 10, 10, 10);
 //            approveBtn.setLabelTextColor(R.color.color_black);
@@ -274,7 +275,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     mDrawable = ContextCompat.getDrawable(context, R.drawable.onhold);
                     mDrawable.setColorFilter(new
                             PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
-                onholdBtn.setImageDrawable(mDrawable);
+                onholdBtn.setImageDrawable(SIAUtility.resizeIcon(mDrawable, getResources(), 50, 50));
 //                onholdBtn.setLabelTextColor(R.color.color_black);
             }
 
@@ -282,14 +283,14 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 mDrawable = ContextCompat.getDrawable(context, R.drawable.reject);
                 mDrawable.setColorFilter(new
                         PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
-            rejectBtn.setImageDrawable(mDrawable);
+            rejectBtn.setImageDrawable(SIAUtility.resizeIcon(mDrawable, getResources(), 50, 50));
 //            rejectBtn.setLabelTextColor(R.color.color_black);
 
             reinitiateBtn.setVisibility(visibleOrGone);
                 mDrawable = ContextCompat.getDrawable(context, R.drawable.reinitiate);
                 mDrawable.setColorFilter(new
                         PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
-            reinitiateBtn.setImageDrawable(mDrawable);
+            reinitiateBtn.setImageDrawable(SIAUtility.resizeIcon(mDrawable, getResources(), 50, 50));
 //            reinitiateBtn.setLabelTextColor(R.color.color_black);
 
         } else {
@@ -300,7 +301,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                             mDrawable = ContextCompat.getDrawable(context, R.drawable.cross);
                             mDrawable.setColorFilter(new
                                     PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
-                        cancelBtn.setImageDrawable(mDrawable);
+                        cancelBtn.setImageDrawable(SIAUtility.resizeIcon(mDrawable, getResources(), 50, 50));
 //                        cancelBtn.setLabelTextColor(R.color.color_black);
                     }
                 }
@@ -309,7 +310,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 mDrawable = ContextCompat.getDrawable(context, R.drawable.reinitiate);
                 mDrawable.setColorFilter(new
                         PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
-            reinitiateBtn.setImageDrawable(mDrawable);
+            reinitiateBtn.setImageDrawable(SIAUtility.resizeIcon(mDrawable, getResources(), 50, 50));
 //            reinitiateBtn.setLabelTextColor(R.color.color_black);
         }
     }
@@ -1049,9 +1050,9 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         labelList.add("MOTOR CARRIER NAME");
                         labelList.add("MOTOR CARRIER SCAC");
                         labelList.add("IMPORT BL");
-                        labelList.add("EXPORT BOOKING#");
-                        labelList.add("CONTAINER#");
-                        labelList.add("CHASSIS#");
+                        labelList.add("EXPORT BOOKING #");
+                        labelList.add("CONTAINER #");
+                        labelList.add("CHASSIS #");
                         labelList.add("CHASSIS IEP SCAC");
                         labelList.add("LOCATION NAME");
                         labelList.add("LOCATION ADDRESS");
@@ -1095,13 +1096,13 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         labelList.add("CONTAINER TYPE");
                         labelList.add("CONTAINER SIZE");
                         labelList.add("IMPORT BL");
-                        labelList.add("EXPORT BOOKING#");
-                        labelList.add("CONTAINER#");
-                        labelList.add("CHASSIS#");
+                        labelList.add("EXPORT BOOKING #");
+                        labelList.add("CONTAINER #");
+                        labelList.add("CHASSIS #");
                         labelList.add("CHASSIS IEP SCAC");
                         labelList.add("CHASSIS TYPE");
                         labelList.add("CHASSIS SIZE");
-                        labelList.add("GENSET#");
+                        labelList.add("GENSET #");
                         labelList.add("LOCATION NAME");
                         labelList.add("LOCATION ADDRESS");
                         labelList.add("ZIP CODE");

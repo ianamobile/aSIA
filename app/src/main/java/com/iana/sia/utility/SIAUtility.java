@@ -1,6 +1,10 @@
 package com.iana.sia.utility;
 
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
@@ -179,4 +183,11 @@ public class SIAUtility {
 
     }
 
+    public static Drawable resizeIcon(Drawable mDrawable, Resources resources, int width, int height) {
+        // Read your drawable from somewhere
+        Bitmap bitmap = ((BitmapDrawable) mDrawable).getBitmap();
+        // Scale it to 50 x 50
+        return new BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, 50, 50, true));
+
+    }
 }

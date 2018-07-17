@@ -1293,21 +1293,29 @@ public class NotifAvailActivity extends AppCompatActivity {
                     String containerType = containerTypeSpinner.getSelectedItem().toString();
                     if(getString(R.string.lbl_other).equalsIgnoreCase(containerType)) {
                         containerType = ((EditText) findViewById(R.id.containerTypeOther)).getText().toString().trim();
+                    } else if(getString(R.string.select_container_type).equalsIgnoreCase(containerType)) {
+                        containerType = "";
                     }
 
                     String containerSize = containerSizeSpinner.getSelectedItem().toString();
                     if(getString(R.string.lbl_other).equalsIgnoreCase(containerSize)) {
                         containerSize = ((EditText) findViewById(R.id.containerSizeOther)).getText().toString().trim();
+                    } else if(getString(R.string.select_container_size).equalsIgnoreCase(containerSize)) {
+                        containerSize = "";
                     }
 
                     String chassisType = chassisTypeSpinner.getSelectedItem().toString();
                     if(getString(R.string.lbl_other).equalsIgnoreCase(chassisType)) {
                         chassisType = ((EditText) findViewById(R.id.chassisTypeOther)).getText().toString().trim();
+                    } else if(getString(R.string.select_chassis_type).equalsIgnoreCase(chassisType)) {
+                        chassisType = "";
                     }
 
                     String chassisSize = chassisSizeSpinner.getSelectedItem().toString();
                     if(getString(R.string.lbl_other).equalsIgnoreCase(chassisSize)) {
                         chassisSize = ((EditText) findViewById(R.id.chassisSizeOther)).getText().toString().trim();
+                    } else if(getString(R.string.select_chassis_size).equalsIgnoreCase(chassisSize)) {
+                        chassisSize = "";
                     }
 
 
@@ -1315,8 +1323,8 @@ public class NotifAvailActivity extends AppCompatActivity {
                     String[] categoriesName = new String[]{"Notification of Available Equipment Details", "Equipment Location", "Original Location"};
                     String[] labelArray = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
                             "MOTOR CARRIER A'S NAME", "MOTOR CARRIER A'S SCAC",
-                            "LOAD STATUS", "CONTAINER#", "CONTAINER TYPE", "CONTAINER SIZE",
-                            "CHASSIS#", "CHASSIS IEP SCAC", "CHASSIS TYPE", "CHASSIS SIZE", "GENSET#",
+                            "LOAD STATUS", "CONTAINER #", "CONTAINER TYPE", "CONTAINER SIZE",
+                            "CHASSIS #", "CHASSIS IEP SCAC", "CHASSIS TYPE", "CHASSIS SIZE", "GENSET #",
                             "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE",
                             "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE"};
                     String[] valueArray = new String[]{epCompanyName.getText().toString(), epScac.getText().toString(),

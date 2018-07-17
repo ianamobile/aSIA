@@ -129,8 +129,8 @@
 
     <string name="lbl_action_required">ACTION REQUIRED</string>
     <string name="lbl_created_date">CREATED DATE</string>
-    <string name="lbl_container_num">CONTAINER#</string>
-    <string name="lbl_export_booking_num">EXPORT BOOKING#</string>
+    <string name="lbl_container_num">CONTAINER #</string>
+    <string name="lbl_export_booking_num">EXPORT BOOKING #</string>
     <string name="lbl_container_ep_name">CONTAINER EP NAME</string>
     <string name="lbl_container_ep_scac">CONTAINER EP SCAC</string>
     <string name="lbl_motor_carrier_a_name_result">MOTOR CARRIER A\'S NAME</string>
@@ -142,7 +142,7 @@
     <string name="lbl_cancelled_date">CANCELLED DATE</string>
     <string name="lbl_onhold_date">ONHOLD DATE</string>
     <string name="lbl_load_status">LOAD STATUS</string>
-    <string name="lbl_chassis_num">CHASSIS#</string>
+    <string name="lbl_chassis_num">CHASSIS #</string>
     <string name="lbl_iep_scac">IEP SCAC</string>
     <string name="lbl_chassis_number">CHASSIS NUMBER</string>
     <string name="lbl_chassis_iep_scac">CHASSIS IEP SCAC</string>
@@ -270,12 +270,12 @@
     <string name="msg_error_empty_password">Password should not be blank.</string>
     <string name="msg_error_empty_userName">Username should not be blank.</string>
 
-    <string name="msg_error_empty_iddpin">Idd Pin# should not be blank.</string>
+    <string name="msg_error_empty_iddpin">Idd Pin # should not be blank.</string>
 
-    <string name="msg_error_empty_drvLicNo">Driver license# should not be blank.</string>
+    <string name="msg_error_empty_drvLicNo">Driver license # should not be blank.</string>
     <string name="msg_error_empty_drvLicState">Driver license State should not be blank.</string>
 
-    <string name="msg_error_alphanum_drvLicNo">Driver license# should be Alpha-Numeric only.</string>
+    <string name="msg_error_alphanum_drvLicNo">Driver license # should be Alpha-Numeric only.</string>
     <string name="msg_error_char_drvLicState">Driver license state should be characters only.</string>
     <string name="msg_error_length_drvLicState">Driver license state should be 2 characters long.</string>
 
@@ -306,7 +306,7 @@
 
     <string name="msg_error_alpha_num_import_booking_number">Import B/L should be Alpha-Numeric value.</string>
 
-    <string name="msg_error_alpha_num_chassis_number">Chassis# should be Alpha-Numeric value.</string>
+    <string name="msg_error_alpha_num_chassis_number">Chassis # should be Alpha-Numeric value.</string>
 
     <string name="msg_error_select_type_of_interchange">Please select valid type of interchange.</string>
     <string name="msg_error_select_container_type">Please select valid Container Type.</string>
@@ -329,7 +329,7 @@
     <string name="msg_error_empty_origin_location_address">Original Location Address should not be blank.</string>
     <string name="msg_error_empty_origin_location_city">Original Location City should not be blank.</string>
     <string name="msg_error_empty_origin_location_state">Original Location State should not be blank.</string>
-    <string name="msg_error_alpha_num_genset_number">Genset# should be Alpha-Numeric value.</string>
+    <string name="msg_error_alpha_num_genset_number">Genset # should be Alpha-Numeric value.</string>
 
     <string name="msg_error_empty_email">Email should not be blank.</string>
     <string name="msg_error_invalid_email">Please enter valid email.</string>
@@ -339,7 +339,7 @@
 
     <string name="msg_error_select_load_status">Please select valid Load Status details.</string>
 
-    <string name="msg_error_empty_pin_scac">Idd Pin# and SCAC should not be blank.</string>
+    <string name="msg_error_empty_pin_scac">Idd Pin # and SCAC should not be blank.</string>
 
     <string name="msg_error_empty_username_password">Username &amp; password should not be blank.</string>
 
