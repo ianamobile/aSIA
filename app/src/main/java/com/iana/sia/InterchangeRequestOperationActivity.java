@@ -213,6 +213,10 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
             public void onMenuToggle(boolean opened) {
                 RelativeLayout relativeLayout = findViewById(R.id.layoutMain);
                 if (opened) {
+                    if(workFlowBtn.getVisibility() == View.VISIBLE) {
+                        workFlowBtn.setVisibility(View.GONE);
+                    }
+
                     mDrawable = ContextCompat.getDrawable(context, R.drawable.if_remove);
                     mDrawable.setColorFilter(new
                             PorterDuffColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_IN));
@@ -221,6 +225,11 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     setButtonVisibility(View.VISIBLE);
 
                 } else {
+
+                    if(workFlowBtn.getVisibility() == View.GONE) {
+                        workFlowBtn.setVisibility(View.VISIBLE);
+                    }
+
                     mDrawable = ContextCompat.getDrawable(context, R.drawable.menu);
                     mDrawable.setColorFilter(new
                             PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
@@ -377,11 +386,21 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
 
             } else if(fieldInfo.getTitle().equalsIgnoreCase(GlobalVariables.FIELD_INFO_TITLE)) {
                 row = (TableRow)LayoutInflater.from(InterchangeRequestOperationActivity.this).inflate(R.layout.verify_content, null);
-                ((TextView)row.findViewById(R.id.locationLbl)).setText(fieldInfo.getValue());
 
-                fieldInfo = fieldInfoList.get(++i);
-                ((TextView) row.findViewById(R.id.locationValue)).setText(fieldInfo.getValue());
-                tl.addView(row);
+                if(fieldInfo.getValue().equalsIgnoreCase("Remarks")) {
+                    fieldInfo = fieldInfoList.get(++i);
+                    ((TextView) row.findViewById(R.id.locationLbl)).setText(fieldInfo.getValue());
+
+                    ((TextView) row.findViewById(R.id.locationValue)).setText("");
+                    tl.addView(row);
+
+                } else {
+                    ((TextView) row.findViewById(R.id.locationLbl)).setText(fieldInfo.getValue());
+
+                    fieldInfo = fieldInfoList.get(++i);
+                    ((TextView) row.findViewById(R.id.locationValue)).setText(fieldInfo.getValue());
+                    tl.addView(row);
+                }
 
             } else  if(fieldInfo.getTitle().equalsIgnoreCase(GlobalVariables.FIELD_INFO_BLANK)) {
                 row = new TableRow(this);
@@ -417,6 +436,10 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
         int y = workFlowBtn.getBottom();
         if(!isOpen) {
 
+            if(fam.getVisibility() == View.VISIBLE) {
+                fam.setVisibility(View.GONE);
+            }
+
             int startRadius = 0;
             int endRadius = (int) Math.hypot(layoutMain.getWidth(), layoutMain.getHeight());
 
@@ -431,6 +454,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
             anim.start();
             isOpen = true;
 
+            workFlowBtn.setBackground(getDrawable(R.drawable.border_view_workflow_close));
             layoutButtons.removeAllViews();
 
             InterchangeRequestsJson interchangeRequestsJson = SIAUtility.getObjectOfModel(sharedPref, "interchangeRequestsJson", InterchangeRequestsJson.class);
@@ -790,6 +814,12 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
 
         } else {
 
+            if(fam.getVisibility() == View.GONE) {
+                fam.setVisibility(View.VISIBLE);
+            }
+
+            workFlowBtn.setBackground(getDrawable(R.drawable.border_view_workflow));
+
             int startRadius = (int) Math.hypot(layoutContent.getWidth(), layoutContent.getHeight());
             int endRadius = 0;
 
@@ -1140,7 +1170,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         categoriesList.add(remarksArray.length);
                         categoriesNameList.add("Previous Comments");
                         for(int i=0;i<remarksArray.length;i++) {
-                            labelList.add("Remarks"+(i+1));
+                            labelList.add("Remarks");
                             valueList.add(remarksArray[i]);
                         }
                     }

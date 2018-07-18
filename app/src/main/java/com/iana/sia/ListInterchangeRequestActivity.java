@@ -534,7 +534,7 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                             categoriesList.add(remarksArray.length);
                             categoriesNameList.add("Previous Comments");
                             for(int i=0;i<remarksArray.length;i++) {
-                                labelList.add("Remarks"+(i+1));
+                                labelList.add("Remarks");
                                 valueList.add(remarksArray[i]);
                             }
                         }

@@ -298,6 +298,8 @@ public class EPListByTPUActivity extends AppCompatActivity {
                     RelativeLayout mainL = ((RelativeLayout) v);
                     RelativeLayout r = (RelativeLayout) mainL.getChildAt(0);
 
+                    /*
+                    // code working but for demo purpose this functionality is kept commented
                     if(GlobalVariables.STATUS_ACTIVE.equalsIgnoreCase(dataList.get(position).getStatus())) {
 
                         // code to disable background functionality when progress bar starts
@@ -306,7 +308,7 @@ public class EPListByTPUActivity extends AppCompatActivity {
                         String requestString = "accessToken="+siaSecurityObj.getAccessToken()+"&epScac="+dataList.get(position).getScac();
                         new ExecuteTaskToGetEPAccessToken(requestString).execute();
 
-                    }
+                    }*/
                 }
             });
 
