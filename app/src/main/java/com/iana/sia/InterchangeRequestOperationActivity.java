@@ -204,7 +204,8 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
         mDrawable.setColorFilter(new
                 PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
         fam.getMenuIconView().setImageDrawable(mDrawable);
-
+        fam.setMenuButtonColorNormal(ContextCompat.getColor(this, R.color.appThemeColor));
+        fam.setMenuButtonColorPressed(ContextCompat.getColor(this, R.color.appThemeColor));
 
         //handling menu status (open or close)
         fam.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
@@ -212,10 +213,10 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
             public void onMenuToggle(boolean opened) {
                 RelativeLayout relativeLayout = findViewById(R.id.layoutMain);
                 if (opened) {
-                    mDrawable = ContextCompat.getDrawable(context, R.drawable.cross);
+                    mDrawable = ContextCompat.getDrawable(context, R.drawable.if_remove);
                     mDrawable.setColorFilter(new
                             PorterDuffColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_IN));
-                    fam.getMenuIconView().setImageDrawable(mDrawable);
+                    fam.getMenuIconView().setImageDrawable(SIAUtility.resizeIcon(mDrawable, getResources(), 80, 80));
                     relativeLayout.setAlpha(0);
                     setButtonVisibility(View.VISIBLE);
 
@@ -443,9 +444,9 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 backgroundColorMap.put("wf pending", ContextCompat.getColor(this, R.color.wf_bg_color_pending));
 
             Map<String, Drawable> iconMap = new HashMap<>();
-                iconMap.put("fa fa-stop-circle fa-2x", ContextCompat.getDrawable(context, R.drawable.onhold_32));
+                iconMap.put("fa fa-stop-circle fa-2x", ContextCompat.getDrawable(context, R.drawable.reject));
                 iconMap.put("fa fa-hourglass-start fa-2x", ContextCompat.getDrawable(context, R.drawable.pending_hourglass));
-                iconMap.put("fa fa-clock-o fa-2x", ContextCompat.getDrawable(context, R.drawable.onhold_32));
+                iconMap.put("fa fa-clock-o fa-2x", ContextCompat.getDrawable(context, R.drawable.awaiting_clock));
                 iconMap.put("fa fa-check-circle fa-2x", ContextCompat.getDrawable(context, R.drawable.approve));
 
 
@@ -457,9 +458,10 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
 
             allWorkFlowLL.setLayoutParams(allWorkFlowLLLayoutParams);
             allWorkFlowLL.setGravity(Gravity.CENTER);
+            allWorkFlowLL.setPadding(0, 20, 0, 0);
 
-            int textSizeAction = 8;
-            int textSizeDate = 8;
+            int textSizeAction = 7;
+            int textSizeDate = 7;
 
             for(int i = 0; i< workFlowList.size();i++) {
 
@@ -518,43 +520,36 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams workFlowLLLayoutParams =
                         new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 200);
 
-                workFlowLLLayoutParams.setMargins(20, 20, 20, 10);
+                workFlowLLLayoutParams.setMargins(20, 0, 20, 0);
                 workFlowLL.setLayoutParams(workFlowLLLayoutParams);
                 workFlowLL.setGravity(Gravity.CENTER);
-                workFlowLL.setElevation(5f);
+//                workFlowLL.setElevation(5f);
 
                 // ImageView in Linear Layout starts
                 ImageView imageView = new ImageView(this);
                     LinearLayout.LayoutParams imageViewLayputParams = new LinearLayout.LayoutParams(64, 64);
                     imageViewLayputParams.setLayoutDirection(Gravity.CENTER);
-                    imageViewLayputParams.setMargins(0, 0, 0, 0);
 
 
                     // text view to display action starts
                     TextView actionTextView = new TextView(this);
                         LinearLayout.LayoutParams actionTextViewLayoutParams = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    actionTextViewLayoutParams.setMargins(20, 5, 0, 0);
+                    actionTextViewLayoutParams.setMargins(20, 5, 20, 0);
                     actionTextView.setLayoutParams(actionTextViewLayoutParams);
 
 
                     LinearLayout.LayoutParams dateTextViewLayoutParams = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                        dateTextViewLayoutParams.setMargins(20, 0, 0, 20);
+                        dateTextViewLayoutParams.setMargins(20, 0, 20, 5);
 
                 /* index flow 0 start from 0*/
                 if(i == 0) {
 
 //                    workFlowLL.setBackgroundColor(backgroundColorMap.get(cssClassValue));
                     workFlowLL.setBackgroundColor(backgroundColorMap.get("wf approved"));
-//                    Drawable mDrawable = iconMap.get(iconClassValue);
-                    Drawable mDrawable = iconMap.get("fa fa-check-circle fa-2x");
-                    mDrawable.setColorFilter(new
-                            PorterDuffColorFilter(Color.parseColor("#006400"), PorterDuff.Mode.SRC_IN));
 
-                    imageView.setBackground(ContextCompat.getDrawable(this, R.drawable.circle_workflow_white_background));
-                    imageView.setImageDrawable(mDrawable);
-                    imageView.setPadding(10, 10, 10, 10);
+                    imageView.setBackground(ContextCompat.getDrawable(this, R.drawable.wf_approve_icon));
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                     imageView.setLayoutParams(imageViewLayputParams);
 
@@ -596,19 +591,8 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
 
                     workFlowLL.setBackgroundColor(backgroundColorMap.get(cssClassValue));
 
-                    Drawable mDrawable = iconMap.get(iconClassValue);
-                    if(iconClassValue.equalsIgnoreCase("fa fa-hourglass-start fa-2x")) {
-                        mDrawable.setColorFilter(new
-                                PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
-                    } else {
+                    setWorkflow(imageView, iconMap, iconClassValue);
 
-                        mDrawable.setColorFilter(new
-                                PorterDuffColorFilter(Color.parseColor("#006400"), PorterDuff.Mode.SRC_IN));
-                        imageView.setBackground(ContextCompat.getDrawable(this, R.drawable.circle_workflow_white_background));
-                        imageView.setPadding(10, 10, 10, 10);
-                    }
-
-                    imageView.setImageDrawable(mDrawable);
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                     imageView.setLayoutParams(imageViewLayputParams);
 
@@ -649,19 +633,8 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
 
                     workFlowLL.setBackgroundColor(backgroundColorMap.get(cssClassValue));
 
-                    Drawable mDrawable = iconMap.get(iconClassValue);
-                    if(iconClassValue.equalsIgnoreCase("fa fa-hourglass-start fa-2x")) {
-                        mDrawable.setColorFilter(new
-                                PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
+                    setWorkflow(imageView, iconMap, iconClassValue);
 
-                    } else {
-                        mDrawable.setColorFilter(new
-                                PorterDuffColorFilter(Color.parseColor("#006400"), PorterDuff.Mode.SRC_IN));
-                        imageView.setBackground(ContextCompat.getDrawable(this, R.drawable.circle_workflow_white_background));
-                        imageView.setPadding(10, 10, 10, 10);
-                    }
-
-                    imageView.setImageDrawable(mDrawable);
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                     imageView.setLayoutParams(imageViewLayputParams);
 
@@ -702,19 +675,8 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
 
                     workFlowLL.setBackgroundColor(backgroundColorMap.get(cssClassValue));
 
-                    Drawable mDrawable = iconMap.get(iconClassValue);
-                    if(iconClassValue.equalsIgnoreCase("fa fa-hourglass-start fa-2x")) {
-                        mDrawable.setColorFilter(new
-                                PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
-                    } else {
+                    setWorkflow(imageView, iconMap, iconClassValue);
 
-                        mDrawable.setColorFilter(new
-                                PorterDuffColorFilter(Color.parseColor("#006400"), PorterDuff.Mode.SRC_IN));
-                        imageView.setBackground(ContextCompat.getDrawable(this, R.drawable.circle_workflow_white_background));
-                        imageView.setPadding(10, 10, 10, 10);
-                    }
-
-                    imageView.setImageDrawable(mDrawable);
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                     imageView.setLayoutParams(imageViewLayputParams);
 
@@ -754,20 +716,8 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
 
                     workFlowLL.setBackgroundColor(backgroundColorMap.get(cssClassValue));
 
-                    Drawable mDrawable = iconMap.get(iconClassValue);
-                    if(iconClassValue.equalsIgnoreCase("fa fa-hourglass-start fa-2x")) {
+                    setWorkflow(imageView, iconMap, iconClassValue);
 
-                        mDrawable.setColorFilter(new
-                                PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
-                    } else {
-
-                        mDrawable.setColorFilter(new
-                                PorterDuffColorFilter(Color.parseColor("#006400"), PorterDuff.Mode.SRC_IN));
-                        imageView.setBackground(ContextCompat.getDrawable(this, R.drawable.circle_workflow_white_background));
-                        imageView.setPadding(10, 10, 10, 10);
-                    }
-
-                    imageView.setImageDrawable(mDrawable);
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                     imageView.setLayoutParams(imageViewLayputParams);
 
@@ -804,6 +754,29 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
 
 
                 allWorkFlowLL.addView(workFlowLL);
+
+                if((workFlowList.size() - 1) != i) {
+                    // Down Arrow ImageView in Linear Layout starts
+                    ImageView downArrowImageView = new ImageView(this);
+                    LinearLayout.LayoutParams downArrowImageViewLayputParams = new LinearLayout.LayoutParams(48, 48);
+                    downArrowImageViewLayputParams.setLayoutDirection(Gravity.CENTER);
+                    downArrowImageViewLayputParams.setMargins(0, 0, 0, 0);
+
+                    downArrowImageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.down_arrow));
+
+                    allWorkFlowLL.addView(downArrowImageView);
+                }
+
+                if((workFlowList.size() - 1) == i) {
+                    workFlowLL = new LinearLayout(this);
+                    workFlowLL.setGravity(Gravity.CENTER);
+                    workFlowLL.setOrientation(LinearLayout.VERTICAL);
+                    workFlowLLLayoutParams.setMargins(20, 20, 20, 10);
+                    workFlowLL.setLayoutParams(workFlowLLLayoutParams);
+                    workFlowLL.setGravity(Gravity.CENTER);
+
+                    allWorkFlowLL.addView(workFlowLL);
+                }
             }
 
 
@@ -877,6 +850,12 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 isOpen = true;
                 viewMenu("");
 
+            // code to disable background functionality when progress bar starts
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                progressBar.setVisibility(View.VISIBLE);
+
                 new ExecuteGetUIIAExhibitListTask(opt).execute();
             }
         }
@@ -895,6 +874,8 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
         // code to disable background functionality when progress bar starts
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+        progressBar.setVisibility(View.VISIBLE);
 
         Log.v("log_tag", "InterchangeRequestOperationActivity ExecuteOperationTask: jsonObject.toString():=> " + jsonObject.toString());
         new ExecuteOperationTask(jsonObject.toString()).execute();
@@ -935,7 +916,6 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -1049,7 +1029,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         labelList.add("CONTAINER PROVIDER SCAC");
                         labelList.add("MOTOR CARRIER NAME");
                         labelList.add("MOTOR CARRIER SCAC");
-                        labelList.add("IMPORT BL");
+                        labelList.add("IMPORT B/L");
                         labelList.add("EXPORT BOOKING #");
                         labelList.add("CONTAINER #");
                         labelList.add("CHASSIS #");
@@ -1082,7 +1062,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         categoriesList.add(5);
 
                         categoriesNameList.add("Street Interchange Details");
-                        categoriesNameList.add("Equipment Interchange Location");
+                        categoriesNameList.add("Equipment Location");
                         categoriesNameList.add("Original Interchange Location");
 
 
@@ -1095,7 +1075,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         labelList.add("TYPE OF INTERCHANGE");
                         labelList.add("CONTAINER TYPE");
                         labelList.add("CONTAINER SIZE");
-                        labelList.add("IMPORT BL");
+                        labelList.add("IMPORT B/L");
                         labelList.add("EXPORT BOOKING #");
                         labelList.add("CONTAINER #");
                         labelList.add("CHASSIS #");
@@ -1210,7 +1190,6 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -1226,6 +1205,9 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
+
+            // code to regain disable backend functionality end
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
             try {
 
@@ -1291,10 +1273,6 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
 
                             } else {
 
-                                // code to disable background functionality when progress bar starts
-                                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
                                 String uiiaExhibitStr = "";
                                 for(Integer ueId : selectedUIIAExhibitList) {
                                     uiiaExhibitStr = uiiaExhibitStr + "," + String.valueOf(ueId);
@@ -1357,6 +1335,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
             View v = View.inflate(mContext, R.layout.uiia_exhibit_list_view, null);
 
             ((TextView) v.findViewById(R.id.item)).setText(uiiaExhibitList.get(position).getItem());
+            ((TextView) v.findViewById(R.id.itemDesc)).setText(uiiaExhibitList.get(position).getItemDesc());
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1365,10 +1344,19 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     ImageView img = v.findViewById(R.id.selectImage);
 
                     if(img.getVisibility() == View.INVISIBLE) {
+
+                        v.setBackgroundColor(ContextCompat.getColor(context, R.color.color_light_gray));
+
+                        Drawable mDrawable = ContextCompat.getDrawable(context, R.drawable.approve);
+                            mDrawable.setColorFilter(new
+                                    PorterDuffColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_IN));
+                        img.setImageDrawable(mDrawable);
                         img.setVisibility(View.VISIBLE);
+
                         selectedUIIAExhibitList.add(mProductList.get(position).getUeId());
                     } else {
                         img.setVisibility(View.INVISIBLE);
+                        v.setBackgroundColor(ContextCompat.getColor(context, R.color.color_white));
                         selectedUIIAExhibitList.remove(mProductList.get(position).getUeId());
                     }
                 }
@@ -1380,7 +1368,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
 
     private void performRemarks(final String opt, final String uiiaExhibitStr) {
 
-        Log.v("log_tag", "uiiaExhibitStr start performRemarks(final String opt, final String uiiaExhibitStr):=>"+uiiaExhibitStr);
+//        Log.v("log_tag", "uiiaExhibitStr start performRemarks(final String opt, final String uiiaExhibitStr):=>"+uiiaExhibitStr);
         // Create custom dialog object
         final Dialog dialog = new Dialog(InterchangeRequestOperationActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -1392,7 +1380,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         // Set dialog title
-        ((TextView) dialog.findViewById(R.id.titleTextView)).setText(dialogTitle);
+        ((TextView) dialog.findViewById(R.id.titleTextView)).setText(getString(R.string.dialog_title_add_remarks));
 
         dialog.show();
 
@@ -1419,6 +1407,30 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 callInterchangeRequestOperations(opt, uiiaExhibitStr, remarks.getText().toString());
             }
         });
+    }
+
+
+    private void setWorkflow(ImageView imageView, Map<String, Drawable> iconMap, String iconClassValue) {
+        Drawable mDrawable = iconMap.get(iconClassValue);
+        if(iconClassValue.equalsIgnoreCase("fa fa-hourglass-start fa-2x") ||
+                iconClassValue.equalsIgnoreCase("fa fa-clock-o fa-2x")) {
+
+            mDrawable.setColorFilter(new
+                    PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
+            imageView.setImageDrawable(mDrawable);
+
+        } else if(iconClassValue.equalsIgnoreCase("fa fa-check-circle fa-2x")) {
+            imageView.setBackground(ContextCompat.getDrawable(this, R.drawable.wf_approve_icon));
+
+        } else if(iconClassValue.equalsIgnoreCase("fa fa-stop-circle fa-2x")){
+
+            mDrawable.setColorFilter(new
+                    PorterDuffColorFilter(Color.parseColor("#d9534f"), PorterDuff.Mode.SRC_IN));
+            imageView.setBackground(ContextCompat.getDrawable(this, R.drawable.circle_workflow_white_background));
+            imageView.setPadding(10, 10, 10, 10);
+            imageView.setImageDrawable(mDrawable);
+        }
+
     }
 
 }

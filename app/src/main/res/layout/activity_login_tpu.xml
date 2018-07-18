@@ -262,7 +262,7 @@
             </RelativeLayout>
 
             <!-- register user -->
-            <LinearLayout
+<!--            <LinearLayout
                 android:id="@+id/registerUserLayout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/layout_height_button"
@@ -283,9 +283,9 @@
                     android:fontFamily="sans-serif-medium"
                     />
             </LinearLayout>
-
+-->
             <!-- register user sign up -->
-            <LinearLayout
+   <!--         <LinearLayout
                 android:id="@+id/signUpUserLayout"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -307,6 +307,7 @@
                     android:fontFamily="sans-serif-medium"
                     />
             </LinearLayout>
+-->
 
         </RelativeLayout>
 

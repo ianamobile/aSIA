@@ -7,8 +7,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
@@ -42,7 +40,6 @@ import com.iana.sia.utility.Internet_Check;
 import com.iana.sia.utility.RestApiClient;
 import com.iana.sia.utility.SIAUtility;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class VerifyActivity extends AppCompatActivity {
@@ -191,10 +188,10 @@ public class VerifyActivity extends AppCompatActivity {
                 }.getType()));
     }
 
-    public Object readObjectOfModel(String string) {
+    /*public Object readObjectOfModel(String string) {
         Gson gson = new Gson();
         return (gson.fromJson(sharedPref.getString(string, ""), InterchangeRequests.class));
-    }
+    }*/
 
     private void processViewContent() {
         TableLayout tl = findViewById(R.id.tableLayout);

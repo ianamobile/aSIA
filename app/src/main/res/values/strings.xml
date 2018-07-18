@@ -79,6 +79,8 @@
     <string name="dialog_title_forgot_username">FORGOT USERNAME</string>
     <string name="dialog_title_delete_from_pool">Delete from Pool</string>
     <string name="dialog_title_interchange_request_operation">Interchange Request Operation</string>
+
+    <string name="dialog_title_add_remarks">ADD REMARKS</string>
     <!-- Dialog title end -->
 
     <!-- label -->
@@ -115,7 +117,7 @@
     <string name="lbl_container_number">CONTAINER NUMBER</string>
     <string name="lbl_export_booking_number">EXPORT BOOKING NUMBER</string>
     <string name="lbl_import_bl">IMPORT B/L</string>
-    <string name="lbl_original_interchange_location">Original Location</string>
+    <string name="lbl_original_interchange_location">Original Interchange Location</string>
     <string name="lbl_equipment_location">Equipment Location</string>
     <string name="lbl_type_of_interchange">TYPE OF INTERCHANGE</string>
     <string name="lbl_container_type">CONTAINER TYPE</string>
@@ -344,5 +346,9 @@
     <string name="msg_error_empty_username_password">Username &amp; password should not be blank.</string>
 
     <string name="msg_error_select_uiia_exhibit">Please select at least one equipment condition or none.</string>
+
+    <string name="msg_error_invalid_location_search">Search allows only alphabet, number, hyphen &amp; space.</string>
+
+    <string name="msg_error_invalid_company_name">Company name should be alpha-numeric.</string>
 
 </resources>

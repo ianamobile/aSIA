@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:background="@drawable/curve_shape"
-    android:layout_width="250dp"
+    android:layout_width="350dp"
     android:layout_height="wrap_content"
     android:minHeight="150dp"
     android:gravity="center_horizontal|center_vertical"
@@ -20,13 +20,26 @@
         android:textAlignment="center"
         />
 
+    <TextView
+        android:id="@+id/remarksNote"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="Would you like to enter remarks?"
+        android:textSize="15dp"
+        android:textColor="@color/color_black"
+        android:textAlignment="center"
+        />
+
     <EditText
         android:id="@+id/remarks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#000"
-        android:layout_margin="5dp"
-        android:hint="ENTER REMARKS"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:hint="Enter remarks here."
         android:gravity="left|center_vertical"
         android:layout_gravity="center_vertical"
         android:textColorHint="@android:color/darker_gray"
@@ -39,7 +52,7 @@
 
     <View
         android:id="@+id/mcDotView"
-        android:layout_width="250dp"
+        android:layout_width="350dp"
         android:layout_height="1dp"
         android:background="#DCDCDC"
         android:layout_marginTop="8dp"
@@ -70,7 +83,7 @@
                 android:id="@+id/yesButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/dialog_ok_btn"
+                android:text="CONTINUE"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/declineButton"
@@ -79,7 +92,7 @@
                 />
 
             <View
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:id="@+id/verticalView"
                 android:layout_width="0dp"
                 android:layout_height="20dp"

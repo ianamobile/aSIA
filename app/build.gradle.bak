@@ -29,6 +29,5 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.1'
     compile 'com.android.support:design:26.0.1'
     compile 'com.android.support:cardview-v7:26.0.1'
-    compile 'com.github.clans:fab:1.6.4'
     testCompile 'junit:junit:4.12'
 }

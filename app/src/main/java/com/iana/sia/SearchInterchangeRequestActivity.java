@@ -145,33 +145,51 @@ public class SearchInterchangeRequestActivity extends AppCompatActivity implemen
                 if (Internet_Check.checkInternetConnection(getApplicationContext())) {
                     switch (item.getItemId()) {
                         case R.id.navigation_search:
+
+                            String error = "";
+
+                            if(null != containerNumber.getText() && containerNumber.getText().toString().trim().length() > 0 && !SIAUtility.isAlphaNumeric(containerNumber.getText().toString())) {
+                                error = getString(R.string.msg_error_invalid_container_number);
+
+                            } else if(null != exportBookingNumber.getText() && exportBookingNumber.getText().toString().trim().length() > 0  && !SIAUtility.isAlphaNumeric(exportBookingNumber.getText().toString())) {
+                                error = getString(R.string.msg_error_alpha_num_export_booking_number);
+                            }
+
+
+                            if(error.length() == 0) {
+
                                 // code to disable background functionality when progress bar starts
                                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                            InterchangeRequestsSearch irSearch = new InterchangeRequestsSearch();
+                                InterchangeRequestsSearch irSearch = new InterchangeRequestsSearch();
 
-                            irSearch.setContNum(containerNumber.getText().toString());
-                            irSearch.setBookingNum(exportBookingNumber.getText().toString());
-                            irSearch.setFromDate(fromDate.getText().toString());
-                            irSearch.setToDate(toDate.getText().toString());
+                                irSearch.setContNum(containerNumber.getText().toString());
+                                irSearch.setBookingNum(exportBookingNumber.getText().toString());
+                                irSearch.setFromDate(fromDate.getText().toString());
+                                irSearch.setToDate(toDate.getText().toString());
 
 
-                            LinearLayout ll = (LinearLayout) status.getSelectedView(); // get the parent layout view
-                            TextView selectedText = ll.findViewById(R.id.statusTextView); // get the child text view
-                            if(!statusArray[0].equalsIgnoreCase(selectedText.getText().toString())) {
-                                irSearch.setStatus(selectedText.getText().toString());
+                                LinearLayout ll = (LinearLayout) status.getSelectedView(); // get the parent layout view
+                                TextView selectedText = ll.findViewById(R.id.statusTextView); // get the child text view
+                                if (!statusArray[0].equalsIgnoreCase(selectedText.getText().toString())) {
+                                    irSearch.setStatus(selectedText.getText().toString());
+                                } else {
+                                    irSearch.setStatus("");
+                                }
+
+                                irSearch.setScac(scac.getText().toString());
+
+                                SIAUtility.setObject(editor, GlobalVariables.KEY_INTERCHANGE_REQUESTS_SEARCH_OBJ, irSearch);
+                                editor.commit();
+
+                                startActivity(new Intent(SearchInterchangeRequestActivity.this, ListInterchangeRequestActivity.class));
+                                finish(); /* This method will not display login page when click back (return) from phone */
+
                             } else {
-                                irSearch.setStatus("");
+                                new ViewDialog().showDialog(SearchInterchangeRequestActivity.this, dialogTitle, error);
                             }
 
-                            irSearch.setScac(scac.getText().toString());
-
-                            SIAUtility.setObject(editor, GlobalVariables.KEY_INTERCHANGE_REQUESTS_SEARCH_OBJ, irSearch);
-                            editor.commit();
-
-                            startActivity(new Intent(SearchInterchangeRequestActivity.this, ListInterchangeRequestActivity.class));
-                            finish(); /* This method will not display login page when click back (return) from phone */
                             break;
 
                         case R.id.navigation_cancel:

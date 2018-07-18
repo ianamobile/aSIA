@@ -111,22 +111,32 @@ public class SearchNotifAvailActivity extends AppCompatActivity implements DateP
                                 new ViewDialog().showDialog(SearchNotifAvailActivity.this, dialogTitle, returnMessage);
 
                             } else {
-                                NotifAvailSearch naSearch = new NotifAvailSearch();
 
-                                naSearch.setContainerNumber(containerNumber.getText().toString().trim());
-                                naSearch.setMcScac(mcScac.getText().toString().trim());
-                                naSearch.setEpScac(epScac.getText().toString().trim());
-                                naSearch.setFromDate(fromDate.getText().toString());
-                                naSearch.setToDate(toDate.getText().toString());
-                                naSearch.setOffset(Integer.valueOf(getString(R.string.default_offset)));
-                                naSearch.setLimit(Integer.valueOf(getString(R.string.limit)));
+                                String error = "";
+                                if(null != containerNumber.getText() && containerNumber.getText().toString().trim().length() > 0 && !SIAUtility.isAlphaNumeric(containerNumber.getText().toString())) {
+                                    error = getString(R.string.msg_error_invalid_container_number);
+                                }
 
-                                SIAUtility.setObject(editor, GlobalVariables.KEY_NOTIF_AVAIL_SEARCH_OBJ, naSearch);
-                                editor.commit();
+                                if(error.length() == 0) {
+                                    NotifAvailSearch naSearch = new NotifAvailSearch();
 
-                                startActivity(new Intent(SearchNotifAvailActivity.this, ListNotifAvailActivity.class));
-                                finish(); /* This method will not display login page when click back (return) from phone */
+                                    naSearch.setContainerNumber(containerNumber.getText().toString().trim());
+                                    naSearch.setMcScac(mcScac.getText().toString().trim());
+                                    naSearch.setEpScac(epScac.getText().toString().trim());
+                                    naSearch.setFromDate(fromDate.getText().toString());
+                                    naSearch.setToDate(toDate.getText().toString());
+                                    naSearch.setOffset(Integer.valueOf(getString(R.string.default_offset)));
+                                    naSearch.setLimit(Integer.valueOf(getString(R.string.limit)));
 
+                                    SIAUtility.setObject(editor, GlobalVariables.KEY_NOTIF_AVAIL_SEARCH_OBJ, naSearch);
+                                    editor.commit();
+
+                                    startActivity(new Intent(SearchNotifAvailActivity.this, ListNotifAvailActivity.class));
+                                    finish(); /* This method will not display login page when click back (return) from phone */
+
+                                } else {
+                                    new ViewDialog().showDialog(SearchNotifAvailActivity.this, dialogTitle, error);
+                                }
                             }
 
                             break;

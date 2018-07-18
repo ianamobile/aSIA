@@ -72,9 +72,9 @@ public class SuccessActivity extends AppCompatActivity {
             }
 
         } else {
-            ((TextView) findViewById(R.id.note)).setText("");
-            findViewById(R.id.note).setVisibility(View.GONE);
-            findViewById(R.id.noteLbl).setVisibility(View.GONE);
+            ((TextView) findViewById(R.id.note)).setText(getString(R.string.lbl_disclaimerText));
+            findViewById(R.id.noteLbl).setVisibility(View.VISIBLE);
+            findViewById(R.id.note).setVisibility(View.VISIBLE);
         }
 
         successMessageTextView = findViewById(R.id.successMessage);

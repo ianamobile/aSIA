@@ -30,7 +30,7 @@
 
     <color name="bg_color_green">#46B163</color>
 
-    <color name="bg_color_approved">#46B163</color>
+    <color name="bg_color_approved">#006400</color>
     <color name="bg_color_pending">#e98c1d</color>
     <color name="bg_color_rejected">#d9534f</color>
     <color name="bg_color_onhold">#d9534f</color>
@@ -45,6 +45,10 @@
     <color name="bg_color_lbl_note">#FF0000</color>
 
     <color name="wf_circle_bg_color_white">#FFFFFF</color>
+
+    <color name="color_white">#FFFFFF</color>
+
+    <color name="color_light_gray">#D3D3D3</color>
 
 
 </resources>

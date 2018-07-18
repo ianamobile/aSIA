@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:background="@color/colorAccent"
+    android:layout_height="match_parent"
+    android:background="@drawable/border_relative_layout_exhibit"
     >
 
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:minHeight="50dp"
         >
 
         <TableRow
@@ -34,19 +35,43 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_weight="9.9"
-                android:layout_toRightOf="@+id/selectImageLL"
-                android:layout_width="match_parent"
+                android:layout_weight="3.9"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="left|center_vertical"
                 >
                 <TextView
                     android:id="@+id/item"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="left|center_vertical"
                     android:paddingLeft="10dp"
-                    android:text="test" />
+                    android:text="Chassis Twist Locks and Safety Latches"
+                    android:minLines="1"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/color_black"
+                    android:textSize="12dp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="6"
+                android:layout_height="match_parent"
+                android:gravity="left|center_vertical"
+                android:layout_width="0dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                >
+                <TextView
+                    android:id="@+id/itemDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center_vertical"
+                    android:text="test"
+                    android:textColor="@color/appThemeColor"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="12dp"
+                    android:minLines="1"/>
             </LinearLayout>
 
         </TableRow>

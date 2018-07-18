@@ -130,6 +130,7 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
         }
 
 
+
         // code to disable background functionality when progress bar starts
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -416,16 +417,16 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                         categoriesList.add(5);
 
                         categoriesNameList.add("Street Turn Details");
-                        categoriesNameList.add("Original Location");
+                        categoriesNameList.add("Original Interchange Location");
 
                         labelList.add("CONTAINER PROVIDER NAME");
                         labelList.add("CONTAINER PROVIDER SCAC");
                         labelList.add("MOTOR CARRIER A'S NAME");
                         labelList.add("MOTOR CARRIER A'S SCAC");
                         labelList.add("IMPORT B/L");
-                        labelList.add("EXPORT BOOKING#");
-                        labelList.add("CONTAINER#");
-                        labelList.add("CHASSIS#");
+                        labelList.add("EXPORT BOOKING #");
+                        labelList.add("CONTAINER #");
+                        labelList.add("CHASSIS #");
                         labelList.add("CHASSIS IEP SCAC");
                         labelList.add("LOCATION NAME");
                         labelList.add("LOCATION ADDRESS");
@@ -456,7 +457,7 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
 
                         categoriesNameList.add("Street Interchange Details");
                         categoriesNameList.add("Equipment Location");
-                        categoriesNameList.add("Original Location");
+                        categoriesNameList.add("Original Interchange Location");
 
 
                         labelList.add("CONTAINER PROVIDER NAME");
@@ -469,13 +470,13 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                         labelList.add("CONTAINER TYPE");
                         labelList.add("CONTAINER SIZE");
                         labelList.add("IMPORT B/L");
-                        labelList.add("EXPORT BOOKING#");
-                        labelList.add("CONTAINER#");
-                        labelList.add("CHASSIS#");
+                        labelList.add("EXPORT BOOKING #");
+                        labelList.add("CONTAINER #");
+                        labelList.add("CHASSIS #");
                         labelList.add("CHASSIS IEP SCAC");
                         labelList.add("CHASSIS TYPE");
                         labelList.add("CHASSIS SIZE");
-                        labelList.add("GENSET#");
+                        labelList.add("GENSET #");
                         labelList.add("LOCATION NAME");
                         labelList.add("LOCATION ADDRESS");
                         labelList.add("ZIP CODE");

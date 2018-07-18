@@ -151,8 +151,13 @@ public class LocationActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (Internet_Check.checkInternetConnection(getApplicationContext())) {
                     if (null != s && s.toString().trim().length() > 1) {
-                        final String requestString = tempRequestString + "?location=" + s.toString().trim() + "&epScac="+epScac;
-                        new ExecuteLocationSearchTask(requestString).execute();
+                        if (SIAUtility.isAlphaNumSpaceHyphen(s.toString())) {
+                                final String requestString = tempRequestString + "?location=" + s.toString().trim() + "&epScac=" + epScac;
+                                new ExecuteLocationSearchTask(requestString).execute();
+
+                        } else {
+                            new ViewDialog().showDialog(LocationActivity.this, getString(R.string.dialog_title_location_search), getString(R.string.msg_error_invalid_location_search));
+                        }
                     }
 
                 } else {

@@ -94,6 +94,7 @@ public class StreetTurnActivity extends AppCompatActivity {
 
     String dialogTitle;
 
+    String searchScac = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -287,6 +288,7 @@ public class StreetTurnActivity extends AppCompatActivity {
 
             oppositeRole = GlobalVariables.ROLE_MC;
 
+            searchScac = mcCompanyName.getText().toString();
             mcCompanyName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 @Override
@@ -330,6 +332,7 @@ public class StreetTurnActivity extends AppCompatActivity {
             epCompanyName.setAdapter(adapter);
             oppositeRole = GlobalVariables.ROLE_EP;
 
+            searchScac = epCompanyName.getText().toString();
             epCompanyName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 @Override
@@ -409,18 +412,25 @@ public class StreetTurnActivity extends AppCompatActivity {
                     if (Internet_Check.checkInternetConnection(getApplicationContext())) {
                         if(chassisNumber.getText() != null && chassisNumber.getText().toString().trim().length() > 0) {
 
-                            if(!chassisNumber.getText().toString().trim().equalsIgnoreCase(GlobalVariables.DEFUALT_CHASSIS_NUM)) {
-                                // code to disable background functionality when progress bar starts
-                                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            if(SIAUtility.isAlphaNumeric(chassisNumber.getText().toString())) {
 
-                                String requestString = "chassisId=" + chassisNumber.getText().toString().trim();
-                                new ExecuteChassisIdTask(requestString).execute();
+                                if (!chassisNumber.getText().toString().trim().equalsIgnoreCase(GlobalVariables.DEFUALT_CHASSIS_NUM)) {
+                                    // code to disable background functionality when progress bar starts
+                                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                    String requestString = "chassisId=" + chassisNumber.getText().toString().trim();
+                                    new ExecuteChassisIdTask(requestString).execute();
+
+                                } else {
+                                    iepScac.setText("");
+                                }
 
                             } else {
+                                chassisNumber.setFocusable(true);
+                                new ViewDialog().showDialog(StreetTurnActivity.this, dialogTitle, getString(R.string.msg_error_alpha_num_chassis_number));
                                 iepScac.setText("");
                             }
-
                         }
 
                     } else {
@@ -582,9 +592,11 @@ public class StreetTurnActivity extends AppCompatActivity {
                 protected FilterResults performFiltering(CharSequence constraint) {
                     FilterResults filterResults = new FilterResults();
 
-                    if (constraint != null) {
+                    if (constraint != null && !searchScac.trim().equalsIgnoreCase(constraint.toString().trim())) {
 
                         final String jsonInString = "role=" + oppositeRole + "&requestType=" + getString(R.string.request_type_ir_request) + "&companyName=" + SIAUtility.replaceWhiteSpaces(constraint.toString());
+                        searchScac = constraint.toString().trim();
+
                         Thread timer = new Thread() { //new thread
                             public void run() {
                                 runOnUiThread(new Runnable() {
@@ -821,7 +833,7 @@ public class StreetTurnActivity extends AppCompatActivity {
                     }
 
                     int[] streetTurnCategories = new int[]{9, 5};
-                    String[] streetTurnCategoriesName = new String[]{"Street Turn Details", "Original Location"};
+                    String[] streetTurnCategoriesName = new String[]{"Street Turn Details", "Original Interchange Location"};
                     String[] streetTurnTitles = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
                             "MOTOR CARRIER NAME", "MOTOR CARRIER SCAC",
                             "IMPORT B/L", "EXPORT BOOKING #",

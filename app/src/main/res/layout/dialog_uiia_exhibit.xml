@@ -2,29 +2,39 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="@android:color/white"
     android:layout_height="match_parent" >
 
     <LinearLayout
         android:id="@+id/uiiaExhibitHeader"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:orientation="vertical">
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="8dp"
+        android:layout_height="50dp"
+        android:background="@color/bg_color_approved"
+        android:orientation="vertical"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Equipment Condition (per UIIA Exhibit A)"
-            android:textColor="@android:color/white"
+            android:textColor="@color/dark_gray"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="sans-serif-medium"
             />
 
     </LinearLayout>
     <ListView
-        android:background="@color/colorPrimary"
         android:layout_below="@+id/uiiaExhibitHeader"
         android:id="@+id/listViewExhibit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/navigation_uiia_exhibit"
+        android:background="@android:color/white"
+        android:layout_marginBottom="5dp"
         />
 
 
@@ -32,12 +42,12 @@
         android:id="@+id/navigation_uiia_exhibit"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@android:color/white"
-        android:color="@android:color/black"
+        android:background="@android:color/black"
+        android:color="@android:color/white"
         android:visibility="visible"
-        app:itemBackground="@android:color/white"
-        app:itemIconTint="@drawable/color_selector"
-        app:itemTextColor="@drawable/color_selector"
+        app:itemBackground="@android:color/black"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
         app:menu="@menu/navigation_uiia_exhibit_ok_cancel"
         android:layout_alignParentBottom="true"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -123,6 +123,8 @@ public class NotifAvailActivity extends AppCompatActivity {
 
     String dialogTitle;
 
+    String searchEPCompanyName = "";
+    String searchMCCompanyName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -267,6 +269,8 @@ public class NotifAvailActivity extends AppCompatActivity {
         if(GlobalVariables.ROLE_EP.equalsIgnoreCase(siaSecurityObj.getRoleName()) || GlobalVariables.ROLE_TPU.equalsIgnoreCase(siaSecurityObj.getRoleName()) ||
                 (GlobalVariables.ROLE_SEC.equalsIgnoreCase(siaSecurityObj.getRoleName()) && GlobalVariables.ROLE_EP.equalsIgnoreCase(siaSecurityObj.getMemType()))) {
 
+            searchMCCompanyName = na.getMcCompanyName();
+
             mcCompanyName.setThreshold(2); //type char in after work....
             mcCompanyNameAdapter = new MCLocationAdapter(this);
             mcCompanyName.setAdapter(mcCompanyNameAdapter);
@@ -300,6 +304,7 @@ public class NotifAvailActivity extends AppCompatActivity {
 
                         na.setMcCompanyName(selectedLocationArray[1]);
                         na.setMcScac(selectedLocationArray[0]);
+                        searchMCCompanyName = selectedLocationArray[1];
 
                         findViewById(R.id.loadStatus).requestFocus();
 
@@ -313,6 +318,8 @@ public class NotifAvailActivity extends AppCompatActivity {
 
         } else if(GlobalVariables.ROLE_MC.equalsIgnoreCase(siaSecurityObj.getRoleName()) || GlobalVariables.ROLE_IDD.equalsIgnoreCase(siaSecurityObj.getRoleName()) ||
                 (GlobalVariables.ROLE_SEC.equalsIgnoreCase(siaSecurityObj.getRoleName()) && GlobalVariables.ROLE_MC.equalsIgnoreCase(siaSecurityObj.getMemType()))) {
+
+            searchEPCompanyName = na.getEpCompanyName();
 
             epCompanyName.setThreshold(2); //type char in after work....
             epCompanyNameAdapter = new EPLocationAdapter(this);
@@ -342,6 +349,7 @@ public class NotifAvailActivity extends AppCompatActivity {
 
                         na.setEpCompanyName(selectedLocationArray[1]);
                         na.setEpScac(selectedLocationArray[0]);
+                        searchEPCompanyName = selectedLocationArray[1];
 
                         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
@@ -453,16 +461,22 @@ public class NotifAvailActivity extends AppCompatActivity {
                     if (Internet_Check.checkInternetConnection(context)) {
                         if(chassisNumber.getText() != null && chassisNumber.getText().toString().trim().length() > 0) {
 
-                            if(!chassisNumber.getText().toString().trim().equalsIgnoreCase(GlobalVariables.DEFUALT_CHASSIS_NUM)) {
-                                iepScac.setText("");
-                                // code to disable background functionality when progress bar starts
-                                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            if(SIAUtility.isAlphaNumeric(chassisNumber.getText().toString())) {
 
-                                String requestString = "chassisId=" + chassisNumber.getText().toString().trim();
-                                new ExecuteChassisIdTask(requestString).execute();
+                                if (!chassisNumber.getText().toString().trim().equalsIgnoreCase(GlobalVariables.DEFUALT_CHASSIS_NUM)) {
+                                    iepScac.setText("");
+                                    // code to disable background functionality when progress bar starts
+                                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
+                                    String requestString = "chassisId=" + chassisNumber.getText().toString().trim();
+                                    new ExecuteChassisIdTask(requestString).execute();
+
+                                } else {
+                                    iepScac.setText("");
+                                }
                             } else {
+                                new ViewDialog().showDialog(NotifAvailActivity.this, dialogTitle, getString(R.string.msg_error_alpha_num_chassis_number));
                                 iepScac.setText("");
                             }
                         }
@@ -916,9 +930,12 @@ public class NotifAvailActivity extends AppCompatActivity {
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
                     FilterResults filterResults = new FilterResults();
-                    if (constraint != null) {
+                    Log.v("log_tag", "NotifAvailActivity: searchEPCompanyName:=======================> " + searchEPCompanyName);
+                    Log.v("log_tag", "NotifAvailActivity: constraint:=======================> " + constraint);
+                    if (constraint != null && (null == searchEPCompanyName || !searchEPCompanyName.trim().equalsIgnoreCase(constraint.toString().trim()))) {
 
                         final String jsonInString = "role=" + GlobalVariables.ROLE_EP + "&requestType=" + getString(R.string.request_type_ir_request) + "&companyName=" + SIAUtility.replaceWhiteSpaces(constraint.toString());
+                        searchEPCompanyName = constraint.toString().trim();
 
                         Thread timer = new Thread() { //new thread
                             public void run() {
@@ -935,20 +952,6 @@ public class NotifAvailActivity extends AppCompatActivity {
                         // object
                         filterResults.values = suggestions;
                         filterResults.count = suggestions.size();
-                    } else {
-                        Log.v("log_tag", "In else when constraint null");
-                        Thread timer = new Thread() { //new thread
-                            public void run() {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ((EditText) findViewById(R.id.epScac)).setText("");
-                                    }
-                                });
-                            }
-                        };
-                        timer.start();
-
                     }
 
                     return filterResults;
@@ -1017,6 +1020,7 @@ public class NotifAvailActivity extends AppCompatActivity {
 
                     } else {
 
+                        Log.v("log_tag", "NotifAvailActivity: epScac.setText();:=> ");
                         suggestions = new ArrayList<>();
                         notifyDataSetChanged();
                         epScac.setText("");
@@ -1067,10 +1071,12 @@ public class NotifAvailActivity extends AppCompatActivity {
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
                     FilterResults filterResults = new FilterResults();
-                    if (constraint != null) {
+                    if (constraint != null && null != searchMCCompanyName && !searchMCCompanyName.equalsIgnoreCase(constraint.toString().trim())) {
 
                         final String jsonInString = "role=" + GlobalVariables.ROLE_MC + "&requestType=" + getString(R.string.request_type_notif_avail_request) + "&companyName=" + SIAUtility.replaceWhiteSpaces(constraint.toString());
 //                        Log.v("log_tag", "In filterResults with jsonInString:=>"+jsonInString);
+                        searchMCCompanyName = constraint.toString().trim();
+
                         Thread timer = new Thread() { //new thread
                             public void run() {
                                 runOnUiThread(new Runnable() {
@@ -1086,20 +1092,6 @@ public class NotifAvailActivity extends AppCompatActivity {
                         // object
                         filterResults.values = suggestions;
                         filterResults.count = suggestions.size();
-                    } else {
-                        Log.v("log_tag", "In else when constraint null");
-                        Thread timer = new Thread() { //new thread
-                            public void run() {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ((EditText) findViewById(R.id.mcScac)).setText("");
-                                    }
-                                });
-                            }
-                        };
-                        timer.start();
-
                     }
 
                     return filterResults;
@@ -1320,7 +1312,7 @@ public class NotifAvailActivity extends AppCompatActivity {
 
 
                     Integer[] categories = new Integer[]{13, 5, 5};
-                    String[] categoriesName = new String[]{"Notification of Available Equipment Details", "Equipment Location", "Original Location"};
+                    String[] categoriesName = new String[]{"Notification of Available Equipment Details", "Equipment Location", "Original Interchange Location"};
                     String[] labelArray = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
                             "MOTOR CARRIER A'S NAME", "MOTOR CARRIER A'S SCAC",
                             "LOAD STATUS", "CONTAINER #", "CONTAINER TYPE", "CONTAINER SIZE",

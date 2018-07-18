@@ -53,10 +53,10 @@ public class DashboardActivity extends AppCompatActivity {
 
     //EP Section Start
 
-    int[] epMenuArr = new int[]{2, 7, 3, 0, 1, 20};
+    int[] epMenuArr = new int[]{2, 4, 7, 3, 0, 1, 20};
     int[] epSecDefaultRightsMenuArr = new int[]{20};
-    int[] epSecSingleRightsMenuArr = new int[]{2, 0, 1, 20};
-    int[] epSecFullRightsMenuArr = new int[]{2, 7, 3, 0, 1, 20};
+    int[] epSecSingleRightsMenuArr = new int[]{2, 4, 0, 1, 20};
+    int[] epSecFullRightsMenuArr = new int[]{2, 4, 7, 3, 0, 1, 20};
 
 
     //IDD Section

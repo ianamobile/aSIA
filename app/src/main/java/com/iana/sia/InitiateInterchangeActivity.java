@@ -134,6 +134,10 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
     String dialogTitle;
 
+    String searchMCACompanyName = "";
+    String searchMCBCompanyName = "";
+    String searchEPCompanyName = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -259,11 +263,15 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
         epCompanyName.setText(null == ir.getEpCompanyName() ? "" : ir.getEpCompanyName());
         epScac.setText(null == ir.getEpScacs() ? "" : ir.getEpScacs());
+        searchEPCompanyName = epCompanyName.getText().toString();
 
         mcACompanyName.setText(null == ir.getMcACompanyName() ? "" : ir.getMcACompanyName());
         mcAScac.setText(null == ir.getMcAScac() ? "" : ir.getMcAScac());
+        searchMCACompanyName = mcACompanyName.getText().toString();
+
         mcBCompanyName.setText(null == ir.getMcBCompanyName() ? "" : ir.getMcBCompanyName());
         mcBScac.setText(null == ir.getMcBScac() ? "" : ir.getMcBScac());
+        searchMCBCompanyName = mcBCompanyName.getText().toString();
 
         if (null != ir && null != ir.getIntchgType()) {
             for (int i = 0; i < typeOfInterchangeSpinner.getCount(); i++) {
@@ -294,10 +302,6 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         originLocationCity.setText(ir.getOriginLocCity());
         originLocationState.setText(ir.getOriginLocState());
 
-//        mcBCompanyName.setThreshold(2); //type char in after work....
-        mcBCompanyNameAdapter = new MCBLocationAdapter(this);
-        mcBCompanyName.setAdapter(mcBCompanyNameAdapter);
-
         // code when request come from notification of available starts
 
         baseOriginFrom = sharedPref.getString(GlobalVariables.KEY_BASE_ORIGIN_FROM, "");
@@ -313,9 +317,16 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
             mcACompanyName.setLongClickable(false);
             mcACompanyName.setTextColor(ContextCompat.getColor(context, R.color.darker_gray));
 
-            mcBCompanyName.setText(siaSecurityObj.getCompanyName());
+            if(GlobalVariables.ROLE_MC.equalsIgnoreCase(siaSecurityObj.getRoleName()) ||
+                GlobalVariables.ROLE_IDD.equalsIgnoreCase(siaSecurityObj.getRoleName()) ||
+                (GlobalVariables.ROLE_SEC.equalsIgnoreCase(siaSecurityObj.getRoleName()) &&
+                        null != siaSecurityObj.getMemType() &&
+                        GlobalVariables.ROLE_MC.equalsIgnoreCase(siaSecurityObj.getMemType()))){
 
-            mcBScac.setText(siaSecurityObj.getScac());
+                mcBCompanyName.setText(siaSecurityObj.getCompanyName());
+                mcBScac.setText(siaSecurityObj.getScac());
+                searchMCBCompanyName = mcBCompanyName.getText().toString();
+            }
 
             containerNumber.setFocusable(false);
             containerNumber.setClickable(false);
@@ -359,12 +370,12 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
                         ir.setEpCompanyName(selectedLocationArray[1]);
                         ir.setEpScacs(selectedLocationArray[0]);
+                        searchEPCompanyName = selectedLocationArray[1];
 
                         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
                         findViewById(R.id.mcACompanyName).requestFocus();
-                        epCompanyName.dismissDropDown();
 
                     } else {
                         Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
@@ -391,6 +402,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
                         ir.setMcACompanyName(selectedLocationArray[1]);
                         ir.setMcAScac(selectedLocationArray[0]);
+                        searchMCACompanyName = selectedLocationArray[1];
 
                         findViewById(R.id.mcBCompanyName).requestFocus();
 
@@ -402,6 +414,11 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
             });
 
         }
+
+        mcBCompanyName.setThreshold(2); //type char in after work....
+        mcBCompanyNameAdapter = new MCBLocationAdapter(this);
+        mcBCompanyName.setAdapter(mcBCompanyNameAdapter);
+
         mcBCompanyName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -417,6 +434,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
                     ir.setMcBCompanyName(selectedLocationArray[1]);
                     ir.setMcBScac(selectedLocationArray[0]);
+                    searchMCBCompanyName = selectedLocationArray[1];
 
                     InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
@@ -587,18 +605,28 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
 
+                    Log.v("log_tag", "<===============================================================>1");
+
                     if (Internet_Check.checkInternetConnection(context)) {
+                        Log.v("log_tag", "<===============================================================>2");
                         if(chassisNumber.getText() != null && chassisNumber.getText().toString().trim().length() > 0) {
 
-                            if(!chassisNumber.getText().toString().trim().equalsIgnoreCase(GlobalVariables.DEFUALT_CHASSIS_NUM)) {
-                                iepScac.setText("");
-                                // code to disable background functionality when progress bar starts
-                                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                String requestString = "chassisId=" + chassisNumber.getText().toString().trim();
-                                new ExecuteChassisIdTask(requestString).execute();
+                            if(SIAUtility.isAlphaNumeric(chassisNumber.getText().toString())) {
+
+                                if (!chassisNumber.getText().toString().trim().equalsIgnoreCase(GlobalVariables.DEFUALT_CHASSIS_NUM)) {
+                                    iepScac.setText("");
+                                    // code to disable background functionality when progress bar starts
+                                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    String requestString = "chassisId=" + chassisNumber.getText().toString().trim();
+                                    new ExecuteChassisIdTask(requestString).execute();
+
+                                } else {
+                                    iepScac.setText("");
+                                }
 
                             } else {
+                                new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_alpha_num_chassis_number));
                                 iepScac.setText("");
                             }
 
@@ -976,9 +1004,10 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
                     FilterResults filterResults = new FilterResults();
-                    if (constraint != null) {
+                    if (constraint != null && (null == searchEPCompanyName || !searchEPCompanyName.trim().equalsIgnoreCase(constraint.toString().trim()))) {
 
                         final String jsonInString = "role="+ GlobalVariables.ROLE_EP+"&requestType="+getString(R.string.request_type_ir_request)+"&companyName="+SIAUtility.replaceWhiteSpaces(constraint.toString());
+                        searchEPCompanyName = constraint.toString().trim();
 
                         Thread timer = new Thread() { //new thread
                             public void run() {
@@ -999,20 +1028,6 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                         // object
                         filterResults.values = suggestions;
                         filterResults.count = suggestions.size();
-                    } else {
-                        Log.v("log_tag", "In else when constraint null");
-                        Thread timer = new Thread() { //new thread
-                            public void run() {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ((EditText) findViewById(R.id.epScac)).setText("");
-                                    }
-                                });
-                            }
-                        };
-                        timer.start();
-
                     }
 
                     return filterResults;
@@ -1079,34 +1094,20 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
                         notifyDataSetChanged();
 
-                    } else if (urlResponseCode != 0) {
-
-                        try {
-                            suggestions = new ArrayList<>();
-                            notifyDataSetChanged();
-
-                            ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
-
-                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
-
-                            epScac.setText("");
-
-                        } catch(Exception e) {
-                            suggestions = new ArrayList<>();
-                            notifyDataSetChanged();
-                            epScac.setText("");
-
-                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
-                        }
-
                     } else {
 
                         suggestions = new ArrayList<>();
                         notifyDataSetChanged();
-
-                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
-
                         epScac.setText("");
+
+                        try {
+                            ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+
+                        } catch(Exception e) {
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
+                        }
+
                     }
 
                 } catch (Exception e) {
@@ -1147,10 +1148,12 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
                     FilterResults filterResults = new FilterResults();
-                    if (constraint != null) {
+                    if (constraint != null && (null == searchMCACompanyName || !searchMCACompanyName.trim().equalsIgnoreCase(constraint.toString().trim()))) {
 
                         final String jsonInString = "role="+ GlobalVariables.ROLE_MC+"&requestType="+getString(R.string.request_type_ir_request)+"&companyName="+SIAUtility.replaceWhiteSpaces(constraint.toString());
 //                        Log.v("log_tag", "In filterResults with jsonInString:=>"+jsonInString);
+                        searchMCACompanyName = constraint.toString().trim();
+
                         Thread timer = new Thread() { //new thread
                             public void run() {
                                 runOnUiThread(new Runnable() {
@@ -1170,21 +1173,6 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                         // object
                         filterResults.values = suggestions;
                         filterResults.count = suggestions.size();
-                    } else {
-                        Log.v("log_tag", "In else when constraint null");
-                        Thread timer = new Thread() { //new thread
-                            public void run() {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                    ((EditText) findViewById(R.id.mcAScac)).setText("");
-
-                                    }
-                                });
-                            }
-                        };
-                        timer.start();
-
                     }
 
                     return filterResults;
@@ -1317,10 +1305,12 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
                     FilterResults filterResults = new FilterResults();
-                    if (constraint != null && constraint.toString().length() > 2) {
+                    if (constraint != null && (null == searchMCBCompanyName || !searchMCBCompanyName.trim().equalsIgnoreCase(constraint.toString().trim()))) {
 
                         final String jsonInString = "role="+ GlobalVariables.ROLE_MC+"&requestType="+getString(R.string.request_type_ir_request)+"&companyName="+SIAUtility.replaceWhiteSpaces(constraint.toString());
 //                        Log.v("log_tag", "In filterResults with jsonInString:=>"+jsonInString);
+                        searchMCBCompanyName = constraint.toString().trim();
+
                         Thread timer = new Thread() { //new thread
                             public void run() {
                                 runOnUiThread(new Runnable() {
@@ -1339,21 +1329,6 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                         // object
                         filterResults.values = suggestions;
                         filterResults.count = suggestions.size();
-                    } else {
-                        Log.v("log_tag", "In else when constraint null");
-                        Thread timer = new Thread() { //new thread
-                            public void run() {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ((EditText) findViewById(R.id.mcBScac)).setText("");
-
-                                    }
-                                });
-                            }
-                        };
-                        timer.start();
-
                     }
 
                     return filterResults;
@@ -1610,7 +1585,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
 
                     Integer[] categories = new Integer[]{17, 5, 5};
-                    String[] categoriesName = new String[]{"Street Interchange Details", "Equipment Location", "Original Location"};
+                    String[] categoriesName = new String[]{"Street Interchange Details", "Equipment Location", "Original Interchange Location"};
                     String[] labelArray = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
                             "MOTOR CARRIER A'S NAME", "MOTOR CARRIER A'S SCAC",
                             "MOTOR CARRIER B'S NAME", "MOTOR CARRIER B'S SCAC",

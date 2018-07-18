@@ -190,4 +190,17 @@ public class SIAUtility {
         return new BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, 50, 50, true));
 
     }
+
+    public static boolean isAlphaNumSpaceHyphen(String input) {
+        boolean b = true;
+        for (int i = 0; i < input.length(); i++) {
+            int ascii = input.charAt(i);
+            if (!(ascii >= 48 && ascii <= 57) && !(ascii >= 65 && ascii <= 92) && !(ascii >= 96 && ascii <= 122) && ascii != 32 && ascii != 45) {
+                b = false;
+                break;
+            }
+        }
+
+        return b;
+    }
 }
