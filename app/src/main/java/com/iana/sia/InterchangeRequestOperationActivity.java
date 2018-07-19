@@ -3,7 +3,6 @@ package com.iana.sia;
 import android.animation.Animator;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -17,25 +16,18 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.ActionMode;
-import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,15 +40,12 @@ import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import com.iana.sia.adapter.ListViewAdapter;
-import com.iana.sia.model.Company;
 import com.iana.sia.model.FieldInfo;
 import com.iana.sia.model.InterchangeRequests;
 import com.iana.sia.model.InterchangeRequestsJson;
@@ -96,8 +85,6 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
 
     private FloatingActionMenu fam;
     private FloatingActionButton cancelBtn, approveBtn, rejectBtn, onholdBtn, reinitiateBtn;
-
-    private boolean show = true;
 
     Context context;
 
@@ -153,7 +140,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
         workFlowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewMenu("");
+                viewMenu();
             }
         });
 
@@ -380,12 +367,12 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
             FieldInfo fieldInfo = fieldInfoList.get(i);
             TableRow row;
             if(fieldInfo.getTitle().equalsIgnoreCase(GlobalVariables.FIELD_INFO_EMPTY)) {
-                row = (TableRow)LayoutInflater.from(InterchangeRequestOperationActivity.this).inflate(R.layout.verify_heading, null);
+                row = (TableRow)LayoutInflater.from(context).inflate(R.layout.verify_heading, null);
                 ((TextView)row.findViewById(R.id.title)).setText(fieldInfo.getValue());
                 tl.addView(row);
 
             } else if(fieldInfo.getTitle().equalsIgnoreCase(GlobalVariables.FIELD_INFO_TITLE)) {
-                row = (TableRow)LayoutInflater.from(InterchangeRequestOperationActivity.this).inflate(R.layout.verify_content, null);
+                row = (TableRow)LayoutInflater.from(context).inflate(R.layout.verify_content, null);
 
                 if(fieldInfo.getValue().equalsIgnoreCase("Remarks")) {
                     fieldInfo = fieldInfoList.get(++i);
@@ -431,7 +418,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
 
 
     // code to view / close workflow
-    private void viewMenu(String fromFam) {
+    private void viewMenu() {
         int x = workFlowBtn.getRight();
         int y = workFlowBtn.getBottom();
         if(!isOpen) {
@@ -508,7 +495,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         iconClassValue ="fa fa-stop-circle fa-2x";
 
                 } else if(GlobalVariables.STATUS_PENDING.equalsIgnoreCase(wf.getStatus()) && wf.getWfId().intValue() == inProcessWf.getWfId().intValue()) {
-                        if(onHoldOrRejectRequestIndex == "") {
+                        if(onHoldOrRejectRequestIndex.equals("")) {
 
                             inprocessFoundIndex = String.valueOf(i);
                             cssClassValue = "wf inprocess";
@@ -592,11 +579,11 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     workFlowLL.addView(actionTextView);
                     // text view end
 
-                    if(cssClassValue =="wf approved" || cssClassValue  == "wf stop") {
+                    if(cssClassValue.equalsIgnoreCase("wf approved") || cssClassValue.equalsIgnoreCase("wf stop")) {
 
                         TextView dateTextView = new TextView(this);
                         dateTextView.setLayoutParams(dateTextViewLayoutParams);
-                        dateTextView.setText("Date: " + wf.getApprovedDate());
+                        dateTextView.setText("Date: ".concat(wf.getApprovedDate()));
                         dateTextView.setTextColor(ContextCompat.getColor(this, android.R.color.white));
                         dateTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                         dateTextView.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -634,11 +621,11 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     workFlowLL.addView(actionTextView);
                     // text view end
 
-                    if(cssClassValue =="wf approved" || cssClassValue  == "wf stop") {
+                    if(cssClassValue.equalsIgnoreCase("wf approved") || cssClassValue.equalsIgnoreCase("wf stop")) {
 
                         TextView dateTextView = new TextView(this);
                         dateTextView.setLayoutParams(dateTextViewLayoutParams);
-                        dateTextView.setText("Date: " + wf.getApprovedDate());
+                        dateTextView.setText("Date: ".concat(wf.getApprovedDate()));
                         dateTextView.setTextColor(ContextCompat.getColor(this, android.R.color.white));
                         dateTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                         dateTextView.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -676,11 +663,11 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     workFlowLL.addView(actionTextView);
                     // text view end
 
-                    if(cssClassValue =="wf approved" || cssClassValue  == "wf stop") {
+                    if(cssClassValue.equalsIgnoreCase("wf approved") || cssClassValue.equalsIgnoreCase("wf stop")) {
 
                         TextView dateTextView = new TextView(this);
                         dateTextView.setLayoutParams(dateTextViewLayoutParams);
-                        dateTextView.setText("Date: " + wf.getApprovedDate());
+                        dateTextView.setText("Date: ".concat(wf.getApprovedDate()));
                         dateTextView.setTextColor(ContextCompat.getColor(this, android.R.color.white));
                         dateTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                         dateTextView.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -718,11 +705,11 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     workFlowLL.addView(actionTextView);
                     // text view end
 
-                    if(cssClassValue =="wf approved" || cssClassValue  == "wf stop") {
+                    if(cssClassValue.equalsIgnoreCase("wf approved") || cssClassValue.equalsIgnoreCase("wf stop")) {
 
                         TextView dateTextView = new TextView(this);
                         dateTextView.setLayoutParams(dateTextViewLayoutParams);
-                        dateTextView.setText("Date: " + wf.getApprovedDate());
+                        dateTextView.setText("Date: ".concat(wf.getApprovedDate()));
                         dateTextView.setTextColor(ContextCompat.getColor(this, android.R.color.white));
                         dateTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                         dateTextView.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -759,11 +746,11 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     workFlowLL.addView(actionTextView);
                     // text view end
 
-                    if(cssClassValue =="wf approved" || cssClassValue  == "wf stop") {
+                    if(cssClassValue.equalsIgnoreCase("wf approved") || cssClassValue.equalsIgnoreCase("wf stop")) {
 
                         TextView dateTextView = new TextView(this);
                         dateTextView.setLayoutParams(dateTextViewLayoutParams);
-                        dateTextView.setText("Date: " + wf.getApprovedDate());
+                        dateTextView.setText("Date: ".concat(wf.getApprovedDate()));
                         dateTextView.setTextColor(ContextCompat.getColor(this, android.R.color.white));
                         dateTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                         dateTextView.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -878,7 +865,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
 
                 fam.close(true);
                 isOpen = true;
-                viewMenu("");
+                viewMenu();
 
             // code to disable background functionality when progress bar starts
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -1169,9 +1156,9 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         String[] remarksArray = ir.getRemarks().split("\\|\\|");
                         categoriesList.add(remarksArray.length);
                         categoriesNameList.add("Previous Comments");
-                        for(int i=0;i<remarksArray.length;i++) {
+                        for(String remarks:remarksArray) {
                             labelList.add("Remarks");
-                            valueList.add(remarksArray[i]);
+                            valueList.add(remarks);
                         }
                     }
 
@@ -1287,7 +1274,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
             dialog_ListView = dialog.findViewById(R.id.listViewExhibit);
-            uiiaExhibitListViewAdapter = new UIIAExhibitListViewAdapter(InterchangeRequestOperationActivity.this, uiiaExhibitList);
+            uiiaExhibitListViewAdapter = new UIIAExhibitListViewAdapter(context, uiiaExhibitList);
             dialog_ListView.setAdapter(uiiaExhibitListViewAdapter);
 
         BottomNavigationView bnv = dialog.findViewById(R.id.navigation_uiia_exhibit);
@@ -1319,7 +1306,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    Intent intent = new Intent(InterchangeRequestOperationActivity.this, NoInternetActivity.class);
+                    Intent intent = new Intent(context, NoInternetActivity.class);
                     startActivity(intent);
                 }
 
