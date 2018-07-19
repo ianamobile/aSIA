@@ -6,7 +6,7 @@
             <solid android:color="@color/appThemeColor"/>
         </shape>
     </item>
-    <item android:drawable="@drawable/cross"
+    <item android:drawable="@drawable/if_remove"
         android:bottom="15dp"
         android:left="15dp"
         android:right="15dp"

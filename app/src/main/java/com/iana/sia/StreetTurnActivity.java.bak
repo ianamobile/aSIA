@@ -585,10 +585,10 @@ public class StreetTurnActivity extends AppCompatActivity {
                 protected FilterResults performFiltering(CharSequence constraint) {
                     FilterResults filterResults = new FilterResults();
 
-                    if (constraint != null && (null == searchCompanyName || !searchCompanyName.trim().equalsIgnoreCase(constraint.toString().trim()))) {
+                    if (constraint != null && !searchScac.trim().equalsIgnoreCase(constraint.toString().trim())) {
 
                         final String jsonInString = "role=" + oppositeRole + "&requestType=" + getString(R.string.request_type_ir_request) + "&companyName=" + SIAUtility.replaceWhiteSpaces(constraint.toString());
-                        searchCompanyName = constraint.toString().trim();
+                        searchScac = constraint.toString().trim();
 
                         Thread timer = new Thread() { //new thread
                             public void run() {
@@ -611,7 +611,7 @@ public class StreetTurnActivity extends AppCompatActivity {
                         filterResults.values = suggestions;
                         filterResults.count = suggestions.size();
 
-                    }/* else {
+                    } else {
                         Log.v("log_tag", "In else when constraint null");
                         Thread timer = new Thread() { //new thread
                             public void run() {
@@ -631,7 +631,7 @@ public class StreetTurnActivity extends AppCompatActivity {
                         };
                         timer.start();
 
-                    }*/
+                    }
 
                     return filterResults;
                 }

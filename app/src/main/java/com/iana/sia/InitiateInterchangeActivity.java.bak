@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -34,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -58,26 +60,33 @@ import com.iana.sia.utility.SIAUtility;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public class NotifAvailActivity extends AppCompatActivity {
+public class InitiateInterchangeActivity extends AppCompatActivity {
 
     String urlResponse;
     int urlResponseCode;
 
     ImageView equipLocationSearch;
     ImageView originLocationSearch;
-
     Button backBtn;
 
     EditText epScac;
     EditText iepScac;
     EditText containerNumber;
+    EditText exportBookingNumber;
+    EditText importBL;
     EditText chassisNumber;
-    EditText mcScac;
+
+    Spinner typeOfInterchangeSpinner;
+
+    EditText mcAScac;
+    EditText mcBScac;
+
     EditText gensetNumber;
 
     EditText equipLocationName;
@@ -92,20 +101,20 @@ public class NotifAvailActivity extends AppCompatActivity {
     EditText originLocationState;
     EditText originLocationZipCode;
 
-    AutoCompleteTextView mcCompanyName;
+    AutoCompleteTextView mcACompanyName;
+    AutoCompleteTextView mcBCompanyName;
     AutoCompleteTextView epCompanyName;
 
-    ArrayAdapter<String> mcCompanyNameAdapter;
+    ArrayAdapter<String> mcACompanyNameAdapter;
+    ArrayAdapter<String> mcBCompanyNameAdapter;
     ArrayAdapter<String> epCompanyNameAdapter;
 
-    Spinner loadStatusSpinner;
     Spinner containerTypeSpinner;
     Spinner containerSizeSpinner;
     Spinner chassisTypeSpinner;
     Spinner chassisSizeSpinner;
 
-    CustomAdapter loadStatusAdapter;
-
+    TypeOfInterchangeAdapter typeOfInterchangeAdapter;
     ContainerTypeAdapter containerTypeAdapter;
     ContainerSizeAdapter containerSizeAdapter;
     ChassisTypeAdapter chassisTypeAdapter;
@@ -117,58 +126,45 @@ public class NotifAvailActivity extends AppCompatActivity {
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
 
-    NotificationAvail na;
+    InterchangeRequests ir;
+
+    String baseOriginFrom = null;
 
     Context context;
 
     String dialogTitle;
 
+    String searchMCACompanyName = "";
+    String searchMCBCompanyName = "";
     String searchEPCompanyName = "";
-    String searchMCCompanyName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notif_avail);
+        setContentView(R.layout.activity_initiate_interchange);
 
         context = this;
 
-        progressBar = findViewById(R.id.processingBar);
-
-        // below code is used to restrict auto populate keypad
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        dialogTitle = getString(R.string.dialog_title_street_interchange_request);
 
         showActionBar();
-        ((TextView) findViewById(R.id.title)).setText(R.string.title_add_equipment_to_pool);
+        ((TextView) findViewById(R.id.title)).setText(R.string.title_street_interchange_request);
         backBtn = findViewById(R.id.backBtn);
         backBtn.setText(R.string.title_back);
         backBtn.setVisibility(View.VISIBLE);
 
-        dialogTitle = getString(R.string.dialog_title_add_equipment_to_pool);
+        progressBar = findViewById(R.id.processingBar);
 
 
-        epScac = findViewById(R.id.epScac);
-        epScac.setFocusable(false);
-        epScac.setClickable(false);
-        epScac.setLongClickable(false);
-
-        mcScac = findViewById(R.id.mcScac);
-        mcScac.setFocusable(false);
-        mcScac.setClickable(false);
-        mcScac.setLongClickable(false);
-
-        iepScac = findViewById(R.id.iepScac);
-        iepScac.setFocusable(false);
-        iepScac.setClickable(false);
-        iepScac.setLongClickable(false);
-
-        loadStatusSpinner = findViewById(R.id.loadStatus);
-        loadStatusAdapter = new CustomAdapter(this, getResources().getStringArray(R.array.load_status));
-        loadStatusSpinner.setAdapter(loadStatusAdapter);
+        mcACompanyName = findViewById(R.id.mcACompanyName);
+        mcBCompanyName = findViewById(R.id.mcBCompanyName);
+        epCompanyName = findViewById(R.id.epCompanyName);
 
         containerNumber = findViewById(R.id.containerNumber);
         SIAUtility.setUpperCase(containerNumber);
 
+        exportBookingNumber = findViewById(R.id.exportBookingNumber);
+        importBL = findViewById(R.id.importBL);
         chassisNumber = findViewById(R.id.chassisNumber);
         SIAUtility.setUpperCase(chassisNumber);
 
@@ -177,10 +173,32 @@ public class NotifAvailActivity extends AppCompatActivity {
         gensetNumber = findViewById(R.id.gensetNumber);
         SIAUtility.setUpperCase(gensetNumber);
 
+        typeOfInterchangeSpinner = findViewById(R.id.typeOfInterchange);
         containerTypeSpinner = findViewById(R.id.containerType);
         containerSizeSpinner = findViewById(R.id.containerSize);
         chassisTypeSpinner = findViewById(R.id.chassisType);
         chassisSizeSpinner = findViewById(R.id.chassisSize);
+
+
+        epScac = findViewById(R.id.epScac);
+        epScac.setFocusable(false);
+        epScac.setClickable(false);
+        epScac.setLongClickable(false);
+
+        mcAScac = findViewById(R.id.mcAScac);
+        mcAScac.setFocusable(false);
+        mcAScac.setClickable(false);
+        mcAScac.setLongClickable(false);
+
+        mcBScac = findViewById(R.id.mcBScac);
+        mcBScac.setFocusable(false);
+        mcBScac.setClickable(false);
+        mcBScac.setLongClickable(false);
+
+        iepScac = findViewById(R.id.iepScac);
+        iepScac.setFocusable(false);
+        iepScac.setClickable(false);
+        iepScac.setLongClickable(false);
 
         equipLocationName = findViewById(R.id.equipLocationName);
         equipLocationAddress = findViewById(R.id.equipLocationAddress);
@@ -217,123 +235,126 @@ public class NotifAvailActivity extends AppCompatActivity {
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
         editor = sharedPref.edit();
 
-        editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl);
+        // below code is used for equipment + original location & verify page
+        editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE);
 
         siaSecurityObj = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_SECURITY_OBJ, SIASecurityObj.class);
+
+        // below code is used to restrict auto populate keypad
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        typeOfInterchangeAdapter = new TypeOfInterchangeAdapter(this, getResources().getStringArray(R.array.type_of_interchange));
+        typeOfInterchangeSpinner.setAdapter(typeOfInterchangeAdapter);
+
 
         // code to disable background functionality when progress bar starts
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-        na = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_NOTIF_AVAIL_OBJ, NotificationAvail.class);
+        ir = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, InterchangeRequests.class);
 
-        if (null == na) {
-            na = new NotificationAvail();
+        if (null == ir) {
+            ir = new InterchangeRequests();
         }
 
         new ExecuteSetupPageTask().execute();
 
-        Log.v("log_tag", "NotifAvailActivity: NotificationAvail:=> " + na);
-        Log.v("log_tag", "NotifAvailActivity: loadStatusSpinner.getCount():=> " + loadStatusSpinner.getCount());
+        Log.v("log_tag", "InitiateInterchangeActivity: InterchangeRequests:=> " + ir);
 
-        epCompanyName = findViewById(R.id.epCompanyName);
-        mcCompanyName = findViewById(R.id.mcCompanyName);
+        epCompanyName.setText(null == ir.getEpCompanyName() ? "" : ir.getEpCompanyName());
+        epScac.setText(null == ir.getEpScacs() ? "" : ir.getEpScacs());
+        searchEPCompanyName = epCompanyName.getText().toString();
 
-        if (null != na && null != na.getLoadStatus()) {
-            for (int i = 0; i < loadStatusSpinner.getCount(); i++) {
-                if (loadStatusSpinner.getItemAtPosition(i).equals(na.getLoadStatus())) {
-                    loadStatusSpinner.setSelection(i);
+        mcACompanyName.setText(null == ir.getMcACompanyName() ? "" : ir.getMcACompanyName());
+        mcAScac.setText(null == ir.getMcAScac() ? "" : ir.getMcAScac());
+        searchMCACompanyName = mcACompanyName.getText().toString();
+
+        mcBCompanyName.setText(null == ir.getMcBCompanyName() ? "" : ir.getMcBCompanyName());
+        mcBScac.setText(null == ir.getMcBScac() ? "" : ir.getMcBScac());
+        searchMCBCompanyName = mcBCompanyName.getText().toString();
+
+        if (null != ir && null != ir.getIntchgType()) {
+            for (int i = 0; i < typeOfInterchangeSpinner.getCount(); i++) {
+                if (typeOfInterchangeSpinner.getItemAtPosition(i).equals(ir.getIntchgType())) {
+                    typeOfInterchangeSpinner.setSelection(i);
                 }
             }
         }
 
-        containerNumber.setText(na.getContNum());
+        importBL.setText(ir.getImportBookingNum());
+        exportBookingNumber.setText(ir.getBookingNum());
+        containerNumber.setText(ir.getContNum());
 
-        chassisNumber.setText(na.getChassisNum());
-        iepScac.setText(na.getIepScac());
+        chassisNumber.setText(ir.getChassisNum());
+        iepScac.setText(ir.getIepScac());
 
-        gensetNumber.setText(na.getGensetNum());
+        gensetNumber.setText(ir.getGensetNum());
 
-        equipLocationName.setText(na.getEquipLocNm());
-        equipLocationAddress.setText(na.getEquipLocAddr());
-        equipLocationZipCode.setText(na.getEquipLocZip());
-        equipLocationCity.setText(na.getEquipLocCity());
-        equipLocationState.setText(na.getEquipLocState());
+        equipLocationName.setText(ir.getEquipLocNm());
+        equipLocationAddress.setText(ir.getEquipLocAddr());
+        equipLocationZipCode.setText(ir.getEquipLocZip());
+        equipLocationCity.setText(ir.getEquipLocCity());
+        equipLocationState.setText(ir.getEquipLocState());
 
-        originLocationName.setText(na.getOriginLocNm());
-        originLocationAddress.setText(na.getOriginLocAddr());
-        originLocationZipCode.setText(na.getOriginLocZip());
-        originLocationCity.setText(na.getOriginLocCity());
-        originLocationState.setText(na.getOriginLocState());
+        originLocationName.setText(ir.getOriginLocNm());
+        originLocationAddress.setText(ir.getOriginLocAddr());
+        originLocationZipCode.setText(ir.getOriginLocZip());
+        originLocationCity.setText(ir.getOriginLocCity());
+        originLocationState.setText(ir.getOriginLocState());
 
-        if(GlobalVariables.ROLE_EP.equalsIgnoreCase(siaSecurityObj.getRoleName()) || GlobalVariables.ROLE_TPU.equalsIgnoreCase(siaSecurityObj.getRoleName()) ||
-                (GlobalVariables.ROLE_SEC.equalsIgnoreCase(siaSecurityObj.getRoleName()) && GlobalVariables.ROLE_EP.equalsIgnoreCase(siaSecurityObj.getMemType()))) {
+        // code when request come from notification of available starts
 
-            searchMCCompanyName = na.getMcCompanyName();
+        baseOriginFrom = sharedPref.getString(GlobalVariables.KEY_BASE_ORIGIN_FROM, "");
+        if (null != baseOriginFrom && GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl.equalsIgnoreCase(baseOriginFrom)) {
 
-            mcCompanyName.setThreshold(2); //type char in after work....
-            mcCompanyNameAdapter = new MCLocationAdapter(this);
-            mcCompanyName.setAdapter(mcCompanyNameAdapter);
-            mcCompanyName.setText(na.getMcCompanyName());
-            mcScac.setText(na.getMcScac());
-
-            epCompanyName.setText(siaSecurityObj.getCompanyName());
             epCompanyName.setFocusable(false);
             epCompanyName.setClickable(false);
             epCompanyName.setLongClickable(false);
-            epCompanyName.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
+            epCompanyName.setTextColor(ContextCompat.getColor(context, R.color.darker_gray));
 
+            mcACompanyName.setFocusable(false);
+            mcACompanyName.setClickable(false);
+            mcACompanyName.setLongClickable(false);
+            mcACompanyName.setTextColor(ContextCompat.getColor(context, R.color.darker_gray));
 
-            epScac.setText(siaSecurityObj.getScac());
+            if(GlobalVariables.ROLE_MC.equalsIgnoreCase(siaSecurityObj.getRoleName()) ||
+                GlobalVariables.ROLE_IDD.equalsIgnoreCase(siaSecurityObj.getRoleName()) ||
+                (GlobalVariables.ROLE_SEC.equalsIgnoreCase(siaSecurityObj.getRoleName()) &&
+                        null != siaSecurityObj.getMemType() &&
+                        GlobalVariables.ROLE_MC.equalsIgnoreCase(siaSecurityObj.getMemType()))){
 
-            mcCompanyName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                mcBCompanyName.setText(siaSecurityObj.getCompanyName());
+                mcBScac.setText(siaSecurityObj.getScac());
+                searchMCBCompanyName = mcBCompanyName.getText().toString();
+            }
 
-                @Override
-                public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
+            containerNumber.setFocusable(false);
+            containerNumber.setClickable(false);
+            containerNumber.setLongClickable(false);
+            containerNumber.setTextColor(ContextCompat.getColor(context, R.color.darker_gray));
 
-                    if (Internet_Check.checkInternetConnection(context)) {
+            chassisNumber.setFocusable(false);
+            chassisNumber.setClickable(false);
+            chassisNumber.setLongClickable(false);
+            chassisNumber.setTextColor(ContextCompat.getColor(context, R.color.darker_gray));
 
-                        String selectedString = (String) parent.getItemAtPosition(position);
-                        String[] selectedLocationArray = selectedString.split(Pattern.quote("|"));
+            iepScac.setTextColor(ContextCompat.getColor(context, R.color.darker_gray));
 
-                        ((AutoCompleteTextView) findViewById(R.id.mcCompanyName)).setText(selectedLocationArray[1]);
-                        ((EditText) findViewById(R.id.mcScac)).setText(selectedLocationArray[0]);
+            gensetNumber.setFocusable(false);
+            gensetNumber.setClickable(false);
+            gensetNumber.setLongClickable(false);
+            gensetNumber.setTextColor(ContextCompat.getColor(context, R.color.darker_gray));
 
-                        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-
-                        na.setMcCompanyName(selectedLocationArray[1]);
-                        na.setMcScac(selectedLocationArray[0]);
-                        searchMCCompanyName = selectedLocationArray[1];
-
-                        findViewById(R.id.loadStatus).requestFocus();
-
-                    } else {
-                        Intent intent = new Intent(NotifAvailActivity.this, NoInternetActivity.class);
-                        startActivity(intent);
-                    }
-                    }
-            });
-
-
-        } else if(GlobalVariables.ROLE_MC.equalsIgnoreCase(siaSecurityObj.getRoleName()) || GlobalVariables.ROLE_IDD.equalsIgnoreCase(siaSecurityObj.getRoleName()) ||
-                (GlobalVariables.ROLE_SEC.equalsIgnoreCase(siaSecurityObj.getRoleName()) && GlobalVariables.ROLE_MC.equalsIgnoreCase(siaSecurityObj.getMemType()))) {
-
-            searchEPCompanyName = na.getEpCompanyName();
-
+        } else {
             epCompanyName.setThreshold(2); //type char in after work....
             epCompanyNameAdapter = new EPLocationAdapter(this);
             epCompanyName.setAdapter(epCompanyNameAdapter);
-            epCompanyName.setText(na.getEpCompanyName());
-            epScac.setText(na.getEpScac());
 
-            mcCompanyName.setText(siaSecurityObj.getCompanyName());
-            mcCompanyName.setFocusable(false);
-            mcCompanyName.setClickable(false);
-            mcCompanyName.setLongClickable(false);
-            mcCompanyName.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
 
-            mcScac.setText(siaSecurityObj.getScac());
+            mcACompanyName.setThreshold(2); //type char in after work....
+            mcACompanyNameAdapter = new MCALocationAdapter(this);
+            mcACompanyName.setAdapter(mcACompanyNameAdapter);
+
             epCompanyName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 @Override
@@ -347,17 +368,46 @@ public class NotifAvailActivity extends AppCompatActivity {
                         ((AutoCompleteTextView) findViewById(R.id.epCompanyName)).setText(selectedLocationArray[1]);
                         ((EditText) findViewById(R.id.epScac)).setText(selectedLocationArray[0]);
 
-                        na.setEpCompanyName(selectedLocationArray[1]);
-                        na.setEpScac(selectedLocationArray[0]);
+                        ir.setEpCompanyName(selectedLocationArray[1]);
+                        ir.setEpScacs(selectedLocationArray[0]);
                         searchEPCompanyName = selectedLocationArray[1];
 
                         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
-                        findViewById(R.id.loadStatus).requestFocus();
+                        findViewById(R.id.mcACompanyName).requestFocus();
 
                     } else {
-                        Intent intent = new Intent(NotifAvailActivity.this, NoInternetActivity.class);
+                        Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            });
+
+            mcACompanyName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
+
+                    if (Internet_Check.checkInternetConnection(context)) {
+
+                        String selectedString = (String) parent.getItemAtPosition(position);
+                        String[] selectedLocationArray = selectedString.split(Pattern.quote("|"));
+
+                        ((AutoCompleteTextView) findViewById(R.id.mcACompanyName)).setText(selectedLocationArray[1]);
+                        ((EditText) findViewById(R.id.mcAScac)).setText(selectedLocationArray[0]);
+
+                        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+
+                        ir.setMcACompanyName(selectedLocationArray[1]);
+                        ir.setMcAScac(selectedLocationArray[0]);
+                        searchMCACompanyName = selectedLocationArray[1];
+
+                        findViewById(R.id.mcBCompanyName).requestFocus();
+
+                    } else {
+                        Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
                         startActivity(intent);
                     }
                 }
@@ -365,11 +415,44 @@ public class NotifAvailActivity extends AppCompatActivity {
 
         }
 
+        mcBCompanyName.setThreshold(2); //type char in after work....
+        mcBCompanyNameAdapter = new MCBLocationAdapter(this);
+        mcBCompanyName.setAdapter(mcBCompanyNameAdapter);
+
+        mcBCompanyName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
+
+                if (Internet_Check.checkInternetConnection(context)) {
+
+                    String selectedString = (String) parent.getItemAtPosition(position);
+                    String[] selectedLocationArray = selectedString.split(Pattern.quote("|"));
+
+                    ((AutoCompleteTextView) findViewById(R.id.mcBCompanyName)).setText(selectedLocationArray[1]);
+                    ((EditText) findViewById(R.id.mcBScac)).setText(selectedLocationArray[0]);
+
+                    ir.setMcBCompanyName(selectedLocationArray[1]);
+                    ir.setMcBScac(selectedLocationArray[0]);
+                    searchMCBCompanyName = selectedLocationArray[1];
+
+                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+
+                    findViewById(R.id.typeOfInterchange).requestFocus();
+
+                } else {
+                    Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
         containerTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String str = (String) parentView.getSelectedItem();
-                if (str.equalsIgnoreCase(getString(R.string.lbl_other))) {
+                String str =(String)parentView.getSelectedItem();
+                if(str.equalsIgnoreCase(getString(R.string.lbl_other))) {
                     findViewById(R.id.containerTypeOtherLayout).setVisibility(View.VISIBLE);
                     findViewById(R.id.containerTypeOther).requestFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -389,8 +472,8 @@ public class NotifAvailActivity extends AppCompatActivity {
         containerSizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String str = (String) parentView.getSelectedItem();
-                if (str.equalsIgnoreCase(getString(R.string.lbl_other))) {
+                String str =(String)parentView.getSelectedItem();
+                if(str.equalsIgnoreCase(getString(R.string.lbl_other))) {
                     findViewById(R.id.containerSizeOtherLayout).setVisibility(View.VISIBLE);
                     findViewById(R.id.containerSizeOther).requestFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -411,8 +494,8 @@ public class NotifAvailActivity extends AppCompatActivity {
         chassisTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String str = (String) parentView.getSelectedItem();
-                if (str.equalsIgnoreCase(getString(R.string.lbl_other))) {
+                String str =(String)parentView.getSelectedItem();
+                if(str.equalsIgnoreCase(getString(R.string.lbl_other))) {
                     findViewById(R.id.chassisTypeOtherLayout).setVisibility(View.VISIBLE);
                     findViewById(R.id.chassisTypeOther).requestFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -432,8 +515,8 @@ public class NotifAvailActivity extends AppCompatActivity {
         chassisSizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String str = (String) parentView.getSelectedItem();
-                if (str.equalsIgnoreCase(getString(R.string.lbl_other))) {
+                String str =(String)parentView.getSelectedItem();
+                if(str.equalsIgnoreCase(getString(R.string.lbl_other))) {
                     findViewById(R.id.chassisSizeOtherLayout).setVisibility(View.VISIBLE);
                     findViewById(R.id.chassisSizeOther).requestFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -451,51 +534,6 @@ public class NotifAvailActivity extends AppCompatActivity {
 
         });
 
-
-        // below event is execute based on done button on mobile keypad
-        chassisNumber = findViewById(R.id.chassisNumber);
-        chassisNumber.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-
-                    if (Internet_Check.checkInternetConnection(context)) {
-                        if(chassisNumber.getText() != null && chassisNumber.getText().toString().trim().length() > 0) {
-
-                            if(SIAUtility.isAlphaNumeric(chassisNumber.getText().toString())) {
-
-                                if (!chassisNumber.getText().toString().trim().equalsIgnoreCase(GlobalVariables.DEFUALT_CHASSIS_NUM)) {
-                                    iepScac.setText("");
-                                    // code to disable background functionality when progress bar starts
-                                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                                    String requestString = "chassisId=" + chassisNumber.getText().toString().trim();
-                                    new ExecuteChassisIdTask(requestString).execute();
-
-                                } else {
-                                    iepScac.setText("");
-                                }
-                            } else {
-                                chassisNumber.setFocusable(true);
-                                chassisNumber.setText("");
-                                new ViewDialog().showDialog(NotifAvailActivity.this, dialogTitle, getString(R.string.msg_error_alpha_num_chassis_number));
-                                iepScac.setText("");
-                            }
-                        }
-
-                    } else {
-                        Intent intent = new Intent(NotifAvailActivity.this, NoInternetActivity.class);
-                        startActivity(intent);
-                    }
-
-                    return true;
-                }
-
-                return false;
-            }
-        });
-
-
         // code is to search Equipment Location start
         equipLocationSearch = findViewById(R.id.equipLocationSearch);
         equipLocationSearch.setOnClickListener(new View.OnClickListener() {
@@ -504,19 +542,19 @@ public class NotifAvailActivity extends AppCompatActivity {
 
                 if (Internet_Check.checkInternetConnection(context)) {
 
-                    setAndGetNotifAvailData();
-                    SIAUtility.setObject(editor, GlobalVariables.KEY_NOTIF_AVAIL_OBJ, na);
+                    setAndGetInterchangeRequestData();
 
+                    SIAUtility.setObject(editor, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, ir);
                     editor.remove(GlobalVariables.KEY_SEARCH_FOR_LOCATION);
                     editor.commit();
 
-                    Intent intent = new Intent(NotifAvailActivity.this, LocationActivity.class);
+                    Intent intent = new Intent(InitiateInterchangeActivity.this, LocationActivity.class);
                     startActivity(intent);
                     finish(); /* This method will not display login page when click back (return) from phone */
                             /* End */
 
                 } else {
-                    Intent intent = new Intent(NotifAvailActivity.this, NoInternetActivity.class);
+                    Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
                     startActivity(intent);
                 }
 
@@ -534,23 +572,24 @@ public class NotifAvailActivity extends AppCompatActivity {
                 if (Internet_Check.checkInternetConnection(context)) {
 
                     if (null != epScac.getText() && (epScac.getText().toString().length() >= 2 && epScac.getText().toString().length() <= 4)) {
-                        setAndGetNotifAvailData();
-                        SIAUtility.setObject(editor, GlobalVariables.KEY_NOTIF_AVAIL_OBJ, na);
+
+                        setAndGetInterchangeRequestData();
 
                         editor.putString(GlobalVariables.KEY_SEARCH_FOR_LOCATION, GlobalVariables.ORIGIN_FROM_ORIGINAL);
+                        SIAUtility.setObject(editor, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, ir);
                         editor.commit();
 
-                        Intent intent = new Intent(NotifAvailActivity.this, LocationActivity.class);
+                        Intent intent = new Intent(InitiateInterchangeActivity.this, LocationActivity.class);
                         startActivity(intent);
                         finish(); /* This method will not display login page when click back (return) from phone */
                             /* End */
 
                     } else {
-                        new ViewDialog().showDialog(NotifAvailActivity.this, dialogTitle, getString(R.string.msg_error_enter_container_provider_name_first));
+                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_enter_container_provider_name_first));
                     }
 
                 } else {
-                    Intent intent = new Intent(NotifAvailActivity.this, NoInternetActivity.class);
+                    Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
                     startActivity(intent);
                 }
 
@@ -560,8 +599,54 @@ public class NotifAvailActivity extends AppCompatActivity {
         // code is to search Original Location end
 
 
+        // below event is execute based on done button on mobile keypad
+        chassisNumber = findViewById(R.id.chassisNumber);
+        chassisNumber.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+
+                    Log.v("log_tag", "<===============================================================>1");
+
+                    if (Internet_Check.checkInternetConnection(context)) {
+                        Log.v("log_tag", "<===============================================================>2");
+                        if(chassisNumber.getText() != null && chassisNumber.getText().toString().trim().length() > 0) {
+
+                            if(SIAUtility.isAlphaNumeric(chassisNumber.getText().toString())) {
+
+                                if (!chassisNumber.getText().toString().trim().equalsIgnoreCase(GlobalVariables.DEFUALT_CHASSIS_NUM)) {
+                                    iepScac.setText("");
+                                    // code to disable background functionality when progress bar starts
+                                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    String requestString = "chassisId=" + chassisNumber.getText().toString().trim();
+                                    new ExecuteChassisIdTask(requestString).execute();
+
+                                } else {
+                                    iepScac.setText("");
+                                }
+
+                            } else {
+                                new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_alpha_num_chassis_number));
+                                iepScac.setText("");
+                            }
+
+                        }
+
+                    } else {
+                        Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
+                        startActivity(intent);
+                    }
+
+                    return true;
+                }
+
+                return false;
+            }
+        });
+
+
         BottomNavigationView bnv = findViewById(R.id.navigation_next_cancel);
-        bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -570,7 +655,7 @@ public class NotifAvailActivity extends AppCompatActivity {
                         case R.id.navigation_next:
                             String returnMessage = validateFields();
                             if (!returnMessage.equalsIgnoreCase(GlobalVariables.SUCCESS)) {
-                                new ViewDialog().showDialog(NotifAvailActivity.this, dialogTitle, returnMessage);
+                                new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, returnMessage);
 
                             } else {
 
@@ -578,27 +663,24 @@ public class NotifAvailActivity extends AppCompatActivity {
                                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                                setAndGetNotifAvailData();
+                                setAndGetInterchangeRequestData();
 
-                                na.setAccessToken(siaSecurityObj.getAccessToken());
+                                ir.setIrRequestType(GlobalVariables.IR_REQUEST_TYPE_SI);
 
-                                editor.commit();
-
+                                ir.setAccessToken(siaSecurityObj.getAccessToken());
                                 Gson gson = new Gson();
-                                String jsonString = gson.toJson(na, NotificationAvail.class);
-                                Log.v("log_tag", "Validate NotifAvailActivity: jsonString:=> " + jsonString);
+                                String jsonString = gson.toJson(ir, InterchangeRequests.class);
+                                Log.v("log_tag", "Validate InitiateInterchangeActivity: jsonString:=> " + jsonString);
                                 new ExecuteTaskToValidate(jsonString).execute();
                             }
                             break;
                         case R.id.navigation_cancel:
-                            editor.remove(GlobalVariables.KEY_RETURN_FROM);
-                            editor.commit();
                             goToPreviousPage();
                             break;
                     }
 
                 } else {
-                    Intent intent = new Intent(NotifAvailActivity.this, NoInternetActivity.class);
+                    Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
                     startActivity(intent);
                 }
 
@@ -616,142 +698,97 @@ public class NotifAvailActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
-    private void showActionBar() {
-        LayoutInflater inflater = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.ab_custom, null);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-//        actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.action_bar_background_color)));
-        actionBar.setCustomView(v);
-    }
+    private void setAndGetInterchangeRequestData() {
+        ir.setEpCompanyName(epCompanyName.getText().toString());
+        ir.setEpScacs(epScac.getText().toString());
+        ir.setMcACompanyName(mcACompanyName.getText().toString());
+        ir.setMcAScac(mcAScac.getText().toString());
+        ir.setMcBCompanyName(mcBCompanyName.getText().toString());
+        ir.setMcBScac(mcBScac.getText().toString());
 
-    public class CustomAdapter extends BaseAdapter {
-        Context context;
-        String[] loadStatusArray;
-        LayoutInflater inflter;
-
-        public CustomAdapter(Context applicationContext, String[] loadStatusArray) {
-            this.context = applicationContext;
-            this.loadStatusArray = loadStatusArray;
-            inflter = (LayoutInflater.from(applicationContext));
-        }
-
-        @Override
-        public int getCount() {
-            return loadStatusArray.length;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return loadStatusArray[i];
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            view = inflter.inflate(R.layout.custom_spinner_type_user, null);
-            TextView loadStatus = view.findViewById(R.id.textView);
-            loadStatus.setText(loadStatusArray[i]);
-            return view;
-        }
-    }
-
-    private void setAndGetNotifAvailData() {
-        na = new NotificationAvail();
-        na.setAccessToken(siaSecurityObj.getAccessToken());
-        na.setEpCompanyName(epCompanyName.getText().toString());
-        na.setEpScac(epScac.getText().toString());
-        na.setMcCompanyName(mcCompanyName.getText().toString());
-        na.setMcScac(mcScac.getText().toString());
-
-        LinearLayout ll = (LinearLayout) loadStatusSpinner.getSelectedView(); // get the parent layout view
-        TextView selectedText = ll.findViewById(R.id.textView); // get the child text view
-        na.setLoadStatus(selectedText.getText().toString());
+        LinearLayout ll = (LinearLayout) typeOfInterchangeSpinner.getSelectedView(); // get the parent layout view
+        TextView selectedText = ll.findViewById(R.id.typeOfInterchangeTextView); // get the child text view
+        ir.setIntchgType(selectedText.getText().toString());
 
         ll = (LinearLayout) containerTypeSpinner.getSelectedView(); // get the parent layout view
         selectedText = ll.findViewById(R.id.containerTypeTextView); // get the child text view
-        na.setContType(selectedText.getText().toString());
-        if (selectedText.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
-            na.setContType(((EditText) findViewById(R.id.containerTypeOther)).getText().toString().trim());
+        ir.setContType(selectedText.getText().toString());
+        if(selectedText.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
+            ir.setContType(((EditText) findViewById(R.id.containerTypeOther)).getText().toString().trim());
         }
 
         ll = (LinearLayout) containerSizeSpinner.getSelectedView(); // get the parent layout view
         selectedText = ll.findViewById(R.id.containerSizeTextView); // get the child text view
-        na.setContSize(selectedText.getText().toString());
-        if (selectedText.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
-            na.setContSize(((EditText) findViewById(R.id.containerSizeOther)).getText().toString().trim());
+        ir.setContSize(selectedText.getText().toString());
+        if(selectedText.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
+            ir.setContSize(((EditText) findViewById(R.id.containerSizeOther)).getText().toString().trim());
         }
 
-        na.setContNum(containerNumber.getText().toString());
+        ir.setImportBookingNum(importBL.getText().toString());
+        ir.setBookingNum(exportBookingNumber.getText().toString());
+        ir.setContNum(containerNumber.getText().toString());
 
         if(null == chassisNumber.getText() || chassisNumber.getText().toString().trim().length() <= 0 ||
                 chassisNumber.getText().toString().trim().equalsIgnoreCase(GlobalVariables.DEFUALT_CHASSIS_NUM)) {
 
-            na.setChassisNum(GlobalVariables.DEFUALT_CHASSIS_NUM);
-            na.setIepScac("");
+            ir.setChassisNum(GlobalVariables.DEFUALT_CHASSIS_NUM);
+            ir.setIepScac("");
 
         } else {
-            na.setChassisNum(chassisNumber.getText().toString());
-            na.setIepScac(iepScac.getText().toString());
+            ir.setChassisNum(chassisNumber.getText().toString());
+            ir.setIepScac(iepScac.getText().toString());
         }
 
         ll = (LinearLayout) chassisTypeSpinner.getSelectedView(); // get the parent layout view
         selectedText = ll.findViewById(R.id.chassisTypeTextView); // get the child text view
-        na.setChassisType(selectedText.getText().toString());
+        ir.setChassisType(selectedText.getText().toString());
         if(selectedText.getText().toString().equalsIgnoreCase(getString(R.string.select_chassis_type))) {
-            na.setChassisType("");
+            ir.setChassisType("");
 
-        } else if (selectedText.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
-            na.setChassisType(((EditText) findViewById(R.id.chassisTypeOther)).getText().toString().trim());
+        } else if(selectedText.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
+            ir.setChassisType(((EditText) findViewById(R.id.chassisTypeOther)).getText().toString().trim());
         }
 
         ll = (LinearLayout) chassisSizeSpinner.getSelectedView(); // get the parent layout view
         selectedText = ll.findViewById(R.id.chassisSizeTextView); // get the child text view
-        na.setChassisSize(selectedText.getText().toString());
+        ir.setChassisSize(selectedText.getText().toString());
         if(selectedText.getText().toString().equalsIgnoreCase(getString(R.string.select_chassis_size))) {
-            na.setChassisSize("");
+            ir.setChassisSize("");
 
-        } else if (selectedText.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
-            na.setChassisSize(((EditText) findViewById(R.id.chassisSizeOther)).getText().toString().trim());
+        } else if(selectedText.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
+            ir.setChassisSize(((EditText) findViewById(R.id.chassisSizeOther)).getText().toString().trim());
         }
 
-        na.setGensetNum(gensetNumber.getText().toString());
+        ir.setGensetNum(gensetNumber.getText().toString());
 
-        na.setOriginLocNm(originLocationName.getText().toString());
-        na.setOriginLocAddr(originLocationAddress.getText().toString());
-        na.setOriginLocCity(originLocationCity.getText().toString());
-        na.setOriginLocState(originLocationState.getText().toString());
-        na.setOriginLocZip(originLocationZipCode.getText().toString());
+        ir.setOriginLocNm(originLocationName.getText().toString());
+        ir.setOriginLocAddr(originLocationAddress.getText().toString());
+        ir.setOriginLocCity(originLocationCity.getText().toString());
+        ir.setOriginLocState(originLocationState.getText().toString());
+        ir.setOriginLocZip(originLocationZipCode.getText().toString());
 
-        na.setEquipLocNm(equipLocationName.getText().toString());
-        na.setEquipLocAddr(equipLocationAddress.getText().toString());
-        na.setEquipLocCity(equipLocationCity.getText().toString());
-        na.setEquipLocState(equipLocationState.getText().toString());
-        na.setEquipLocZip(equipLocationZipCode.getText().toString());
+        ir.setEquipLocNm(equipLocationName.getText().toString());
+        ir.setEquipLocAddr(equipLocationAddress.getText().toString());
+        ir.setEquipLocCity(equipLocationCity.getText().toString());
+        ir.setEquipLocState(equipLocationState.getText().toString());
+        ir.setEquipLocZip(equipLocationZipCode.getText().toString());
 
     }
 
-
     String validateFields() {
+        String epScac = ((EditText)findViewById(R.id.epScac)).getText().toString();
+        String epCompanyName = ((EditText)findViewById(R.id.epCompanyName)).getText().toString();
+        String mcAScac = ((EditText)findViewById(R.id.mcAScac)).getText().toString();
+        String mcACompanyName = ((EditText)findViewById(R.id.mcACompanyName)).getText().toString();
+        String mcBScac = ((EditText)findViewById(R.id.mcBScac)).getText().toString();
+        String mcBCompanyName = ((EditText)findViewById(R.id.mcBCompanyName)).getText().toString();
 
-        String epScac = ((EditText) findViewById(R.id.epScac)).getText().toString();
-        String epCompanyName = ((EditText) findViewById(R.id.epCompanyName)).getText().toString();
-        String mcScac = ((EditText) findViewById(R.id.mcScac)).getText().toString();
-        String mcCompanyName = ((EditText) findViewById(R.id.mcCompanyName)).getText().toString();
 
-
-        LinearLayout ll = (LinearLayout) loadStatusSpinner.getSelectedView(); // get the parent layout view
-        TextView selectedLoadStatus = ll.findViewById(R.id.textView); // get the child text view
+        LinearLayout ll = (LinearLayout) typeOfInterchangeSpinner.getSelectedView(); // get the parent layout view
+        TextView selectedTypeOfInterchange = ll.findViewById(R.id.typeOfInterchangeTextView); // get the child text view
 
         ll = (LinearLayout) containerTypeSpinner.getSelectedView(); // get the parent layout view
         TextView selectedContainerType = ll.findViewById(R.id.containerTypeTextView); // get the child text view
@@ -765,81 +802,101 @@ public class NotifAvailActivity extends AppCompatActivity {
         ll = (LinearLayout) chassisSizeSpinner.getSelectedView(); // get the parent layout view
         TextView selectedChassisSize = ll.findViewById(R.id.chassisSizeTextView); // get the child text view
 
-        String containerNumber = ((EditText) findViewById(R.id.containerNumber)).getText().toString();
-        String chassisNumber = ((EditText) findViewById(R.id.chassisNumber)).getText().toString();
-        String gensetNumber = ((EditText) findViewById(R.id.gensetNumber)).getText().toString();
+        String containerNumber = ((EditText)findViewById(R.id.containerNumber)).getText().toString();
+        String exportBookingNumber = ((EditText)findViewById(R.id.exportBookingNumber)).getText().toString();
+        String importBL = ((EditText)findViewById(R.id.importBL)).getText().toString();
+        String chassisNumber = ((EditText)findViewById(R.id.chassisNumber)).getText().toString();
+        String gensetNumber = ((EditText)findViewById(R.id.gensetNumber)).getText().toString();
 
-        String equipLocationName = ((EditText) findViewById(R.id.equipLocationName)).getText().toString();
-        String equipLocationAddress = ((EditText) findViewById(R.id.equipLocationAddress)).getText().toString();
-        String equipLocationCity = ((EditText) findViewById(R.id.equipLocationCity)).getText().toString();
-        String equipLocationState = ((EditText) findViewById(R.id.equipLocationState)).getText().toString();
-        String equipLocationZipCode = ((EditText) findViewById(R.id.equipLocationZipCode)).getText().toString();
+        String equipLocationName = ((EditText)findViewById(R.id.equipLocationName)).getText().toString();
+        String equipLocationAddress = ((EditText)findViewById(R.id.equipLocationAddress)).getText().toString();
+        String equipLocationCity = ((EditText)findViewById(R.id.equipLocationCity)).getText().toString();
+        String equipLocationState = ((EditText)findViewById(R.id.equipLocationState)).getText().toString();
+        String equipLocationZipCode = ((EditText)findViewById(R.id.equipLocationZipCode)).getText().toString();
 
-        String originLocationName = ((EditText) findViewById(R.id.originLocationName)).getText().toString();
-        String originLocationAddress = ((EditText) findViewById(R.id.originLocationAddress)).getText().toString();
-        String originLocationCity = ((EditText) findViewById(R.id.originLocationCity)).getText().toString();
-        String originLocationState = ((EditText) findViewById(R.id.originLocationState)).getText().toString();
-        String originLocationZipCode = ((EditText) findViewById(R.id.originLocationZipCode)).getText().toString();
+        String originLocationName = ((EditText)findViewById(R.id.originLocationName)).getText().toString();
+        String originLocationAddress = ((EditText)findViewById(R.id.originLocationAddress)).getText().toString();
+        String originLocationCity = ((EditText)findViewById(R.id.originLocationCity)).getText().toString();
+        String originLocationState = ((EditText)findViewById(R.id.originLocationState)).getText().toString();
+        String originLocationZipCode = ((EditText)findViewById(R.id.originLocationZipCode)).getText().toString();
 
 
-        if (null == epCompanyName || epCompanyName.trim().toString().length() <= 0) {
+        if(null == epCompanyName || epCompanyName.trim().toString().length() <= 0) {
             return getString(R.string.msg_error_empty_container_provider_name);
         }
 
-        if (null == epScac || epScac.trim().toString().length() <= 0) {
+        if(null == epScac || epScac.trim().toString().length() <= 0) {
             return getString(R.string.msg_error_select_container_provider_name);
         }
 
-        if (null == mcCompanyName || mcCompanyName.trim().toString().length() <= 0) {
+        if(null == mcACompanyName || mcACompanyName.trim().toString().length() <= 0) {
             return getString(R.string.msg_error_empty_motor_carrier_a_name);
         }
 
-        if (null == mcScac || mcScac.trim().toString().length() <= 0) {
+        if(null == mcAScac || mcAScac.trim().toString().length() <= 0) {
             return getString(R.string.msg_error_select_motor_carrier_a_name);
         }
 
-        if (null == selectedLoadStatus || null == selectedLoadStatus.getText() ||
-                selectedLoadStatus.getText().toString().trim().equalsIgnoreCase(getString(R.string.select_load_status))) {
-            return getString(R.string.msg_error_select_load_status);
+        if(null == mcBCompanyName || mcBCompanyName.trim().toString().length() <= 0) {
+            return getString(R.string.msg_error_empty_motor_carrier_b_name);
         }
 
-        if (null == containerNumber || containerNumber.trim().toString().length() <= 0) {
-            return getString(R.string.msg_error_empty_container_number);
-
-        } else if (!SIAUtility.isValidContNum(containerNumber)) {
-            return getString(R.string.msg_error_invalid_container_number);
+        if(null == mcBScac || mcBScac.trim().toString().length() <= 0) {
+            return getString(R.string.msg_error_select_motor_carrier_b_name);
         }
 
-        if (null == selectedContainerType || null == selectedContainerType.getText() ||
+        if(null == selectedTypeOfInterchange || null == selectedTypeOfInterchange.getText() ||
+                selectedTypeOfInterchange.getText().toString().trim().equalsIgnoreCase("SELECT TYPE OF INTERCHANGE")) {
+            return getString(R.string.msg_error_select_type_of_interchange);
+        }
+
+        if(null == selectedContainerType || null == selectedContainerType.getText() ||
                 selectedContainerType.getText().toString().trim().equalsIgnoreCase(getString(R.string.select_container_type))) {
             return getString(R.string.msg_error_select_container_type);
 
-        } else if (selectedContainerType.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
+        } else if(selectedContainerType.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))){
             EditText containerTypeOtherEditText = findViewById(R.id.containerTypeOther);
-            if (null == containerTypeOtherEditText || null == containerTypeOtherEditText.getText() ||
+            if(null == containerTypeOtherEditText || null == containerTypeOtherEditText.getText() ||
                     containerTypeOtherEditText.getText().toString().trim().length() <= 0) {
                 return getString(R.string.msg_error_empty_container_type);
             }
         }
 
-        if (null == selectedContainerSize || null == selectedContainerSize.getText() ||
+        if(null == selectedContainerSize || null == selectedContainerSize.getText() ||
                 selectedContainerSize.getText().toString().trim().equalsIgnoreCase(getString(R.string.select_container_size))) {
             return getString(R.string.msg_error_select_container_size);
 
-        } else if (selectedContainerSize.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))) {
+        } else if(selectedContainerSize.getText().toString().equalsIgnoreCase(getString(R.string.lbl_other))){
             EditText containerSizeOtherEditText = findViewById(R.id.containerSizeOther);
-            if (null == containerSizeOtherEditText || null == containerSizeOtherEditText.getText() ||
+            if(null == containerSizeOtherEditText || null == containerSizeOtherEditText.getText() ||
                     containerSizeOtherEditText.getText().toString().trim().length() <= 0) {
                 return getString(R.string.msg_error_empty_container_size);
             }
         }
 
-        if (null != chassisNumber && chassisNumber.toString().trim().length() > 0 && !SIAUtility.isAlphaNumeric(chassisNumber)) {
+        if(null != importBL && importBL.toString().trim().length() > 0 && !SIAUtility.isAlphaNumeric(importBL)) {
+            return getString(R.string.msg_error_alpha_num_import_booking_number);
+        }
+
+        if(null == exportBookingNumber || exportBookingNumber.toString().trim().length() <= 0) {
+            return getString(R.string.msg_error_empty_export_booking_number);
+
+        } else if(!SIAUtility.isAlphaNumeric(exportBookingNumber)) {
+            return getString(R.string.msg_error_alpha_num_export_booking_number);
+        }
+
+        if(null == containerNumber || containerNumber.trim().toString().length() <= 0) {
+            return getString(R.string.msg_error_empty_container_number);
+
+        } else if(!SIAUtility.isValidContNum(containerNumber)) {
+            return getString(R.string.msg_error_invalid_container_number);
+        }
+
+        if(null != chassisNumber && chassisNumber.toString().trim().length() > 0 && !SIAUtility.isAlphaNumeric(chassisNumber)) {
             return getString(R.string.msg_error_alpha_num_chassis_number);
         }
 
-        if(chassisNumber != null && chassisNumber.trim().length() > 0 &&
-                !GlobalVariables.DEFUALT_CHASSIS_NUM.equalsIgnoreCase(chassisNumber)) {
+        if(chassisNumber != null && chassisNumber.trim().length() > 0 && !chassisNumber.equalsIgnoreCase(GlobalVariables.DEFUALT_CHASSIS_NUM)) {
 
             if (null == selectedChassisType || null == selectedChassisType.getText() ||
                     selectedChassisType.getText().toString().trim().equalsIgnoreCase(getString(R.string.select_chassis_type))) {
@@ -866,45 +923,60 @@ public class NotifAvailActivity extends AppCompatActivity {
             }
         }
 
-        if (null != gensetNumber && gensetNumber.toString().trim().length() > 0 && !SIAUtility.isAlphaNumeric(gensetNumber)) {
+        if(null != gensetNumber && gensetNumber.toString().trim().length() > 0 && !SIAUtility.isAlphaNumeric(gensetNumber)) {
             return getString(R.string.msg_error_alpha_num_genset_number);
         }
 
-        if (null == equipLocationZipCode || equipLocationZipCode.toString().trim().length() <= 0) {
+        if(null == equipLocationZipCode || equipLocationZipCode.toString().trim().length() <= 0) {
             return getString(R.string.msg_error_empty_equip_location_zip_code);
         }
-        if (null == equipLocationName || equipLocationName.toString().trim().length() <= 0) {
+        if(null == equipLocationName || equipLocationName.toString().trim().length() <= 0) {
             return getString(R.string.msg_error_empty_equip_location_name);
         }
-        if (null == equipLocationAddress || equipLocationAddress.toString().trim().length() <= 0) {
+        if(null == equipLocationAddress || equipLocationAddress.toString().trim().length() <= 0) {
             return getString(R.string.msg_error_empty_equip_location_address);
         }
-        if (null == equipLocationCity || equipLocationCity.toString().trim().length() <= 0) {
+        if(null == equipLocationCity || equipLocationCity.toString().trim().length() <= 0) {
             return getString(R.string.msg_error_empty_equip_location_city);
         }
-        if (null == equipLocationState || equipLocationState.toString().trim().length() <= 0) {
+        if(null == equipLocationState || equipLocationState.toString().trim().length() <= 0) {
             return getString(R.string.msg_error_empty_equip_location_state);
         }
 
 
-        if (null == originLocationZipCode || originLocationZipCode.toString().trim().length() <= 0) {
+        if(null == originLocationZipCode || originLocationZipCode.toString().trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_zip_code);
         }
-        if (null == originLocationName || originLocationName.toString().trim().length() <= 0) {
+        if(null == originLocationName || originLocationName.toString().trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_name);
         }
-        if (null == originLocationAddress || originLocationAddress.toString().trim().length() <= 0) {
+        if(null == originLocationAddress || originLocationAddress.toString().trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_address);
         }
-        if (null == originLocationCity || originLocationCity.toString().trim().length() <= 0) {
+        if(null == originLocationCity || originLocationCity.toString().trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_city);
         }
-        if (null == originLocationState || originLocationState.toString().trim().length() <= 0) {
+        if(null == originLocationState || originLocationState.toString().trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_state);
         }
 
         return GlobalVariables.SUCCESS;
     }
+
+
+    private void showActionBar() {
+        LayoutInflater inflater = (LayoutInflater) this
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflater.inflate(R.layout.ab_custom, null);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayShowHomeEnabled (false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setCustomView(v);
+    }
+
+
 
     class EPLocationAdapter extends ArrayAdapter<String> {
 
@@ -932,11 +1004,9 @@ public class NotifAvailActivity extends AppCompatActivity {
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
                     FilterResults filterResults = new FilterResults();
-//                    Log.v("log_tag", "NotifAvailActivity: searchEPCompanyName:=======================> " + searchEPCompanyName);
-//                    Log.v("log_tag", "NotifAvailActivity: constraint:=======================> " + constraint);
                     if (constraint != null && (null == searchEPCompanyName || !searchEPCompanyName.trim().equalsIgnoreCase(constraint.toString().trim()))) {
 
-                        final String jsonInString = "role=" + GlobalVariables.ROLE_EP + "&requestType=" + getString(R.string.request_type_ir_request) + "&companyName=" + SIAUtility.replaceWhiteSpaces(constraint.toString());
+                        final String jsonInString = "role="+ GlobalVariables.ROLE_EP+"&requestType="+getString(R.string.request_type_ir_request)+"&companyName="+SIAUtility.replaceWhiteSpaces(constraint.toString());
                         searchEPCompanyName = constraint.toString().trim();
 
                         Thread timer = new Thread() { //new thread
@@ -944,6 +1014,10 @@ public class NotifAvailActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+
+                                        // code to disable background functionality when progress bar starts
+                                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                         new ExecuteEPTask(jsonInString).execute();
                                     }
                                 });
@@ -1022,17 +1096,16 @@ public class NotifAvailActivity extends AppCompatActivity {
 
                     } else {
 
-                        Log.v("log_tag", "NotifAvailActivity: epScac.setText();:=> ");
                         suggestions = new ArrayList<>();
                         notifyDataSetChanged();
                         epScac.setText("");
 
                         try {
                             ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
-                            new ViewDialog().showDialog(NotifAvailActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
 
-                        } catch (Exception e) {
-                            new ViewDialog().showDialog(NotifAvailActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
+                        } catch(Exception e) {
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
                         }
 
                     }
@@ -1047,11 +1120,13 @@ public class NotifAvailActivity extends AppCompatActivity {
     }
 
 
-    class MCLocationAdapter extends ArrayAdapter<String> {
+
+
+    class MCALocationAdapter extends ArrayAdapter<String> {
 
         protected List<String> suggestions;
 
-        public MCLocationAdapter(Activity context) {
+        public MCALocationAdapter(Activity context) {
             super(context, android.R.layout.simple_dropdown_item_1line);
             suggestions = new ArrayList<>();
         }
@@ -1073,18 +1148,22 @@ public class NotifAvailActivity extends AppCompatActivity {
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
                     FilterResults filterResults = new FilterResults();
-                    if (constraint != null && (null == searchMCCompanyName || !searchMCCompanyName.equalsIgnoreCase(constraint.toString().trim()))) {
+                    if (constraint != null && (null == searchMCACompanyName || !searchMCACompanyName.trim().equalsIgnoreCase(constraint.toString().trim()))) {
 
-                        final String jsonInString = "role=" + GlobalVariables.ROLE_MC + "&requestType=" + getString(R.string.request_type_notif_avail_request) + "&companyName=" + SIAUtility.replaceWhiteSpaces(constraint.toString());
+                        final String jsonInString = "role="+ GlobalVariables.ROLE_MC+"&requestType="+getString(R.string.request_type_ir_request)+"&companyName="+SIAUtility.replaceWhiteSpaces(constraint.toString());
 //                        Log.v("log_tag", "In filterResults with jsonInString:=>"+jsonInString);
-                        searchMCCompanyName = constraint.toString().trim();
+                        searchMCACompanyName = constraint.toString().trim();
 
                         Thread timer = new Thread() { //new thread
                             public void run() {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        new ExecuteMCTask(jsonInString).execute();
+                                        // code to disable background functionality when progress bar starts
+                                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                        new ExecuteMCATask(jsonInString).execute();
                                     }
                                 });
                             }
@@ -1115,11 +1194,10 @@ public class NotifAvailActivity extends AppCompatActivity {
             return myFilter;
         }
 
-
-        class ExecuteMCTask extends AsyncTask<String, Integer, String> {
+        class ExecuteMCATask extends AsyncTask<String, Integer, String> {
             String requestString;
 
-            public ExecuteMCTask(String requestString) {
+            public ExecuteMCATask(String requestString) {
                 this.requestString = requestString;
             }
 
@@ -1161,20 +1239,34 @@ public class NotifAvailActivity extends AppCompatActivity {
 
                         notifyDataSetChanged();
 
-                    } else {
+                    } else if (urlResponseCode != 0) {
+
+                        try {
+                            suggestions = new ArrayList<>();
+                            notifyDataSetChanged();
+
+                            ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+
+                            mcAScac.setText("");
+
+                        } catch(Exception e) {
+                            suggestions = new ArrayList<>();
+                            notifyDataSetChanged();
+                            mcAScac.setText("");
+
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
+                        }
+
+                } else {
 
                         suggestions = new ArrayList<>();
                         notifyDataSetChanged();
-                        mcScac.setText("");
 
-                        try {
-                            ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
-                            new ViewDialog().showDialog(NotifAvailActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
 
-                        } catch (Exception e) {
-                            new ViewDialog().showDialog(NotifAvailActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
-                        }
-
+                        mcAScac.setText("");
                     }
 
                 } catch (Exception e) {
@@ -1183,6 +1275,184 @@ public class NotifAvailActivity extends AppCompatActivity {
 
             }
 
+        }
+    }
+
+
+    class MCBLocationAdapter extends ArrayAdapter<String> {
+
+        protected List<String> suggestions;
+
+        public MCBLocationAdapter(Activity context) {
+            super(context, android.R.layout.simple_dropdown_item_1line);
+            suggestions = new ArrayList<>();
+        }
+
+        @Override
+        public int getCount() {
+            return suggestions.size();
+        }
+
+        @Override
+        public String getItem(int index) {
+            return suggestions.get(index);
+        }
+
+        @Override
+        public Filter getFilter() {
+            Filter myFilter = new Filter() {
+
+                @Override
+                protected FilterResults performFiltering(CharSequence constraint) {
+                    FilterResults filterResults = new FilterResults();
+                    if (constraint != null && (null == searchMCBCompanyName || !searchMCBCompanyName.trim().equalsIgnoreCase(constraint.toString().trim()))) {
+
+                        final String jsonInString = "role="+ GlobalVariables.ROLE_MC+"&requestType="+getString(R.string.request_type_ir_request)+"&companyName="+SIAUtility.replaceWhiteSpaces(constraint.toString());
+//                        Log.v("log_tag", "In filterResults with jsonInString:=>"+jsonInString);
+                        searchMCBCompanyName = constraint.toString().trim();
+
+                        Thread timer = new Thread() { //new thread
+                            public void run() {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        // code to disable background functionality when progress bar starts
+                                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                        new ExecuteMCBTask(jsonInString).execute();
+                                    }
+                                });
+                            }
+                        };
+                        timer.start();
+                        // Now assign the values and count to the FilterResults
+                        // object
+                        filterResults.values = suggestions;
+                        filterResults.count = suggestions.size();
+                    }
+
+                    return filterResults;
+                }
+
+                @Override
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+
+                    if (results != null && results.count > 0) {
+                        Log.v("log_tag", "notifyDataSetChanged()");
+                        notifyDataSetChanged();
+
+                    } else {
+                        Log.v("log_tag", "notifyDataSetInvalidated()");
+                        notifyDataSetInvalidated();
+                    }
+                }
+            };
+            return myFilter;
+        }
+
+        class ExecuteMCBTask extends AsyncTask<String, Integer, String> {
+            String requestString;
+
+            public ExecuteMCBTask(String requestString) {
+                this.requestString = requestString;
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+                ApiResponse apiResponse = RestApiClient.callGetApi(getString(R.string.base_url) + getString(R.string.api_get_companyname_and_scac_by_companyname) + "?" + requestString);
+                urlResponse = apiResponse.getMessage();
+                urlResponseCode = apiResponse.getCode();
+                return urlResponse;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                progressBar.setVisibility(View.GONE);
+
+                // code to regain disable backend functionality end
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                try {
+                    Log.v("log_tag", "MCB urlResponseCode:=>" + urlResponseCode);
+                    Log.v("log_tag", "MCB result:=> " + result);
+                    Gson gson = new Gson();
+
+                    if (urlResponseCode == 200) {
+
+                        Type listType = new TypeToken<ArrayList<Company>>() {
+                        }.getType();
+                        List<Company> companyList = gson.fromJson(result, listType);
+                        suggestions = new ArrayList<>();
+                        for (int i = 0; i < companyList.size(); i++) {
+                            suggestions.add(companyList.get(i).getScac() + "|" + companyList.get(i).getCompanyName());
+                        }
+
+                        notifyDataSetChanged();
+
+                    } else {
+
+                        suggestions = new ArrayList<>();
+                        notifyDataSetChanged();
+
+                        try {
+
+                            ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+
+                        } catch(Exception e) {
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
+                        }
+                        mcBScac.setText("");
+                    }
+
+                } catch (Exception e) {
+                    Log.v("log_tag", "Error ", e);
+                }
+
+            }
+
+        }
+    }
+
+
+    public class TypeOfInterchangeAdapter extends BaseAdapter {
+        Context context;
+        String[] typeOfInterchangeArray;
+        LayoutInflater inflater;
+
+        public TypeOfInterchangeAdapter(Context applicationContext, String[] typeOfInterchangeArray) {
+            this.context = applicationContext;
+            this.typeOfInterchangeArray = typeOfInterchangeArray;
+            inflater = (LayoutInflater.from(applicationContext));
+        }
+
+        @Override
+        public int getCount() {
+            return typeOfInterchangeArray.length;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return typeOfInterchangeArray[i];
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            view = inflater.inflate(R.layout.custom_spinner_type_of_interchange, null);
+            TextView typeOfInterchangeTxt = view.findViewById(R.id.typeOfInterchangeTextView);
+            typeOfInterchangeTxt.setText(typeOfInterchangeArray[i]);
+            return view;
         }
     }
 
@@ -1226,10 +1496,10 @@ public class NotifAvailActivity extends AppCompatActivity {
 
                     try {
                         ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
-                        new ViewDialog().showDialog(NotifAvailActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
 
                     } catch(Exception e) {
-                        new ViewDialog().showDialog(NotifAvailActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
+                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
                     }
                 }
 
@@ -1256,7 +1526,7 @@ public class NotifAvailActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            ApiResponse apiResponse = RestApiClient.callPostApi(requestString, getString(R.string.base_url) +getString(R.string.api_validate_notif_avail_equip_details));
+            ApiResponse apiResponse = RestApiClient.callPostApi(requestString, getString(R.string.base_url) +getString(R.string.api_validate_initiate_interchange_details));
             urlResponse = apiResponse.getMessage();
             urlResponseCode = apiResponse.getCode();
             return urlResponse;
@@ -1266,8 +1536,10 @@ public class NotifAvailActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
 
-            try {
+            // code to regain disable backend functionality end
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
+            try {
                 Log.v("log_tag", "urlResponseCode:=>" + urlResponseCode);
                 Log.v("log_tag", "verify result:=> " + result);
                 Gson gson = new Gson();
@@ -1278,10 +1550,9 @@ public class NotifAvailActivity extends AppCompatActivity {
 
                     if(null == chassisNumber.getText() || chassisNumber.getText().toString().trim().length() <= 0) {
                         iepScac.setText("");
-                        na.setIepScac("");
-                        na.setChassisNum(GlobalVariables.DEFUALT_CHASSIS_NUM);
+                        ir.setIepScac("");
+                        ir.setChassisNum(GlobalVariables.DEFUALT_CHASSIS_NUM);
                         chassisNumber.setText(GlobalVariables.DEFUALT_CHASSIS_NUM);
-
                     }
 
                     String containerType = containerTypeSpinner.getSelectedItem().toString();
@@ -1313,26 +1584,33 @@ public class NotifAvailActivity extends AppCompatActivity {
                     }
 
 
-                    Integer[] categories = new Integer[]{13, 5, 5};
-                    String[] categoriesName = new String[]{"Notification of Available Equipment Details", "Equipment Location", "Original Interchange Location"};
+                    Integer[] categories = new Integer[]{17, 5, 5};
+                    String[] categoriesName = new String[]{"Street Interchange Details", "Equipment Location", "Original Interchange Location"};
                     String[] labelArray = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
                             "MOTOR CARRIER A'S NAME", "MOTOR CARRIER A'S SCAC",
-                            "LOAD STATUS", "CONTAINER #", "CONTAINER TYPE", "CONTAINER SIZE",
-                            "CHASSIS #", "CHASSIS IEP SCAC", "CHASSIS TYPE", "CHASSIS SIZE", "GENSET #",
+                            "MOTOR CARRIER B'S NAME", "MOTOR CARRIER B'S SCAC",
+                            "TYPE OF INTERCHANGE", "CONTAINER TYPE",
+                            "CONTAINER SIZE", "IMPORT B/L", "EXPORT BOOKING #",
+                            "CONTAINER #", "CHASSIS #", "CHASSIS IEP SCAC",
+                            "CHASSIS TYPE", "CHASSIS SIZE", "GENSET #",
                             "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE",
                             "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE"};
                     String[] valueArray = new String[]{epCompanyName.getText().toString(), epScac.getText().toString(),
-                            mcCompanyName.getText().toString(), mcScac.getText().toString(),
-                            loadStatusSpinner.getSelectedItem().toString(), containerNumber.getText().toString(),
-                            containerType, containerSize, chassisNumber.getText().toString(), iepScac.getText().toString(),
-                            chassisType, chassisSize, gensetNumber.getText().toString(),
+                            mcACompanyName.getText().toString(), mcAScac.getText().toString(),
+                            mcBCompanyName.getText().toString(), mcBScac.getText().toString(),
+                            typeOfInterchangeSpinner.getSelectedItem().toString(), containerType,
+                            containerSize, importBL.getText().toString(),
+                            exportBookingNumber.getText().toString(), containerNumber.getText().toString(),
+                            chassisNumber.getText().toString(), iepScac.getText().toString(),
+                            chassisType, chassisSize,
+                            gensetNumber.getText().toString(),
                             equipLocationName.getText().toString(), equipLocationAddress.getText().toString(),
                             equipLocationZipCode.getText().toString(), equipLocationCity.getText().toString(),
                             equipLocationState.getText().toString(),
                             originLocationName.getText().toString(), originLocationAddress.getText().toString(),
                             originLocationZipCode.getText().toString(), originLocationCity.getText().toString(),
                             originLocationState.getText().toString()
-                    };
+                        };
 
                     List<FieldInfo> fieldInfoList = SIAUtility.prepareAndGetFieldInfoList(categories, categoriesName, labelArray, valueArray);
 
@@ -1342,24 +1620,24 @@ public class NotifAvailActivity extends AppCompatActivity {
 
                     SIAUtility.setList(editor, "fieldInfoList", fieldInfoList);
 
-                    setAndGetNotifAvailData();
-                    SIAUtility.setObject(editor, GlobalVariables.KEY_NOTIF_AVAIL_OBJ, na);
+                    setAndGetInterchangeRequestData();
+                    SIAUtility.setObject(editor, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, ir);
 
                     editor.commit();
 
-                    Intent intent = new Intent(NotifAvailActivity.this, VerifyActivity.class);
+                    Intent intent = new Intent(InitiateInterchangeActivity.this, VerifyActivity.class);
                     startActivity(intent);
                     finish(); /* This method will not display login page when click back (return) from phone */
                             /* End */
 
                 } else  {
 
-                    try {
-                        new ViewDialog().showDialog(NotifAvailActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                        try {
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
 
-                    } catch(Exception e) {
-                        new ViewDialog().showDialog(NotifAvailActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
-                    }
+                        } catch(Exception e) {
+                            new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
+                        }
 
                     Log.v("log_tag", "verify result Error :=> ");
                 }
@@ -1392,8 +1670,6 @@ public class NotifAvailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
-            // code to regain disable backend functionality end
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
             try {
                 Log.v("log_tag", "API setupPage urlResponseCode:=>" + urlResponseCode);
@@ -1420,13 +1696,13 @@ public class NotifAvailActivity extends AppCompatActivity {
 
                     containerTypeAdapter = new ContainerTypeAdapter(context, setupList.toArray(new String[0]));
                     containerTypeSpinner.setAdapter(containerTypeAdapter);
-                    if(null != na && null != na.getContType() && na.getContType().trim().length() > 0 && !na.getContType().equalsIgnoreCase(getString(R.string.select_container_type))) {
-                        if(setupList.contains(na.getContType())) {
-                            containerTypeSpinner.setSelection(dropDownMap.get(na.getContType()));
+                    if(null != ir && null != ir.getContType() && ir.getContType().trim().length() > 0 && !ir.getContType().equalsIgnoreCase(getString(R.string.select_container_type))) {
+                        if(setupList.contains(ir.getContType())) {
+                            containerTypeSpinner.setSelection(dropDownMap.get(ir.getContType()));
                         } else {
                             containerTypeSpinner.setSelection(dropDownMap.get(getString(R.string.lbl_other)));
                             findViewById(R.id.containerTypeOtherLayout).setVisibility(View.VISIBLE);
-                            ((EditText) findViewById(R.id.containerTypeOther)).setText(na.getContType());
+                            ((EditText) findViewById(R.id.containerTypeOther)).setText(ir.getContType());
                         }
 
                     }
@@ -1441,13 +1717,13 @@ public class NotifAvailActivity extends AppCompatActivity {
                     }
                     containerSizeAdapter = new ContainerSizeAdapter(context, setupList.toArray(new String[0]));
                     containerSizeSpinner.setAdapter(containerSizeAdapter);
-                    if(null != na && null != na.getContSize() && na.getContSize().trim().length() > 0 && !na.getContSize().equalsIgnoreCase(getString(R.string.select_container_size))) {
-                        if(setupList.contains(na.getContSize())) {
-                            containerSizeSpinner.setSelection(dropDownMap.get(na.getContSize()));
+                    if(null != ir && null != ir.getContSize() && ir.getContSize().trim().length() > 0 && !ir.getContSize().equalsIgnoreCase(getString(R.string.select_container_size))) {
+                        if(setupList.contains(ir.getContSize())) {
+                            containerSizeSpinner.setSelection(dropDownMap.get(ir.getContSize()));
                         } else {
                             containerSizeSpinner.setSelection(dropDownMap.get(getString(R.string.lbl_other)));
                             findViewById(R.id.containerSizeOtherLayout).setVisibility(View.VISIBLE);
-                            ((EditText) findViewById(R.id.containerSizeOther)).setText(na.getContSize());
+                            ((EditText) findViewById(R.id.containerSizeOther)).setText(ir.getContSize());
                         }
                     }
 
@@ -1461,13 +1737,13 @@ public class NotifAvailActivity extends AppCompatActivity {
                     }
                     chassisTypeAdapter = new ChassisTypeAdapter(context, setupList.toArray(new String[0]));
                     chassisTypeSpinner.setAdapter(chassisTypeAdapter);
-                    if(null != na && null != na.getChassisType() && na.getChassisType().trim().length() > 0 && !na.getChassisType().equalsIgnoreCase(getString(R.string.select_chassis_type))) {
-                        if(setupList.contains(na.getChassisType())) {
-                            chassisTypeSpinner.setSelection(dropDownMap.get(na.getChassisType()));
+                    if(null != ir && null != ir.getChassisType() && ir.getChassisType().trim().length() > 0 && !ir.getChassisType().equalsIgnoreCase(getString(R.string.select_chassis_type))) {
+                        if(setupList.contains(ir.getChassisType())) {
+                            chassisTypeSpinner.setSelection(dropDownMap.get(ir.getChassisType()));
                         } else {
                             chassisTypeSpinner.setSelection(dropDownMap.get(getString(R.string.lbl_other)));
                             findViewById(R.id.chassisTypeOtherLayout).setVisibility(View.VISIBLE);
-                            ((EditText) findViewById(R.id.chassisTypeOther)).setText(na.getChassisType());
+                            ((EditText) findViewById(R.id.chassisTypeOther)).setText(ir.getChassisType());
                         }
                     }
 
@@ -1481,13 +1757,13 @@ public class NotifAvailActivity extends AppCompatActivity {
                     }
                     chassisSizeAdapter = new ChassisSizeAdapter(context, setupList.toArray(new String[0]));
                     chassisSizeSpinner.setAdapter(chassisSizeAdapter);
-                    if(null != na && null != na.getChassisSize() && na.getChassisSize().trim().length() > 0 && !na.getChassisSize().equalsIgnoreCase(getString(R.string.select_chassis_size))) {
-                        if(setupList.contains(na.getChassisSize())) {
-                            chassisSizeSpinner.setSelection(dropDownMap.get(na.getChassisSize()));
+                    if(null != ir && null != ir.getChassisSize() && ir.getChassisSize().trim().length() > 0 && !ir.getChassisSize().equalsIgnoreCase(getString(R.string.select_chassis_size))) {
+                        if(setupList.contains(ir.getChassisSize())) {
+                            chassisSizeSpinner.setSelection(dropDownMap.get(ir.getChassisSize()));
                         } else {
                             chassisSizeSpinner.setSelection(dropDownMap.get(getString(R.string.lbl_other)));
                             findViewById(R.id.chassisSizeOtherLayout).setVisibility(View.VISIBLE);
-                            ((EditText) findViewById(R.id.chassisSizeOther)).setText(na.getChassisSize());
+                            ((EditText) findViewById(R.id.chassisSizeOther)).setText(ir.getChassisSize());
                         }
                     }
 
@@ -1496,10 +1772,10 @@ public class NotifAvailActivity extends AppCompatActivity {
 
                     try {
                         ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
-                        new ViewDialog().showDialog(NotifAvailActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
+                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
 
                     } catch(Exception e) {
-                        new ViewDialog().showDialog(NotifAvailActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
+                        new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
                     }
                 }
 
@@ -1554,15 +1830,25 @@ public class NotifAvailActivity extends AppCompatActivity {
                     editor.remove(GlobalVariables.KEY_RETURN_FROM);
                     editor.commit();
 
-                    startActivity(new Intent(NotifAvailActivity.this, DashboardActivity.class));
+                    Intent intent = null;
+
+                    baseOriginFrom = sharedPref.getString(GlobalVariables.KEY_BASE_ORIGIN_FROM, "");
+                    if (null != baseOriginFrom && GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl.equalsIgnoreCase(baseOriginFrom)) {
+                        intent = new Intent(InitiateInterchangeActivity.this, ListNotifAvailActivity.class);
+
+                    } else {
+                        intent = new Intent(InitiateInterchangeActivity.this, DashboardActivity.class);
+                    }
+                    startActivity(intent);
                     finish(); /* This method will not display login page when click back (return) from phone */
                             /* End */
 
                 }
             });
 
+
         } else {
-            Intent intent = new Intent(NotifAvailActivity.this, NoInternetActivity.class);
+            Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
             startActivity(intent);
         }
     }
@@ -1575,6 +1861,5 @@ public class NotifAvailActivity extends AppCompatActivity {
 
         return super.onKeyDown(keyCode, event);
     }
-
 
 }

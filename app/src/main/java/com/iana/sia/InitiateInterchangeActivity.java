@@ -164,7 +164,11 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         SIAUtility.setUpperCase(containerNumber);
 
         exportBookingNumber = findViewById(R.id.exportBookingNumber);
+        SIAUtility.setUpperCase(exportBookingNumber);
+
         importBL = findViewById(R.id.importBL);
+        SIAUtility.setUpperCase(importBL);
+
         chassisNumber = findViewById(R.id.chassisNumber);
         SIAUtility.setUpperCase(chassisNumber);
 
@@ -626,6 +630,8 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                                 }
 
                             } else {
+                                chassisNumber.setFocusable(true);
+                                chassisNumber.setText("");
                                 new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_alpha_num_chassis_number));
                                 iepScac.setText("");
                             }
@@ -1599,8 +1605,8 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                             mcACompanyName.getText().toString(), mcAScac.getText().toString(),
                             mcBCompanyName.getText().toString(), mcBScac.getText().toString(),
                             typeOfInterchangeSpinner.getSelectedItem().toString(), containerType,
-                            containerSize, importBL.getText().toString(),
-                            exportBookingNumber.getText().toString(), containerNumber.getText().toString(),
+                            containerSize, (null != importBL.getText() ? importBL.getText().toString().toUpperCase() : ""),
+                            exportBookingNumber.getText().toString().toUpperCase(), containerNumber.getText().toString(),
                             chassisNumber.getText().toString(), iepScac.getText().toString(),
                             chassisType, chassisSize,
                             gensetNumber.getText().toString(),

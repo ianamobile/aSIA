@@ -156,7 +156,6 @@ public class LocationActivity extends AppCompatActivity {
                                 new ExecuteLocationSearchTask(requestString).execute();
 
                         } else {
-                            searchLocation.setText("");
                             new ViewDialog().showDialog(LocationActivity.this, getString(R.string.dialog_title_location_search), getString(R.string.msg_error_invalid_location_search));
                         }
                     }

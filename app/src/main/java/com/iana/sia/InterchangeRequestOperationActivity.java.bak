@@ -377,7 +377,6 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 if(fieldInfo.getValue().equalsIgnoreCase("Remarks")) {
                     fieldInfo = fieldInfoList.get(++i);
                     ((TextView) row.findViewById(R.id.locationLbl)).setText(fieldInfo.getValue());
-                    ((TextView) row.findViewById(R.id.locationLbl)).setTextColor(ContextCompat.getColor(this, R.color.appThemeColor));
 
                     ((TextView) row.findViewById(R.id.locationValue)).setText("");
                     tl.addView(row);
