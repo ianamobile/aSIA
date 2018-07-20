@@ -768,20 +768,6 @@
         </TableLayout>
 
         <Button
-            android:id="@+id/deleteBtn"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_delete"
-            android:layout_width="match_parent"
-            android:textColor="@android:color/white"
-            android:gravity="center_vertical|center_horizontal"
-            android:fontFamily="sans-serif-medium"
-            android:textSize="14dp"
-            android:background="@color/appThemeColor"
-            android:layout_below="@+id/otherInformationTableLayout"
-            android:layout_marginBottom="5dp"
-            />
-
-        <Button
             android:id="@+id/initiateSIBtn"
             android:layout_height="wrap_content"
             android:text="@string/btn_initiate_street_interchange"
@@ -791,10 +777,22 @@
             android:fontFamily="sans-serif-medium"
             android:textSize="14dp"
             android:background="@color/colorPrimary"
-            android:layout_below="@+id/deleteBtn"
+            android:layout_below="@+id/otherInformationTableLayout"
+            android:layout_marginBottom="5dp"
             />
 
-
+        <Button
+            android:id="@+id/deleteBtn"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_delete"
+            android:layout_width="match_parent"
+            android:textColor="@android:color/white"
+            android:gravity="center_vertical|center_horizontal"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="14dp"
+            android:background="@color/appThemeColor"
+            android:layout_below="@+id/initiateSIBtn"
+            />
 
     </RelativeLayout>
 

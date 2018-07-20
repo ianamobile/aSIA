@@ -349,6 +349,13 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
             gensetNumber.setLongClickable(false);
             gensetNumber.setTextColor(ContextCompat.getColor(context, R.color.darker_gray));
 
+            if(mcBCompanyName.getText() == null || mcBCompanyName.getText().toString().trim().length() <= 0) {
+                ((TextView) findViewById(R.id.mcBCompanyNameLbl)).setTextColor(ContextCompat.getColor(context, R.color.appThemeColor));
+            }
+
+            ((TextView) findViewById(R.id.typeOfInterchangeLbl)).setTextColor(ContextCompat.getColor(context, R.color.appThemeColor));
+            ((TextView) findViewById(R.id.exportBookingNumberLbl)).setTextColor(ContextCompat.getColor(context, R.color.appThemeColor));
+
         } else {
             epCompanyName.setThreshold(2); //type char in after work....
             epCompanyNameAdapter = new EPLocationAdapter(this);

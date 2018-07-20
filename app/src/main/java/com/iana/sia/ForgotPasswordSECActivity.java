@@ -111,6 +111,15 @@ public class ForgotPasswordSECActivity extends AppCompatActivity implements Anim
                 return true;
             }
         });
+
+        scac = findViewById(R.id.scac);
+        if(memType.equalsIgnoreCase(GlobalVariables.ROLE_EP)) {
+            scac.setHint(getString(R.string.hint_ep_scac));
+
+        } else {
+            scac.setHint(getString(R.string.hint_mc_scac));
+        }
+
     }
 
     void processLogin() {

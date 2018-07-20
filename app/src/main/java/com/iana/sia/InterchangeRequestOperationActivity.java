@@ -442,6 +442,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
             anim.start();
             isOpen = true;
 
+            workFlowBtn.setText("");
             workFlowBtn.setBackground(getDrawable(R.drawable.border_view_workflow_close));
             layoutButtons.removeAllViews();
 
@@ -807,6 +808,8 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
             }
 
             workFlowBtn.setBackground(getDrawable(R.drawable.border_view_workflow));
+            workFlowBtn.setText("VIEW\nWORKFLOW");
+            workFlowBtn.setTextColor(ContextCompat.getColor(this, R.color.color_white));
 
             int startRadius = (int) Math.hypot(layoutContent.getWidth(), layoutContent.getHeight());
             int endRadius = 0;
@@ -955,21 +958,28 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 Log.v("log_tag", "Interchange Request Operations urlResponseCode: " + urlResponseCode);
                 Log.v("log_tag", "Interchange Request Operations urlResponse: " + urlResponse);
                 Gson gson = new Gson();
-
+                ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
                 if (urlResponseCode == 200) {
 
-                    JsonObject jsonObject = new JsonObject();
-                    jsonObject.addProperty("irId", irJson.getInterchangeRequests().getIrId());
-                    jsonObject.addProperty("accessToken", siaSecurityObj.getAccessToken());
+//                    JsonObject jsonObject = new JsonObject();
+//                    jsonObject.addProperty("irId", irJson.getInterchangeRequests().getIrId());
+//                    jsonObject.addProperty("accessToken", siaSecurityObj.getAccessToken());
 
-                    Log.v("log_tag", "InterchangeRequestOperationActivity jsonObject:=> " + jsonObject.toString());
-                    new ExecuteTaskToGetInterchangeRequestDetails(jsonObject.toString()).execute();
+//                    Log.v("log_tag", "InterchangeRequestOperationActivity jsonObject:=> " + jsonObject.toString());
+//                    new ExecuteTaskToGetInterchangeRequestDetails(jsonObject.toString()).execute();
 
+                    editor.putString(GlobalVariables.KEY_SUCCESS_MESSAGE, errorMessage.getMessage());
+                    editor.commit();
+
+                    Intent intent = new Intent(InterchangeRequestOperationActivity.this, InterchangeRequestOperationAckActivity.class);
+                    startActivity(intent);
+                    finish(); /* This method will not display login page when click back (return) from phone */
+                            /* End */
 
                 } else {
 
                     try {
-                        ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
+
                         new ViewDialog().showDialog(InterchangeRequestOperationActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
 
                     } catch(Exception e) {

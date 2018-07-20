@@ -51,6 +51,7 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
 
     SharedPreferences sharedPref;
 
+    EditText scac;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,6 +136,14 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
                 return true;
             }
         });
+
+        scac = findViewById(R.id.scac);
+        if(role.equalsIgnoreCase(GlobalVariables.ROLE_EP)) {
+            scac.setHint(getString(R.string.hint_ep_scac));
+
+        } else {
+            scac.setHint(getString(R.string.hint_mc_scac));
+        }
 
     }
 

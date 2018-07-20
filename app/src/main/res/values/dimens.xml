@@ -1,4 +1,5 @@
-<resources>
+<resources
+    xmlns:tools="http://schemas.android.com/tools">
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="margin_left_8">8dp</dimen>
@@ -25,7 +26,7 @@
     <dimen name="processing_bar_width">50dp</dimen>
     <dimen name="processing_bar_height">50dp</dimen>
 
-    <dimen name="sia_logo_layout_height">120dp</dimen>
+    <dimen name="sia_logo_layout_height">128dp</dimen>
     <dimen name="sia_logo_width">240dp</dimen>
     <dimen name="sia_logo_height">120dp</dimen>
 
@@ -50,5 +51,7 @@
 
     <dimen name="height_search_result_ir">1dp</dimen>
 
+    <dimen name="design_bottom_navigation_text_size" tools:override="true">11sp</dimen>
+    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">11sp</dimen>
 
 </resources>

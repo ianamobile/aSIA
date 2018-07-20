@@ -57,12 +57,12 @@
                     <TableRow
                         android:layout_height="wrap_content"
                         android:layout_width="0dp"
-                        android:gravity="center_horizontal"
+                        android:gravity="center_horizontal|center_vertical"
                         >
                         <LinearLayout
-                            android:layout_weight="0.6"
+                            android:layout_weight="0.4"
                             android:layout_width="0dp"
-                            android:layout_gravity="left"
+                            android:layout_gravity="left|center_vertical"
                             >
                             <TextView
                                 android:id="@+id/irRequestType"
@@ -70,24 +70,39 @@
                                 android:text="STREET INTERCHANGE"
                                 android:layout_width="wrap_content"
                                 android:textColor="@color/color_black"
-                                android:gravity="left"
+                                android:gravity="left|center_vertical"
                                 android:fontFamily="sans-serif-medium"
                                 android:textSize="14dp"
                                 />
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_weight="0.3"
+                            android:id="@+id/statusLinearLayout"
+                            android:layout_weight="0.5"
                             android:layout_width="0dp"
-                            android:layout_gravity="right"
-                            android:gravity="right"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:background="@drawable/bg_layout_curve_status"
                             >
+                            <TextView
+                                android:id="@+id/statusLbl"
+                                android:layout_height="wrap_content"
+                                android:text="STATUS:"
+                                android:layout_width="wrap_content"
+                                android:textColor="@color/color_white"
+                                android:gravity="left"
+                                android:layout_gravity="left"
+                                android:fontFamily="sans-serif-medium"
+                                android:textSize="14dp"
+                                />
                             <TextView
                                 android:id="@+id/status"
                                 android:layout_height="wrap_content"
-                                android:text="APPROVED"
+                                android:text="CANCELLED"
                                 android:layout_width="wrap_content"
-                                android:textColor="@color/appThemeColor"
+                                android:textColor="@color/color_white"
                                 android:gravity="right"
                                 android:fontFamily="sans-serif-medium"
                                 android:textSize="14dp"
@@ -712,7 +727,7 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:id="@+id/approvedOrRejectedDateTime"
-                        android:text="06/26/2018 45:45:45"
+                        android:text=""
                         android:layout_marginLeft="5dp"
                         android:paddingRight="10dp"
                         android:textColor="@color/appThemeColor"

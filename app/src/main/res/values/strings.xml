@@ -155,6 +155,8 @@
 
     <string name="hint_idd_pin">ENTER IDD PIN</string>
     <string name="hint_scac">ENTER SCAC</string>
+    <string name="hint_mc_scac">ENTER MC SCAC</string>
+    <string name="hint_ep_scac">ENTER EP SCAC</string>
 
     <string name="hint_idd_lic_no">ENTER DRIVER LICENSE NO</string>
     <string name="hint_idd_lic_state">ENTER DRIVER LICENSE STATE</string>
@@ -194,7 +196,7 @@
     <string name="btn_search">SEARCH</string>
     <string name="btn_delete">DELETE</string>
 
-    <string name="lbl_trouble_signing_on">TROUBLE SIGNING ON?</string>
+    <string name="lbl_trouble_signing_on">FORGOT YOUR PASSWORD?</string>
     <string name="btn_mc_sec_user">Login to MC Secondary User</string>
     <string name="btn_ep_sec_user">Login to EP Secondary User</string>
     <string name="btn_idd_lic_no_state">Login With Driver License No &amp; State</string>
@@ -204,6 +206,8 @@
 
     <string name="btn_go_back">GO BACK</string>
 
+    <string name="btn_initiate_street_interchange">Initiate Street Interchange</string>
+    <string name="view_workflow">VIEW WORKFLOW</string>
 
     <!-- variables start -->
     <string name="request_type_ir_request">IR_REQUEST</string>

@@ -114,7 +114,7 @@
                         android:paddingLeft="@dimen/edit_text_padding_left"
                         android:ems="10"
                         android:maxLength="@integer/scac_length"
-                        android:hint="@string/hint_scac"
+                        android:hint="@string/hint_mc_scac"
                         android:inputType="textPersonName"
                         android:textColor="@color/appThemeColor"
                         android:textColorHint="@android:color/darker_gray"

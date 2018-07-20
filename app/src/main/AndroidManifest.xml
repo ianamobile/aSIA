@@ -71,7 +71,8 @@
         <activity android:name=".ListInterchangeRequestActivity" />
         <activity android:name=".InterchangeRequestOperationActivity" />
         <activity android:name=".SearchNotifAvailActivity" />
-        <activity android:name=".ListNotifAvailActivity"></activity>
+        <activity android:name=".ListNotifAvailActivity" />
+        <activity android:name=".InterchangeRequestOperationAckActivity"></activity>
     </application>
 
 </manifest>

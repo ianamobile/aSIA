@@ -333,8 +333,9 @@ public class DashboardActivity extends AppCompatActivity {
                             finish(); /* This method will not display login page when click back (return) from phone */
                                 /* End */
 
-                        } else if (null != GlobalVariables.menuTitleArr[v.getId()] &&
-                                GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS)) {
+                        } else if (null != GlobalVariables.menuTitleArr[v.getId()] && GlobalVariables.menuTitleArr[v.getId()].split("\n").length == 2 &&
+                                GlobalVariables.menuTitleArr[v.getId()].split("\n")[0].trim().equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS.split("\n")[0].trim()) &&
+                                GlobalVariables.menuTitleArr[v.getId()].split("\n")[1].trim().equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS.split("\n")[1].trim())) {
 
                             editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS);
                             editor.commit();

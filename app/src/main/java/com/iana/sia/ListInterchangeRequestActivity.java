@@ -4,6 +4,10 @@ import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -79,10 +83,14 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
 
     String requestFrom = "";
 
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_interchange_request);
+
+        context = this;
 
         progressBar = findViewById(R.id.processingBar);
 
@@ -231,7 +239,7 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                     dataList.addAll(interchangeRequestsList);
 
                     if(dataList.size() <= 10) {
-                        adapter = new InterchangeRequestsListAdapter(getApplicationContext(), dataList);
+                        adapter = new InterchangeRequestsListAdapter(context, dataList);
                         listView.setAdapter(adapter);
 
                     } else {
@@ -299,26 +307,42 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
             } else {
                 ((TextView) v.findViewById(R.id.irRequestType)).setText("STREET INTERCHANGE");
             }
+
+            Drawable mDrawable = ContextCompat.getDrawable(context, R.drawable.bg_layout_curve_status);
             if(status.equalsIgnoreCase(GlobalVariables.STATUS_PENDING)) {
-                v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.bg_color_pending));
+                v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(context, R.color.bg_color_pending));
+
+                mDrawable.setColorFilter(new
+                        PorterDuffColorFilter(ContextCompat.getColor(context, R.color.bg_color_pending), PorterDuff.Mode.SRC_IN));
                 ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_approved_pending_date));
 
             } else if(status.equalsIgnoreCase(GlobalVariables.STATUS_APPROVED)) {
-                v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.bg_color_approved));
+                v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(context, R.color.bg_color_approved));
                 ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_approved_pending_date));
 
+                mDrawable.setColorFilter(new
+                        PorterDuffColorFilter(ContextCompat.getColor(context, R.color.bg_color_approved), PorterDuff.Mode.SRC_IN));
+
             } else if(status.equalsIgnoreCase(GlobalVariables.STATUS_REJECTED)) {
-                v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.bg_color_rejected));
+                v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(context, R.color.bg_color_rejected));
                 ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_rejected_date));
+                mDrawable.setColorFilter(new
+                        PorterDuffColorFilter(ContextCompat.getColor(context, R.color.bg_color_rejected), PorterDuff.Mode.SRC_IN));
 
             } else if(status.equalsIgnoreCase(GlobalVariables.STATUS_CANCELLED)) {
-                v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.bg_color_cancelled));
+                v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(context, R.color.bg_color_cancelled));
                 ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_cancelled_date));
+                mDrawable.setColorFilter(new
+                        PorterDuffColorFilter(ContextCompat.getColor(context, R.color.bg_color_cancelled), PorterDuff.Mode.SRC_IN));
 
             } else if(status.equalsIgnoreCase(GlobalVariables.STATUS_ONHOLD)) {
-                v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.bg_color_onhold));
+                v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(context, R.color.bg_color_onhold));
                 ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_onhold_date));
+                mDrawable.setColorFilter(new
+                        PorterDuffColorFilter(ContextCompat.getColor(context, R.color.bg_color_onhold), PorterDuff.Mode.SRC_IN));
             }
+
+            v.findViewById(R.id.statusLinearLayout).setBackground(mDrawable);
 
             ((TextView) v.findViewById(R.id.actionRequired)).setText(dataList.get(position).getActionRequired());
             ((TextView) v.findViewById(R.id.createdDate)).setText(dataList.get(position).getCreatedDate());
@@ -331,8 +355,9 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
             ((TextView) v.findViewById(R.id.mcBCompanyName)).setText(dataList.get(position).getMcBCompanyName());
             ((TextView) v.findViewById(R.id.mcBScac)).setText(dataList.get(position).getMcBScac());
             ((TextView) v.findViewById(R.id.status)).setText(status);
-            ((TextView) v.findViewById(R.id.approvedOrRejectedDateTime)).setText(dataList.get(position).getModifiedDate());
-
+            if(!status.equalsIgnoreCase(GlobalVariables.STATUS_PENDING)) {
+                ((TextView) v.findViewById(R.id.approvedOrRejectedDateTime)).setText(dataList.get(position).getModifiedDate());
+            }
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -580,7 +605,7 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
 
 
     void goToPreviousPage() {
-        if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+        if (Internet_Check.checkInternetConnection(context)) {
 
             Intent intent = null;
             if(requestFrom != null && requestFrom.equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS)) {

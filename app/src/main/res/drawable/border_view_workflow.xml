@@ -6,10 +6,10 @@
             <solid android:color="@color/appThemeColor"/>
         </shape>
     </item>
-    <item android:drawable="@drawable/eye"
+    <!--<item android:drawable="@drawable/eye"
         android:bottom="15dp"
         android:left="15dp"
         android:right="15dp"
         android:top="15dp"
-        />
+        />-->
 </layer-list>

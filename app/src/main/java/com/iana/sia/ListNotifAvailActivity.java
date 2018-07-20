@@ -263,6 +263,68 @@ public class ListNotifAvailActivity extends AppCompatActivity {
         public View getView(final int position, View convertView, ViewGroup parent) {
             View v = View.inflate(mContext, R.layout.notif_avail_list_view, null);
 
+            ((TextView) v.findViewById(R.id.createdDate)).setText(dataList.get(position).getCreatedDate());
+            ((TextView) v.findViewById(R.id.mcCompanyName)).setText(dataList.get(position).getMcCompanyName());
+            ((TextView) v.findViewById(R.id.mcScac)).setText(dataList.get(position).getMcScac());
+            ((TextView) v.findViewById(R.id.epCompanyName)).setText(dataList.get(position).getEpCompanyName());
+            ((TextView) v.findViewById(R.id.epScac)).setText(dataList.get(position).getEpScac());
+            ((TextView) v.findViewById(R.id.loadStatus)).setText(dataList.get(position).getLoadStatus());
+            ((TextView) v.findViewById(R.id.containerNumber)).setText(dataList.get(position).getContNum());
+            ((TextView) v.findViewById(R.id.containerType)).setText(dataList.get(position).getContType());
+            ((TextView) v.findViewById(R.id.containerSize)).setText(dataList.get(position).getContSize());
+            ((TextView) v.findViewById(R.id.chassisType)).setText(dataList.get(position).getChassisType());
+            ((TextView) v.findViewById(R.id.chassisSize)).setText(dataList.get(position).getChassisSize());
+            ((TextView) v.findViewById(R.id.chassisNumber)).setText(dataList.get(position).getChassisNum());
+            ((TextView) v.findViewById(R.id.iepScac)).setText(dataList.get(position).getIepScac());
+
+
+            Button initiateSIBtn = v.findViewById(R.id.initiateSIBtn);
+                initiateSIBtn.setVisibility(View.VISIBLE);
+                initiateSIBtn.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+
+                        editor.putString(GlobalVariables.KEY_BASE_ORIGIN_FROM, GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl);
+                        InterchangeRequests ir = new InterchangeRequests();
+                        ir.setNaId(dataList.get(position).getNaId());
+                        ir.setEpCompanyName(dataList.get(position).getEpCompanyName());
+                        ir.setEpScacs(dataList.get(position).getEpScac());
+                        ir.setMcACompanyName(dataList.get(position).getMcCompanyName());
+                        ir.setMcAScac(dataList.get(position).getMcScac());
+                        ir.setContType(dataList.get(position).getContType());
+                        ir.setContSize(dataList.get(position).getContSize());
+                        ir.setContNum(dataList.get(position).getContNum());
+                        ir.setChassisNum(dataList.get(position).getChassisNum());
+                        ir.setChassisType(dataList.get(position).getChassisType());
+                        ir.setChassisSize(dataList.get(position).getChassisSize());
+                        ir.setIepScac(dataList.get(position).getIepScac());
+                        ir.setGensetNum(dataList.get(position).getGensetNum());
+
+                        ir.setOriginLocNm(dataList.get(position).getOriginLocNm());
+                        ir.setOriginLocAddr(dataList.get(position).getOriginLocAddr());
+                        ir.setOriginLocCity(dataList.get(position).getOriginLocCity());
+                        ir.setOriginLocState(dataList.get(position).getOriginLocState());
+                        ir.setOriginLocZip(dataList.get(position).getOriginLocZip());
+                        ir.setOriginLocSplcCode(dataList.get(position).getOriginLocSplcCode());
+                        ir.setOriginLocIanaCode(dataList.get(position).getOriginLocIanaCode());
+
+                        ir.setEquipLocNm(dataList.get(position).getEquipLocNm());
+                        ir.setEquipLocAddr(dataList.get(position).getEquipLocAddr());
+                        ir.setEquipLocCity(dataList.get(position).getEquipLocCity());
+                        ir.setEquipLocState(dataList.get(position).getEquipLocState());
+                        ir.setEquipLocZip(dataList.get(position).getEquipLocZip());
+                        ir.setEquipLocSplcCode(dataList.get(position).getEquipLocSplcCode());
+                        ir.setEquipLocIanaCode(dataList.get(position).getEquipLocIanaCode());
+
+                        SIAUtility.setObject(editor, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, ir);
+                        editor.commit();
+
+                        Intent intent = new Intent(ListNotifAvailActivity.this, InitiateInterchangeActivity.class);
+                        startActivity(intent);
+                        finish(); /* This method will not display login page when click back (return) from phone */
+
+                    }
+                });
+
             String showDeleteBtn = dataList.get(position).getShowDeleteBtn();
 
             if(null != showDeleteBtn && GlobalVariables.Y.equalsIgnoreCase(showDeleteBtn)) {
@@ -322,66 +384,6 @@ public class ListNotifAvailActivity extends AppCompatActivity {
             } else {
                 v.findViewById(R.id.deleteBtn).setVisibility(View.GONE);
             }
-
-            ((TextView) v.findViewById(R.id.createdDate)).setText(dataList.get(position).getCreatedDate());
-            ((TextView) v.findViewById(R.id.mcCompanyName)).setText(dataList.get(position).getMcCompanyName());
-            ((TextView) v.findViewById(R.id.mcScac)).setText(dataList.get(position).getMcScac());
-            ((TextView) v.findViewById(R.id.epCompanyName)).setText(dataList.get(position).getEpCompanyName());
-            ((TextView) v.findViewById(R.id.epScac)).setText(dataList.get(position).getEpScac());
-            ((TextView) v.findViewById(R.id.loadStatus)).setText(dataList.get(position).getLoadStatus());
-            ((TextView) v.findViewById(R.id.containerNumber)).setText(dataList.get(position).getContNum());
-            ((TextView) v.findViewById(R.id.containerType)).setText(dataList.get(position).getContType());
-            ((TextView) v.findViewById(R.id.containerSize)).setText(dataList.get(position).getContSize());
-            ((TextView) v.findViewById(R.id.chassisType)).setText(dataList.get(position).getChassisType());
-            ((TextView) v.findViewById(R.id.chassisSize)).setText(dataList.get(position).getChassisSize());
-            ((TextView) v.findViewById(R.id.chassisNumber)).setText(dataList.get(position).getChassisNum());
-            ((TextView) v.findViewById(R.id.iepScac)).setText(dataList.get(position).getIepScac());
-
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    editor.putString(GlobalVariables.KEY_BASE_ORIGIN_FROM, GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl);
-                    InterchangeRequests ir = new InterchangeRequests();
-                    ir.setNaId(dataList.get(position).getNaId());
-                    ir.setEpCompanyName(dataList.get(position).getEpCompanyName());
-                    ir.setEpScacs(dataList.get(position).getEpScac());
-                    ir.setMcACompanyName(dataList.get(position).getMcCompanyName());
-                    ir.setMcAScac(dataList.get(position).getMcScac());
-                    ir.setContType(dataList.get(position).getContType());
-                    ir.setContSize(dataList.get(position).getContSize());
-                    ir.setContNum(dataList.get(position).getContNum());
-                    ir.setChassisNum(dataList.get(position).getChassisNum());
-                    ir.setChassisType(dataList.get(position).getChassisType());
-                    ir.setChassisSize(dataList.get(position).getChassisSize());
-                    ir.setIepScac(dataList.get(position).getIepScac());
-                    ir.setGensetNum(dataList.get(position).getGensetNum());
-
-                    ir.setOriginLocNm(dataList.get(position).getOriginLocNm());
-                    ir.setOriginLocAddr(dataList.get(position).getOriginLocAddr());
-                    ir.setOriginLocCity(dataList.get(position).getOriginLocCity());
-                    ir.setOriginLocState(dataList.get(position).getOriginLocState());
-                    ir.setOriginLocZip(dataList.get(position).getOriginLocZip());
-                    ir.setOriginLocSplcCode(dataList.get(position).getOriginLocSplcCode());
-                    ir.setOriginLocIanaCode(dataList.get(position).getOriginLocIanaCode());
-
-                    ir.setEquipLocNm(dataList.get(position).getEquipLocNm());
-                    ir.setEquipLocAddr(dataList.get(position).getEquipLocAddr());
-                    ir.setEquipLocCity(dataList.get(position).getEquipLocCity());
-                    ir.setEquipLocState(dataList.get(position).getEquipLocState());
-                    ir.setEquipLocZip(dataList.get(position).getEquipLocZip());
-                    ir.setEquipLocSplcCode(dataList.get(position).getEquipLocSplcCode());
-                    ir.setEquipLocIanaCode(dataList.get(position).getEquipLocIanaCode());
-
-                    SIAUtility.setObject(editor, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, ir);
-                    editor.commit();
-
-                    Intent intent = new Intent(ListNotifAvailActivity.this, InitiateInterchangeActivity.class);
-                    startActivity(intent);
-                    finish(); /* This method will not display login page when click back (return) from phone */
-
-                }
-            });
 
             return v;
         }
