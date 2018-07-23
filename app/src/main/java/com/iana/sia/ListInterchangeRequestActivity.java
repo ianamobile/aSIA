@@ -323,7 +323,7 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                 ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_approved_pending_date));
 
                 mDrawable.setColorFilter(new
-                        PorterDuffColorFilter(ContextCompat.getColor(context, R.color.bg_color_approved), PorterDuff.Mode.SRC_IN));
+                        PorterDuffColorFilter(ContextCompat.getColor(context, R.color.bg_color_green), PorterDuff.Mode.SRC_IN));
 
             } else if(status.equalsIgnoreCase(GlobalVariables.STATUS_REJECTED)) {
                 v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(context, R.color.bg_color_rejected));

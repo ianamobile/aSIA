@@ -60,6 +60,7 @@
         android:layout_marginBottom="5dp"
         android:textSize="10dp"
         android:text="VIEW\nWORKFLOW"
+        android:textStyle="bold"
         android:textColor="@android:color/white"
         android:background="@drawable/border_view_workflow"
         android:fontFamily="sans-serif-medium"
