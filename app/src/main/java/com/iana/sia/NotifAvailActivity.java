@@ -143,6 +143,8 @@ public class NotifAvailActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.backBtn);
         backBtn.setText(R.string.title_back);
         backBtn.setVisibility(View.VISIBLE);
+        ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(this, R.color.color_white));
+        backBtn.setTextColor(ContextCompat.getColor(this, R.color.color_white));
 
         dialogTitle = getString(R.string.dialog_title_add_equipment_to_pool);
 

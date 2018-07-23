@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -73,6 +74,8 @@ public class SearchNotifAvailActivity extends AppCompatActivity implements DateP
 
         showActionBar();
         ((TextView) findViewById(R.id.title)).setText(R.string.title_request_pool_search);
+        ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(this, R.color.color_white));
+
 
         progressBar = findViewById(R.id.processingBar);
 

@@ -102,6 +102,8 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.backBtn);
         backBtn.setText(R.string.title_back);
         backBtn.setVisibility(View.VISIBLE);
+        ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(this, R.color.color_white));
+        backBtn.setTextColor(ContextCompat.getColor(this, R.color.color_white));
 
         dialogTitle = getString(R.string.title_list_results);
 
@@ -317,7 +319,7 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                 ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_approved_pending_date));
 
             } else if(status.equalsIgnoreCase(GlobalVariables.STATUS_APPROVED)) {
-                v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(context, R.color.bg_color_approved));
+                v.findViewById(R.id.leftPatternColor).setBackgroundColor(ContextCompat.getColor(context, R.color.bg_color_green));
                 ((TextView) v.findViewById(R.id.approvedOrRejectedDateTimeLbl)).setText(getString(R.string.lbl_approved_pending_date));
 
                 mDrawable.setColorFilter(new

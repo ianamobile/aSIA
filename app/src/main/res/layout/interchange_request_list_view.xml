@@ -89,7 +89,7 @@
                             <TextView
                                 android:id="@+id/statusLbl"
                                 android:layout_height="wrap_content"
-                                android:text="STATUS:"
+                                android:text="STATUS: "
                                 android:layout_width="wrap_content"
                                 android:textColor="@color/color_white"
                                 android:gravity="left"

@@ -195,8 +195,11 @@ public class StreetTurnActivity extends AppCompatActivity {
 
         showActionBar();
         ((TextView) findViewById(R.id.title)).setText(R.string.title_street_turn_request);
+        ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(this, R.color.color_white));
+
         backBtn = findViewById(R.id.backBtn);
         backBtn.setText(R.string.title_back);
+        backBtn.setTextColor(ContextCompat.getColor(this, R.color.color_white));
         backBtn.setVisibility(View.VISIBLE);
 
         progressBar = findViewById(R.id.processingBar);

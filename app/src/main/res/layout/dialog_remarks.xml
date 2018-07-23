@@ -4,7 +4,6 @@
     android:background="@drawable/curve_shape"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
-    android:minHeight="170dp"
     android:gravity="center_horizontal|center_vertical"
     >
 
@@ -36,9 +35,10 @@
         android:layout_height="wrap_content"
         android:textColor="#000"
         android:layout_marginTop="15dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
+        android:paddingLeft="5dp"
         android:hint="Enter remarks here."
         android:gravity="left|center_vertical"
         android:layout_gravity="center_vertical"
@@ -62,59 +62,47 @@
         android:layout_centerHorizontal="true"
         />
 
-    <TableLayout
-        android:id="@+id/tableLayout"
+    <LinearLayout
+        android:id="@+id/yesNoLLayout"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:stretchColumns="*"
-        android:layout_marginBottom="10dp"
-        android:layout_gravity="center_vertical"
+        android:layout_height="35dp"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:gravity="center_horizontal|center_vertical"
         >
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            >
-
-
             <Button
-                android:layout_weight="4.5"
                 android:id="@+id/yesButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="138dp"
+                android:layout_height="match_parent"
                 android:text="CONTINUE"
-                android:layout_marginRight="5dp"
-                android:layout_marginLeft="5dp"
+                android:layout_margin="5dp"
                 android:layout_toRightOf="@+id/declineButton"
                 android:textColor="@color/appThemeColor"
                 android:background="@drawable/border_white"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:gravity="center_vertical|center_horizontal"
                 />
 
             <View
-                android:layout_weight="0.5"
                 android:id="@+id/verticalView"
-                android:layout_width="0dp"
-                android:layout_height="20dp"
+                android:layout_width="2dp"
+                android:layout_height="35dp"
                 android:background="#DCDCDC"
                 android:layout_centerHorizontal="true"
                 />
 
             <Button
-                android:layout_weight="4.5"
                 android:id="@+id/noButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="138dp"
+                android:layout_height="match_parent"
                 android:text="@string/dialog_cancel_btn"
-                android:layout_marginRight="5dp"
-                android:layout_marginLeft="5dp"
+                android:layout_margin="5dp"
                 android:background="@drawable/border_white"
                 android:textColor="@color/appThemeColor"
-
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_horizontal|center_vertical"
                 />
 
-        </TableRow>
-
-    </TableLayout>
+    </LinearLayout>
 
 </LinearLayout>

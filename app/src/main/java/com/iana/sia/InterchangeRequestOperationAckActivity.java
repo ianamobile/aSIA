@@ -45,6 +45,7 @@ public class InterchangeRequestOperationAckActivity extends AppCompatActivity {
         SIAUtility.showActionBar(context, getSupportActionBar());
 
         ((TextView) findViewById(R.id.title)).setText(R.string.title_success);
+        ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(this, R.color.color_white));
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
         editor = sharedPref.edit();

@@ -119,6 +119,8 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.backBtn);
         backBtn.setText(R.string.title_back);
         backBtn.setVisibility(View.VISIBLE);
+        ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(this, R.color.color_white));
+        backBtn.setTextColor(ContextCompat.getColor(this, R.color.color_white));
 
         progressBar = findViewById(R.id.processingBar);
 
@@ -536,37 +538,55 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 workFlowLLLayoutParams.setMargins(20, 0, 20, 0);
                 workFlowLL.setLayoutParams(workFlowLLLayoutParams);
                 workFlowLL.setGravity(Gravity.CENTER);
-//                workFlowLL.setElevation(5f);
+                workFlowLL.setElevation(5f);
+
+                TableLayout tl = new TableLayout(this);
+                tl.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+                /* Create a new row to be added. */
+                TableRow tr = new TableRow(this);
+                tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+                LinearLayout imageViewLL = new LinearLayout(this);
+                LinearLayout.LayoutParams imageViewLLLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                imageViewLL.setLayoutParams(imageViewLLLayoutParams);
+                imageViewLL.setGravity(Gravity.CENTER);
 
                 // ImageView in Linear Layout starts
                 ImageView imageView = new ImageView(this);
-                    LinearLayout.LayoutParams imageViewLayputParams = new LinearLayout.LayoutParams(64, 64);
-                    imageViewLayputParams.setLayoutDirection(Gravity.CENTER);
+                    LinearLayout.LayoutParams imageViewLayoutParams = new LinearLayout.LayoutParams(64, 64);
+                    imageViewLayoutParams.setLayoutDirection(Gravity.CENTER);
 
 
                     // text view to display action starts
-                    TextView actionTextView = new TextView(this);
+                LinearLayout actionDateLl = new LinearLayout(this);
+                LinearLayout.LayoutParams actionDateLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                actionDateLayoutParams.setMargins(0, 5, 5, 5);
+                actionDateLl.setLayoutParams(actionDateLayoutParams);
+                actionDateLl.setOrientation(LinearLayout.VERTICAL);
+
+                TextView actionTextView = new TextView(this);
                         LinearLayout.LayoutParams actionTextViewLayoutParams = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    actionTextViewLayoutParams.setMargins(20, 5, 20, 0);
+                    actionTextViewLayoutParams.setMargins(0, 5, 5, 5);
                     actionTextView.setLayoutParams(actionTextViewLayoutParams);
 
 
                     LinearLayout.LayoutParams dateTextViewLayoutParams = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                        dateTextViewLayoutParams.setMargins(20, 0, 20, 5);
+                        dateTextViewLayoutParams.setMargins(0, 5, 5, 5);
 
                 /* index flow 0 start from 0*/
                 if(i == 0) {
 
-//                    workFlowLL.setBackgroundColor(backgroundColorMap.get(cssClassValue));
                     workFlowLL.setBackgroundColor(backgroundColorMap.get("wf approved"));
 
                     imageView.setBackground(ContextCompat.getDrawable(this, R.drawable.wf_approve_icon));
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    imageView.setLayoutParams(imageViewLayputParams);
+                    imageView.setLayoutParams(imageViewLayoutParams);
 
-                    workFlowLL.addView(imageView);
+                    imageViewLL.addView(imageView);
+
                     // ImageView in Linear Layout end
 
                     // text view starts
@@ -578,7 +598,8 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         actionTextView.setTypeface(actionTextView.getTypeface(), Typeface.BOLD);
                         actionTextView.setTextSize(textSizeAction * getResources().getDisplayMetrics().density);
 
-                    workFlowLL.addView(actionTextView);
+                        actionDateLl.addView(actionTextView);
+
                     // text view end
 
                     if(cssClassValue.equalsIgnoreCase("wf approved") || cssClassValue.equalsIgnoreCase("wf stop")) {
@@ -593,11 +614,10 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         dateTextView.setTypeface(dateTextView.getTypeface(), Typeface.BOLD);
                         dateTextView.setTextSize(textSizeDate * getResources().getDisplayMetrics().density);
 
-                        workFlowLL.addView(dateTextView);
+                        actionDateLl.addView(dateTextView);
                     }
 
                 }
-
 
                 /* index flow 1 start from 0*/
                 if(i == 1) {
@@ -607,9 +627,10 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     setWorkflow(imageView, iconMap, iconClassValue);
 
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    imageView.setLayoutParams(imageViewLayputParams);
+                    imageView.setLayoutParams(imageViewLayoutParams);
 
-                    workFlowLL.addView(imageView);
+                    imageViewLL.addView(imageView);
+
                     // ImageView in Linear Layout end
 
                     // text view starts
@@ -620,7 +641,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     actionTextView.setTypeface(actionTextView.getTypeface(), Typeface.BOLD);
                     actionTextView.setTextSize(textSizeAction * getResources().getDisplayMetrics().density);
 
-                    workFlowLL.addView(actionTextView);
+                    actionDateLl.addView(actionTextView);
                     // text view end
 
                     if(cssClassValue.equalsIgnoreCase("wf approved") || cssClassValue.equalsIgnoreCase("wf stop")) {
@@ -635,7 +656,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         dateTextView.setTypeface(dateTextView.getTypeface(), Typeface.BOLD);
                         dateTextView.setTextSize(textSizeDate * getResources().getDisplayMetrics().density);
 
-                        workFlowLL.addView(dateTextView);
+                        actionDateLl.addView(dateTextView);
                     }
 
                 }
@@ -649,9 +670,10 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     setWorkflow(imageView, iconMap, iconClassValue);
 
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    imageView.setLayoutParams(imageViewLayputParams);
+                    imageView.setLayoutParams(imageViewLayoutParams);
 
-                    workFlowLL.addView(imageView);
+                    imageViewLL.addView(imageView);
+
                     // ImageView in Linear Layout end
 
                     // text view starts
@@ -662,7 +684,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     actionTextView.setTypeface(actionTextView.getTypeface(), Typeface.BOLD);
                     actionTextView.setTextSize(textSizeAction * getResources().getDisplayMetrics().density);
 
-                    workFlowLL.addView(actionTextView);
+                    actionDateLl.addView(actionTextView);
                     // text view end
 
                     if(cssClassValue.equalsIgnoreCase("wf approved") || cssClassValue.equalsIgnoreCase("wf stop")) {
@@ -677,7 +699,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         dateTextView.setTypeface(dateTextView.getTypeface(), Typeface.BOLD);
                         dateTextView.setTextSize(textSizeDate * getResources().getDisplayMetrics().density);
 
-                        workFlowLL.addView(dateTextView);
+                        actionDateLl.addView(dateTextView);
                     }
 
                 }
@@ -691,9 +713,10 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     setWorkflow(imageView, iconMap, iconClassValue);
 
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    imageView.setLayoutParams(imageViewLayputParams);
+                    imageView.setLayoutParams(imageViewLayoutParams);
 
-                    workFlowLL.addView(imageView);
+                    imageViewLL.addView(imageView);
+
                     // ImageView in Linear Layout end
 
                     // text view starts
@@ -704,7 +727,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     actionTextView.setTypeface(actionTextView.getTypeface(), Typeface.BOLD);
                     actionTextView.setTextSize(textSizeAction * getResources().getDisplayMetrics().density);
 
-                    workFlowLL.addView(actionTextView);
+                    actionDateLl.addView(actionTextView);
                     // text view end
 
                     if(cssClassValue.equalsIgnoreCase("wf approved") || cssClassValue.equalsIgnoreCase("wf stop")) {
@@ -719,7 +742,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         dateTextView.setTypeface(dateTextView.getTypeface(), Typeface.BOLD);
                         dateTextView.setTextSize(textSizeDate * getResources().getDisplayMetrics().density);
 
-                        workFlowLL.addView(dateTextView);
+                        actionDateLl.addView(dateTextView);
                     }
 
                 }
@@ -732,9 +755,10 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     setWorkflow(imageView, iconMap, iconClassValue);
 
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    imageView.setLayoutParams(imageViewLayputParams);
+                    imageView.setLayoutParams(imageViewLayoutParams);
 
-                    workFlowLL.addView(imageView);
+                    imageViewLL.addView(imageView);
+
                     // ImageView in Linear Layout end
 
                     // text view starts
@@ -745,7 +769,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     actionTextView.setTypeface(actionTextView.getTypeface(), Typeface.BOLD);
                     actionTextView.setTextSize(textSizeAction * getResources().getDisplayMetrics().density);
 
-                    workFlowLL.addView(actionTextView);
+                    actionDateLl.addView(actionTextView);
                     // text view end
 
                     if(cssClassValue.equalsIgnoreCase("wf approved") || cssClassValue.equalsIgnoreCase("wf stop")) {
@@ -760,20 +784,28 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         dateTextView.setTypeface(dateTextView.getTypeface(), Typeface.BOLD);
                         dateTextView.setTextSize(textSizeDate * getResources().getDisplayMetrics().density);
 
-                        workFlowLL.addView(dateTextView);
+                        actionDateLl.addView(dateTextView);
                     }
 
                 }
 
+
+                tr.addView(imageViewLL, new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT, 1.5f));
+
+                tr.addView(actionDateLl, new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT, 8.5f));
+
+                tl.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+
+                workFlowLL.addView(tl);
 
                 allWorkFlowLL.addView(workFlowLL);
 
                 if((workFlowList.size() - 1) != i) {
                     // Down Arrow ImageView in Linear Layout starts
                     ImageView downArrowImageView = new ImageView(this);
-                    LinearLayout.LayoutParams downArrowImageViewLayputParams = new LinearLayout.LayoutParams(48, 48);
-                    downArrowImageViewLayputParams.setLayoutDirection(Gravity.CENTER);
-                    downArrowImageViewLayputParams.setMargins(0, 0, 0, 0);
+                    LinearLayout.LayoutParams downArrowImageViewLayoutParams = new LinearLayout.LayoutParams(48, 48);
+                    downArrowImageViewLayoutParams.setLayoutDirection(Gravity.CENTER);
+                    downArrowImageViewLayoutParams.setMargins(0, 0, 0, 0);
 
                     downArrowImageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.down_arrow));
 
@@ -784,7 +816,6 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     workFlowLL = new LinearLayout(this);
                     workFlowLL.setGravity(Gravity.CENTER);
                     workFlowLL.setOrientation(LinearLayout.VERTICAL);
-                    workFlowLLLayoutParams.setMargins(20, 20, 20, 10);
                     workFlowLL.setLayoutParams(workFlowLLLayoutParams);
                     workFlowLL.setGravity(Gravity.CENTER);
 

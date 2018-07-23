@@ -88,6 +88,9 @@ public class EPListByTPUActivity extends AppCompatActivity {
         backBtn.setText(R.string.title_back);
         backBtn.setVisibility(View.VISIBLE);
 
+        ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(this, R.color.color_white));
+        backBtn.setTextColor(ContextCompat.getColor(this, R.color.color_white));
+
         listView = findViewById(R.id.listView);
         adapter = new EPUserListAdapter(context, dataList);
         listView.setAdapter(adapter);

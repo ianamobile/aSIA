@@ -8,6 +8,7 @@ import android.graphics.drawable.ScaleDrawable;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.provider.Settings;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -84,6 +85,8 @@ public class LocationActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.backBtn);
         backBtn.setText(R.string.title_back);
         backBtn.setVisibility(View.VISIBLE);
+        ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(this, R.color.color_white));
+        backBtn.setTextColor(ContextCompat.getColor(this, R.color.color_white));
 
         // code is to resize search icon in textview start
         Drawable drawable = getApplicationContext().getDrawable(R.drawable.search);

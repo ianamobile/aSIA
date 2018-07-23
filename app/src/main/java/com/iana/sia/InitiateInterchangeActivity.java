@@ -152,6 +152,8 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.backBtn);
         backBtn.setText(R.string.title_back);
         backBtn.setVisibility(View.VISIBLE);
+        ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(this, R.color.color_white));
+        backBtn.setTextColor(ContextCompat.getColor(this, R.color.color_white));
 
         progressBar = findViewById(R.id.processingBar);
 
@@ -348,10 +350,6 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
             gensetNumber.setClickable(false);
             gensetNumber.setLongClickable(false);
             gensetNumber.setTextColor(ContextCompat.getColor(context, R.color.darker_gray));
-
-            if(mcBCompanyName.getText() == null || mcBCompanyName.getText().toString().trim().length() <= 0) {
-                ((TextView) findViewById(R.id.mcBCompanyNameLbl)).setTextColor(ContextCompat.getColor(context, R.color.appThemeColor));
-            }
 
             ((TextView) findViewById(R.id.typeOfInterchangeLbl)).setTextColor(ContextCompat.getColor(context, R.color.appThemeColor));
             ((TextView) findViewById(R.id.exportBookingNumberLbl)).setTextColor(ContextCompat.getColor(context, R.color.appThemeColor));
