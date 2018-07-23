@@ -69,7 +69,7 @@ public class GlobalVariables {
     public static final String MENU_TITLE_INITIATE_ST = "Initiate Street Turn";
     public static final String MENU_TITLE_SEARCH_INTERCHANGE_REQUESTS_BY_TPU = "Search Interchange Requests Submitted By you";
     public static final String MENU_TITLE_LIST_EP_USERS = "List EP Users";
-    public static final String MENU_TITLE_PENDING_INTERCHANGE_REQUESTS = "Pending Requests \n  Action Required";
+    public static final String MENU_TITLE_PENDING_INTERCHANGE_REQUESTS = "Pending Requests";
     public static final String MENU_TITLE_LOGOUT = "Logout";
 
     public static final String[]  menuTitleArr = new String[]
@@ -81,7 +81,7 @@ public class GlobalVariables {
                                                             "Initiate Street Turn",
                                                             "Search Interchange Requests Submitted By you",
                                                             "List EP Users",
-                                                            "Pending Requests \n Action Required", "", "", "", "", "", "", "", "", "", "", "", "",
+                                                            "Pending Requests", "", "", "", "", "", "", "", "", "", "", "", "",
                                                             "Logout"
                                                         };
 

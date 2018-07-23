@@ -333,9 +333,8 @@ public class DashboardActivity extends AppCompatActivity {
                             finish(); /* This method will not display login page when click back (return) from phone */
                                 /* End */
 
-                        } else if (null != GlobalVariables.menuTitleArr[v.getId()] && GlobalVariables.menuTitleArr[v.getId()].split("\n").length == 2 &&
-                                GlobalVariables.menuTitleArr[v.getId()].split("\n")[0].trim().equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS.split("\n")[0].trim()) &&
-                                GlobalVariables.menuTitleArr[v.getId()].split("\n")[1].trim().equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS.split("\n")[1].trim())) {
+                        } else if (null != GlobalVariables.menuTitleArr[v.getId()] &&
+                                GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS)) {
 
                             editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS);
                             editor.commit();
@@ -417,19 +416,36 @@ public class DashboardActivity extends AppCompatActivity {
             // text view starts
                 TextView textView = new TextView(this);
                 LayoutParams textViewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+            if(!GlobalVariables.menuTitleArr[finalArr[i]].equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS)) {
                 textViewLayoutParams.setMargins(5, 10, 0, 5);
+            }
                 textView.setLayoutParams(textViewLayoutParams);
                 textView.setText(GlobalVariables.menuTitleArr[finalArr[i]]);
                 textView.setTextColor(ContextCompat.getColor(this, android.R.color.black));
                 textView.setGravity(Gravity.CENTER);
-                textView.setLines(3);
                 textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
                 textView.setTextSize(6 * getResources().getDisplayMetrics().density);
+
+            TextView textViewPending = null;
+            if(GlobalVariables.menuTitleArr[finalArr[i]].equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS)) {
+                textViewPending = new TextView(this);
+                LayoutParams textViewPendingLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+                textViewPendingLayoutParams.setMargins(5, 0, 5, 0);
+                textViewPending.setLayoutParams(textViewPendingLayoutParams);
+                textViewPending.setText("Action Required");
+                textViewPending.setTextColor(ContextCompat.getColor(this, android.R.color.black));
+                textViewPending.setGravity(Gravity.CENTER);
+                textViewPending.setTypeface(textView.getTypeface(), Typeface.BOLD);
+                textViewPending.setTextSize(6 * getResources().getDisplayMetrics().density);
+            }
             // text view end
 
                 relativeLayoutInCardView.addView(imageView);
                 relativeLayoutInCardView.addView(view);
                 relativeLayoutInCardView.addView(textView);
+            if(GlobalVariables.menuTitleArr[finalArr[i]].equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS)) {
+                relativeLayoutInCardView.addView(textViewPending);
+            }
 
             // Linear Layout in CardView end
 
