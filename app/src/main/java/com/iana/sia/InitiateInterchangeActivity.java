@@ -11,14 +11,12 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -35,7 +33,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -49,7 +46,6 @@ import com.iana.sia.model.Company;
 import com.iana.sia.model.FieldInfo;
 import com.iana.sia.model.FormOption;
 import com.iana.sia.model.InterchangeRequests;
-import com.iana.sia.model.NotificationAvail;
 import com.iana.sia.model.SIASecurityObj;
 import com.iana.sia.utility.ApiResponse;
 import com.iana.sia.utility.ApiResponseMessage;
@@ -60,7 +56,6 @@ import com.iana.sia.utility.SIAUtility;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -147,13 +142,14 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
         dialogTitle = getString(R.string.dialog_title_street_interchange_request);
 
-        showActionBar();
+        SIAUtility.showActionBar(context, getSupportActionBar());
+
         ((TextView) findViewById(R.id.title)).setText(R.string.title_street_interchange_request);
         backBtn = findViewById(R.id.backBtn);
         backBtn.setText(R.string.title_back);
         backBtn.setVisibility(View.VISIBLE);
-        ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(this, R.color.color_white));
-        backBtn.setTextColor(ContextCompat.getColor(this, R.color.color_white));
+        ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(context, R.color.color_white));
+        backBtn.setTextColor(ContextCompat.getColor(context, R.color.color_white));
 
         progressBar = findViewById(R.id.processingBar);
 
@@ -241,15 +237,17 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
         editor = sharedPref.edit();
 
+        siaSecurityObj = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_SECURITY_OBJ, SIASecurityObj.class);
+        Log.v("log_tag", "siaSecurityObj:=> " + siaSecurityObj);
+
+
         // below code is used for equipment + original location & verify page
         editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE);
-
-        siaSecurityObj = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_SECURITY_OBJ, SIASecurityObj.class);
 
         // below code is used to restrict auto populate keypad
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        typeOfInterchangeAdapter = new TypeOfInterchangeAdapter(this, getResources().getStringArray(R.array.type_of_interchange));
+        typeOfInterchangeAdapter = new TypeOfInterchangeAdapter(context, getResources().getStringArray(R.array.type_of_interchange));
         typeOfInterchangeSpinner.setAdapter(typeOfInterchangeAdapter);
 
 
@@ -311,7 +309,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         // code when request come from notification of available starts
 
         baseOriginFrom = sharedPref.getString(GlobalVariables.KEY_BASE_ORIGIN_FROM, "");
-        if (null != baseOriginFrom && GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl.equalsIgnoreCase(baseOriginFrom)) {
+        if (GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl.equalsIgnoreCase(baseOriginFrom)) {
 
             epCompanyName.setFocusable(false);
             epCompanyName.setClickable(false);
@@ -387,7 +385,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                         findViewById(R.id.mcACompanyName).requestFocus();
 
                     } else {
-                        Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
+                        Intent intent = new Intent(context, NoInternetActivity.class);
                         startActivity(intent);
                     }
                 }
@@ -416,7 +414,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                         findViewById(R.id.mcBCompanyName).requestFocus();
 
                     } else {
-                        Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
+                        Intent intent = new Intent(context, NoInternetActivity.class);
                         startActivity(intent);
                     }
                 }
@@ -451,7 +449,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                     findViewById(R.id.typeOfInterchange).requestFocus();
 
                 } else {
-                    Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
+                    Intent intent = new Intent(context, NoInternetActivity.class);
                     startActivity(intent);
                 }
             }
@@ -474,7 +472,6 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                return;
             }
 
         });
@@ -557,13 +554,13 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                     editor.remove(GlobalVariables.KEY_SEARCH_FOR_LOCATION);
                     editor.commit();
 
-                    Intent intent = new Intent(InitiateInterchangeActivity.this, LocationActivity.class);
+                    Intent intent = new Intent(context, LocationActivity.class);
                     startActivity(intent);
                     finish(); /* This method will not display login page when click back (return) from phone */
                             /* End */
 
                 } else {
-                    Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
+                    Intent intent = new Intent(context, NoInternetActivity.class);
                     startActivity(intent);
                 }
 
@@ -588,7 +585,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                         SIAUtility.setObject(editor, GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ, ir);
                         editor.commit();
 
-                        Intent intent = new Intent(InitiateInterchangeActivity.this, LocationActivity.class);
+                        Intent intent = new Intent(context, LocationActivity.class);
                         startActivity(intent);
                         finish(); /* This method will not display login page when click back (return) from phone */
                             /* End */
@@ -832,27 +829,27 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         String originLocationZipCode = ((EditText)findViewById(R.id.originLocationZipCode)).getText().toString();
 
 
-        if(null == epCompanyName || epCompanyName.trim().toString().length() <= 0) {
+        if(epCompanyName.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_container_provider_name);
         }
 
-        if(null == epScac || epScac.trim().toString().length() <= 0) {
+        if(epScac.trim().length() <= 0) {
             return getString(R.string.msg_error_select_container_provider_name);
         }
 
-        if(null == mcACompanyName || mcACompanyName.trim().toString().length() <= 0) {
+        if(mcACompanyName.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_motor_carrier_a_name);
         }
 
-        if(null == mcAScac || mcAScac.trim().toString().length() <= 0) {
+        if(mcAScac.trim().length() <= 0) {
             return getString(R.string.msg_error_select_motor_carrier_a_name);
         }
 
-        if(null == mcBCompanyName || mcBCompanyName.trim().toString().length() <= 0) {
+        if(mcBCompanyName.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_motor_carrier_b_name);
         }
 
-        if(null == mcBScac || mcBScac.trim().toString().length() <= 0) {
+        if(mcBScac.trim().length() <= 0) {
             return getString(R.string.msg_error_select_motor_carrier_b_name);
         }
 
@@ -885,29 +882,29 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
             }
         }
 
-        if(null != importBL && importBL.toString().trim().length() > 0 && !SIAUtility.isAlphaNumeric(importBL)) {
+        if(importBL.trim().length() > 0 && !SIAUtility.isAlphaNumeric(importBL)) {
             return getString(R.string.msg_error_alpha_num_import_booking_number);
         }
 
-        if(null == exportBookingNumber || exportBookingNumber.toString().trim().length() <= 0) {
+        if(exportBookingNumber.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_export_booking_number);
 
         } else if(!SIAUtility.isAlphaNumeric(exportBookingNumber)) {
             return getString(R.string.msg_error_alpha_num_export_booking_number);
         }
 
-        if(null == containerNumber || containerNumber.trim().toString().length() <= 0) {
+        if(containerNumber.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_container_number);
 
         } else if(!SIAUtility.isValidContNum(containerNumber)) {
             return getString(R.string.msg_error_invalid_container_number);
         }
 
-        if(null != chassisNumber && chassisNumber.toString().trim().length() > 0 && !SIAUtility.isAlphaNumeric(chassisNumber)) {
+        if(chassisNumber.trim().length() > 0 && !SIAUtility.isAlphaNumeric(chassisNumber)) {
             return getString(R.string.msg_error_alpha_num_chassis_number);
         }
 
-        if(chassisNumber != null && chassisNumber.trim().length() > 0 && !chassisNumber.equalsIgnoreCase(GlobalVariables.DEFUALT_CHASSIS_NUM)) {
+        if(chassisNumber.trim().length() > 0 && !chassisNumber.equalsIgnoreCase(GlobalVariables.DEFUALT_CHASSIS_NUM)) {
 
             if (null == selectedChassisType || null == selectedChassisType.getText() ||
                     selectedChassisType.getText().toString().trim().equalsIgnoreCase(getString(R.string.select_chassis_type))) {
@@ -934,40 +931,40 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
             }
         }
 
-        if(null != gensetNumber && gensetNumber.toString().trim().length() > 0 && !SIAUtility.isAlphaNumeric(gensetNumber)) {
+        if(gensetNumber.trim().length() > 0 && !SIAUtility.isAlphaNumeric(gensetNumber)) {
             return getString(R.string.msg_error_alpha_num_genset_number);
         }
 
-        if(null == equipLocationZipCode || equipLocationZipCode.toString().trim().length() <= 0) {
+        if(equipLocationZipCode.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_equip_location_zip_code);
         }
-        if(null == equipLocationName || equipLocationName.toString().trim().length() <= 0) {
+        if(equipLocationName.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_equip_location_name);
         }
-        if(null == equipLocationAddress || equipLocationAddress.toString().trim().length() <= 0) {
+        if(equipLocationAddress.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_equip_location_address);
         }
-        if(null == equipLocationCity || equipLocationCity.toString().trim().length() <= 0) {
+        if(equipLocationCity.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_equip_location_city);
         }
-        if(null == equipLocationState || equipLocationState.toString().trim().length() <= 0) {
+        if(equipLocationState.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_equip_location_state);
         }
 
 
-        if(null == originLocationZipCode || originLocationZipCode.toString().trim().length() <= 0) {
+        if(originLocationZipCode.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_zip_code);
         }
-        if(null == originLocationName || originLocationName.toString().trim().length() <= 0) {
+        if(originLocationName.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_name);
         }
-        if(null == originLocationAddress || originLocationAddress.toString().trim().length() <= 0) {
+        if(originLocationAddress.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_address);
         }
-        if(null == originLocationCity || originLocationCity.toString().trim().length() <= 0) {
+        if(originLocationCity.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_city);
         }
-        if(null == originLocationState || originLocationState.toString().trim().length() <= 0) {
+        if(originLocationState.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_state);
         }
 
@@ -975,25 +972,11 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
     }
 
 
-    private void showActionBar() {
-        LayoutInflater inflater = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.ab_custom, null);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowHomeEnabled (false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setCustomView(v);
-    }
+    private class EPLocationAdapter extends ArrayAdapter<String> {
 
+        private List<String> suggestions;
 
-
-    class EPLocationAdapter extends ArrayAdapter<String> {
-
-        protected List<String> suggestions;
-
-        public EPLocationAdapter(Activity context) {
+        private EPLocationAdapter(Activity context) {
             super(context, android.R.layout.simple_dropdown_item_1line);
             suggestions = new ArrayList<>();
         }
@@ -1063,7 +1046,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         class ExecuteEPTask extends AsyncTask<String, Integer, String> {
             String requestString;
 
-            public ExecuteEPTask(String requestString) {
+            private ExecuteEPTask(String requestString) {
                 this.requestString = requestString;
             }
 
@@ -1133,11 +1116,11 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
 
 
-    class MCALocationAdapter extends ArrayAdapter<String> {
+    private class MCALocationAdapter extends ArrayAdapter<String> {
 
-        protected List<String> suggestions;
+        private List<String> suggestions;
 
-        public MCALocationAdapter(Activity context) {
+        private MCALocationAdapter(Activity context) {
             super(context, android.R.layout.simple_dropdown_item_1line);
             suggestions = new ArrayList<>();
         }
@@ -1208,7 +1191,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         class ExecuteMCATask extends AsyncTask<String, Integer, String> {
             String requestString;
 
-            public ExecuteMCATask(String requestString) {
+            private ExecuteMCATask(String requestString) {
                 this.requestString = requestString;
             }
 
@@ -1290,11 +1273,11 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
     }
 
 
-    class MCBLocationAdapter extends ArrayAdapter<String> {
+    private class MCBLocationAdapter extends ArrayAdapter<String> {
 
-        protected List<String> suggestions;
+        private List<String> suggestions;
 
-        public MCBLocationAdapter(Activity context) {
+        private MCBLocationAdapter(Activity context) {
             super(context, android.R.layout.simple_dropdown_item_1line);
             suggestions = new ArrayList<>();
         }
@@ -1361,10 +1344,10 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
             return myFilter;
         }
 
-        class ExecuteMCBTask extends AsyncTask<String, Integer, String> {
+        private class ExecuteMCBTask extends AsyncTask<String, Integer, String> {
             String requestString;
 
-            public ExecuteMCBTask(String requestString) {
+            private ExecuteMCBTask(String requestString) {
                 this.requestString = requestString;
             }
 
@@ -1432,12 +1415,12 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
     }
 
 
-    public class TypeOfInterchangeAdapter extends BaseAdapter {
+    private class TypeOfInterchangeAdapter extends BaseAdapter {
         Context context;
         String[] typeOfInterchangeArray;
         LayoutInflater inflater;
 
-        public TypeOfInterchangeAdapter(Context applicationContext, String[] typeOfInterchangeArray) {
+        private TypeOfInterchangeAdapter(Context applicationContext, String[] typeOfInterchangeArray) {
             this.context = applicationContext;
             this.typeOfInterchangeArray = typeOfInterchangeArray;
             inflater = (LayoutInflater.from(applicationContext));
@@ -1467,10 +1450,10 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         }
     }
 
-    class ExecuteChassisIdTask extends AsyncTask<String, Integer, String> {
+    private class ExecuteChassisIdTask extends AsyncTask<String, Integer, String> {
         String requestString;
 
-        public ExecuteChassisIdTask(String requestString) {
+        private ExecuteChassisIdTask(String requestString) {
             this.requestString = requestString;
         }
 
@@ -1522,10 +1505,10 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
     }
 
-    class ExecuteTaskToValidate extends AsyncTask<String, Integer, String> {
+    private class ExecuteTaskToValidate extends AsyncTask<String, Integer, String> {
         String requestString;
 
-        public ExecuteTaskToValidate(String requestString) {
+        private ExecuteTaskToValidate(String requestString) {
             this.requestString = requestString;
         }
 
@@ -1662,7 +1645,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
     }
 
 
-    class ExecuteSetupPageTask extends AsyncTask<String, Integer, String> {
+    private class ExecuteSetupPageTask extends AsyncTask<String, Integer, String> {
 
         @Override
         protected void onPreExecute() {
@@ -1841,16 +1824,14 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                     editor.remove(GlobalVariables.KEY_RETURN_FROM);
                     editor.commit();
 
-                    Intent intent = null;
-
                     baseOriginFrom = sharedPref.getString(GlobalVariables.KEY_BASE_ORIGIN_FROM, "");
-                    if (null != baseOriginFrom && GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl.equalsIgnoreCase(baseOriginFrom)) {
-                        intent = new Intent(InitiateInterchangeActivity.this, ListNotifAvailActivity.class);
+                    if (GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl.equalsIgnoreCase(baseOriginFrom)) {
+                        startActivity(new Intent(InitiateInterchangeActivity.this, ListNotifAvailActivity.class));
 
                     } else {
-                        intent = new Intent(InitiateInterchangeActivity.this, DashboardActivity.class);
+                        startActivity(new Intent(InitiateInterchangeActivity.this, DashboardActivity.class));
                     }
-                    startActivity(intent);
+
                     finish(); /* This method will not display login page when click back (return) from phone */
                             /* End */
 
@@ -1859,8 +1840,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
 
 
         } else {
-            Intent intent = new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(InitiateInterchangeActivity.this, NoInternetActivity.class));
         }
     }
 

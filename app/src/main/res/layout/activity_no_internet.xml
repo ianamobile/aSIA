@@ -45,7 +45,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView7"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            android:fontFamily="sans-serif-medium"
+            style="@style/font_family"
             />
 
         <Button
@@ -69,7 +69,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/noIntText"
             app:layout_constraintVertical_bias="0.0"
-            android:fontFamily="sans-serif-medium"
+            style="@style/font_family"
             />
 
     </android.support.constraint.ConstraintLayout>

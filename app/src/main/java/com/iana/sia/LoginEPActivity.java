@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -34,8 +34,8 @@ import com.iana.sia.utility.SIAUtility;
 
 public class LoginEPActivity extends AppCompatActivity implements Animation.AnimationListener {
 
-    private String urlResponse;
-    private int urlResponseCode;
+    String urlResponse;
+    int urlResponseCode;
 
     TextView troubleSignOn;
 
@@ -52,16 +52,18 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
 
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_ep);
 
+        context = this;
+
         secondaryUserBtn = findViewById(R.id.secondaryUserBtn);
 
-        slideLeft = AnimationUtils.loadAnimation(getApplicationContext(),
-                R.anim.set_in_left);
+        slideLeft = AnimationUtils.loadAnimation(context, R.anim.set_in_left);
         slideLeft.setAnimationListener(this);
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
@@ -155,13 +157,13 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
     }
 
     void processLogin() {
-        if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+        if (Internet_Check.checkInternetConnection(context)) {
 
             String scac          = ((EditText) findViewById(R.id.scac)).getText().toString();
             String password          = ((EditText) findViewById(R.id.password)).getText().toString();
 
             String error = validateLoginFields(scac, password);
-            if(error == "") {
+            if(error.equalsIgnoreCase("")) {
 
                 User user = new User();
 
@@ -189,16 +191,16 @@ public class LoginEPActivity extends AppCompatActivity implements Animation.Anim
     }
 
     private String validateLoginFields(String scac, String password) {
-        if((scac == null || scac == "" || scac.toString().trim().length() <= 0) &&
-            (password == null || password == "" || password.toString().trim().length() <= 0)) {
+        if((scac == null || scac.equalsIgnoreCase("") || scac.trim().length() <= 0) &&
+            (password == null || password.equalsIgnoreCase("") || password.trim().length() <= 0)) {
             return getString(R.string.msg_error_mc_ep_login);
         }
 
-        if(scac == null || scac == "" || scac.toString().trim().length() <= 0) {
+        if(scac == null || scac.equalsIgnoreCase("") || scac.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_scac);
         }
 
-        if(password == null || password == "" || password.toString().trim().length() <= 0) {
+        if(password == null || password.equalsIgnoreCase("") || password.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_password);
         }
 

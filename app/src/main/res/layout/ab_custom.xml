@@ -13,7 +13,7 @@
         android:textColor="@color/appThemeColor"
         android:visibility="gone"
         android:background="@drawable/button_bg_stroke"
-        android:fontFamily="sans-serif-medium"
+        style="@style/font_family"
          />
 
     <TextView
@@ -24,7 +24,7 @@
         android:textColor="@color/colorButton"
         android:text=""
         android:textSize="14sp"
-        android:fontFamily="sans-serif-medium"
+        style="@style/font_family"
         />
 
     <Button
@@ -34,7 +34,7 @@
         android:layout_alignParentRight="true"
         android:textSize="12sp"
         android:text=""
-        android:fontFamily="sans-serif-medium"
+        style="@style/font_family"
         />
 
 </RelativeLayout>

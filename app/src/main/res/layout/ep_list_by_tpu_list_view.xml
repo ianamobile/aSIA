@@ -33,7 +33,7 @@
                     android:layout_width="10dp"
                     android:layout_height="35dp"
                     android:orientation="vertical"
-                    android:background="@color/bg_color_approved"
+                    android:background="@color/bg_color_green"
                     >
                 </LinearLayout>
             </LinearLayout>
@@ -70,7 +70,7 @@
                                 android:layout_width="wrap_content"
                                 android:textColor="@color/color_black"
                                 android:gravity="left"
-                                android:fontFamily="sans-serif-medium"
+                                style="@style/font_family"
                                 android:textSize="14dp"
                                 />
                         </LinearLayout>
@@ -78,13 +78,13 @@
                         <LinearLayout
                             android:layout_weight="0.2"
                             android:layout_width="0dp"
-                            android:layout_gravity="right|center_vertical"
-                            android:gravity="right|center_vertical"
+                            android:layout_gravity="right|top"
+                            android:gravity="right|top"
                             >
                             <ImageView
                                 android:id="@+id/statusImageView"
-                                android:layout_height="15dp"
-                                android:layout_width="15dp"
+                                android:layout_height="20dp"
+                                android:layout_width="20dp"
                                 android:layout_marginRight="10dp"
                                 android:src="@drawable/right_arrow"
                                 />
@@ -125,7 +125,7 @@
                         android:layout_width="wrap_content"
                         android:textColor="@color/appThemeColor"
                         android:gravity="left"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:textSize="12dp"
                         />
                 </LinearLayout>
@@ -144,7 +144,7 @@
                         android:layout_marginLeft="5dp"
                         android:paddingRight="10dp"
                         android:textColor="@color/appThemeColor"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:textSize="12dp"
                         android:minWidth="10dp"
                         />

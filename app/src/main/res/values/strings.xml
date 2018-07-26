@@ -27,8 +27,11 @@
     <string name="api_validate_notif_avail_equip_details">validateNotifAvailEquipDetails</string>
     <string name="api_interchange_request_operations">interchangeRequestOperations</string>
     <string name="api_get_uiia_exhibit_list">getUIIAExhibitList</string>
+    <string name="api_get_list_work_done_by_tpu">getListWorkDoneByTPU</string>
 
     <!-- API Info end -->
+
+    <string name="font_family">sans-serif-medium</string>
 
     <string name="dialog_title">STREET INTERCHANGE</string>
     <string name="dialog_lbl">Are you sure you want to exit?</string>
@@ -100,6 +103,8 @@
     <string name="title_forgot_your_password">Forgot Your Password?</string>
 
     <string name="title_dashboard">DASHBOARD</string>
+
+    <string name="dashboard_menu_action_required">Action Required</string>
 
     <string name="lbl_motor_carrier_name">MOTOR CARRIER NAME</string>
     <string name="lbl_motor_carrier_scac">MOTOR CARRIER SCAC</string>

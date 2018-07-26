@@ -8,12 +8,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -82,7 +80,8 @@ public class ListNotifAvailActivity extends AppCompatActivity {
         // below code is used to restrict auto populate keypad
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        showActionBar();
+        SIAUtility.showActionBar(context, getSupportActionBar());
+
         ((TextView) findViewById(R.id.title)).setText(R.string.title_list_results);
         backBtn = findViewById(R.id.backBtn);
         backBtn.setText(R.string.title_back);
@@ -155,24 +154,12 @@ public class ListNotifAvailActivity extends AppCompatActivity {
 
     }
 
-    private void showActionBar() {
-        LayoutInflater inflater = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.ab_custom, null);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowHomeEnabled (false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setCustomView(v);
-    }
-
     /* code to perform notification available (equipment pool) search functionality starts */
 
-    class ExecuteNotifAvailSearchTask extends AsyncTask<String, Integer, String> {
+    private class ExecuteNotifAvailSearchTask extends AsyncTask<String, Integer, String> {
         String requestString;
 
-        public ExecuteNotifAvailSearchTask(String requestString) {
+        private ExecuteNotifAvailSearchTask(String requestString) {
             this.requestString = requestString;
         }
 
@@ -205,7 +192,7 @@ public class ListNotifAvailActivity extends AppCompatActivity {
                     dataList.addAll(notificationAvailList);
 
                     if(dataList.size() <= 10) {
-                        adapter = new NotifAvailListAdapter(context, dataList);
+                        adapter = new NotifAvailListAdapter(context);
                         listView.setAdapter(adapter);
 
                     } else {
@@ -236,15 +223,13 @@ public class ListNotifAvailActivity extends AppCompatActivity {
         }
     }
 
-    class NotifAvailListAdapter extends BaseAdapter {
+    private class NotifAvailListAdapter extends BaseAdapter {
 
         private Context mContext;
-        private List<NotificationAvail> notificationAvailList;
 
         // Constructor
-        public NotifAvailListAdapter(Context mContext, List<NotificationAvail> notificationAvailList) {
+        private NotifAvailListAdapter(Context mContext) {
             this.mContext = mContext;
-            this.notificationAvailList = notificationAvailList;
         }
 
         @Override
@@ -395,10 +380,10 @@ public class ListNotifAvailActivity extends AppCompatActivity {
 
     /* code to perform delete operation of notification available (equipment pool) starts */
 
-    class ExecuteDeleteNotifAvailTask extends AsyncTask<String, Integer, String> {
+    private class ExecuteDeleteNotifAvailTask extends AsyncTask<String, Integer, String> {
         String requestString;
 
-        public ExecuteDeleteNotifAvailTask(String requestString) {
+        private ExecuteDeleteNotifAvailTask(String requestString) {
             this.requestString = requestString;
         }
 

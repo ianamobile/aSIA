@@ -8,14 +8,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -23,12 +21,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.iana.sia.model.InterchangeRequestsSearch;
 import com.iana.sia.model.NotifAvailSearch;
 import com.iana.sia.model.SIASecurityObj;
 import com.iana.sia.utility.GlobalVariables;
@@ -72,7 +67,8 @@ public class SearchNotifAvailActivity extends AppCompatActivity implements DateP
 
         dialogTitle = getString(R.string.dialog_title_request_pool_search);
 
-        showActionBar();
+        SIAUtility.showActionBar(context, getSupportActionBar());
+
         ((TextView) findViewById(R.id.title)).setText(R.string.title_request_pool_search);
         ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(this, R.color.color_white));
 
@@ -183,7 +179,7 @@ public class SearchNotifAvailActivity extends AppCompatActivity implements DateP
         String mcScac = ((EditText)findViewById(R.id.mcScac)).getText().toString();
 
 
-        if(null != mcScac && mcScac.trim().toString().length() > 0) {
+        if(mcScac.trim().length() > 0) {
             if(mcScac.length() != 4) {
                 return getString(R.string.msg_error_length_motor_carrier_scac);
 
@@ -192,7 +188,7 @@ public class SearchNotifAvailActivity extends AppCompatActivity implements DateP
             }
         }
 
-        if(null != epScac && epScac.trim().toString().length() > 0) {
+        if(epScac.trim().length() > 0) {
             if(!(epScac.length() >= 2 && epScac.length() <= 4)) {
                 return getString(R.string.lbl_container_provider)+" "+getString(R.string.msg_error_length_ep_scac);
 
@@ -204,18 +200,6 @@ public class SearchNotifAvailActivity extends AppCompatActivity implements DateP
         return GlobalVariables.SUCCESS;
     }
 
-
-    private void showActionBar() {
-        LayoutInflater inflater = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.ab_custom, null);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowHomeEnabled (false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setCustomView(v);
-    }
 
     public void fromDate(View view) {
         clickOn = "fromDate";
@@ -234,9 +218,9 @@ public class SearchNotifAvailActivity extends AppCompatActivity implements DateP
     private void setDate(final Calendar calendar) {
 //        final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
         final DateFormat dateFormat = new SimpleDateFormat(getString(R.string.date_format));
-        if(clickOn == "fromDate") {
+        if(clickOn.equalsIgnoreCase("fromDate")) {
             ((EditText) findViewById(R.id.fromDate)).setText(dateFormat.format(calendar.getTime()));
-        } else if(clickOn == "toDate") {
+        } else if(clickOn.equalsIgnoreCase("toDate")) {
             ((EditText) findViewById(R.id.toDate)).setText(dateFormat.format(calendar.getTime()));
         }
     }

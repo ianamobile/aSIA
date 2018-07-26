@@ -33,8 +33,8 @@ import com.iana.sia.utility.SIAUtility;
 
 public class LoginIDDActivity extends AppCompatActivity implements Animation.AnimationListener {
 
-    private String urlResponse;
-    private int urlResponseCode;
+    String urlResponse;
+    int urlResponseCode;
 
     Button loginBtn;
 
@@ -42,19 +42,22 @@ public class LoginIDDActivity extends AppCompatActivity implements Animation.Ani
 
     Button secondaryUserBtn;
 
-    private ProgressBar progressBar;
+    ProgressBar progressBar;
 
     Animation slideLeft;
+
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_idd);
 
+        context = this;
+
         secondaryUserBtn = findViewById(R.id.secondaryUserBtn);
 
-        slideLeft = AnimationUtils.loadAnimation(getApplicationContext(),
-                R.anim.set_in_left);
+        slideLeft = AnimationUtils.loadAnimation(context, R.anim.set_in_left);
         slideLeft.setAnimationListener(this);
 
         BottomNavigationView bnv = findViewById(R.id.navigation_login);
@@ -127,13 +130,13 @@ public class LoginIDDActivity extends AppCompatActivity implements Animation.Ani
     }
 
     void processLogin() {
-        if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+        if (Internet_Check.checkInternetConnection(context)) {
 
             String scac          = ((EditText) findViewById(R.id.scac)).getText().toString();
             String iddPin          = ((EditText) findViewById(R.id.iddPin)).getText().toString();
 
             String error = validateLoginFields(scac, iddPin);
-            if(error == "") {
+            if(error.equalsIgnoreCase("")) {
 
                 User user = new User();
 
@@ -162,12 +165,12 @@ public class LoginIDDActivity extends AppCompatActivity implements Animation.Ani
     }
 
     private String validateLoginFields(String scac, String iddPin) {
-        if((scac == null || scac == "" || scac.toString().trim().length() <= 0) &&
-                (iddPin == null || iddPin == "" || iddPin.toString().trim().length() <= 0)) {
+        if((scac == null || scac.equalsIgnoreCase("") || scac.trim().length() <= 0) &&
+                (iddPin == null || iddPin.equalsIgnoreCase("") || iddPin.trim().length() <= 0)) {
             return getString(R.string.msg_error_empty_pin_scac);
         }
 
-        if(scac == null || scac == "" || scac.toString().trim().length() <= 0) {
+        if(scac == null || scac.equalsIgnoreCase("") || scac.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_scac);
 
         } else if (!SIAUtility.isAlpha(scac)) {
@@ -177,7 +180,7 @@ public class LoginIDDActivity extends AppCompatActivity implements Animation.Ani
             return getString(R.string.msg_error_length_scac);
         }
 
-        if(iddPin == null || iddPin == "" || iddPin.toString().trim().length() <= 0) {
+        if(iddPin == null || iddPin.equalsIgnoreCase("") || iddPin.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_iddpin);
         }
 

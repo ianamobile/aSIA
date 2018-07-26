@@ -36,10 +36,10 @@ public class ForgotUsernameTPUActivity extends AppCompatActivity implements Anim
     EditText email;
     Button loginBtn;
 
-    private String urlResponse;
-    private int urlResponseCode;
+    String urlResponse;
+    int urlResponseCode;
 
-    private String dialogTitle;
+    String dialogTitle;
 
 
     @Override
@@ -101,7 +101,7 @@ public class ForgotUsernameTPUActivity extends AppCompatActivity implements Anim
             String email      = ((EditText) findViewById(R.id.email)).getText().toString();
 
             String error = validateFields(email);
-            if(error == "") {
+            if(error.equalsIgnoreCase("")) {
 
                 User user = new User();
 
@@ -129,10 +129,10 @@ public class ForgotUsernameTPUActivity extends AppCompatActivity implements Anim
 
     private String validateFields(String email) {
 
-        if(email == null || email == "" || email.toString().trim().length() <= 0) {
+        if(email == null || email.equalsIgnoreCase("") || email.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_email);
 
-        } else if(!SIAUtility.isValidEmail(email.toString())) {
+        } else if(!SIAUtility.isValidEmail(email.trim())) {
             return getString(R.string.msg_error_invalid_email);
         }
 

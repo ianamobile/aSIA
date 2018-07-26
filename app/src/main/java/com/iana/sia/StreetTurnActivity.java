@@ -8,18 +8,13 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.InputFilter;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -41,9 +36,7 @@ import com.google.gson.reflect.TypeToken;
 import com.iana.sia.model.Company;
 import com.iana.sia.model.FieldInfo;
 import com.iana.sia.model.InterchangeRequests;
-import com.iana.sia.model.NotificationAvail;
 import com.iana.sia.model.SIASecurityObj;
-import com.iana.sia.model.User;
 import com.iana.sia.utility.ApiResponse;
 import com.iana.sia.utility.ApiResponseMessage;
 import com.iana.sia.utility.GlobalVariables;
@@ -193,7 +186,8 @@ public class StreetTurnActivity extends AppCompatActivity {
         chassisNumber.setText(ir.getChassisNum());
         iepScac.setText(ir.getIepScac());
 
-        showActionBar();
+        SIAUtility.showActionBar(context, getSupportActionBar());
+
         ((TextView) findViewById(R.id.title)).setText(R.string.title_street_turn_request);
         ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(this, R.color.color_white));
 
@@ -214,7 +208,7 @@ public class StreetTurnActivity extends AppCompatActivity {
             public void onClick(View v)
             {
 
-            if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+            if (Internet_Check.checkInternetConnection(context)) {
 
                 if (null != epScac.getText() && (epScac.getText().toString().length() >= 2 && epScac.getText().toString().length() <= 4)) {
 
@@ -268,7 +262,7 @@ public class StreetTurnActivity extends AppCompatActivity {
             epCompanyName.setEnabled(false);
             epCompanyName.setText(siaSecurityObj.getCompanyName());
             epScac.setText(siaSecurityObj.getScac());
-            epCompanyName.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
+            epCompanyName.setTextColor(ContextCompat.getColor(context, R.color.dark_gray));
 
 
             mcCompanyName = findViewById(R.id.mcCompanyName);
@@ -286,7 +280,7 @@ public class StreetTurnActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View arg1, int position,
                                         long arg3) {
 
-                if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+                if (Internet_Check.checkInternetConnection(context)) {
                     String selectedString = (String) parent.getItemAtPosition(position);
 
                     String[] selectedLocationArray = selectedString.split(Pattern.quote("|"));
@@ -316,7 +310,7 @@ public class StreetTurnActivity extends AppCompatActivity {
             mcCompanyName.setEnabled(false);
             mcCompanyName.setText(siaSecurityObj.getCompanyName());
             mcScac.setText(siaSecurityObj.getScac());
-            mcCompanyName.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
+            mcCompanyName.setTextColor(ContextCompat.getColor(context, R.color.dark_gray));
 
             epCompanyName = findViewById(R.id.epCompanyName);
             searchCompanyName = epCompanyName.getText().toString();
@@ -331,7 +325,7 @@ public class StreetTurnActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
 
-                if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+                if (Internet_Check.checkInternetConnection(context)) {
 
                     String selectedString = (String) parent.getItemAtPosition(position);
                     String[] selectedLocationArray = selectedString.split(Pattern.quote("|"));
@@ -362,7 +356,7 @@ public class StreetTurnActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+                if (Internet_Check.checkInternetConnection(context)) {
                     switch (item.getItemId()) {
                         case R.id.navigation_next:
                             String returnMessage = validateFields();
@@ -404,7 +398,7 @@ public class StreetTurnActivity extends AppCompatActivity {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
 
-                    if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+                    if (Internet_Check.checkInternetConnection(context)) {
                         if(chassisNumber.getText() != null && chassisNumber.getText().toString().trim().length() > 0) {
 
                             if(SIAUtility.isAlphaNumeric(chassisNumber.getText().toString())) {
@@ -475,18 +469,6 @@ public class StreetTurnActivity extends AppCompatActivity {
         return ir;
     }
 
-    private void showActionBar() {
-        LayoutInflater inflater = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.ab_custom, null);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowHomeEnabled (false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setCustomView(v);
-    }
-
     String validateFields() {
         String mcScac = ((EditText)findViewById(R.id.mcScac)).getText().toString();
         String mcCompanyName = ((EditText)findViewById(R.id.mcCompanyName)).getText().toString();
@@ -504,68 +486,68 @@ public class StreetTurnActivity extends AppCompatActivity {
         String state = ((EditText)findViewById(R.id.state)).getText().toString();
         String zipCode = ((EditText)findViewById(R.id.zipCode)).getText().toString();
 
-        if(null == mcCompanyName || mcCompanyName.trim().toString().length() <= 0) {
+        if(mcCompanyName.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_motor_carrier_name);
         }
 
-        if(null == mcScac || mcScac.trim().toString().length() <= 0) {
+        if(mcScac.trim().length() <= 0) {
             return getString(R.string.msg_error_select_motor_carrier_name);
         }
 
-        if(null == epCompanyName || epCompanyName.trim().toString().length() <= 0) {
+        if(epCompanyName.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_container_provider_name);
         }
 
-        if(null == epScac || epScac.trim().toString().length() <= 0) {
+        if(epScac.trim().length() <= 0) {
             return getString(R.string.msg_error_select_container_provider_name);
         }
 
-        if(null == containerNumber || containerNumber.trim().toString().length() <= 0) {
+        if(containerNumber.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_container_number);
 
         } else if(!SIAUtility.isValidContNum(containerNumber)) {
             return getString(R.string.msg_error_invalid_container_number);
         }
 
-        if(null == exportBookingNumber || exportBookingNumber.toString().trim().length() <= 0) {
+        if(exportBookingNumber.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_export_booking_number);
 
         } else if(!SIAUtility.isAlphaNumeric(exportBookingNumber)) {
             return getString(R.string.msg_error_alpha_num_export_booking_number);
         }
 
-        if(null != importBL && importBL.toString().trim().length() > 0 && !SIAUtility.isAlphaNumeric(importBL)) {
+        if(importBL.trim().length() > 0 && !SIAUtility.isAlphaNumeric(importBL)) {
             return getString(R.string.msg_error_alpha_num_import_booking_number);
         }
 
-        if(null != chassisNumber && chassisNumber.toString().trim().length() > 0 && !SIAUtility.isAlphaNumeric(chassisNumber)) {
+        if(chassisNumber.trim().length() > 0 && !SIAUtility.isAlphaNumeric(chassisNumber)) {
             return getString(R.string.msg_error_alpha_num_chassis_number);
         }
 
-        if(null == zipCode || zipCode.toString().trim().length() <= 0) {
+        if(zipCode.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_zip_code);
         }
-        if(null == locationName || locationName.toString().trim().length() <= 0) {
+        if(locationName.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_name);
         }
-        if(null == locationAddress || locationAddress.toString().trim().length() <= 0) {
+        if(locationAddress.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_address);
         }
-        if(null == city || city.toString().trim().length() <= 0) {
+        if(city.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_city);
         }
-        if(null == state || state.toString().trim().length() <= 0) {
+        if(state.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_state);
         }
 
         return GlobalVariables.SUCCESS;
     }
 
-    class LocationAdapter extends ArrayAdapter<String> {
+    private class LocationAdapter extends ArrayAdapter<String> {
 
-        protected List<String> suggestions;
+        private List<String> suggestions;
 
-        public LocationAdapter(Activity context) {
+        private LocationAdapter(Activity context) {
             super(context, android.R.layout.simple_dropdown_item_1line);
             suggestions = new ArrayList<>();
         }
@@ -731,10 +713,10 @@ public class StreetTurnActivity extends AppCompatActivity {
         }
     }
 
-    class ExecuteChassisIdTask extends AsyncTask<String, Integer, String> {
+    private class ExecuteChassisIdTask extends AsyncTask<String, Integer, String> {
         String requestString;
 
-        public ExecuteChassisIdTask(String requestString) {
+        private ExecuteChassisIdTask(String requestString) {
             this.requestString = requestString;
         }
 
@@ -787,10 +769,10 @@ public class StreetTurnActivity extends AppCompatActivity {
 
     }
 
-    class ExecuteTaskToValidate extends AsyncTask<String, Integer, String> {
+    private class ExecuteTaskToValidate extends AsyncTask<String, Integer, String> {
         String requestString;
 
-        public ExecuteTaskToValidate(String requestString) {
+        private ExecuteTaskToValidate(String requestString) {
             this.requestString = requestString;
         }
 
@@ -915,7 +897,7 @@ public class StreetTurnActivity extends AppCompatActivity {
 
 
     void goToPreviousPage() {
-        if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+        if (Internet_Check.checkInternetConnection(context)) {
 
             // Create custom dialog object
             final Dialog dialog = new Dialog(context);

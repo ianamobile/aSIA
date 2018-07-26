@@ -11,4 +11,9 @@
         <!--<item name="cardViewStyle">@style/CardView</item>-->
     </style>
 
+    <style name="font_family">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
 </resources>

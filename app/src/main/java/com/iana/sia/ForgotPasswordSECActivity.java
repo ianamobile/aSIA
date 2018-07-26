@@ -129,7 +129,7 @@ public class ForgotPasswordSECActivity extends AppCompatActivity implements Anim
             String userName      = ((EditText) findViewById(R.id.userName)).getText().toString();
 
             String error = validateForgotPasswordFields(scac, userName);
-            if(error == "") {
+            if(error.equalsIgnoreCase("")) {
 
                 User user = new User();
 
@@ -159,7 +159,7 @@ public class ForgotPasswordSECActivity extends AppCompatActivity implements Anim
 
     private String validateForgotPasswordFields(String scac, String userName) {
 
-        if(scac == null || scac == "" || scac.toString().trim().length() <= 0) {
+        if(scac == null || scac.equalsIgnoreCase("") || scac.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_scac);
 
         } else if (!SIAUtility.isAlpha(scac)) {
@@ -173,7 +173,7 @@ public class ForgotPasswordSECActivity extends AppCompatActivity implements Anim
             return getString(R.string.msg_error_length_ep_scac);
         }
 
-        if(userName == null || userName == "" || userName.toString().trim().length() <= 0) {
+        if(userName == null || userName.equalsIgnoreCase("") || userName.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_userName);
         }
 

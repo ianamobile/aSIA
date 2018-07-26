@@ -1,7 +1,6 @@
 package com.iana.sia;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,7 +23,6 @@ import com.iana.sia.utility.ApiResponseMessage;
 import com.iana.sia.utility.GlobalVariables;
 import com.iana.sia.utility.Internet_Check;
 import com.iana.sia.utility.RestApiClient;
-import com.iana.sia.utility.SIAUtility;
 
 public class ForgotPasswordTPUActivity extends AppCompatActivity implements Animation.AnimationListener {
 
@@ -37,8 +35,8 @@ public class ForgotPasswordTPUActivity extends AppCompatActivity implements Anim
     EditText userName;
     Button loginBtn;
 
-    private String urlResponse;
-    private int urlResponseCode;
+    String urlResponse;
+    int urlResponseCode;
 
     private String dialogTitle;
 
@@ -102,7 +100,7 @@ public class ForgotPasswordTPUActivity extends AppCompatActivity implements Anim
             String userName      = ((EditText) findViewById(R.id.userName)).getText().toString();
 
             String error = validateForgotPasswordFields(userName);
-            if(error == "") {
+            if(error.equalsIgnoreCase("")) {
 
                 User user = new User();
 
@@ -130,7 +128,7 @@ public class ForgotPasswordTPUActivity extends AppCompatActivity implements Anim
 
     private String validateForgotPasswordFields(String userName) {
 
-        if(userName == null || userName == "" || userName.toString().trim().length() <= 0) {
+        if(userName == null || userName.equalsIgnoreCase("") || userName.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_userName);
         }
 

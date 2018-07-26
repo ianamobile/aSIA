@@ -1,40 +1,33 @@
 package com.iana.sia;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.iana.sia.model.EPUsersByTPUResult;
-import com.iana.sia.model.IanaLocations;
 import com.iana.sia.model.Profile;
 import com.iana.sia.model.SIASecurityObj;
 import com.iana.sia.utility.ApiResponse;
@@ -82,7 +75,8 @@ public class EPListByTPUActivity extends AppCompatActivity {
         // below code is used to restrict auto populate keypad
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        showActionBar();
+        SIAUtility.showActionBar(context, getSupportActionBar());
+
         ((TextView) findViewById(R.id.title)).setText(R.string.title_list_ep_user);
         backBtn = findViewById(R.id.backBtn);
         backBtn.setText(R.string.title_back);
@@ -92,7 +86,7 @@ public class EPListByTPUActivity extends AppCompatActivity {
         backBtn.setTextColor(ContextCompat.getColor(this, R.color.color_white));
 
         listView = findViewById(R.id.listView);
-        adapter = new EPUserListAdapter(context, dataList);
+        adapter = new EPUserListAdapter(context);
         listView.setAdapter(adapter);
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
@@ -158,18 +152,6 @@ public class EPListByTPUActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-    private void showActionBar() {
-        LayoutInflater inflater = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.ab_custom, null);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowHomeEnabled (false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setCustomView(v);
-    }
-
 
     class ExecuteTask extends AsyncTask<String, Integer, String> {
         String requestString;
@@ -217,7 +199,7 @@ public class EPListByTPUActivity extends AppCompatActivity {
                     Log.v("log_tag", "ListBadOrderActivity: result: dataList.size() => " + dataList.size());
 
                     if(dataList.size() <= 10) {
-                        adapter = new EPUserListAdapter(context, dataList);
+                        adapter = new EPUserListAdapter(context);
                         listView.setAdapter(adapter);
                     } else {
                         adapter.notifyDataSetChanged();
@@ -243,15 +225,13 @@ public class EPListByTPUActivity extends AppCompatActivity {
 
     }
 
-    class EPUserListAdapter extends BaseAdapter {
+    private class EPUserListAdapter extends BaseAdapter {
 
         private Context mContext;
-        private List<Profile> mProductList;
 
         // Constructor
-        public EPUserListAdapter(Context mContext, List<Profile> mProductList) {
+        private EPUserListAdapter(Context mContext) {
             this.mContext = mContext;
-            this.mProductList = mProductList;
         }
 
         @Override
@@ -287,21 +267,39 @@ public class EPListByTPUActivity extends AppCompatActivity {
             status.setText(dataList.get(position).getStatus().toUpperCase());
 
             if(GlobalVariables.STATUS_PENDING.equalsIgnoreCase(dataList.get(position).getStatus())) {
-                statusImageView.setImageDrawable(context.getDrawable(R.drawable.pending_hourglass));
+
+                Drawable mDrawable = context.getDrawable(R.drawable.pending_hourglass);
+                mDrawable.setColorFilter(new
+                        PorterDuffColorFilter(ContextCompat.getColor(context, R.color.bg_color_pending), PorterDuff.Mode.SRC_IN));
+                statusImageView.setImageDrawable(mDrawable);
+
                 leftPatternColor.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_color_pending));
 
             } else if(GlobalVariables.STATUS_DISABLED.equalsIgnoreCase(dataList.get(position).getStatus())) {
-                statusImageView.setImageDrawable(context.getDrawable(R.drawable.pending_hourglass));
+
+                statusImageView.setImageDrawable(context.getDrawable(R.drawable.reject));
+                statusImageView.setBackground(ContextCompat.getDrawable(context, R.drawable.circle_dark_gray_background));
+
                 leftPatternColor.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_color_disabled));
+
+            } else  if(GlobalVariables.STATUS_REJECTED.equalsIgnoreCase(dataList.get(position).getStatus())) {
+
+                statusImageView.setImageDrawable(context.getDrawable(R.drawable.reject));
+                statusImageView.setBackground(ContextCompat.getDrawable(context, R.drawable.circle_red_background));
+
+                leftPatternColor.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_color_rejected));
+
+            } else {
+
+                Drawable mDrawable = context.getDrawable(R.drawable.right_arrow);
+                mDrawable.setColorFilter(new
+                        PorterDuffColorFilter(ContextCompat.getColor(context, R.color.bg_color_green), PorterDuff.Mode.SRC_IN));
+                statusImageView.setImageDrawable(mDrawable);
             }
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    RelativeLayout mainL = ((RelativeLayout) v);
-                    RelativeLayout r = (RelativeLayout) mainL.getChildAt(0);
-
-                    /*
                     // code working but for demo purpose this functionality is kept commented
                     if(GlobalVariables.STATUS_ACTIVE.equalsIgnoreCase(dataList.get(position).getStatus())) {
 
@@ -311,7 +309,7 @@ public class EPListByTPUActivity extends AppCompatActivity {
                         String requestString = "accessToken="+siaSecurityObj.getAccessToken()+"&epScac="+dataList.get(position).getScac();
                         new ExecuteTaskToGetEPAccessToken(requestString).execute();
 
-                    }*/
+                    }
                 }
             });
 
@@ -320,10 +318,10 @@ public class EPListByTPUActivity extends AppCompatActivity {
         }
     } /* End */
 
-    class ExecuteTaskToGetEPAccessToken extends AsyncTask<String, Integer, String> {
+    private class ExecuteTaskToGetEPAccessToken extends AsyncTask<String, Integer, String> {
         String requestString;
 
-        public ExecuteTaskToGetEPAccessToken(String requestString) {
+        private ExecuteTaskToGetEPAccessToken(String requestString) {
             this.requestString = requestString;
         }
 

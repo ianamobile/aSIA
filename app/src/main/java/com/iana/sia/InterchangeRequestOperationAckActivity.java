@@ -3,25 +3,14 @@ package com.iana.sia;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.TypefaceSpan;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SubMenu;
-import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.iana.sia.model.InterchangeRequests;
 import com.iana.sia.utility.GlobalVariables;
 import com.iana.sia.utility.Internet_Check;
 import com.iana.sia.utility.SIAUtility;
@@ -45,7 +34,7 @@ public class InterchangeRequestOperationAckActivity extends AppCompatActivity {
         SIAUtility.showActionBar(context, getSupportActionBar());
 
         ((TextView) findViewById(R.id.title)).setText(R.string.title_success);
-        ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(this, R.color.color_white));
+        ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(context, R.color.color_white));
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
         editor = sharedPref.edit();

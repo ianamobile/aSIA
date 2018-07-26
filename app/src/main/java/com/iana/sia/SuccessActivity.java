@@ -3,27 +3,18 @@ package com.iana.sia;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.iana.sia.model.InterchangeRequests;
 import com.iana.sia.utility.GlobalVariables;
 import com.iana.sia.utility.Internet_Check;
 import com.iana.sia.utility.SIAUtility;
-
-import org.w3c.dom.Text;
 
 public class SuccessActivity extends AppCompatActivity {
 
@@ -41,9 +32,10 @@ public class SuccessActivity extends AppCompatActivity {
 
         context = this;
 
-        showActionBar();
+        SIAUtility.showActionBar(context, getSupportActionBar());
+
         ((TextView) findViewById(R.id.title)).setText(R.string.title_success);
-        ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(this, R.color.color_white));
+        ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(context, R.color.color_white));
 
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
@@ -96,13 +88,13 @@ public class SuccessActivity extends AppCompatActivity {
                             String requestOriginFrom = sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "");
 
                             if(GlobalVariables.ORIGIN_FROM_STREET_TURN.equalsIgnoreCase(requestOriginFrom)) {
-                                startActivity(new Intent(SuccessActivity.this, StreetTurnActivity.class));
+                                startActivity(new Intent(context, StreetTurnActivity.class));
 
                             } else if(GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE.equalsIgnoreCase(requestOriginFrom)) {
-                                startActivity(new Intent(SuccessActivity.this, InitiateInterchangeActivity.class));
+                                startActivity(new Intent(context, InitiateInterchangeActivity.class));
 
                             } else if(GlobalVariables.ORIGIN_FROM_NOTIF_AVAIl.equalsIgnoreCase(requestOriginFrom)) {
-                                startActivity(new Intent(SuccessActivity.this, NotifAvailActivity.class));
+                                startActivity(new Intent(context, NotifAvailActivity.class));
                             }
 
                             SIAUtility.removeAllKey(editor);
@@ -113,7 +105,7 @@ public class SuccessActivity extends AppCompatActivity {
 
                         case R.id.navigation_home:
                             SIAUtility.removeAllKey(editor);
-                            startActivity(new Intent(SuccessActivity.this, DashboardActivity.class));
+                            startActivity(new Intent(context, DashboardActivity.class));
                             finish(); /* This method will not display login page when click back (return) */
 
                             break;
@@ -122,7 +114,7 @@ public class SuccessActivity extends AppCompatActivity {
 
                 } else{
 
-                    Intent intent = new Intent(SuccessActivity.this, DashboardActivity.class);
+                    Intent intent = new Intent(context, DashboardActivity.class);
                     startActivity(intent);
                     finish(); /* This method will not display login page when click back (return) from phone */
                             /* End */
@@ -135,18 +127,6 @@ public class SuccessActivity extends AppCompatActivity {
         SIAUtility.disableShiftMode(bnv);
 
 
-    }
-
-    private void showActionBar() {
-        LayoutInflater inflater = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.ab_custom, null);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowHomeEnabled (false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setCustomView(v);
     }
 
 }

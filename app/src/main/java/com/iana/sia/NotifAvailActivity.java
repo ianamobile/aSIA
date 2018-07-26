@@ -8,12 +8,11 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -46,7 +45,6 @@ import com.iana.sia.adapter.ContainerTypeAdapter;
 import com.iana.sia.model.Company;
 import com.iana.sia.model.FieldInfo;
 import com.iana.sia.model.FormOption;
-import com.iana.sia.model.InterchangeRequests;
 import com.iana.sia.model.NotificationAvail;
 import com.iana.sia.model.SIASecurityObj;
 import com.iana.sia.utility.ApiResponse;
@@ -138,7 +136,8 @@ public class NotifAvailActivity extends AppCompatActivity {
         // below code is used to restrict auto populate keypad
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        showActionBar();
+        SIAUtility.showActionBar(context, getSupportActionBar());
+
         ((TextView) findViewById(R.id.title)).setText(R.string.title_add_equipment_to_pool);
         backBtn = findViewById(R.id.backBtn);
         backBtn.setText(R.string.title_back);
@@ -283,7 +282,7 @@ public class NotifAvailActivity extends AppCompatActivity {
             epCompanyName.setFocusable(false);
             epCompanyName.setClickable(false);
             epCompanyName.setLongClickable(false);
-            epCompanyName.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
+            epCompanyName.setTextColor(ContextCompat.getColor(context, R.color.dark_gray));
 
 
             epScac.setText(siaSecurityObj.getScac());
@@ -333,7 +332,7 @@ public class NotifAvailActivity extends AppCompatActivity {
             mcCompanyName.setFocusable(false);
             mcCompanyName.setClickable(false);
             mcCompanyName.setLongClickable(false);
-            mcCompanyName.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
+            mcCompanyName.setTextColor(ContextCompat.getColor(context, R.color.dark_gray));
 
             mcScac.setText(siaSecurityObj.getScac());
             epCompanyName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -383,9 +382,7 @@ public class NotifAvailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                return;
-            }
+            public void onNothingSelected(AdapterView<?> parentView) {}
 
         });
         containerSizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -448,7 +445,6 @@ public class NotifAvailActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                return;
             }
 
         });
@@ -620,28 +616,15 @@ public class NotifAvailActivity extends AppCompatActivity {
 
     }
 
-    private void showActionBar() {
-        LayoutInflater inflater = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.ab_custom, null);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-//        actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.action_bar_background_color)));
-        actionBar.setCustomView(v);
-    }
-
-    public class CustomAdapter extends BaseAdapter {
+    private class CustomAdapter extends BaseAdapter {
         Context context;
         String[] loadStatusArray;
-        LayoutInflater inflter;
+        LayoutInflater inflater;
 
-        public CustomAdapter(Context applicationContext, String[] loadStatusArray) {
+        private CustomAdapter(Context applicationContext, String[] loadStatusArray) {
             this.context = applicationContext;
             this.loadStatusArray = loadStatusArray;
-            inflter = (LayoutInflater.from(applicationContext));
+            inflater = (LayoutInflater.from(applicationContext));
         }
 
         @Override
@@ -661,7 +644,7 @@ public class NotifAvailActivity extends AppCompatActivity {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            view = inflter.inflate(R.layout.custom_spinner_type_user, null);
+            view = inflater.inflate(R.layout.custom_spinner_type_user, null);
             TextView loadStatus = view.findViewById(R.id.textView);
             loadStatus.setText(loadStatusArray[i]);
             return view;
@@ -784,19 +767,19 @@ public class NotifAvailActivity extends AppCompatActivity {
         String originLocationZipCode = ((EditText) findViewById(R.id.originLocationZipCode)).getText().toString();
 
 
-        if (null == epCompanyName || epCompanyName.trim().toString().length() <= 0) {
+        if (epCompanyName.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_container_provider_name);
         }
 
-        if (null == epScac || epScac.trim().toString().length() <= 0) {
+        if (epScac.trim().length() <= 0) {
             return getString(R.string.msg_error_select_container_provider_name);
         }
 
-        if (null == mcCompanyName || mcCompanyName.trim().toString().length() <= 0) {
+        if (mcCompanyName.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_motor_carrier_a_name);
         }
 
-        if (null == mcScac || mcScac.trim().toString().length() <= 0) {
+        if (mcScac.trim().length() <= 0) {
             return getString(R.string.msg_error_select_motor_carrier_a_name);
         }
 
@@ -805,7 +788,7 @@ public class NotifAvailActivity extends AppCompatActivity {
             return getString(R.string.msg_error_select_load_status);
         }
 
-        if (null == containerNumber || containerNumber.trim().toString().length() <= 0) {
+        if (containerNumber.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_container_number);
 
         } else if (!SIAUtility.isValidContNum(containerNumber)) {
@@ -836,11 +819,11 @@ public class NotifAvailActivity extends AppCompatActivity {
             }
         }
 
-        if (null != chassisNumber && chassisNumber.toString().trim().length() > 0 && !SIAUtility.isAlphaNumeric(chassisNumber)) {
+        if (chassisNumber.trim().length() > 0 && !SIAUtility.isAlphaNumeric(chassisNumber)) {
             return getString(R.string.msg_error_alpha_num_chassis_number);
         }
 
-        if(chassisNumber != null && chassisNumber.trim().length() > 0 &&
+        if(chassisNumber.trim().length() > 0 &&
                 !GlobalVariables.DEFUALT_CHASSIS_NUM.equalsIgnoreCase(chassisNumber)) {
 
             if (null == selectedChassisType || null == selectedChassisType.getText() ||
@@ -868,51 +851,51 @@ public class NotifAvailActivity extends AppCompatActivity {
             }
         }
 
-        if (null != gensetNumber && gensetNumber.toString().trim().length() > 0 && !SIAUtility.isAlphaNumeric(gensetNumber)) {
+        if (gensetNumber.trim().length() > 0 && !SIAUtility.isAlphaNumeric(gensetNumber)) {
             return getString(R.string.msg_error_alpha_num_genset_number);
         }
 
-        if (null == equipLocationZipCode || equipLocationZipCode.toString().trim().length() <= 0) {
+        if (equipLocationZipCode.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_equip_location_zip_code);
         }
-        if (null == equipLocationName || equipLocationName.toString().trim().length() <= 0) {
+        if (equipLocationName.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_equip_location_name);
         }
-        if (null == equipLocationAddress || equipLocationAddress.toString().trim().length() <= 0) {
+        if (equipLocationAddress.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_equip_location_address);
         }
-        if (null == equipLocationCity || equipLocationCity.toString().trim().length() <= 0) {
+        if (equipLocationCity.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_equip_location_city);
         }
-        if (null == equipLocationState || equipLocationState.toString().trim().length() <= 0) {
+        if (equipLocationState.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_equip_location_state);
         }
 
 
-        if (null == originLocationZipCode || originLocationZipCode.toString().trim().length() <= 0) {
+        if (originLocationZipCode.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_zip_code);
         }
-        if (null == originLocationName || originLocationName.toString().trim().length() <= 0) {
+        if (originLocationName.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_name);
         }
-        if (null == originLocationAddress || originLocationAddress.toString().trim().length() <= 0) {
+        if (originLocationAddress.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_address);
         }
-        if (null == originLocationCity || originLocationCity.toString().trim().length() <= 0) {
+        if (originLocationCity.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_city);
         }
-        if (null == originLocationState || originLocationState.toString().trim().length() <= 0) {
+        if (originLocationState.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_origin_location_state);
         }
 
         return GlobalVariables.SUCCESS;
     }
 
-    class EPLocationAdapter extends ArrayAdapter<String> {
+    private class EPLocationAdapter extends ArrayAdapter<String> {
 
-        protected List<String> suggestions;
+        private List<String> suggestions;
 
-        public EPLocationAdapter(Activity context) {
+        private EPLocationAdapter(Activity context) {
             super(context, android.R.layout.simple_dropdown_item_1line);
             suggestions = new ArrayList<>();
         }
@@ -977,10 +960,10 @@ public class NotifAvailActivity extends AppCompatActivity {
             return myFilter;
         }
 
-        class ExecuteEPTask extends AsyncTask<String, Integer, String> {
+        private class ExecuteEPTask extends AsyncTask<String, Integer, String> {
             String requestString;
 
-            public ExecuteEPTask(String requestString) {
+            private ExecuteEPTask(String requestString) {
                 this.requestString = requestString;
             }
 
@@ -1049,11 +1032,11 @@ public class NotifAvailActivity extends AppCompatActivity {
     }
 
 
-    class MCLocationAdapter extends ArrayAdapter<String> {
+    private class MCLocationAdapter extends ArrayAdapter<String> {
 
-        protected List<String> suggestions;
+        private List<String> suggestions;
 
-        public MCLocationAdapter(Activity context) {
+        private MCLocationAdapter(Activity context) {
             super(context, android.R.layout.simple_dropdown_item_1line);
             suggestions = new ArrayList<>();
         }
@@ -1118,10 +1101,10 @@ public class NotifAvailActivity extends AppCompatActivity {
         }
 
 
-        class ExecuteMCTask extends AsyncTask<String, Integer, String> {
+        private class ExecuteMCTask extends AsyncTask<String, Integer, String> {
             String requestString;
 
-            public ExecuteMCTask(String requestString) {
+            private ExecuteMCTask(String requestString) {
                 this.requestString = requestString;
             }
 
@@ -1188,10 +1171,10 @@ public class NotifAvailActivity extends AppCompatActivity {
         }
     }
 
-    class ExecuteChassisIdTask extends AsyncTask<String, Integer, String> {
+    private class ExecuteChassisIdTask extends AsyncTask<String, Integer, String> {
         String requestString;
 
-        public ExecuteChassisIdTask(String requestString) {
+        private ExecuteChassisIdTask(String requestString) {
             this.requestString = requestString;
         }
 
@@ -1243,10 +1226,10 @@ public class NotifAvailActivity extends AppCompatActivity {
 
     }
 
-    class ExecuteTaskToValidate extends AsyncTask<String, Integer, String> {
+    private class ExecuteTaskToValidate extends AsyncTask<String, Integer, String> {
         String requestString;
 
-        public ExecuteTaskToValidate(String requestString) {
+        private ExecuteTaskToValidate(String requestString) {
             this.requestString = requestString;
         }
 
@@ -1375,7 +1358,7 @@ public class NotifAvailActivity extends AppCompatActivity {
     }
 
 
-    class ExecuteSetupPageTask extends AsyncTask<String, Integer, String> {
+    private class ExecuteSetupPageTask extends AsyncTask<String, Integer, String> {
 
         @Override
         protected void onPreExecute() {

@@ -4,7 +4,6 @@
     android:background="@drawable/curve_shape"
     android:layout_width="250dp"
     android:layout_height="wrap_content"
-    android:minHeight="120dp"
     android:gravity="center_horizontal|center_vertical"
     >
 
@@ -22,50 +21,47 @@
 
     <TextView
         android:id="@+id/messageTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Message"
         android:textSize="12dp"
         android:minLines="2"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:textColor="@color/color_black"
         android:textAlignment="center"
+        android:gravity="center_vertical"
         />
 
     <View
         android:id="@+id/mcDotView"
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#DCDCDC"
         android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
         android:layout_centerHorizontal="true"
         />
 
 
     <LinearLayout
         android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="#FFFFFF"
-        android:orientation="horizontal"
-        android:layout_marginBottom="10dp"
+        android:layout_height="35dp"
+        android:orientation="vertical"
         android:gravity="center_horizontal|center_vertical"
+        android:background="@drawable/curve_shape"
         >
 
         <Button
             android:id="@+id/okBtnDialog"
             android:layout_width="250dp"
-            android:layout_height="18dp"
-            android:background="@android:color/white"
+            android:layout_height="35dp"
+            android:background="@android:color/transparent"
             android:clickable="true"
             android:text="OK"
             android:textSize="15dp"
             android:textColor="@color/appThemeColor"
             android:layout_gravity="center_vertical|center_horizontal"
+            android:gravity="center_vertical|center_horizontal"
              />
 
     </LinearLayout>

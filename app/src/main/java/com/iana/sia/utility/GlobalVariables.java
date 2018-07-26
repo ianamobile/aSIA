@@ -67,7 +67,7 @@ public class GlobalVariables {
     public static final String MENU_TITLE_INITIATE_SI = "Initiate Street Interchange";
     public static final String MENU_TITLE_SEARCH_INTERCHANGE_REQUESTS = "Search Interchange Requests";
     public static final String MENU_TITLE_INITIATE_ST = "Initiate Street Turn";
-    public static final String MENU_TITLE_SEARCH_INTERCHANGE_REQUESTS_BY_TPU = "Search Interchange Requests Submitted By you";
+    public static final String MENU_TITLE_SEARCH_INTERCHANGE_REQUESTS_BY_TPU = "Search Interchange Requests Submitted By You";
     public static final String MENU_TITLE_LIST_EP_USERS = "List EP Users";
     public static final String MENU_TITLE_PENDING_INTERCHANGE_REQUESTS = "Pending Requests";
     public static final String MENU_TITLE_LOGOUT = "Logout";
@@ -79,14 +79,14 @@ public class GlobalVariables {
                                                             "Initiate Street Interchange",
                                                             "Search Interchange Requests",
                                                             "Initiate Street Turn",
-                                                            "Search Interchange Requests Submitted By you",
+                                                            "Search Interchange Requests Submitted By You",
                                                             "List EP Users",
                                                             "Pending Requests", "", "", "", "", "", "", "", "", "", "", "", "",
                                                             "Logout"
                                                         };
 
     public static final String[] menuIconArr = new String[]
-                                                        {   "plus","search","plus","search","plus","search","menu",
+                                                        {   "plus","search","plus","search","plus","search","menu_dashboard",
                                                             "pending_hourglass","","","","","","","","","","","","",
                                                             "logout"
                                                         };

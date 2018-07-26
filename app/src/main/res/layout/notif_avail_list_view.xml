@@ -71,7 +71,7 @@
                                 android:layout_width="wrap_content"
                                 android:textColor="@color/color_black"
                                 android:gravity="left"
-                                android:fontFamily="sans-serif-medium"
+                                style="@style/font_family"
                                 android:textSize="14dp"
                                 />
                         </LinearLayout>
@@ -89,7 +89,7 @@
                                 android:layout_width="wrap_content"
                                 android:textColor="@color/appThemeColor"
                                 android:gravity="right"
-                                android:fontFamily="sans-serif-medium"
+                                style="@style/font_family"
                                 android:textSize="14dp"
                                 />
                         </LinearLayout>
@@ -145,7 +145,7 @@
                         android:layout_width="wrap_content"
                         android:textColor="@color/color_black"
                         android:gravity="left"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:textSize="12dp"
                         />
                 </LinearLayout>
@@ -163,7 +163,7 @@
                         android:text="Y"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/appThemeColor"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:textSize="12dp"
                         android:minWidth="10dp"
                         />
@@ -196,7 +196,7 @@
                         android:layout_width="wrap_content"
                         android:textColor="@color/color_black"
                         android:gravity="left"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:textSize="12dp"
                         />
                 </LinearLayout>
@@ -214,7 +214,7 @@
                         android:text="XXXX"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/appThemeColor"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:textSize="12dp"
                         android:minWidth="10dp"
                         />
@@ -249,7 +249,7 @@
                         android:layout_width="wrap_content"
                         android:textColor="@color/color_black"
                         android:gravity="left"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:textSize="12dp"
                         />
                 </LinearLayout>
@@ -267,7 +267,7 @@
                         android:text="@string/lbl_container_ep_name"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/appThemeColor"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:textSize="12dp"
                         android:minWidth="10dp"
                         />
@@ -302,7 +302,7 @@
                         android:layout_width="wrap_content"
                         android:textColor="@color/color_black"
                         android:gravity="left"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:textSize="12dp"
                         />
                 </LinearLayout>
@@ -320,7 +320,7 @@
                         android:text="XXXX"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/appThemeColor"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:textSize="12dp"
                         android:minWidth="10dp"
                         />
@@ -355,7 +355,7 @@
                         android:layout_width="wrap_content"
                         android:textColor="@color/color_black"
                         android:gravity="left"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:textSize="12dp"
                         />
                 </LinearLayout>
@@ -373,7 +373,7 @@
                         android:text="LOAD STATUS"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/appThemeColor"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:textSize="12dp"
                         android:minWidth="10dp"
                         android:gravity="right"
@@ -409,7 +409,7 @@
                     android:layout_width="wrap_content"
                     android:textColor="@color/color_black"
                     android:gravity="left"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:textSize="12dp"
                     />
             </LinearLayout>
@@ -427,7 +427,7 @@
                     android:text="CONTAINER NUMBER"
                     android:layout_marginLeft="5dp"
                     android:textColor="@color/appThemeColor"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:textSize="12dp"
                     android:minWidth="10dp"
                     />
@@ -463,7 +463,7 @@
                     android:layout_width="wrap_content"
                     android:textColor="@color/color_black"
                     android:gravity="left"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:textSize="12dp"
                     />
             </LinearLayout>
@@ -481,7 +481,7 @@
                     android:text="CONTAINER TYPE"
                     android:layout_marginLeft="5dp"
                     android:textColor="@color/appThemeColor"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:textSize="12dp"
                     android:minWidth="10dp"
                     android:gravity="right"
@@ -518,7 +518,7 @@
                     android:layout_width="wrap_content"
                     android:textColor="@color/color_black"
                     android:gravity="left"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:textSize="12dp"
                     />
             </LinearLayout>
@@ -536,7 +536,7 @@
                     android:text="CONTAINER SIZE"
                     android:layout_marginLeft="5dp"
                     android:textColor="@color/appThemeColor"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:textSize="12dp"
                     android:minWidth="10dp"
                     />
@@ -571,7 +571,7 @@
                     android:layout_width="wrap_content"
                     android:textColor="@color/color_black"
                     android:gravity="left"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:textSize="12dp"
                     />
             </LinearLayout>
@@ -589,7 +589,7 @@
                     android:text="CHASSIS TYPE"
                     android:layout_marginLeft="5dp"
                     android:textColor="@color/appThemeColor"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:textSize="12dp"
                     android:minWidth="10dp"
                     android:gravity="right"
@@ -625,7 +625,7 @@
                     android:layout_width="wrap_content"
                     android:textColor="@color/color_black"
                     android:gravity="left"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:textSize="12dp"
                     />
             </LinearLayout>
@@ -643,7 +643,7 @@
                     android:text="CHASSIS SIZE"
                     android:layout_marginLeft="5dp"
                     android:textColor="@color/appThemeColor"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:textSize="12dp"
                     android:minWidth="10dp"
                     />
@@ -678,7 +678,7 @@
                         android:layout_width="wrap_content"
                         android:textColor="@color/color_black"
                         android:gravity="left"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:textSize="12dp"
                         />
                 </LinearLayout>
@@ -696,7 +696,7 @@
                         android:text="CHASSIS NUMBER"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/appThemeColor"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:textSize="12dp"
                         android:minWidth="10dp"
                         />
@@ -731,7 +731,7 @@
                         android:layout_width="wrap_content"
                         android:textColor="@color/color_black"
                         android:gravity="left"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:textSize="12dp"
                         />
                 </LinearLayout>
@@ -749,7 +749,7 @@
                         android:text="IEP SCAC"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/appThemeColor"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:textSize="12dp"
                         android:minWidth="10dp"
                         />
@@ -774,7 +774,7 @@
             android:layout_width="match_parent"
             android:textColor="@android:color/white"
             android:gravity="center_vertical|center_horizontal"
-            android:fontFamily="sans-serif-medium"
+            style="@style/font_family"
             android:textSize="14dp"
             android:background="@color/appThemeColor"
             android:layout_below="@+id/otherInformationTableLayout"
@@ -788,7 +788,7 @@
             android:layout_width="match_parent"
             android:textColor="@android:color/white"
             android:gravity="center_vertical|center_horizontal"
-            android:fontFamily="sans-serif-medium"
+            style="@style/font_family"
             android:textSize="14dp"
             android:background="@color/bg_color_green"
             android:layout_below="@+id/deleteBtn"

@@ -74,7 +74,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -96,7 +96,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/containerNumberImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/container_number_length"
                     />
@@ -144,7 +144,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -166,7 +166,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/exportBookingNumberImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/export_booking_number_length"
                     />
@@ -215,7 +215,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -237,7 +237,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/fromDateImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/date_length"
                     android:onClick="fromDate"
@@ -288,7 +288,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -310,7 +310,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/toDateImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/date_length"
                     android:onClick="toDate"
@@ -361,7 +361,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -373,7 +373,7 @@
                     android:layout_height="@dimen/edit_text_height"
                     android:background="@drawable/spinner_border"
                     android:backgroundTint="@android:color/darker_gray"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     app:layout_constraintTop_toBottomOf="@+id/statusImg"
                     android:layout_marginStart="18dp"
                     android:layout_marginLeft="18dp"
@@ -422,7 +422,7 @@
                         app:layout_constraintLeft_toRightOf="@+id/scacImg"
                         android:layout_marginStart="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:gravity="center_vertical"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
@@ -445,7 +445,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/scacImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/scac_length"
                     />

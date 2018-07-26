@@ -71,7 +71,7 @@
                     android:layout_marginBottom="20dp"
                     android:layout_centerInParent="true"
                     android:theme="@style/AppTheme"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:layout_below="@+id/siaImgLayout"
                     />
 
@@ -116,7 +116,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginLeft="8dp"
-                            android:fontFamily="sans-serif-medium"
+                            style="@style/font_family"
                             app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                     </LinearLayout>
@@ -139,7 +139,7 @@
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="@dimen/edit_text_size"
                         app:layout_constraintTop_toBottomOf="@+id/emailImg"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:backgroundTint="@android:color/transparent"
                         android:maxLength="@integer/email_length"
                         />
@@ -164,7 +164,7 @@
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/btn_sign_on_size"
                         app:layout_constraintTop_toBottomOf="@+id/emailLayout"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:layout_centerHorizontal="true" />
                 </LinearLayout>
 
@@ -192,7 +192,7 @@
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:gravity="left|center_vertical"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:layout_centerHorizontal="true"
 
                     />

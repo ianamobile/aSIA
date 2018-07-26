@@ -11,10 +11,10 @@
     <!-- spinner -->
     <dimen name="spinner_padding_left">20dp</dimen>
     <!-- edit text -->
-    <dimen name="layout_width_edit_text">80dp</dimen>
-    <dimen name="edit_text_padding_left">25dp</dimen>
+    <dimen name="layout_width_edit_text">100dp</dimen>
+    <dimen name="edit_text_padding_left">40dp</dimen>
 
-    <dimen name="edit_text_height">40dp</dimen>
+    <dimen name="edit_text_height">60dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
@@ -32,23 +32,35 @@
     <dimen name="btn_sign_on_size">18sp</dimen>
     <dimen name="btn_sign_on_layout_margin_top">6dp</dimen>
 
-    <dimen name="lbl_text_size">12sp</dimen>
-    <dimen name="edit_text_size">14sp</dimen>
+    <dimen name="lbl_text_size">18sp</dimen>
+    <dimen name="edit_text_size">20sp</dimen>
 
-    <dimen name="icon_width">20dp</dimen>
-    <dimen name="icon_height">20dp</dimen>
+    <dimen name="icon_width">32dp</dimen>
+    <dimen name="icon_height">32dp</dimen>
 
-    <dimen name="icon_width_scac">25dp</dimen>
-    <dimen name="icon_height_scac">40dp</dimen>
+    <dimen name="icon_width_scac">40dp</dimen>
+    <dimen name="icon_height_scac">60dp</dimen>
 
-    <dimen name="text_height_scac">40dp</dimen>
+    <dimen name="text_height">60dp</dimen>
+    <dimen name="text_height_scac">60dp</dimen>
 
-    <dimen name="icon_text_linear_layout_height">40dp</dimen>
+    <dimen name="icon_text_linear_layout_height">60dp</dimen>
 
     <dimen name="margin_from_left">16dp</dimen>
     <dimen name="margin_from_right">16dp</dimen>
 
     <dimen name="height_search_result_ir">1dp</dimen>
+
+
+    <dimen name="dynamic_label_fontsize">24dp</dimen>
+    <dimen name="dynamic_value_fontsize">24dp</dimen>
+
+    <dimen name="heading_text_size">18sp</dimen>
+
+    <dimen name="note_text_size">16sp</dimen>
+
+    <dimen name="note_value_text_size">16sp</dimen>
+    <dimen name="note_value_success_text_size">22sp</dimen>
 
 
 </resources>

@@ -36,15 +36,17 @@
     <dimen name="lbl_text_size">12sp</dimen>
     <dimen name="edit_text_size">14sp</dimen>
 
-    <dimen name="icon_width">20dp</dimen>
-    <dimen name="icon_height">20dp</dimen>
+    <dimen name="icon_width">18dp</dimen>
+    <dimen name="icon_height">18dp</dimen>
+
+    <dimen name="text_height">18dp</dimen>
 
     <dimen name="icon_width_scac">25dp</dimen>
     <dimen name="icon_height_scac">40dp</dimen>
 
     <dimen name="text_height_scac">40dp</dimen>
 
-    <dimen name="icon_text_linear_layout_height">40dp</dimen>
+    <dimen name="icon_text_linear_layout_height">30dp</dimen>
 
     <dimen name="margin_from_left">16dp</dimen>
     <dimen name="margin_from_right">16dp</dimen>
@@ -53,5 +55,14 @@
 
     <dimen name="design_bottom_navigation_text_size" tools:override="true">11sp</dimen>
     <dimen name="design_bottom_navigation_active_text_size" tools:override="true">11sp</dimen>
+
+    <dimen name="dynamic_label_fontsize">6sp</dimen>
+    <dimen name="dynamic_value_fontsize">6sp</dimen>
+
+    <dimen name="heading_text_size">14sp</dimen>
+
+    <dimen name="note_text_size">12sp</dimen>
+    <dimen name="note_value_text_size">12sp</dimen>
+    <dimen name="note_value_success_text_size">16sp</dimen>
 
 </resources>

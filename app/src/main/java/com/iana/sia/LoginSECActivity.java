@@ -4,9 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -32,10 +31,10 @@ import com.iana.sia.utility.SIAUtility;
 
 public class LoginSECActivity extends AppCompatActivity implements Animation.AnimationListener {
 
-    private String urlResponse;
-    private int urlResponseCode;
+    String urlResponse;
+    int urlResponseCode;
 
-    private ProgressBar progressBar;
+    ProgressBar progressBar;
 
     Button backToHomeBtn;
     Button loginBtn;
@@ -155,7 +154,7 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
             String password          = ((EditText) findViewById(R.id.password)).getText().toString();
 
             String error = validateLoginFields(scac, userName, password);
-            if(error == "") {
+            if(error.equalsIgnoreCase("")) {
 
                 User user = new User();
 
@@ -186,13 +185,13 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
     }
 
     private String validateLoginFields(String scac, String userName, String password) {
-        if(scac == null || scac == "" || scac.toString().trim().length() <= 0 ||
-            password == null || password == "" || password.toString().trim().length() <= 0 ||
-            userName == null || userName == "" || userName.toString().trim().length() <= 0) {
+        if(scac == null || scac.equalsIgnoreCase("") || scac.trim().length() <= 0 ||
+            password == null || password.equalsIgnoreCase("") || password.trim().length() <= 0 ||
+            userName == null || userName.equalsIgnoreCase("") || userName.trim().length() <= 0) {
             return getString(R.string.msg_error_all_mandatory);
         }
 
-        if(scac == null || scac == "" || scac.toString().trim().length() <= 0) {
+        if(scac.equalsIgnoreCase("") || scac.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_scac);
 
         } else if (!SIAUtility.isAlpha(scac)) {
@@ -206,11 +205,11 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
             return getString(R.string.msg_error_length_ep_scac);
         }
 
-        if(userName == null || userName == "" || userName.toString().trim().length() <= 0) {
+        if(userName.equalsIgnoreCase("") || userName.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_userName);
         }
 
-        if(password == null || password == "" || password.toString().trim().length() <= 0) {
+        if(password.equalsIgnoreCase("") || password.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_password);
         }
 

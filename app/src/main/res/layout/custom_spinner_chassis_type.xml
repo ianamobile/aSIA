@@ -12,6 +12,6 @@
         android:textColor="@android:color/darker_gray"
         android:textSize="14dp"
         android:padding="8dp"
-        android:fontFamily="sans-serif-medium"
+        style="@style/font_family"
         />
 </LinearLayout>

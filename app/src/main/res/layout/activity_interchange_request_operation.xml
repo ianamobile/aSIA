@@ -63,7 +63,7 @@
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:background="@drawable/border_view_workflow"
-        android:fontFamily="sans-serif-medium"
+        style="@style/font_family"
         />
 
 
@@ -86,7 +86,9 @@
                  fab:menu_openDirection="up"
                  fab:fab_shadowColor="#66000000"
                  fab:menu_labels_ellipsize="end"
-                 fab:menu_labels_singleLine="true">
+                 fab:menu_labels_singleLine="true"
+                 style="@style/font_family"
+                >
 
 
                 <com.github.clans.fab.FloatingActionButton
@@ -100,6 +102,7 @@
                     fab:fab_colorNormal="@color/bg_color_rejected"
                     fab:fab_colorPressed="@color/bg_color_rejected"
                     fab:fab_colorRipple="@color/bg_color_rejected"
+                    style="@style/font_family"
                     />
 
                 <com.github.clans.fab.FloatingActionButton
@@ -113,6 +116,7 @@
                     fab:fab_colorNormal="@color/bg_color_rejected"
                     fab:fab_colorPressed="@color/bg_color_rejected"
                     fab:fab_colorRipple="@color/bg_color_rejected"
+                    style="@style/font_family"
                     />
 
                 <com.github.clans.fab.FloatingActionButton
@@ -127,6 +131,7 @@
                     fab:fab_colorPressed="@color/bg_color_approved"
                     fab:fab_colorRipple="@color/bg_color_approved"
                     android:padding="5dp"
+                    style="@style/font_family"
                     />
 
                 <com.github.clans.fab.FloatingActionButton
@@ -137,6 +142,7 @@
                      android:visibility="gone"
                      fab:fab_size="mini"
                      app:menu_icon="@drawable/cross"
+                     style="@style/font_family"
                      />
 
                 <com.github.clans.fab.FloatingActionButton
@@ -150,6 +156,7 @@
                     fab:fab_colorNormal="@color/bg_color_reinitiate"
                     fab:fab_colorPressed="@color/bg_color_reinitiate"
                     fab:fab_colorRipple="@color/bg_color_reinitiate"
+                    style="@style/font_family"
                     />
 
 

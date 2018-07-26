@@ -49,9 +49,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/heading_initiate_interchange_request"
                     android:textColor="@color/appThemeColor"
-                    android:fontFamily="sans-serif-medium"
-                    android:textSize="14dp"
-                    android:textStyle="bold"
+                    style="@style/font_family"
+                    android:textSize="@dimen/heading_text_size"
                     />
             </LinearLayout>
 
@@ -71,15 +70,15 @@
                 <LinearLayout
                     android:id="@+id/epCompanyNameLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/epCompanyNameImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -89,7 +88,7 @@
                     <TextView
                         android:id="@+id/epCompanyNameLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height"
                         android:text="@string/lbl_container_provider_name"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
@@ -98,7 +97,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -118,9 +117,9 @@
                     android:inputType="textPersonName"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/epCompanyNameImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/ep_company_name_length"
                     />
@@ -165,7 +164,7 @@
                         app:layout_constraintLeft_toRightOf="@+id/epScacImg"
                         android:layout_marginStart="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:gravity="center_vertical"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
@@ -187,9 +186,9 @@
                     android:textColor="@android:color/darker_gray"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/epScacImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/scac_length"
                     />
@@ -210,15 +209,15 @@
                 <LinearLayout
                     android:id="@+id/mcACompanyNameLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/mcACompanyNameImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -228,7 +227,7 @@
                     <TextView
                         android:id="@+id/mcACompanyNameLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height"
                         android:text="@string/lbl_motor_carrier_a_name"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
@@ -237,7 +236,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -257,9 +256,9 @@
                     android:inputType="textPersonName"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/mcACompanyNameImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/mc_company_name_length"
                     />
@@ -304,7 +303,7 @@
                         app:layout_constraintLeft_toRightOf="@+id/mcAScacImg"
                         android:layout_marginStart="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:gravity="center_vertical"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
@@ -325,9 +324,9 @@
                     android:textColor="@android:color/darker_gray"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/mcAScacImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:hint="@string/hint_auto_populated"
                     android:maxLength="@integer/scac_length"
@@ -356,8 +355,8 @@
 
                     <ImageView
                         android:id="@+id/mcBCompanyNameImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -367,7 +366,7 @@
                     <TextView
                         android:id="@+id/mcBCompanyNameLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height"
                         android:text="@string/lbl_motor_carrier_b_name"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
@@ -376,7 +375,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:gravity="center_vertical"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
@@ -397,9 +396,9 @@
                     android:inputType="textPersonName"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/mcBCompanyNameImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/mc_company_name_length"
                     />
@@ -444,7 +443,7 @@
                         app:layout_constraintLeft_toRightOf="@+id/mcBScacImg"
                         android:layout_marginStart="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:gravity="center_vertical"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
@@ -467,7 +466,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/mcBScacImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:hint="@string/hint_auto_populated"
                     android:maxLength="@integer/scac_length"
@@ -497,8 +496,8 @@
 
                 <ImageView
                     android:id="@+id/typeOfInterchangeImg"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="@dimen/icon_width"
+                    android:layout_height="@dimen/icon_height"
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
@@ -517,7 +516,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginLeft="8dp"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -529,7 +528,7 @@
                     android:layout_height="@dimen/edit_text_height"
                     android:background="@drawable/spinner_border"
                     android:backgroundTint="@android:color/darker_gray"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     app:layout_constraintTop_toBottomOf="@+id/typeOfInterchangeImg"
                     android:layout_marginStart="18dp"
                     android:layout_marginLeft="18dp"
@@ -563,8 +562,8 @@
 
                     <ImageView
                         android:id="@+id/containerTypeImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -583,7 +582,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -595,7 +594,7 @@
                     android:layout_height="@dimen/edit_text_height"
                     android:background="@drawable/spinner_border"
                     android:backgroundTint="@android:color/darker_gray"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     app:layout_constraintTop_toBottomOf="@+id/containerTypeImg"
                     android:layout_marginStart="18dp"
                     android:layout_marginLeft="18dp"
@@ -634,7 +633,7 @@
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/import_bl_length"
                     />
@@ -665,8 +664,8 @@
 
                     <ImageView
                         android:id="@+id/containerSizeImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -685,7 +684,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -697,7 +696,7 @@
                     android:layout_height="@dimen/edit_text_height"
                     android:background="@drawable/spinner_border"
                     android:backgroundTint="@android:color/darker_gray"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     app:layout_constraintTop_toBottomOf="@+id/containerSizeImg"
                     android:layout_marginStart="18dp"
                     android:layout_marginLeft="18dp"
@@ -736,7 +735,7 @@
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/import_bl_length"
                     />
@@ -766,8 +765,8 @@
 
                     <ImageView
                         android:id="@+id/importBLImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -786,7 +785,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -808,7 +807,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/importBLImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/import_bl_length"
                     />
@@ -838,8 +837,8 @@
 
                     <ImageView
                         android:id="@+id/exportBookingNumberImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -858,7 +857,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -880,7 +879,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/exportBookingNumberImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/export_booking_number_length"
                     />
@@ -910,8 +909,8 @@
 
                     <ImageView
                         android:id="@+id/containerNumberImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -930,7 +929,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -952,7 +951,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/containerNumberImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/container_number_length"
                     />
@@ -980,8 +979,8 @@
 
                     <ImageView
                         android:id="@+id/chassisNumberImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1000,7 +999,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -1022,7 +1021,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/chassisNumberImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/chassis_number_length"
                     />
@@ -1067,7 +1066,7 @@
                         app:layout_constraintLeft_toRightOf="@+id/iepScacImg"
                         android:layout_marginStart="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:gravity="center_vertical"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
@@ -1091,7 +1090,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/iepScacImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     />
             </LinearLayout>
@@ -1120,8 +1119,8 @@
 
                     <ImageView
                         android:id="@+id/chassisTypeImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1140,7 +1139,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -1152,7 +1151,7 @@
                     android:layout_height="@dimen/edit_text_height"
                     android:background="@drawable/spinner_border"
                     android:backgroundTint="@android:color/darker_gray"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     app:layout_constraintTop_toBottomOf="@+id/chassisTypeImg"
                     android:layout_marginStart="18dp"
                     android:layout_marginLeft="18dp"
@@ -1191,7 +1190,7 @@
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/import_bl_length"
                     />
@@ -1223,8 +1222,8 @@
 
                     <ImageView
                         android:id="@+id/chassisSizeImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1243,7 +1242,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -1255,7 +1254,7 @@
                     android:layout_height="@dimen/edit_text_height"
                     android:background="@drawable/spinner_border"
                     android:backgroundTint="@android:color/darker_gray"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     app:layout_constraintTop_toBottomOf="@+id/chassisSizeImg"
                     android:layout_marginStart="18dp"
                     android:layout_marginLeft="18dp"
@@ -1294,7 +1293,7 @@
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/import_bl_length"
                     />
@@ -1323,8 +1322,8 @@
 
                     <ImageView
                         android:id="@+id/gensetNumberImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1343,7 +1342,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -1365,7 +1364,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/gensetNumberImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/genset_number_length"
                     />
@@ -1406,10 +1405,10 @@
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
                                 android:text="@string/lbl_equipment_location"
-                                android:textSize="15sp"
+                                android:textSize="@dimen/heading_text_size"
                                 android:textColor="@color/appThemeColor"
                                 android:gravity="center_vertical|center_horizontal"
-                                android:textStyle="bold"
+                                style="@style/font_family"
                                 />
                         </LinearLayout>
 
@@ -1456,8 +1455,8 @@
 
                     <ImageView
                         android:id="@+id/equipLocationZipCodeImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1476,7 +1475,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -1498,7 +1497,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/equipLocationZipCodeImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:inputType="textPersonName"
                     />
@@ -1527,8 +1526,8 @@
 
                     <ImageView
                         android:id="@+id/equipLocationNameImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1547,7 +1546,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -1570,7 +1569,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/equipLocationNameImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:lines="3"
                     android:inputType="textPersonName"
@@ -1599,8 +1598,8 @@
 
                     <ImageView
                         android:id="@+id/equipLocationAddressImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1619,7 +1618,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -1641,7 +1640,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/equipLocationAddressImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:inputType="textPersonName"
                     />
@@ -1669,8 +1668,8 @@
 
                     <ImageView
                         android:id="@+id/equipLocationCityImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1689,7 +1688,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -1711,7 +1710,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/equipLocationCityImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:inputType="textPersonName"
                     />
@@ -1739,8 +1738,8 @@
 
                     <ImageView
                         android:id="@+id/equipLocationStateImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1759,7 +1758,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -1781,7 +1780,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/equipLocationStateImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:inputType="textPersonName"
                     />
@@ -1823,10 +1822,10 @@
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
                                 android:text="@string/lbl_original_interchange_location"
-                                android:textSize="15sp"
+                                android:textSize="@dimen/heading_text_size"
                                 android:textColor="@color/appThemeColor"
                                 android:gravity="center_vertical|center_horizontal"
-                                android:textStyle="bold"
+                                style="@style/font_family"
                                 />
                         </LinearLayout>
 
@@ -1873,8 +1872,8 @@
 
                     <ImageView
                         android:id="@+id/originLocationZipCodeImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1893,7 +1892,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -1915,7 +1914,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/originLocationZipCodeImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:inputType="textPersonName"
                     />
@@ -1944,8 +1943,8 @@
 
                     <ImageView
                         android:id="@+id/originLocationNameImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1964,7 +1963,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -1987,9 +1986,10 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/originLocationNameImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:lines="3"
+                    android:minLines="1"
                     android:inputType="textPersonName"
                     />
             </LinearLayout>
@@ -2016,8 +2016,8 @@
 
                     <ImageView
                         android:id="@+id/originLocationAddressImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -2036,7 +2036,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -2058,7 +2058,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/originLocationAddressImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:inputType="textPersonName"
                     />
@@ -2086,8 +2086,8 @@
 
                     <ImageView
                         android:id="@+id/originLocationCityImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -2106,7 +2106,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -2128,7 +2128,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/originLocationCityImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:inputType="textPersonName"
                     />
@@ -2156,8 +2156,8 @@
 
                     <ImageView
                         android:id="@+id/originLocationStateImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -2176,7 +2176,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -2198,7 +2198,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/originLocationStateImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:inputType="textPersonName"
                     />
@@ -2222,10 +2222,9 @@
                     android:layout_height="wrap_content"
                     android:text="NOTE"
                     android:textColor="@android:color/holo_red_dark"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
+                    android:textSize="@dimen/note_text_size"
                     android:theme="@style/AppTheme"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:gravity="center_horizontal|center_vertical"
                     />
 
@@ -2243,9 +2242,9 @@
                         android:layout_height="wrap_content"
                         android:text="@string/note_chassis_number"
                         android:textColor="@android:color/black"
-                        android:textSize="12sp"
+                        android:textSize="@dimen/note_value_text_size"
                         android:theme="@style/AppTheme"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         android:gravity="left|top"
                         />
                 </LinearLayout>

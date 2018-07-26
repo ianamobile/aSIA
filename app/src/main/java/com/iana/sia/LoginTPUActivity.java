@@ -4,18 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,8 +32,8 @@ import com.iana.sia.utility.SIAUtility;
 
 public class LoginTPUActivity extends AppCompatActivity {
 
-    private String urlResponse;
-    private int urlResponseCode;
+    String urlResponse;
+    int urlResponseCode;
 
     TextView troubleSignOn;
     TextView forgotUsername;
@@ -137,7 +135,7 @@ public class LoginTPUActivity extends AppCompatActivity {
             String password          = ((EditText) findViewById(R.id.password)).getText().toString();
 
             String error = validateLoginFields(userName, password);
-            if(error == "") {
+            if(error.equalsIgnoreCase("")) {
 
                 // code to disable background functionality when progress bar starts
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -165,18 +163,17 @@ public class LoginTPUActivity extends AppCompatActivity {
     }
 
     private String validateLoginFields(String userName, String password) {
-        if((userName == null || userName == "" || userName.toString().trim().length() <= 0) &&
-                (password == null || password == "" || password.toString().trim().length() <= 0)) {
+        if((userName == null || userName.equalsIgnoreCase("") || userName.trim().length() <= 0) &&
+                (password == null || password.equalsIgnoreCase("") || password.trim().length() <= 0)) {
             return getString(R.string.msg_error_empty_username_password);
         }
 
-        if(userName == null || userName == "" || userName.toString().trim().length() <= 0) {
+        if(userName == null || userName.equalsIgnoreCase("") || userName.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_userName);
         }
 
-        if(password == null || password == "" || password.toString().trim().length() <= 0) {
+        if(password == null || password.equalsIgnoreCase("") || password.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_password);
-
         }
 
         return "";

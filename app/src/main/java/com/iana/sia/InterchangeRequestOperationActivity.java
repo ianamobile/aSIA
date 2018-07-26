@@ -15,7 +15,6 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,7 +46,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.iana.sia.model.FieldInfo;
-import com.iana.sia.model.InterchangeRequests;
 import com.iana.sia.model.InterchangeRequestsJson;
 import com.iana.sia.model.SIASecurityObj;
 import com.iana.sia.model.UIIAExhibit;
@@ -83,8 +81,8 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
 
     boolean isOpen = false;
 
-    private FloatingActionMenu fam;
-    private FloatingActionButton cancelBtn, approveBtn, rejectBtn, onholdBtn, reinitiateBtn;
+    FloatingActionMenu fam;
+    FloatingActionButton cancelBtn, approveBtn, rejectBtn, onholdBtn, reinitiateBtn;
 
     Context context;
 
@@ -110,17 +108,18 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interchange_request_operation);
 
-        context = getApplicationContext();
+        context = this;
 
         dialogTitle = getString(R.string.dialog_title_interchange_request_operation);
 
-        showActionBar();
+        SIAUtility.showActionBar(context, getSupportActionBar());
+
         ((TextView) findViewById(R.id.title)).setText(R.string.title_view_details);
         backBtn = findViewById(R.id.backBtn);
         backBtn.setText(R.string.title_back);
         backBtn.setVisibility(View.VISIBLE);
-        ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(this, R.color.color_white));
-        backBtn.setTextColor(ContextCompat.getColor(this, R.color.color_white));
+        ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(context, R.color.color_white));
+        backBtn.setTextColor(ContextCompat.getColor(context, R.color.color_white));
 
         progressBar = findViewById(R.id.processingBar);
 
@@ -193,8 +192,8 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
         mDrawable.setColorFilter(new
                 PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
         fam.getMenuIconView().setImageDrawable(mDrawable);
-        fam.setMenuButtonColorNormal(ContextCompat.getColor(this, R.color.appThemeColor));
-        fam.setMenuButtonColorPressed(ContextCompat.getColor(this, R.color.appThemeColor));
+        fam.setMenuButtonColorNormal(ContextCompat.getColor(context, R.color.appThemeColor));
+        fam.setMenuButtonColorPressed(ContextCompat.getColor(context, R.color.appThemeColor));
 
         //handling menu status (open or close)
         fam.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
@@ -265,9 +264,6 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
             approveBtn.setImageDrawable(SIAUtility.resizeIcon(mDrawable, getResources(), 50, 50));
 
-//            approveBtn.setPadding(40, 10, 10, 10);
-//            approveBtn.setLabelTextColor(R.color.color_black);
-
 
             if(null != irJson.getInProcessWf().getWfSeqType() && GlobalVariables.INITIATOR_MCA.equalsIgnoreCase(irJson.getInProcessWf().getWfSeqType())) {
                 onholdBtn.setVisibility(visibleOrGone);
@@ -275,7 +271,6 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     mDrawable.setColorFilter(new
                             PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
                 onholdBtn.setImageDrawable(SIAUtility.resizeIcon(mDrawable, getResources(), 50, 50));
-//                onholdBtn.setLabelTextColor(R.color.color_black);
             }
 
             rejectBtn.setVisibility(visibleOrGone);
@@ -283,14 +278,13 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 mDrawable.setColorFilter(new
                         PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
             rejectBtn.setImageDrawable(SIAUtility.resizeIcon(mDrawable, getResources(), 50, 50));
-//            rejectBtn.setLabelTextColor(R.color.color_black);
 
             reinitiateBtn.setVisibility(visibleOrGone);
                 mDrawable = ContextCompat.getDrawable(context, R.drawable.reinitiate);
                 mDrawable.setColorFilter(new
                         PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
             reinitiateBtn.setImageDrawable(SIAUtility.resizeIcon(mDrawable, getResources(), 50, 50));
-//            reinitiateBtn.setLabelTextColor(R.color.color_black);
+
 
         } else {
 
@@ -301,7 +295,6 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                             mDrawable.setColorFilter(new
                                     PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
                         cancelBtn.setImageDrawable(SIAUtility.resizeIcon(mDrawable, getResources(), 50, 50));
-//                        cancelBtn.setLabelTextColor(R.color.color_black);
                     }
                 }
 
@@ -310,7 +303,6 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 mDrawable.setColorFilter(new
                         PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
             reinitiateBtn.setImageDrawable(SIAUtility.resizeIcon(mDrawable, getResources(), 50, 50));
-//            reinitiateBtn.setLabelTextColor(R.color.color_black);
         }
     }
 
@@ -371,6 +363,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
             if(fieldInfo.getTitle().equalsIgnoreCase(GlobalVariables.FIELD_INFO_EMPTY)) {
                 row = (TableRow)LayoutInflater.from(context).inflate(R.layout.verify_heading, null);
                 ((TextView)row.findViewById(R.id.title)).setText(fieldInfo.getValue());
+                ((TextView)row.findViewById(R.id.title)).setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
                 tl.addView(row);
 
             } else if(fieldInfo.getTitle().equalsIgnoreCase(GlobalVariables.FIELD_INFO_TITLE)) {
@@ -379,22 +372,26 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 if(fieldInfo.getValue().equalsIgnoreCase("Remarks")) {
                     fieldInfo = fieldInfoList.get(++i);
                     ((TextView) row.findViewById(R.id.locationLbl)).setText(fieldInfo.getValue());
-                    ((TextView) row.findViewById(R.id.locationLbl)).setTextColor(ContextCompat.getColor(this, R.color.appThemeColor));
+                    ((TextView) row.findViewById(R.id.locationLbl)).setTextColor(ContextCompat.getColor(context, R.color.appThemeColor));
+                    ((TextView)row.findViewById(R.id.locationLbl)).setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
 
                     ((TextView) row.findViewById(R.id.locationValue)).setText("");
+                    ((TextView)row.findViewById(R.id.locationValue)).setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
                     tl.addView(row);
 
                 } else {
                     ((TextView) row.findViewById(R.id.locationLbl)).setText(fieldInfo.getValue());
+                    ((TextView)row.findViewById(R.id.locationLbl)).setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
 
                     fieldInfo = fieldInfoList.get(++i);
                     ((TextView) row.findViewById(R.id.locationValue)).setText(fieldInfo.getValue());
+                    ((TextView)row.findViewById(R.id.locationValue)).setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
                     tl.addView(row);
                 }
 
             } else  if(fieldInfo.getTitle().equalsIgnoreCase(GlobalVariables.FIELD_INFO_BLANK)) {
-                row = new TableRow(this);
-                LinearLayout ll = new LinearLayout(this);
+                row = new TableRow(context);
+                LinearLayout ll = new LinearLayout(context);
                 TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 40, 1f);
                 lp.setMargins(0, 10, 0, 0);
                 ll.setLayoutParams(lp);
@@ -406,19 +403,6 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
         }
 
     }
-
-    private void showActionBar() {
-        LayoutInflater inflater = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.ab_custom, null);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowHomeEnabled (false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setCustomView(v);
-    }
-
 
     // code to view / close workflow
     private void viewMenu() {
@@ -595,7 +579,8 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         actionTextView.setTextColor(ContextCompat.getColor(this, android.R.color.white));
                         actionTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                         actionTextView.setGravity(Gravity.CENTER_VERTICAL);
-                        actionTextView.setTypeface(actionTextView.getTypeface(), Typeface.BOLD);
+//                        actionTextView.setTypeface(actionTextView.getTypeface(), Typeface.BOLD);
+                        actionTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
                         actionTextView.setTextSize(textSizeAction * getResources().getDisplayMetrics().density);
 
                         actionDateLl.addView(actionTextView);
@@ -611,7 +596,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         dateTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                         dateTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                         dateTextView.setGravity(Gravity.CENTER_VERTICAL);
-                        dateTextView.setTypeface(dateTextView.getTypeface(), Typeface.BOLD);
+                        dateTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
                         dateTextView.setTextSize(textSizeDate * getResources().getDisplayMetrics().density);
 
                         actionDateLl.addView(dateTextView);
@@ -638,7 +623,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     actionTextView.setText(wf.getAction());
                     actionTextView.setTextColor(ContextCompat.getColor(this, android.R.color.white));
                     actionTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-                    actionTextView.setTypeface(actionTextView.getTypeface(), Typeface.BOLD);
+                    actionTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
                     actionTextView.setTextSize(textSizeAction * getResources().getDisplayMetrics().density);
 
                     actionDateLl.addView(actionTextView);
@@ -653,7 +638,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         dateTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                         dateTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                         dateTextView.setGravity(Gravity.CENTER_VERTICAL);
-                        dateTextView.setTypeface(dateTextView.getTypeface(), Typeface.BOLD);
+                        dateTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
                         dateTextView.setTextSize(textSizeDate * getResources().getDisplayMetrics().density);
 
                         actionDateLl.addView(dateTextView);
@@ -681,7 +666,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     actionTextView.setText(wf.getAction());
                     actionTextView.setTextColor(ContextCompat.getColor(this, android.R.color.white));
                     actionTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-                    actionTextView.setTypeface(actionTextView.getTypeface(), Typeface.BOLD);
+                    actionTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
                     actionTextView.setTextSize(textSizeAction * getResources().getDisplayMetrics().density);
 
                     actionDateLl.addView(actionTextView);
@@ -696,7 +681,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         dateTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                         dateTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                         dateTextView.setGravity(Gravity.CENTER_VERTICAL);
-                        dateTextView.setTypeface(dateTextView.getTypeface(), Typeface.BOLD);
+                        dateTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
                         dateTextView.setTextSize(textSizeDate * getResources().getDisplayMetrics().density);
 
                         actionDateLl.addView(dateTextView);
@@ -724,7 +709,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     actionTextView.setText(wf.getAction());
                     actionTextView.setTextColor(ContextCompat.getColor(this, android.R.color.white));
                     actionTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-                    actionTextView.setTypeface(actionTextView.getTypeface(), Typeface.BOLD);
+                    actionTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
                     actionTextView.setTextSize(textSizeAction * getResources().getDisplayMetrics().density);
 
                     actionDateLl.addView(actionTextView);
@@ -739,7 +724,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         dateTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                         dateTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                         dateTextView.setGravity(Gravity.CENTER_VERTICAL);
-                        dateTextView.setTypeface(dateTextView.getTypeface(), Typeface.BOLD);
+                        dateTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
                         dateTextView.setTextSize(textSizeDate * getResources().getDisplayMetrics().density);
 
                         actionDateLl.addView(dateTextView);
@@ -766,7 +751,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     actionTextView.setText(wf.getAction());
                     actionTextView.setTextColor(ContextCompat.getColor(this, android.R.color.white));
                     actionTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-                    actionTextView.setTypeface(actionTextView.getTypeface(), Typeface.BOLD);
+                    actionTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
                     actionTextView.setTextSize(textSizeAction * getResources().getDisplayMetrics().density);
 
                     actionDateLl.addView(actionTextView);
@@ -781,7 +766,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         dateTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                         dateTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                         dateTextView.setGravity(Gravity.CENTER_VERTICAL);
-                        dateTextView.setTypeface(dateTextView.getTypeface(), Typeface.BOLD);
+                        dateTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
                         dateTextView.setTextSize(textSizeDate * getResources().getDisplayMetrics().density);
 
                         actionDateLl.addView(dateTextView);
@@ -958,10 +943,10 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
      * Method which will perform interchange request operation Activity
      */
 
-    class ExecuteOperationTask extends AsyncTask<String, Integer, String> {
+    private class ExecuteOperationTask extends AsyncTask<String, Integer, String> {
         String requestString;
 
-        public ExecuteOperationTask(String requestString) {
+        private ExecuteOperationTask(String requestString) {
             this.requestString = requestString;
         }
 
@@ -991,13 +976,6 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
                 if (urlResponseCode == 200) {
-
-//                    JsonObject jsonObject = new JsonObject();
-//                    jsonObject.addProperty("irId", irJson.getInterchangeRequests().getIrId());
-//                    jsonObject.addProperty("accessToken", siaSecurityObj.getAccessToken());
-
-//                    Log.v("log_tag", "InterchangeRequestOperationActivity jsonObject:=> " + jsonObject.toString());
-//                    new ExecuteTaskToGetInterchangeRequestDetails(jsonObject.toString()).execute();
 
                     editor.putString(GlobalVariables.KEY_SUCCESS_MESSAGE, errorMessage.getMessage());
                     editor.commit();
@@ -1030,219 +1008,10 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
     }
 
 
-        /* code to get interchange request details functionality starts */
-
-    class ExecuteTaskToGetInterchangeRequestDetails extends AsyncTask<String, Integer, String> {
-        String requestString;
-
-        public ExecuteTaskToGetInterchangeRequestDetails(String requestString) {
-            this.requestString = requestString;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            ApiResponse apiResponse = RestApiClient.callPostApi(requestString, getString(R.string.base_url) + getString(R.string.api_get_interchange_request_details));
-            urlResponse = apiResponse.getMessage();
-            urlResponseCode = apiResponse.getCode();
-            return urlResponse;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            try {
-                Log.v("log_tag", "InterchangeRequestOperationActivity: ExecuteTaskToGetInterchangeRequestDetails: urlResponseCode:=>" + urlResponseCode);
-                Log.v("log_tag", "InterchangeRequestOperationActivity: ExecuteTaskToGetInterchangeRequestDetails: result:=> " + result);
-                Gson gson = new Gson();
-
-                if (urlResponseCode == 200) {
-                    InterchangeRequestsJson interchangeRequestsJson = gson.fromJson(result, InterchangeRequestsJson.class);
-                    Log.v("log_tag", "interchangeRequestsJson:=>"+interchangeRequestsJson);
-
-                    Integer[] categories = null;
-                    String[] categoriesName = null;
-                    String[] labelArray = null;
-                    String[] valueArray = null;
-
-                    List<String> labelList = new ArrayList<>();
-                    List<String> valueList = new ArrayList<>();
-
-                    List<Integer> categoriesList = new ArrayList<>();
-                    List<String> categoriesNameList = new ArrayList<>();
-
-                    InterchangeRequests ir = interchangeRequestsJson.getInterchangeRequests();
-
-                    if(null == ir.getIntchgType() || ir.getIntchgType().trim().length()<= 0) {
-                        categoriesList.add(9);
-                        categoriesList.add(5);
-
-                        categoriesNameList.add("Street Turn Details");
-                        categoriesNameList.add("Original Interchange Location");
-
-                        labelList.add("CONTAINER PROVIDER NAME");
-                        labelList.add("CONTAINER PROVIDER SCAC");
-                        labelList.add("MOTOR CARRIER NAME");
-                        labelList.add("MOTOR CARRIER SCAC");
-                        labelList.add("IMPORT B/L");
-                        labelList.add("EXPORT BOOKING #");
-                        labelList.add("CONTAINER #");
-                        labelList.add("CHASSIS #");
-                        labelList.add("CHASSIS IEP SCAC");
-                        labelList.add("LOCATION NAME");
-                        labelList.add("LOCATION ADDRESS");
-                        labelList.add("ZIP CODE");
-                        labelList.add("CITY");
-                        labelList.add("STATE");
-
-                        valueList.add(ir.getEpCompanyName());
-                        valueList.add(ir.getEpScacs());
-                        valueList.add(ir.getMcACompanyName());
-                        valueList.add(ir.getMcAScac());
-                        valueList.add(ir.getImportBookingNum());
-                        valueList.add(ir.getBookingNum());
-                        valueList.add(ir.getContNum());
-                        valueList.add(ir.getChassisNum());
-                        valueList.add(ir.getIepScac());
-                        valueList.add(ir.getOriginLocNm());
-                        valueList.add(ir.getOriginLocAddr());
-                        valueList.add(ir.getOriginLocZip());
-                        valueList.add(ir.getOriginLocCity());
-                        valueList.add(ir.getOriginLocState());
-
-                    } else {
-
-                        categoriesList.add(17);
-                        categoriesList.add(5);
-                        categoriesList.add(5);
-
-                        categoriesNameList.add("Street Interchange Details");
-                        categoriesNameList.add("Equipment Location");
-                        categoriesNameList.add("Original Interchange Location");
-
-
-                        labelList.add("CONTAINER PROVIDER NAME");
-                        labelList.add("CONTAINER PROVIDER SCAC");
-                        labelList.add("MOTOR CARRIER A'S NAME");
-                        labelList.add("MOTOR CARRIER A'S SCAC");
-                        labelList.add("MOTOR CARRIER B'S NAME");
-                        labelList.add("MOTOR CARRIER B'S SCAC");
-                        labelList.add("TYPE OF INTERCHANGE");
-                        labelList.add("CONTAINER TYPE");
-                        labelList.add("CONTAINER SIZE");
-                        labelList.add("IMPORT B/L");
-                        labelList.add("EXPORT BOOKING #");
-                        labelList.add("CONTAINER #");
-                        labelList.add("CHASSIS #");
-                        labelList.add("CHASSIS IEP SCAC");
-                        labelList.add("CHASSIS TYPE");
-                        labelList.add("CHASSIS SIZE");
-                        labelList.add("GENSET #");
-                        labelList.add("LOCATION NAME");
-                        labelList.add("LOCATION ADDRESS");
-                        labelList.add("ZIP CODE");
-                        labelList.add("CITY");
-                        labelList.add("STATE");
-                        labelList.add("LOCATION NAME");
-                        labelList.add("LOCATION ADDRESS");
-                        labelList.add("ZIP CODE");
-                        labelList.add("CITY");
-                        labelList.add("STATE");
-
-                        valueList.add(ir.getEpCompanyName());
-                        valueList.add(ir.getEpScacs());
-                        valueList.add(ir.getMcACompanyName());
-                        valueList.add(ir.getMcAScac());
-                        valueList.add(ir.getMcBCompanyName());
-                        valueList.add(ir.getMcBScac());
-                        valueList.add(ir.getIntchgType());
-                        valueList.add(ir.getContType());
-                        valueList.add(ir.getContSize());
-                        valueList.add(ir.getImportBookingNum());
-                        valueList.add(ir.getBookingNum());
-                        valueList.add(ir.getContNum());
-                        valueList.add(ir.getChassisNum());
-                        valueList.add(ir.getIepScac());
-                        valueList.add(ir.getChassisType());
-                        valueList.add(ir.getChassisSize());
-                        valueList.add(ir.getGensetNum());
-
-                        valueList.add(ir.getEquipLocNm());
-                        valueList.add(ir.getEquipLocAddr());
-                        valueList.add(ir.getEquipLocZip());
-                        valueList.add(ir.getEquipLocCity());
-                        valueList.add(ir.getEquipLocState());
-
-                        valueList.add(ir.getOriginLocNm());
-                        valueList.add(ir.getOriginLocAddr());
-                        valueList.add(ir.getOriginLocZip());
-                        valueList.add(ir.getOriginLocCity());
-                        valueList.add(ir.getOriginLocState());
-
-                    }
-                    if(null != interchangeRequestsJson.getUiiaExhibitDataList() && interchangeRequestsJson.getUiiaExhibitDataList().size() > 0) {
-                        categoriesList.add(interchangeRequestsJson.getUiiaExhibitDataList().size());
-                        categoriesNameList.add("Equipment Condition (per UIIA Exhibit A)");
-
-                        for(int i= 0; i < interchangeRequestsJson.getUiiaExhibitDataList().size(); i++) {
-                            labelList.add(interchangeRequestsJson.getUiiaExhibitDataList().get(i).get("item").toString());
-                            valueList.add(interchangeRequestsJson.getUiiaExhibitDataList().get(i).get("item_desc").toString());
-                        }
-                    }
-
-                    if(null != ir.getRemarks() && ir.getRemarks().length() > 0) {
-                        String[] remarksArray = ir.getRemarks().split("\\|\\|");
-                        categoriesList.add(remarksArray.length);
-                        categoriesNameList.add("Previous Comments");
-                        for(String remarks:remarksArray) {
-                            labelList.add("Remarks");
-                            valueList.add(remarks);
-                        }
-                    }
-
-                    categories = categoriesList.toArray(new Integer[0]);
-                    categoriesName = categoriesNameList.toArray(new String[0]);
-                    labelArray = labelList.toArray(new String[0]);
-                    valueArray = valueList.toArray(new String[0]);
-
-                    List<FieldInfo> fieldInfoList = SIAUtility.prepareAndGetFieldInfoList(categories, categoriesName, labelArray, valueArray);
-                    SIAUtility.setList(editor, "fieldInfoList", fieldInfoList);
-
-                    SIAUtility.setObject(editor, GlobalVariables.KEY_OPERATION_IR_OBJ, interchangeRequestsJson);
-
-                    editor.commit();
-
-                    Intent intent = new Intent(InterchangeRequestOperationActivity.this, InterchangeRequestOperationActivity.class);
-                    startActivity(intent);
-                    finish(); /* This method will not display login page when click back (return) from phone */
-                            /* End */
-
-                } else {
-                    try {
-                        ApiResponseMessage errorMessage = gson.fromJson(result, ApiResponseMessage.class);
-                        new ViewDialog().showDialog(InterchangeRequestOperationActivity.this, dialogTitle, errorMessage.getApiReqErrors().getErrors().get(0).getErrorMessage());
-
-                    } catch(Exception e) {
-                        new ViewDialog().showDialog(InterchangeRequestOperationActivity.this, dialogTitle, getString(R.string.msg_error_try_after_some_time));
-                    }
-                }
-
-            } catch (Exception e) {
-                Log.v("log_tag", "Error ", e);
-            }
-
-            progressBar.setVisibility(View.GONE);
-        }
-    }
-
-    class ExecuteGetUIIAExhibitListTask extends AsyncTask<String, Integer, String> {
+    private class ExecuteGetUIIAExhibitListTask extends AsyncTask<String, Integer, String> {
 
         final String opt;
-        public ExecuteGetUIIAExhibitListTask(String opt) {
+        private ExecuteGetUIIAExhibitListTask(String opt) {
             this.opt = opt;
         }
 
@@ -1363,13 +1132,13 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    class UIIAExhibitListViewAdapter extends BaseAdapter {
+    private class UIIAExhibitListViewAdapter extends BaseAdapter {
 
         private Context mContext;
         private List<UIIAExhibit> mProductList;
 
         // Constructor
-        public UIIAExhibitListViewAdapter(Context mContext, List<UIIAExhibit> mProductList) {
+        private UIIAExhibitListViewAdapter(Context mContext, List<UIIAExhibit> mProductList) {
             this.mContext = mContext;
             this.mProductList = mProductList;
         }

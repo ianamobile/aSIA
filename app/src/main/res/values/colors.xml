@@ -35,7 +35,7 @@
     <color name="bg_color_rejected">#d9534f</color>
     <color name="bg_color_onhold">#d9534f</color>
     <color name="bg_color_cancelled">#d9534f</color>
-    <color name="bg_color_disabled">#aaa</color>
+    <color name="bg_color_disabled">#808080</color>
     <color name="bg_color_reinitiate">#5bc0de</color>
 
     <color name="wf_bg_color_approved">#006400</color>

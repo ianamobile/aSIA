@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:textColor="@color/color_black"
             android:gravity="left"
-            android:fontFamily="sans-serif-medium"
+            style="@style/font_family"
             android:textSize="13dp"
             />
     </LinearLayout>
@@ -43,7 +43,7 @@
             android:id="@+id/locationValue"
             android:text="STATE:"
             android:textColor="@color/appThemeColor"
-            android:fontFamily="sans-serif-medium"
+            style="@style/font_family"
             android:textSize="13dp"
             android:gravity="right"
             />

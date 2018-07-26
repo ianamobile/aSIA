@@ -3,43 +3,33 @@ package com.iana.sia;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 
-import com.google.gson.Gson;
-import com.iana.sia.model.InterchangeRequests;
-import com.iana.sia.model.InterchangeRequestsSearch;
 import com.iana.sia.model.Permissions;
 import com.iana.sia.model.SIASecurityObj;
-import com.iana.sia.model.User;
 import com.iana.sia.utility.GlobalVariables;
 import com.iana.sia.utility.Internet_Check;
 import com.iana.sia.utility.SIAUtility;
+
+import java.util.Arrays;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -67,8 +57,8 @@ public class DashboardActivity extends AppCompatActivity {
     //TPU Section
 
     int[] tpuDefaultRightsMenuArr = new int[]{5, 6, 20};
-    int[] tpuSingleRightsMenuArr = new int[]{2, 0, 1, 5, 6, 20};
-    int[] tpuFullRightsMenuArr = new int[]{2, 7, 3, 0, 1, 5, 6, 20};
+    int[] tpuSingleRightsMenuArr = new int[]{2, 4, 0, 1, 5, 6, 20};
+    int[] tpuFullRightsMenuArr = new int[]{2, 4, 7, 3, 0, 1, 5, 6, 20};
 
 
     //final array which hold run time value from the rights based login.
@@ -79,23 +69,28 @@ public class DashboardActivity extends AppCompatActivity {
 
     SIASecurityObj siaSecurityObj;
 
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        showActionBar();
+
+        context = this;
+
+        SIAUtility.showActionBar(context, getSupportActionBar());
+
         ((TextView) findViewById(R.id.title)).setText(R.string.title_dashboard);
+        ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(this, R.color.color_white));
 
         sharedPref = getSharedPreferences(GlobalVariables.KEY_SECURITY_OBJ, Context.MODE_PRIVATE);
         editor = sharedPref.edit();
 
         siaSecurityObj = SIAUtility.getObjectOfModel(sharedPref, GlobalVariables.KEY_SECURITY_OBJ, SIASecurityObj.class);
+        Log.v("log_tag", "siaSecurityObj:=> " + siaSecurityObj);
 
         if(siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_MC)) {
-            finalArr = new int[mcMenuArr.length];
-            for(int i=0;i<finalArr.length;i++){
-                finalArr[i] = mcMenuArr[i];
-            }
+            finalArr = Arrays.copyOf(mcMenuArr, mcMenuArr.length);
 
         } else if(siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_SEC) &&
                  null != siaSecurityObj.getMemType() && siaSecurityObj.getMemType().equalsIgnoreCase(GlobalVariables.ROLE_MC)) {
@@ -104,33 +99,19 @@ public class DashboardActivity extends AppCompatActivity {
             if((null == permissions.getIniIntrchng() || !permissions.getIniIntrchng().equalsIgnoreCase(GlobalVariables.Y)) &&
                 (null == permissions.getIniIntrchngAndApprove() || !permissions.getIniIntrchngAndApprove().equalsIgnoreCase(GlobalVariables.Y))) {
 
-                    finalArr = new int[mcSecDefaultRightsMenuArr.length];
-                    for (int i = 0; i < finalArr.length; i++) {
-                        finalArr[i] = mcSecDefaultRightsMenuArr[i];
-                    }
+                    finalArr = Arrays.copyOf(mcSecDefaultRightsMenuArr, mcSecDefaultRightsMenuArr.length);
 
             } else if(null != permissions.getIniIntrchng() && permissions.getIniIntrchng().equalsIgnoreCase(GlobalVariables.Y) &&
                     (null == permissions.getIniIntrchngAndApprove() || !permissions.getIniIntrchngAndApprove().equalsIgnoreCase(GlobalVariables.Y))) {
 
-                    finalArr = new int[mcSecSingleRightsMenuArr.length];
-                    for (int i = 0; i < finalArr.length; i++) {
-                        finalArr[i] = mcSecSingleRightsMenuArr[i];
-                    }
+                    finalArr = Arrays.copyOf(mcSecSingleRightsMenuArr, mcSecSingleRightsMenuArr.length);
 
             } else {
-
-                    finalArr = new int[mcSecFullRightsMenuArr.length];
-                    for (int i = 0; i < finalArr.length; i++) {
-                        finalArr[i] = mcSecFullRightsMenuArr[i];
-                    }
+                    finalArr = Arrays.copyOf(mcSecFullRightsMenuArr, mcSecFullRightsMenuArr.length);
             }
-
 
         } else if(siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_EP)) {
-            finalArr = new int[epMenuArr.length];
-            for(int i=0;i<finalArr.length;i++){
-                finalArr[i] = epMenuArr[i];
-            }
+            finalArr = Arrays.copyOf(epMenuArr, epMenuArr.length);
 
         }  else if(siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_SEC) &&
                 null != siaSecurityObj.getMemType() && siaSecurityObj.getMemType().equalsIgnoreCase(GlobalVariables.ROLE_EP)) {
@@ -139,32 +120,20 @@ public class DashboardActivity extends AppCompatActivity {
             if((null == permissions.getIniIntrchng() || !permissions.getIniIntrchng().equalsIgnoreCase(GlobalVariables.Y)) &&
                     (null == permissions.getIniIntrchngAndApprove() || !permissions.getIniIntrchngAndApprove().equalsIgnoreCase(GlobalVariables.Y))) {
 
-                finalArr = new int[epSecDefaultRightsMenuArr.length];
-                for (int i = 0; i < finalArr.length; i++) {
-                    finalArr[i] = epSecDefaultRightsMenuArr[i];
-                }
+                finalArr = Arrays.copyOf(epSecDefaultRightsMenuArr, epSecDefaultRightsMenuArr.length);
 
             } else if(null != permissions.getIniIntrchng() && permissions.getIniIntrchng().equalsIgnoreCase(GlobalVariables.Y) &&
                     (null == permissions.getIniIntrchngAndApprove() || !permissions.getIniIntrchngAndApprove().equalsIgnoreCase(GlobalVariables.Y))) {
 
-                finalArr = new int[epSecSingleRightsMenuArr.length];
-                for (int i = 0; i < finalArr.length; i++) {
-                    finalArr[i] = epSecSingleRightsMenuArr[i];
-                }
+                finalArr = Arrays.copyOf(epSecSingleRightsMenuArr, epSecSingleRightsMenuArr.length);
 
             } else {
 
-                finalArr = new int[epSecFullRightsMenuArr.length];
-                for (int i = 0; i < finalArr.length; i++) {
-                    finalArr[i] = epSecFullRightsMenuArr[i];
-                }
+                finalArr = Arrays.copyOf(epSecFullRightsMenuArr, epSecFullRightsMenuArr.length);
             }
 
         } else if(siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_IDD)) {
-            finalArr = new int[iddMenuArr.length];
-            for(int i=0;i<finalArr.length;i++){
-                finalArr[i] = iddMenuArr[i];
-            }
+            finalArr = Arrays.copyOf(iddMenuArr, iddMenuArr.length);
 
         } else if(siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_TPU)) {
 
@@ -172,54 +141,26 @@ public class DashboardActivity extends AppCompatActivity {
             if(null == permissions || ((null == permissions.getIniIntrchng() || !permissions.getIniIntrchng().equalsIgnoreCase(GlobalVariables.Y)) &&
                     (null == permissions.getIniIntrchngAndApprove() || !permissions.getIniIntrchngAndApprove().equalsIgnoreCase(GlobalVariables.Y)))) {
 
-                finalArr = new int[tpuDefaultRightsMenuArr.length];
-                for (int i = 0; i < finalArr.length; i++) {
-                    finalArr[i] = tpuDefaultRightsMenuArr[i];
-                }
+                finalArr = Arrays.copyOf(tpuDefaultRightsMenuArr, tpuDefaultRightsMenuArr.length);
 
             } else if(null != permissions.getIniIntrchng() && permissions.getIniIntrchng().equalsIgnoreCase(GlobalVariables.Y) &&
                     (null == permissions.getIniIntrchngAndApprove() || !permissions.getIniIntrchngAndApprove().equalsIgnoreCase(GlobalVariables.Y))) {
 
-                finalArr = new int[tpuSingleRightsMenuArr.length];
-                for (int i = 0; i < finalArr.length; i++) {
-                    finalArr[i] = tpuSingleRightsMenuArr[i];
-                }
+                finalArr = Arrays.copyOf(tpuSingleRightsMenuArr, tpuSingleRightsMenuArr.length);
 
             } else {
 
-                finalArr = new int[tpuFullRightsMenuArr.length];
-                for (int i = 0; i < finalArr.length; i++) {
-                    finalArr[i] = tpuFullRightsMenuArr[i];
-                }
+                finalArr = Arrays.copyOf(tpuFullRightsMenuArr, tpuFullRightsMenuArr.length);
             }
 
         }
 
-        editor.remove(GlobalVariables.KEY_ORIGIN_FROM);
-        editor.remove(GlobalVariables.KEY_RETURN_FROM); // used when return from location search screen
-        editor.remove(GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ);
-        editor.remove(GlobalVariables.KEY_INTERCHANGE_REQUESTS_SEARCH_OBJ);
-        editor.remove(GlobalVariables.KEY_SEARCH_FOR_LOCATION);
-        editor.remove(GlobalVariables.KEY_NOTIF_AVAIL_SEARCH_OBJ);
-        editor.remove(GlobalVariables.KEY_BASE_ORIGIN_FROM);
-        editor.commit();
+        SIAUtility.removeAllKey(editor);
 
         setupDashboard(finalArr);
     }
 
-    private void showActionBar() {
-        LayoutInflater inflater = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.ab_custom, null);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowHomeEnabled (false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setCustomView(v);
-    }
-
-    public void setupDashboard(int[] finalArr) {
+     public void setupDashboard(int[] finalArr) {
 
         LinearLayout mainLayout = findViewById(R.id.rootLinearLayout);
 
@@ -312,6 +253,8 @@ public class DashboardActivity extends AppCompatActivity {
                                   GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_SEARCH_INTERCHANGE_REQUESTS_BY_TPU))
                                 ){
 
+                            editor.putString(GlobalVariables.KEY_ORIGIN_FROM, GlobalVariables.menuTitleArr[v.getId()]);
+                            editor.commit();
                             Intent intent = new Intent(DashboardActivity.this, SearchInterchangeRequestActivity.class);
                             startActivity(intent);
                             finish(); /* This method will not display login page when click back (return) from phone */
@@ -319,14 +262,6 @@ public class DashboardActivity extends AppCompatActivity {
 
                         } else if (null != GlobalVariables.menuTitleArr[v.getId()] &&
                                 GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_LIST_EP_USERS)) {
-
-                            Intent intent = new Intent(DashboardActivity.this, EPListByTPUActivity.class);
-                            startActivity(intent);
-                            finish(); /* This method will not display login page when click back (return) from phone */
-                                /* End */
-
-                        } else if (null != GlobalVariables.menuTitleArr[v.getId()] &&
-                                GlobalVariables.menuTitleArr[v.getId()].equalsIgnoreCase(GlobalVariables.MENU_TITLE_SEARCH_INTERCHANGE_REQUESTS_BY_TPU)) {
 
                             Intent intent = new Intent(DashboardActivity.this, EPListByTPUActivity.class);
                             startActivity(intent);
@@ -416,27 +351,30 @@ public class DashboardActivity extends AppCompatActivity {
             // text view starts
                 TextView textView = new TextView(this);
                 LayoutParams textViewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-            if(!GlobalVariables.menuTitleArr[finalArr[i]].equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS)) {
-                textViewLayoutParams.setMargins(5, 10, 0, 5);
-            }
+                if(!GlobalVariables.menuTitleArr[finalArr[i]].equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS)) {
+                    textViewLayoutParams.setMargins(5, 10, 5, 5);
+
+                } else {
+                    textViewLayoutParams.setMargins(5, 10, 5, 0);
+                }
                 textView.setLayoutParams(textViewLayoutParams);
                 textView.setText(GlobalVariables.menuTitleArr[finalArr[i]]);
                 textView.setTextColor(ContextCompat.getColor(this, android.R.color.black));
                 textView.setGravity(Gravity.CENTER);
-                textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
-                textView.setTextSize(6 * getResources().getDisplayMetrics().density);
+                textView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(R.dimen.dynamic_label_fontsize));
 
             TextView textViewPending = null;
             if(GlobalVariables.menuTitleArr[finalArr[i]].equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS)) {
                 textViewPending = new TextView(this);
                 LayoutParams textViewPendingLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-                textViewPendingLayoutParams.setMargins(5, 0, 5, 0);
+                textViewPendingLayoutParams.setMargins(5, 0, 5, 5);
                 textViewPending.setLayoutParams(textViewPendingLayoutParams);
-                textViewPending.setText("Action Required");
+                textViewPending.setText(getString(R.string.dashboard_menu_action_required));
                 textViewPending.setTextColor(ContextCompat.getColor(this, android.R.color.black));
                 textViewPending.setGravity(Gravity.CENTER);
-                textViewPending.setTypeface(textView.getTypeface(), Typeface.BOLD);
-                textViewPending.setTextSize(6 * getResources().getDisplayMetrics().density);
+                textViewPending.setTypeface(Typeface.create(getString(R.string.font_family), Typeface.NORMAL));
+                textViewPending.setTextSize(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(R.dimen.dynamic_label_fontsize));
             }
             // text view end
 
@@ -460,17 +398,10 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void callLogout() {
-        editor.remove(GlobalVariables.KEY_ORIGIN_FROM);
-        editor.remove(GlobalVariables.KEY_RETURN_FROM); // used when return from location search screen
-        editor.remove(GlobalVariables.KEY_SECURITY_OBJ);
-        editor.remove(GlobalVariables.KEY_INTERCHANGE_REQUESTS_OBJ);
-        editor.remove(GlobalVariables.KEY_INTERCHANGE_REQUESTS_SEARCH_OBJ);
-        editor.remove(GlobalVariables.KEY_SEARCH_FOR_LOCATION);
-        editor.remove(GlobalVariables.KEY_NOTIF_AVAIL_SEARCH_OBJ);
-        editor.remove(GlobalVariables.KEY_BASE_ORIGIN_FROM);
 
+        editor.remove(GlobalVariables.KEY_SECURITY_OBJ);
         editor.clear();
-        editor.commit(); // commit changes
+        SIAUtility.removeAllKey(editor);
 
         Intent intent = new Intent(DashboardActivity.this, LoginMCActivity.class);
         startActivity(intent);

@@ -8,13 +8,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -31,11 +29,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.iana.sia.model.InterchangeRequests;
 import com.iana.sia.model.InterchangeRequestsSearch;
 import com.iana.sia.model.SIASecurityObj;
-import com.iana.sia.model.User;
 import com.iana.sia.utility.GlobalVariables;
 import com.iana.sia.utility.Internet_Check;
 import com.iana.sia.utility.SIAUtility;
@@ -82,7 +77,8 @@ public class SearchInterchangeRequestActivity extends AppCompatActivity implemen
 
         dialogTitle = getString(R.string.title_search_interchange_request);
 
-        showActionBar();
+        SIAUtility.showActionBar(context, getSupportActionBar());
+
         ((TextView) findViewById(R.id.title)).setText(R.string.title_search_interchange_request);
         ((TextView) findViewById(R.id.title)).setTextColor(ContextCompat.getColor(this, R.color.color_white));
 
@@ -230,27 +226,15 @@ public class SearchInterchangeRequestActivity extends AppCompatActivity implemen
 
     }
 
-    private void showActionBar() {
-        LayoutInflater inflater = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.ab_custom, null);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowHomeEnabled (false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setCustomView(v);
-    }
-
-    public class StatusAdapter extends BaseAdapter {
+    private class StatusAdapter extends BaseAdapter {
         Context context;
         String[] status;
-        LayoutInflater inflter;
+        LayoutInflater inflater;
 
-        public StatusAdapter(Context applicationContext, String[] status) {
+        private StatusAdapter(Context applicationContext, String[] status) {
             this.context = applicationContext;
             this.status = status;
-            inflter = (LayoutInflater.from(applicationContext));
+            inflater = (LayoutInflater.from(applicationContext));
         }
 
         @Override
@@ -270,7 +254,7 @@ public class SearchInterchangeRequestActivity extends AppCompatActivity implemen
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            view = inflter.inflate(R.layout.custom_spinner_status, null);
+            view = inflater.inflate(R.layout.custom_spinner_status, null);
             TextView statusTextView = view.findViewById(R.id.statusTextView);
             statusTextView.setText(status[i]);
             return view;
@@ -294,9 +278,9 @@ public class SearchInterchangeRequestActivity extends AppCompatActivity implemen
     private void setDate(final Calendar calendar) {
 //        final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
         final DateFormat dateFormat = new SimpleDateFormat(getString(R.string.date_format));
-        if(clickOn == "fromDate") {
+        if(clickOn.equalsIgnoreCase("fromDate")) {
             ((EditText) findViewById(R.id.fromDate)).setText(dateFormat.format(calendar.getTime()));
-        } else if(clickOn == "toDate") {
+        } else if(clickOn.equalsIgnoreCase("toDate")) {
             ((EditText) findViewById(R.id.toDate)).setText(dateFormat.format(calendar.getTime()));
         }
     }

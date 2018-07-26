@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -30,8 +30,8 @@ import com.iana.sia.utility.SIAUtility;
 
 public class LoginIDDLicActivity extends AppCompatActivity implements Animation.AnimationListener {
 
-    private String urlResponse;
-    private int urlResponseCode;
+    String urlResponse;
+    int urlResponseCode;
 
     private ProgressBar progressBar;
 
@@ -104,7 +104,7 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
             String drvLicState          = ((EditText) findViewById(R.id.drvLicState)).getText().toString();
 
             String error = validateLoginFields(scac, drvLicNo, drvLicState);
-            if(error == "") {
+            if(error.equalsIgnoreCase("")) {
 
                 User user = new User();
 
@@ -130,13 +130,13 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
     }
 
     private String validateLoginFields(String scac, String drvLicNo, String drvLicState) {
-        if((scac == null || scac == "" || scac.toString().trim().length() <= 0) &&
-            (drvLicNo == null || drvLicNo == "" || drvLicNo.toString().trim().length() <= 0) &&
-            (drvLicState == null || drvLicState == "" || drvLicState.toString().trim().length() <= 0)) {
+        if((scac == null || scac.equalsIgnoreCase("") || scac.trim().length() <= 0) &&
+            (drvLicNo == null || drvLicNo.equalsIgnoreCase("") || drvLicNo.trim().length() <= 0) &&
+            (drvLicState == null || drvLicState.equalsIgnoreCase("") || drvLicState.trim().length() <= 0)) {
             return getString(R.string.msg_error_all_mandatory);
         }
 
-        if(scac == null || scac == "" || scac.toString().trim().length() <= 0) {
+        if(scac == null || scac.equalsIgnoreCase("") || scac.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_scac);
 
         } else if (!SIAUtility.isAlpha(scac)) {
@@ -146,14 +146,14 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
             return getString(R.string.msg_error_length_scac);
         }
 
-        if(drvLicNo == null || drvLicNo == "" || drvLicNo.toString().trim().length() <= 0) {
+        if(drvLicNo == null || drvLicNo.equalsIgnoreCase("") || drvLicNo.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_drvLicNo);
 
         } else if(!SIAUtility.isAlphaNumeric(drvLicNo)) {
             return getString(R.string.msg_error_alphanum_drvLicNo);
         }
 
-        if(drvLicState == null || drvLicState == "" || drvLicState.toString().trim().length() <= 0) {
+        if(drvLicState == null || drvLicState.equalsIgnoreCase("") || drvLicState.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_drvLicState);
 
         } else if(!SIAUtility.isAlpha(drvLicState)) {

@@ -5,33 +5,24 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ScaleDrawable;
-import android.location.Location;
 import android.os.AsyncTask;
-import android.provider.Settings;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -70,17 +61,22 @@ public class LocationActivity extends AppCompatActivity {
     InterchangeRequests ir;
     NotificationAvail na;
 
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
+
+        context = this;
 
         progressBar = findViewById(R.id.processingBar);
 
         // below code is used to restrict auto populate keypad
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        showActionBar();
+        SIAUtility.showActionBar(context, getSupportActionBar());
+
         ((TextView) findViewById(R.id.title)).setText(R.string.title_search_location);
         backBtn = findViewById(R.id.backBtn);
         backBtn.setText(R.string.title_back);
@@ -89,7 +85,7 @@ public class LocationActivity extends AppCompatActivity {
         backBtn.setTextColor(ContextCompat.getColor(this, R.color.color_white));
 
         // code is to resize search icon in textview start
-        Drawable drawable = getApplicationContext().getDrawable(R.drawable.search);
+        Drawable drawable = context.getDrawable(R.drawable.search);
         drawable.setBounds(0, 0, 50, 50); // 50 => height & width of image search
         ScaleDrawable sd = new ScaleDrawable(drawable, 0, 0, 0);
         ((EditText) findViewById(R.id.searchLocation)).setCompoundDrawables(sd.getDrawable(), null, null, null);
@@ -152,7 +148,7 @@ public class LocationActivity extends AppCompatActivity {
         searchLocation.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+                if (Internet_Check.checkInternetConnection(context)) {
                     if (null != s && s.toString().trim().length() > 1) {
                         if (SIAUtility.isAlphaNumSpaceHyphen(s.toString())) {
                                 final String requestString = tempRequestString + "?location=" + s.toString().trim() + "&epScac=" + epScac;
@@ -171,18 +167,16 @@ public class LocationActivity extends AppCompatActivity {
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // TODO Auto-generated method stub
             }
             @Override
             public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub
             }
         });
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-            if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+            if (Internet_Check.checkInternetConnection(context)) {
 
                 editor.putString(GlobalVariables.KEY_RETURN_FROM, GlobalVariables.RETURN_FROM_LOCATION_SEARCH);
                 editor.commit();
@@ -225,24 +219,12 @@ public class LocationActivity extends AppCompatActivity {
         });
     }
 
-    private void showActionBar() {
-        LayoutInflater inflater = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.ab_custom, null);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowHomeEnabled (false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setCustomView(v);
-    }
-
     /* code to perform Location Search functionality starts */
 
-    class ExecuteLocationSearchTask extends AsyncTask<String, Integer, String> {
+    private class ExecuteLocationSearchTask extends AsyncTask<String, Integer, String> {
         String requestString;
 
-        public ExecuteLocationSearchTask(String requestString) {
+        private ExecuteLocationSearchTask(String requestString) {
             this.requestString = requestString;
         }
 
@@ -274,7 +256,7 @@ public class LocationActivity extends AppCompatActivity {
                     Type listType = new TypeToken<List<IanaLocations>>() {}.getType();
                     dataList = gson.fromJson(result, listType);
 
-                    adapter = new LocationListAdapter(getApplicationContext(), dataList, false);
+                    adapter = new LocationListAdapter(context);
                     listView.setAdapter(adapter);
 
                 } else {
@@ -293,17 +275,12 @@ public class LocationActivity extends AppCompatActivity {
         }
     }
 
-    class LocationListAdapter extends BaseAdapter {
+    private class LocationListAdapter extends BaseAdapter {
 
         private Context mContext;
-        private List<IanaLocations> mProductList;
-        private boolean isShow;
-
         // Constructor
-        public LocationListAdapter(Context mContext, List<IanaLocations> mProductList,boolean isShow ) {
+        private LocationListAdapter(Context mContext) {
             this.mContext = mContext;
-            this.mProductList = mProductList;
-            this.isShow = isShow;
         }
 
         @Override
@@ -430,7 +407,7 @@ public class LocationActivity extends AppCompatActivity {
 
 
     void goToPreviousPage() {
-        if (Internet_Check.checkInternetConnection(getApplicationContext())) {
+        if (Internet_Check.checkInternetConnection(context)) {
 
             if(sharedPref.getString(GlobalVariables.KEY_ORIGIN_FROM, "").equalsIgnoreCase(GlobalVariables.ORIGIN_FROM_STREET_INTERCHANGE)) {
                 Intent intent = new Intent(LocationActivity.this, InitiateInterchangeActivity.class);

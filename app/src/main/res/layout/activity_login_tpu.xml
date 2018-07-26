@@ -105,7 +105,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -128,7 +128,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/userNameImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/username_length"
                     />
@@ -176,7 +176,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        style="@style/font_family"
                         app:layout_constraintTop_toBottomOf="@+id/siaImg" />
 
                 </LinearLayout>
@@ -199,7 +199,7 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/userImg"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
                     android:maxLength="@integer/password_length"
                     />
@@ -225,7 +225,7 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/btn_sign_on_size"
                     app:layout_constraintTop_toBottomOf="@+id/passwordLayout"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:layout_centerHorizontal="true" />
             </LinearLayout>
 
@@ -245,7 +245,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/lbl_trouble_signing_on"
                     android:textColor="@color/colorTextTroubleSignIn"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:layout_alignParentLeft="true"
                     />
                 <TextView
@@ -254,7 +254,7 @@
                     android:layout_height="wrap_content"
                     android:text="FORGOT USERNAME?"
                     android:textColor="@color/colorTextTroubleSignIn"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     android:layout_alignParentRight="true"
                     />
             </RelativeLayout>
@@ -278,7 +278,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/troubleSignOnLayout"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     />
             </LinearLayout>
 -->
@@ -302,7 +302,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/troubleSignOnLayout"
-                    android:fontFamily="sans-serif-medium"
+                    style="@style/font_family"
                     />
             </LinearLayout>
 -->

@@ -1,47 +1,35 @@
 package com.iana.sia;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.reflect.TypeToken;
 import com.iana.sia.model.FieldInfo;
-import com.iana.sia.model.IanaLocations;
 import com.iana.sia.model.InterchangeRequests;
 import com.iana.sia.model.InterchangeRequestsJson;
 import com.iana.sia.model.InterchangeRequestsSearch;
 import com.iana.sia.model.SIASecurityObj;
-import com.iana.sia.model.User;
 import com.iana.sia.utility.ApiResponse;
 import com.iana.sia.utility.ApiResponseMessage;
 import com.iana.sia.utility.GlobalVariables;
@@ -51,9 +39,7 @@ import com.iana.sia.utility.SIAUtility;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -72,12 +58,11 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
 
     ProgressBar progressBar;
 
-    InterchangeRequests interchangeRequests;
     InterchangeRequestsSearch irSearch;
 
     String dialogTitle;
 
-    Map<Integer, Integer> lastRecordMap = new HashMap<>();
+    Map<Integer, Integer> lastRecordMap = new HashMap<Integer, Integer>();
 
     SIASecurityObj siaSecurityObj;
 
@@ -97,7 +82,8 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
         // below code is used to restrict auto populate keypad
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        showActionBar();
+        SIAUtility.showActionBar(context, getSupportActionBar());
+
         ((TextView) findViewById(R.id.title)).setText(R.string.title_list_results);
         backBtn = findViewById(R.id.backBtn);
         backBtn.setText(R.string.title_back);
@@ -166,6 +152,17 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                             "&status="+irSearch.getStatus()+"&containerNo="+irSearch.getContNum()+"&bookingNo="+irSearch.getBookingNum()+
                             "&offset=" + ((totalItemCount / 10) + 1) + "&limit=" + limit;
 
+                    if(siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_MC) ||
+                            siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_IDD) ||
+                            (siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_SEC) && null != siaSecurityObj.getMemType() &&
+                                    siaSecurityObj.getMemType().equalsIgnoreCase(GlobalVariables.ROLE_MC))) {
+
+                        requestString = requestString + "&epSCAC="+irSearch.getScac();
+                    } else {
+                        requestString = requestString + "&mcSCAC="+irSearch.getScac();
+                    }
+
+
                     if(requestFrom != null && requestFrom.equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS)) {
                         requestString = "accessToken="+siaSecurityObj.getAccessToken()+"&actionRequired=Y"+
                                 "&offset=" + ((totalItemCount / 10) + 1) + "&limit=" + limit;
@@ -190,24 +187,12 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
         });
     }
 
-    private void showActionBar() {
-        LayoutInflater inflater = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.ab_custom, null);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowHomeEnabled (false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setCustomView(v);
-    }
+    /* code to perform Location Search functionality starts */
 
-        /* code to perform Location Search functionality starts */
-
-    class ExecuteInterchangeRequestSearchTask extends AsyncTask<String, Integer, String> {
+    private class ExecuteInterchangeRequestSearchTask extends AsyncTask<String, Integer, String> {
         String requestString;
 
-        public ExecuteInterchangeRequestSearchTask(String requestString) {
+        private ExecuteInterchangeRequestSearchTask(String requestString) {
             this.requestString = requestString;
         }
 
@@ -219,7 +204,14 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             Log.v("log_tag", "doInBackground:=>" + (getString(R.string.base_url) + getString(R.string.api_sia_lookup) + "?" + requestString));
-            ApiResponse apiResponse = RestApiClient.callGetApi(getString(R.string.base_url) + getString(R.string.api_sia_lookup) + "?" + requestString);
+            ApiResponse apiResponse;
+            if(requestFrom != null && requestFrom.equalsIgnoreCase(GlobalVariables.MENU_TITLE_SEARCH_INTERCHANGE_REQUESTS_BY_TPU)) {
+                apiResponse = RestApiClient.callGetApi(getString(R.string.base_url) + getString(R.string.api_get_list_work_done_by_tpu) + "?" + requestString);
+
+            } else {
+                apiResponse = RestApiClient.callGetApi(getString(R.string.base_url) + getString(R.string.api_sia_lookup) + "?" + requestString);
+            }
+
             urlResponse = apiResponse.getMessage();
             urlResponseCode = apiResponse.getCode();
             return urlResponse;
@@ -241,7 +233,7 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                     dataList.addAll(interchangeRequestsList);
 
                     if(dataList.size() <= 10) {
-                        adapter = new InterchangeRequestsListAdapter(context, dataList);
+                        adapter = new InterchangeRequestsListAdapter(context);
                         listView.setAdapter(adapter);
 
                     } else {
@@ -272,15 +264,13 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
         }
     }
 
-    class InterchangeRequestsListAdapter extends BaseAdapter {
+    private class InterchangeRequestsListAdapter extends BaseAdapter {
 
         private Context mContext;
-        private List<InterchangeRequests> mProductList;
 
         // Constructor
-        public InterchangeRequestsListAdapter(Context mContext, List<InterchangeRequests> mProductList) {
+        private InterchangeRequestsListAdapter(Context mContext) {
             this.mContext = mContext;
-            this.mProductList = mProductList;
         }
 
         @Override
@@ -363,10 +353,8 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_TPU) ||
-                        (siaSecurityObj.getRoleName().equalsIgnoreCase(GlobalVariables.ROLE_TPU) &&
-                                null != siaSecurityObj.getScac() && siaSecurityObj.getScac().trim().length() > 0)) {
 
+                    if(requestFrom == null || !requestFrom.equalsIgnoreCase(GlobalVariables.MENU_TITLE_SEARCH_INTERCHANGE_REQUESTS_BY_TPU)) {
 
                         // code to get interchange request details to perform operation
                         //api_get_interchange_request_details
@@ -394,10 +382,10 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
 
     /* code to get interchange request details functionality starts */
 
-    class ExecuteTaskToGetInterchangeRequestDetails extends AsyncTask<String, Integer, String> {
+    private class ExecuteTaskToGetInterchangeRequestDetails extends AsyncTask<String, Integer, String> {
         String requestString;
 
-        public ExecuteTaskToGetInterchangeRequestDetails(String requestString) {
+        private ExecuteTaskToGetInterchangeRequestDetails(String requestString) {
             this.requestString = requestString;
         }
 
@@ -426,10 +414,10 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                     InterchangeRequestsJson interchangeRequestsJson = gson.fromJson(result, InterchangeRequestsJson.class);
                     Log.v("log_tag", "interchangeRequestsJson:=>"+interchangeRequestsJson);
 
-                    Integer[] categories = null;
-                    String[] categoriesName = null;
-                    String[] labelArray = null;
-                    String[] valueArray = null;
+                    Integer[] categories;
+                    String[] categoriesName;
+                    String[] labelArray;
+                    String[] valueArray;
 
                     List<String> labelList = new ArrayList<>();
                     List<String> valueList = new ArrayList<>();
@@ -560,9 +548,9 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                             String[] remarksArray = ir.getRemarks().split("\\|\\|");
                             categoriesList.add(remarksArray.length);
                             categoriesNameList.add("Previous Comments");
-                            for(int i=0;i<remarksArray.length;i++) {
+                            for(String remarks:remarksArray) {
                                 labelList.add("Remarks");
-                                valueList.add(remarksArray[i]);
+                                valueList.add(remarks);
                             }
                         }
 
@@ -609,7 +597,7 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
     void goToPreviousPage() {
         if (Internet_Check.checkInternetConnection(context)) {
 
-            Intent intent = null;
+            Intent intent;
             if(requestFrom != null && requestFrom.equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS)) {
                 intent = new Intent(ListInterchangeRequestActivity.this, DashboardActivity.class);
 

@@ -29,10 +29,10 @@ import com.iana.sia.utility.SIAUtility;
 
 public class ForgotPasswordActivity extends AppCompatActivity implements Animation.AnimationListener {
 
-    private String urlResponse;
-    private int urlResponseCode;
+    String urlResponse;
+    int urlResponseCode;
 
-    private ProgressBar progressBar;
+    ProgressBar progressBar;
 
     Button backToHomeBtn;
     Button loginBtn;
@@ -120,7 +120,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Animati
             String scac          = ((EditText) findViewById(R.id.scac)).getText().toString();
 
             String error = validateForgotPasswordFields(scac);
-            if(error == "") {
+            if(error.equalsIgnoreCase("")) {
 
                 User user = new User();
 
@@ -133,7 +133,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Animati
 
                 Gson gson = new Gson();
                 String jsonInString = gson.toJson(user, User.class);
-                new ForgotPasswordActivity.ExecuteTask(jsonInString).execute();
+                new ExecuteTask(jsonInString).execute();
 
             } else {
                 new ViewDialog().showDialog(ForgotPasswordActivity.this, dialogTitle, error);
@@ -148,7 +148,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Animati
 
     private String validateForgotPasswordFields(String scac) {
 
-        if(scac == null || scac == "" || scac.toString().trim().length() <= 0) {
+        if(scac == null || scac.trim().equalsIgnoreCase("") || scac.trim().length() <= 0) {
             return getString(R.string.msg_error_empty_scac);
 
         } else if (!SIAUtility.isAlpha(scac)) {
