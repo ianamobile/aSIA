@@ -1301,7 +1301,7 @@ public class NotifAvailActivity extends AppCompatActivity {
                     Integer[] categories = new Integer[]{13, 5, 5};
                     String[] categoriesName = new String[]{"Notification of Available Equipment Details", "Equipment Location", "Original Interchange Location"};
                     String[] labelArray = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
-                            "MOTOR CARRIER A'S NAME", "MOTOR CARRIER A'S SCAC",
+                            "MOTOR CARRIER'S NAME", "MOTOR CARRIER'S SCAC",
                             "LOAD STATUS", "CONTAINER #", "CONTAINER TYPE", "CONTAINER SIZE",
                             "CHASSIS #", "CHASSIS IEP SCAC", "CHASSIS TYPE", "CHASSIS SIZE", "GENSET #",
                             "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE",

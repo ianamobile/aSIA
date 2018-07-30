@@ -9,7 +9,7 @@
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:textSize="13sp"
+        android:textSize="@dimen/ab_custom_btn_text_size"
         android:textColor="@color/appThemeColor"
         android:visibility="gone"
         android:background="@drawable/button_bg_stroke"
@@ -23,7 +23,7 @@
         android:layout_centerInParent="true"
         android:textColor="@color/colorButton"
         android:text=""
-        android:textSize="14sp"
+        android:textSize="@dimen/ab_custom_title_text_size"
         style="@style/font_family"
         />
 

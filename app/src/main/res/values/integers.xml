@@ -15,4 +15,8 @@
     <integer name="driver_license_number_length">20</integer>
     <integer name="state_length">2</integer>
     <integer name="date_length">10</integer>
+    <integer name="container_size_length">4</integer>
+    <integer name="container_type_length">20</integer>
+    <integer name="chassis_size_length">4</integer>
+    <integer name="chassis_type_length">20</integer>
 </resources>

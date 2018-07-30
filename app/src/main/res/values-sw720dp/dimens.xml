@@ -9,7 +9,7 @@
     <dimen name="layout_height_animation_button">60dp</dimen>
 
     <!-- spinner -->
-    <dimen name="spinner_padding_left">20dp</dimen>
+    <dimen name="spinner_padding_left">35dp</dimen>
     <!-- edit text -->
     <dimen name="layout_width_edit_text">100dp</dimen>
     <dimen name="edit_text_padding_left">40dp</dimen>
@@ -55,12 +55,15 @@
     <dimen name="dynamic_label_fontsize">24dp</dimen>
     <dimen name="dynamic_value_fontsize">24dp</dimen>
 
-    <dimen name="heading_text_size">18sp</dimen>
+    <dimen name="heading_text_size">20sp</dimen>
 
     <dimen name="note_text_size">16sp</dimen>
 
     <dimen name="note_value_text_size">16sp</dimen>
     <dimen name="note_value_success_text_size">22sp</dimen>
+
+    <dimen name="ab_custom_btn_text_size">19sp</dimen>
+    <dimen name="ab_custom_title_text_size">20sp</dimen>
 
 
 </resources>

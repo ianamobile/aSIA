@@ -142,7 +142,7 @@
             <LinearLayout
                 android:id="@+id/iddPinLblLayout"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="@dimen/icon_text_linear_layout_height"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="2dp"
@@ -161,7 +161,7 @@
                 <TextView
                     android:id="@+id/iddPinLbl"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
+                    android:layout_height="@dimen/text_height"
                     android:text="@string/lbl_idd_pin"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/lbl_text_size"

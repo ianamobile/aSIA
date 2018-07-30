@@ -65,4 +65,7 @@
     <dimen name="note_value_text_size">12sp</dimen>
     <dimen name="note_value_success_text_size">16sp</dimen>
 
+    <dimen name="ab_custom_btn_text_size">13sp</dimen>
+    <dimen name="ab_custom_title_text_size">14sp</dimen>
+
 </resources>

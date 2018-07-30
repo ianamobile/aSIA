@@ -153,6 +153,13 @@
     <string name="lbl_iep_scac">IEP SCAC</string>
     <string name="lbl_chassis_number">CHASSIS NUMBER</string>
     <string name="lbl_chassis_iep_scac">CHASSIS IEP SCAC</string>
+    <string name="lbl_state">STATE</string>
+    <string name="lbl_zip_code">ZIP CODE</string>
+    <string name="lbl_location_name">LOCATION NAME</string>
+    <string name="lbl_location_address">LOCATION ADDRESS</string>
+    <string name="lbl_city">CITY</string>
+    <string name="lbl_note">NOTE</string>
+
 
     <!-- hint -->
     <string name="hint_username">ENTER USERNAME</string>
@@ -192,8 +199,8 @@
     <string name="hint_other_container_type">ENTER OTHER CONTAINER TYPE</string>
     <string name="hint_other_container_size">ENTER OTHER CONTAINER SIZE</string>
     <string name="hint_other_chassis_type">ENTER OTHER CHASSIS TYPE</string>
-    <string name="hint_other_chassis_size">ENTER OTHER CHASIS SIZE</string>
-
+    <string name="hint_other_chassis_size">ENTER OTHER CHASSIS SIZE</string>
+    <string name="hint_chassis_number">ENTER CHASSIS NUMBER</string>
 
     <!-- button -->
     <string name="btn_sign_on">SIGN ON</string>

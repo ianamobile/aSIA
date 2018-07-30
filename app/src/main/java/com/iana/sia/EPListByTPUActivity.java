@@ -292,7 +292,7 @@ public class EPListByTPUActivity extends AppCompatActivity {
             } else {
 
                 Drawable mDrawable = context.getDrawable(R.drawable.right_arrow);
-                mDrawable.setColorFilter(new
+                mDrawable.mutate().setColorFilter(new
                         PorterDuffColorFilter(ContextCompat.getColor(context, R.color.bg_color_green), PorterDuff.Mode.SRC_IN));
                 statusImageView.setImageDrawable(mDrawable);
             }

@@ -143,7 +143,7 @@
                     <LinearLayout
                         android:id="@+id/passwordLblLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="@dimen/icon_text_linear_layout_height"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="2dp"
@@ -151,8 +151,8 @@
 
                         <ImageView
                             android:id="@+id/pwdImg"
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
+                            android:layout_width="@dimen/icon_width"
+                            android:layout_height="@dimen/icon_height"
                             android:layout_marginLeft="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
@@ -162,7 +162,7 @@
                         <TextView
                             android:id="@+id/passwordLbl"
                             android:layout_width="match_parent"
-                            android:layout_height="20dp"
+                            android:layout_height="@dimen/text_height"
                             android:text="@string/lbl_password"
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/lbl_text_size"

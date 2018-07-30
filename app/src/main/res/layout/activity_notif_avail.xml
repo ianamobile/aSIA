@@ -70,15 +70,15 @@
                 <LinearLayout
                     android:id="@+id/epCompanyNameLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/epCompanyNameImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -88,7 +88,7 @@
                     <TextView
                         android:id="@+id/epCompanyNameLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height"
                         android:text="@string/lbl_container_provider_name"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
@@ -117,7 +117,7 @@
                     android:inputType="textPersonName"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/epCompanyNameImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -186,7 +186,7 @@
                     android:textColor="@android:color/darker_gray"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/epScacImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -209,15 +209,15 @@
                 <LinearLayout
                     android:id="@+id/mcCompanyNameLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/mcCompanyNameImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -227,7 +227,7 @@
                     <TextView
                         android:id="@+id/mcCompanyNameLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height"
                         android:text="@string/lbl_motor_carrier_name"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
@@ -256,7 +256,7 @@
                     android:inputType="textPersonName"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/mcCompanyNameImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -324,7 +324,7 @@
                     android:textColor="@android:color/darker_gray"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/mcScacImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -349,15 +349,15 @@
                 <LinearLayout
                     android:id="@+id/loadStatusLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/loadStatusImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -367,7 +367,7 @@
                     <TextView
                         android:id="@+id/loadStatusLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height"
                         android:text="@string/lbl_load_status"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
@@ -383,7 +383,7 @@
 
                 <Spinner
                     android:id="@+id/loadStatus"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edit_text_height"
                     android:background="@drawable/spinner_border"
@@ -414,15 +414,15 @@
                 <LinearLayout
                     android:id="@+id/containerNumberLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/containerNumberImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -432,7 +432,7 @@
                     <TextView
                         android:id="@+id/containerNumberLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height"
                         android:text="@string/lbl_container_number"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
@@ -461,7 +461,7 @@
                     android:inputType="textPersonName"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/containerNumberImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -486,15 +486,15 @@
                 <LinearLayout
                     android:id="@+id/containerTypeLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/containerTypeImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -504,7 +504,7 @@
                     <TextView
                         android:id="@+id/containerTypeLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height"
                         android:text="@string/lbl_container_type"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
@@ -520,7 +520,7 @@
 
                 <Spinner
                     android:id="@+id/containerType"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edit_text_height"
                     android:background="@drawable/spinner_border"
@@ -563,10 +563,10 @@
                     android:inputType="textPersonName"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
-                    android:maxLength="@integer/import_bl_length"
+                    android:maxLength="@integer/container_type_length"
                     />
 
             </LinearLayout>
@@ -588,15 +588,15 @@
                 <LinearLayout
                     android:id="@+id/containerSizeLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/containerSizeImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -606,7 +606,7 @@
                     <TextView
                         android:id="@+id/containerSizeLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height"
                         android:text="@string/lbl_container_size"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
@@ -622,7 +622,7 @@
 
                 <Spinner
                     android:id="@+id/containerSize"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edit_text_height"
                     android:background="@drawable/spinner_border"
@@ -665,10 +665,10 @@
                     android:inputType="number"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
-                    android:maxLength="@integer/import_bl_length"
+                    android:maxLength="@integer/container_size_length"
                     />
 
             </LinearLayout>
@@ -689,15 +689,15 @@
                 <LinearLayout
                     android:id="@+id/chassisNumberLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/chassisNumberImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -707,7 +707,7 @@
                     <TextView
                         android:id="@+id/chassisNumberLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height"
                         android:text="@string/lbl_chassis_number"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
@@ -732,11 +732,11 @@
                     android:layout_marginEnd="18dp"
                     android:paddingLeft="@dimen/edit_text_padding_left"
                     android:ems="10"
-                    android:hint="ENTER CHASSIS NUMBER"
+                    android:hint="@string/hint_chassis_number"
                     android:inputType="textPersonName"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/chassisNumberImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -805,7 +805,7 @@
                     android:textColor="@android:color/darker_gray"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/iepScacImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -829,15 +829,15 @@
                 <LinearLayout
                     android:id="@+id/chassisTypeLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/chassisTypeImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -847,7 +847,7 @@
                     <TextView
                         android:id="@+id/chassisTypeLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height"
                         android:text="@string/lbl_chassis_type"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
@@ -863,7 +863,7 @@
 
                 <Spinner
                     android:id="@+id/chassisType"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edit_text_height"
                     android:background="@drawable/spinner_border"
@@ -906,10 +906,10 @@
                     android:inputType="textPersonName"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
-                    android:maxLength="@integer/import_bl_length"
+                    android:maxLength="@integer/chassis_type_length"
                     />
 
             </LinearLayout>
@@ -932,15 +932,15 @@
                 <LinearLayout
                     android:id="@+id/chassisSizeLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/chassisSizeImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -950,7 +950,7 @@
                     <TextView
                         android:id="@+id/chassisSizeLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height"
                         android:text="@string/lbl_chassis_size"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
@@ -966,7 +966,7 @@
 
                 <Spinner
                     android:id="@+id/chassisSize"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edit_text_height"
                     android:background="@drawable/spinner_border"
@@ -1009,10 +1009,10 @@
                     android:inputType="number"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
-                    android:maxLength="@integer/import_bl_length"
+                    android:maxLength="@integer/chassis_size_length"
                     />
 
             </LinearLayout>
@@ -1032,15 +1032,15 @@
                 <LinearLayout
                     android:id="@+id/gensetNumberLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/gensetNumberImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1050,7 +1050,7 @@
                     <TextView
                         android:id="@+id/gensetNumberLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height"
                         android:text="@string/lbl_genset_number"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
@@ -1079,7 +1079,7 @@
                     android:inputType="textPersonName"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/gensetNumberImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -1165,15 +1165,15 @@
                 <LinearLayout
                     android:id="@+id/equipLocationZipCodeLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/equipLocationZipCodeImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1183,8 +1183,8 @@
                     <TextView
                         android:id="@+id/equipLocationZipCodeLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:text="ZIP CODE"
+                        android:layout_height="@dimen/text_height"
+                        android:text="@string/lbl_zip_code"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
                         android:theme="@style/AppTheme"
@@ -1211,7 +1211,7 @@
                     android:hint="@string/hint_auto_populated"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/equipLocationZipCodeImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -1235,15 +1235,15 @@
                 <LinearLayout
                     android:id="@+id/equipLocationNameLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/equipLocationNameImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1253,8 +1253,8 @@
                     <TextView
                         android:id="@+id/equipLocationNameLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:text="LOCATION NAME"
+                        android:layout_height="@dimen/text_height"
+                        android:text="@string/lbl_location_name"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
                         android:theme="@style/AppTheme"
@@ -1270,23 +1270,22 @@
                 <EditText
                     android:id="@+id/equipLocationName"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/edit_text_height"
                     android:layout_marginStart="18dp"
                     android:layout_marginTop="0dp"
                     android:layout_marginLeft="18dp"
                     android:layout_marginRight="18dp"
                     android:layout_marginEnd="18dp"
-                    android:paddingBottom="3dp"
                     android:paddingLeft="@dimen/edit_text_padding_left"
                     android:ems="10"
                     android:hint="@string/hint_auto_populated"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/equipLocationNameImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
-                    android:lines="3"
+                    android:minLines="1"
                     android:inputType="textPersonName"
                     />
             </LinearLayout>
@@ -1306,15 +1305,15 @@
                 <LinearLayout
                     android:id="@+id/equipLocationAddressLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/equipLocationAddressImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1324,8 +1323,8 @@
                     <TextView
                         android:id="@+id/equipLocationAddressLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:text="LOCATION ADDRESS"
+                        android:layout_height="@dimen/text_height"
+                        android:text="@string/lbl_location_address"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
                         android:theme="@style/AppTheme"
@@ -1352,7 +1351,7 @@
                     android:hint="@string/hint_auto_populated"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/equipLocationAddressImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -1375,15 +1374,15 @@
                 <LinearLayout
                     android:id="@+id/equipLocationCityLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/equipLocationCityImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1393,8 +1392,8 @@
                     <TextView
                         android:id="@+id/equipLocationCityLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:text="CITY"
+                        android:layout_height="@dimen/text_height"
+                        android:text="@string/lbl_city"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
                         android:theme="@style/AppTheme"
@@ -1421,7 +1420,7 @@
                     android:hint="@string/hint_auto_populated"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/equipLocationCityImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -1444,15 +1443,15 @@
                 <LinearLayout
                     android:id="@+id/equipLocationStateLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/equipLocationStateImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1462,8 +1461,8 @@
                     <TextView
                         android:id="@+id/equipLocationStateLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:text="STATE"
+                        android:layout_height="@dimen/text_height"
+                        android:text="@string/lbl_state"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
                         android:theme="@style/AppTheme"
@@ -1490,7 +1489,7 @@
                     android:hint="@string/hint_auto_populated"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/equipLocationStateImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -1577,15 +1576,15 @@
                 <LinearLayout
                     android:id="@+id/originLocationZipCodeLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/originLocationZipCodeImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1595,8 +1594,8 @@
                     <TextView
                         android:id="@+id/originLocationZipCodeLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:text="ZIP CODE"
+                        android:layout_height="@dimen/text_height"
+                        android:text="@string/lbl_zip_code"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
                         android:theme="@style/AppTheme"
@@ -1624,7 +1623,7 @@
                     android:textColor="@android:color/darker_gray"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/originLocationZipCodeImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -1648,15 +1647,15 @@
                 <LinearLayout
                     android:id="@+id/originLocationNameLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/originLocationNameImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1666,8 +1665,8 @@
                     <TextView
                         android:id="@+id/originLocationNameLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:text="LOCATION NAME"
+                        android:layout_height="@dimen/text_height"
+                        android:text="@string/lbl_location_name"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
                         android:theme="@style/AppTheme"
@@ -1683,7 +1682,7 @@
                 <EditText
                     android:id="@+id/originLocationName"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/edit_text_height"
                     android:layout_marginStart="18dp"
                     android:layout_marginTop="0dp"
                     android:layout_marginLeft="18dp"
@@ -1696,11 +1695,11 @@
                     android:textColor="@android:color/darker_gray"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/originLocationNameImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
-                    android:lines="3"
+                    android:minLines="1"
                     android:inputType="textPersonName"
                     />
             </LinearLayout>
@@ -1720,15 +1719,15 @@
                 <LinearLayout
                     android:id="@+id/originLocationAddressLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/originLocationAddressImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1738,8 +1737,8 @@
                     <TextView
                         android:id="@+id/originLocationAddressLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:text="LOCATION ADDRESS"
+                        android:layout_height="@dimen/text_height"
+                        android:text="@string/lbl_location_address"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
                         android:theme="@style/AppTheme"
@@ -1767,7 +1766,7 @@
                     android:textColor="@android:color/darker_gray"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/originLocationAddressImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -1790,15 +1789,15 @@
                 <LinearLayout
                     android:id="@+id/originLocationCityLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/originLocationCityImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1808,8 +1807,8 @@
                     <TextView
                         android:id="@+id/originLocationCityLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:text="CITY"
+                        android:layout_height="@dimen/text_height"
+                        android:text="@string/lbl_city"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
                         android:theme="@style/AppTheme"
@@ -1837,7 +1836,7 @@
                     android:textColor="@android:color/darker_gray"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/originLocationCityImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -1860,15 +1859,15 @@
                 <LinearLayout
                     android:id="@+id/originLocationStateLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/originLocationStateImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -1878,8 +1877,8 @@
                     <TextView
                         android:id="@+id/originLocationStateLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:text="STATE"
+                        android:layout_height="@dimen/text_height"
+                        android:text="@string/lbl_state"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
                         android:theme="@style/AppTheme"
@@ -1907,7 +1906,7 @@
                     android:textColor="@android:color/darker_gray"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/originLocationStateImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -1931,7 +1930,7 @@
                     android:id="@+id/noteLbl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="NOTE"
+                    android:text="@string/lbl_note"
                     android:textColor="@android:color/holo_red_dark"
                     style="@style/font_family"
                     android:textSize="@dimen/note_text_size"

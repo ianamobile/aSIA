@@ -139,7 +139,7 @@
                     <LinearLayout
                         android:id="@+id/userNameLblLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="@dimen/icon_text_linear_layout_height"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="2dp"
@@ -158,7 +158,7 @@
                         <TextView
                             android:id="@+id/userNameLbl"
                             android:layout_width="match_parent"
-                            android:layout_height="18dp"
+                            android:layout_height="@dimen/text_height"
                             android:text="@string/lbl_username"
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/lbl_text_size"
@@ -210,7 +210,7 @@
                     <LinearLayout
                         android:id="@+id/passwordLblLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="@dimen/icon_text_linear_layout_height"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="2dp"
@@ -229,7 +229,7 @@
                         <TextView
                             android:id="@+id/passwordLbl"
                             android:layout_width="match_parent"
-                            android:layout_height="20dp"
+                            android:layout_height="@dimen/text_height"
                             android:text="@string/lbl_password"
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/lbl_text_size"
