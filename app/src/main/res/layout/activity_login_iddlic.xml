@@ -295,27 +295,34 @@
             <RelativeLayout
                 android:id="@+id/backToHomeLayout"
                 android:layout_width="wrap_content"
-                android:layout_height="60dp"
+                android:layout_height="@dimen/animation_main_button_or_layout_height"
                 android:orientation="vertical"
                 android:layout_below="@+id/subMainRelLayout"
                 android:gravity="left|center_horizontal"
                 android:layout_marginTop="100dp"
+                android:background="@drawable/sec_user_btn"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
                 >
                 <Button
                     android:id="@+id/backToHomeBtn"
-                    android:layout_width="130dp"
-                    android:layout_height="@dimen/layout_height_animation_button"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:background="@drawable/sec_user_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="@string/btn_go_back"
-                    android:drawableRight="@drawable/home"
+                    android:background="@drawable/sec_user_btn"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:gravity="left|center_vertical"
+                    android:textSize="@dimen/btn_animation_text_size"
                     style="@style/font_family"
-                    android:layout_centerHorizontal="true"
+                    android:textAllCaps="false"
+                    />
 
+                <ImageView
+                    android:layout_toRightOf="@id/backToHomeBtn"
+                    android:layout_width="@dimen/animation_go_back_home_icon_height_width"
+                    android:layout_height="@dimen/animation_go_back_home_icon_height_width"
+                    android:src="@drawable/home"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
                     />
             </RelativeLayout>
 

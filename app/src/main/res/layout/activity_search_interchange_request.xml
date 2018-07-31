@@ -47,15 +47,15 @@
                 <LinearLayout
                     android:id="@+id/containerNumberLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/containerNumberImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -65,7 +65,7 @@
                     <TextView
                         android:id="@+id/containerNumberLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height"
                         android:text="@string/lbl_container_number"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
@@ -94,7 +94,7 @@
                     android:inputType="textPersonName"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/containerNumberImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -117,25 +117,25 @@
                 <LinearLayout
                     android:id="@+id/exportBookingNumberLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/exportBookingNumberImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:srcCompat="@drawable/user" />
+                        app:srcCompat="@drawable/export_booking_num" />
 
                     <TextView
                         android:id="@+id/exportBookingNumberLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height"
                         android:text="@string/lbl_export_booking_number"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
@@ -164,7 +164,7 @@
                     android:inputType="textPersonName"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/exportBookingNumberImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -188,15 +188,15 @@
                 <LinearLayout
                     android:id="@+id/fromDateLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/fromDateImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -206,7 +206,7 @@
                     <TextView
                         android:id="@+id/fromDateLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height"
                         android:text="@string/lbl_from_date"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
@@ -235,7 +235,7 @@
                     android:inputType="textPersonName"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/fromDateImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -261,15 +261,15 @@
                 <LinearLayout
                     android:id="@+id/toDateLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/toDateImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -279,7 +279,7 @@
                     <TextView
                         android:id="@+id/toDateLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
+                        android:layout_height="@dimen/text_height"
                         android:text="@string/lbl_to_date"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
@@ -308,7 +308,7 @@
                     android:inputType="textPersonName"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/toDateImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"
@@ -334,15 +334,15 @@
                 <LinearLayout
                     android:id="@+id/statusLblLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/icon_text_linear_layout_height"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/background_light">
 
                     <ImageView
                         android:id="@+id/statusImg"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -352,8 +352,8 @@
                     <TextView
                         android:id="@+id/statusLbl"
                         android:layout_width="match_parent"
-                        android:layout_height="18dp"
-                        android:text="STATUS"
+                        android:layout_height="@dimen/text_height"
+                        android:text="@string/lbl_status"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
                         android:theme="@style/AppTheme"
@@ -368,7 +368,7 @@
 
                 <Spinner
                     android:id="@+id/status"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edit_text_height"
                     android:background="@drawable/spinner_border"
@@ -443,7 +443,7 @@
                     android:inputType="textPersonName"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/edit_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/scacImg"
                     style="@style/font_family"
                     android:backgroundTint="@android:color/transparent"

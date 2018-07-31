@@ -9,6 +9,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -328,8 +329,8 @@ public class DashboardActivity extends AppCompatActivity {
 
                 imageView.setImageResource(this.getResources().getIdentifier(GlobalVariables.menuIconArr[finalArr[i]], "drawable", this.getPackageName()));
                 Drawable mDrawable = imageView.getDrawable();
-                mDrawable.setColorFilter(new
-                    PorterDuffColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN));
+                mDrawable.mutate().setColorFilter(new
+                    PorterDuffColorFilter(ResourcesCompat.getColor(getResources(), R.color.color_dashboard_icon, null), PorterDuff.Mode.SRC_IN));
                 imageView.setImageDrawable(mDrawable);
 
                 imageView.setPadding(20, 20, 20, 20);

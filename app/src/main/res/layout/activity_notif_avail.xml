@@ -499,7 +499,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:srcCompat="@drawable/user" />
+                        app:srcCompat="@drawable/container_type" />
 
                     <TextView
                         android:id="@+id/containerTypeLbl"
@@ -708,7 +708,7 @@
                         android:id="@+id/chassisNumberLbl"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/text_height"
-                        android:text="@string/lbl_chassis_number"
+                        android:text="@string/lbl_chassis_id"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/lbl_text_size"
                         android:theme="@style/AppTheme"
@@ -732,7 +732,7 @@
                     android:layout_marginEnd="18dp"
                     android:paddingLeft="@dimen/edit_text_padding_left"
                     android:ems="10"
-                    android:hint="@string/hint_chassis_number"
+                    android:hint="@string/hint_chassis_id"
                     android:inputType="textPersonName"
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/color_cursor"
@@ -842,7 +842,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:srcCompat="@drawable/user" />
+                        app:srcCompat="@drawable/container_type" />
 
                     <TextView
                         android:id="@+id/chassisTypeLbl"

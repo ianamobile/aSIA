@@ -1,0 +1,75 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="margin_left_8">8dp</dimen>
+    <dimen name="margin_right_8">8dp</dimen>
+
+    <!-- button -->
+    <dimen name="layout_height_button">50dp</dimen>
+    <dimen name="layout_height_animation_button">60dp</dimen>
+
+    <!-- spinner -->
+    <dimen name="spinner_padding_left">35dp</dimen>
+    <!-- edit text -->
+    <dimen name="layout_width_edit_text">100dp</dimen>
+    <dimen name="edit_text_padding_left">40dp</dimen>
+
+    <dimen name="edit_text_height">42dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
+
+    <dimen name="search_result_lbl_width">160dp</dimen>
+
+    <dimen name="processing_bar_width">50dp</dimen>
+    <dimen name="processing_bar_height">50dp</dimen>
+
+    <dimen name="sia_logo_layout_height">120dp</dimen>
+    <dimen name="sia_logo_width">240dp</dimen>
+    <dimen name="sia_logo_height">120dp</dimen>
+
+    <dimen name="forgot_pwd_link_text_size">16sp</dimen>
+    <dimen name="btn_sign_on_size">22sp</dimen>
+    <dimen name="btn_sign_on_layout_margin_top">6dp</dimen>
+
+    <dimen name="lbl_text_size">18sp</dimen>
+    <dimen name="edit_text_size">20sp</dimen>
+
+    <dimen name="icon_width">32dp</dimen>
+    <dimen name="icon_height">32dp</dimen>
+
+    <dimen name="icon_width_scac">40dp</dimen>
+    <dimen name="icon_height_scac">60dp</dimen>
+
+    <dimen name="text_height">62dp</dimen>
+    <dimen name="text_height_scac">60dp</dimen>
+
+    <dimen name="icon_text_linear_layout_height">60dp</dimen>
+
+    <dimen name="margin_from_left">16dp</dimen>
+    <dimen name="margin_from_right">16dp</dimen>
+
+    <dimen name="height_search_result_ir">1dp</dimen>
+
+
+    <dimen name="dynamic_label_fontsize">18dp</dimen>
+    <dimen name="dynamic_value_fontsize">24dp</dimen>
+
+    <dimen name="heading_text_size">20sp</dimen>
+
+    <dimen name="note_text_size">16sp</dimen>
+
+    <dimen name="note_value_text_size">16sp</dimen>
+    <dimen name="note_value_success_text_size">22sp</dimen>
+
+    <dimen name="ab_custom_btn_text_size">19sp</dimen>
+    <dimen name="ab_custom_title_text_size">20sp</dimen>
+
+    <dimen name="btn_animation_text_size">16dp</dimen>
+
+    <dimen name="animation_main_button_or_layout_height">60dp</dimen>
+    <dimen name="animation_go_back_home_icon_height_width">20dp</dimen>
+
+
+</resources>

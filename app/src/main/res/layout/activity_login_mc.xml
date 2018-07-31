@@ -259,8 +259,8 @@
         <!-- secondary user start -->
         <RelativeLayout
             android:id="@+id/secondaryUserLayout"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/animation_main_button_or_layout_height"
             android:orientation="vertical"
             android:layout_below="@+id/subMainRelLayout"
             android:gravity="left|center_horizontal"
@@ -269,13 +269,13 @@
             <Button
                 android:id="@+id/secondaryUserBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/layout_height_animation_button"
+                android:layout_height="match_parent"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:background="@drawable/sec_user_btn"
                 android:text="@string/btn_mc_sec_user"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"
+                android:textSize="@dimen/btn_animation_text_size"
                 android:gravity="left|center_vertical"
                 style="@style/font_family"
                 android:layout_centerHorizontal="true"

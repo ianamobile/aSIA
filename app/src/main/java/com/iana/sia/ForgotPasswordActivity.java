@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
 import com.iana.sia.model.User;
@@ -34,6 +35,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Animati
 
     ProgressBar progressBar;
 
+    RelativeLayout backToHomeLayout;
     Button backToHomeBtn;
     Button loginBtn;
 
@@ -69,6 +71,14 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Animati
             role = GlobalVariables.ROLE_EP;
         }
 
+
+        backToHomeLayout = findViewById(R.id.backToHomeLayout);
+        backToHomeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToPreviousPage();
+            }
+        });
 
         backToHomeBtn = findViewById(R.id.backToHomeBtn);
         backToHomeBtn.setOnClickListener(new View.OnClickListener() {
@@ -231,8 +241,8 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Animati
     @Override
     protected void onStart() {
         super.onStart();
-        backToHomeBtn.setVisibility(View.VISIBLE);
-        backToHomeBtn.startAnimation(slideLeft);
+        backToHomeLayout.setVisibility(View.VISIBLE);
+        backToHomeLayout.startAnimation(slideLeft);
     }
 
     @Override

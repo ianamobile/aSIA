@@ -56,7 +56,7 @@
 
     <string name="date_format">MM/dd/yyyy</string>
 
-    <string name="note_chassis_number">In case of blank chassis number, system will populate ZZZZ999999 to identify MC Provided Chassis.</string>
+    <string name="note_chassis_number">In case of blank Chassis ID, system will populate ZZZZ999999 to identify MC Provided Chassis.</string>
 
     <string name="lbl_disclaimerText">Motor Carrier A (the originating MC) will continue to be the responsible party for the equipment under the terms of the UIIA until the street interchange request has been approved and accepted by all parties.</string>
     <string name="lbl_disclaimerText_st">Motor Carrier A (the originating MC) will continue to be the responsible party for the equipment under the terms of the UIIA until the street turn request has been approved and accepted by all parties.</string>
@@ -149,9 +149,8 @@
     <string name="lbl_cancelled_date">CANCELLED DATE</string>
     <string name="lbl_onhold_date">ONHOLD DATE</string>
     <string name="lbl_load_status">LOAD STATUS</string>
-    <string name="lbl_chassis_num">CHASSIS #</string>
     <string name="lbl_iep_scac">IEP SCAC</string>
-    <string name="lbl_chassis_number">CHASSIS NUMBER</string>
+    <string name="lbl_chassis_id">CHASSIS ID</string>
     <string name="lbl_chassis_iep_scac">CHASSIS IEP SCAC</string>
     <string name="lbl_state">STATE</string>
     <string name="lbl_zip_code">ZIP CODE</string>
@@ -159,7 +158,7 @@
     <string name="lbl_location_address">LOCATION ADDRESS</string>
     <string name="lbl_city">CITY</string>
     <string name="lbl_note">NOTE</string>
-
+    <string name="lbl_status">STATUS</string>
 
     <!-- hint -->
     <string name="hint_username">ENTER USERNAME</string>
@@ -200,7 +199,7 @@
     <string name="hint_other_container_size">ENTER OTHER CONTAINER SIZE</string>
     <string name="hint_other_chassis_type">ENTER OTHER CHASSIS TYPE</string>
     <string name="hint_other_chassis_size">ENTER OTHER CHASSIS SIZE</string>
-    <string name="hint_chassis_number">ENTER CHASSIS NUMBER</string>
+    <string name="hint_chassis_id">ENTER CHASSIS ID</string>
 
     <!-- button -->
     <string name="btn_sign_on">SIGN ON</string>
@@ -324,7 +323,7 @@
 
     <string name="msg_error_alpha_num_import_booking_number">Import B/L should be Alpha-Numeric value.</string>
 
-    <string name="msg_error_alpha_num_chassis_number">Chassis # should be Alpha-Numeric value.</string>
+    <string name="msg_error_alpha_num_chassis_id">Chassis ID should be Alpha-Numeric value.</string>
 
     <string name="msg_error_select_type_of_interchange">Please select valid type of interchange.</string>
     <string name="msg_error_select_container_type">Please select valid Container Type.</string>

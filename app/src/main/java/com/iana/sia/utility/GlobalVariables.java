@@ -86,7 +86,7 @@ public class GlobalVariables {
                                                         };
 
     public static final String[] menuIconArr = new String[]
-                                                        {   "plus","search","plus","search","plus","search","menu_dashboard",
+                                                        {   "plus","search_black","street_interchange","search_black","street_turn","search_black","menu_dashboard",
                                                             "pending_hourglass","","","","","","","","","","","","",
                                                             "logout"
                                                         };

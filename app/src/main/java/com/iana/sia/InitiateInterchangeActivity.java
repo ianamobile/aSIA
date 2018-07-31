@@ -634,7 +634,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                             } else {
                                 chassisNumber.setFocusable(true);
                                 chassisNumber.setText("");
-                                new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_alpha_num_chassis_number));
+                                new ViewDialog().showDialog(InitiateInterchangeActivity.this, dialogTitle, getString(R.string.msg_error_alpha_num_chassis_id));
                                 iepScac.setText("");
                             }
 
@@ -901,7 +901,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
         }
 
         if(chassisNumber.trim().length() > 0 && !SIAUtility.isAlphaNumeric(chassisNumber)) {
-            return getString(R.string.msg_error_alpha_num_chassis_number);
+            return getString(R.string.msg_error_alpha_num_chassis_id);
         }
 
         if(chassisNumber.trim().length() > 0 && !chassisNumber.equalsIgnoreCase(GlobalVariables.DEFUALT_CHASSIS_NUM)) {
@@ -1585,7 +1585,7 @@ public class InitiateInterchangeActivity extends AppCompatActivity {
                             "MOTOR CARRIER B'S NAME", "MOTOR CARRIER B'S SCAC",
                             "TYPE OF INTERCHANGE", "CONTAINER TYPE",
                             "CONTAINER SIZE", "IMPORT B/L", "EXPORT BOOKING #",
-                            "CONTAINER #", "CHASSIS #", "CHASSIS IEP SCAC",
+                            "CONTAINER #", "CHASSIS ID", "CHASSIS IEP SCAC",
                             "CHASSIS TYPE", "CHASSIS SIZE", "GENSET #",
                             "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE",
                             "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE"};

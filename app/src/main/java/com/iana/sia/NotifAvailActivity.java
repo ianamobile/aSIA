@@ -476,7 +476,7 @@ public class NotifAvailActivity extends AppCompatActivity {
                             } else {
                                 chassisNumber.setFocusable(true);
                                 chassisNumber.setText("");
-                                new ViewDialog().showDialog(NotifAvailActivity.this, dialogTitle, getString(R.string.msg_error_alpha_num_chassis_number));
+                                new ViewDialog().showDialog(NotifAvailActivity.this, dialogTitle, getString(R.string.msg_error_alpha_num_chassis_id));
                                 iepScac.setText("");
                             }
                         }
@@ -820,7 +820,7 @@ public class NotifAvailActivity extends AppCompatActivity {
         }
 
         if (chassisNumber.trim().length() > 0 && !SIAUtility.isAlphaNumeric(chassisNumber)) {
-            return getString(R.string.msg_error_alpha_num_chassis_number);
+            return getString(R.string.msg_error_alpha_num_chassis_id);
         }
 
         if(chassisNumber.trim().length() > 0 &&
@@ -1303,7 +1303,7 @@ public class NotifAvailActivity extends AppCompatActivity {
                     String[] labelArray = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
                             "MOTOR CARRIER'S NAME", "MOTOR CARRIER'S SCAC",
                             "LOAD STATUS", "CONTAINER #", "CONTAINER TYPE", "CONTAINER SIZE",
-                            "CHASSIS #", "CHASSIS IEP SCAC", "CHASSIS TYPE", "CHASSIS SIZE", "GENSET #",
+                            "CHASSIS ID", "CHASSIS IEP SCAC", "CHASSIS TYPE", "CHASSIS SIZE", "GENSET #",
                             "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE",
                             "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE"};
                     String[] valueArray = new String[]{epCompanyName.getText().toString(), epScac.getText().toString(),

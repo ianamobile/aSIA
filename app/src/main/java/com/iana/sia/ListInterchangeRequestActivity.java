@@ -441,7 +441,7 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                         labelList.add("IMPORT B/L");
                         labelList.add("EXPORT BOOKING #");
                         labelList.add("CONTAINER #");
-                        labelList.add("CHASSIS #");
+                        labelList.add("CHASSIS ID");
                         labelList.add("CHASSIS IEP SCAC");
                         labelList.add("LOCATION NAME");
                         labelList.add("LOCATION ADDRESS");
@@ -487,7 +487,7 @@ public class ListInterchangeRequestActivity extends AppCompatActivity {
                         labelList.add("IMPORT B/L");
                         labelList.add("EXPORT BOOKING #");
                         labelList.add("CONTAINER #");
-                        labelList.add("CHASSIS #");
+                        labelList.add("CHASSIS ID");
                         labelList.add("CHASSIS IEP SCAC");
                         labelList.add("CHASSIS TYPE");
                         labelList.add("CHASSIS SIZE");

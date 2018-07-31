@@ -50,5 +50,7 @@
 
     <color name="color_light_gray">#D3D3D3</color>
 
+    <color name="color_dashboard_icon">#434343</color>
+
 
 </resources>

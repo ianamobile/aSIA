@@ -418,7 +418,7 @@ public class StreetTurnActivity extends AppCompatActivity {
                             } else {
                                 chassisNumber.setFocusable(true);
                                 chassisNumber.setText("");
-                                new ViewDialog().showDialog(StreetTurnActivity.this, dialogTitle, getString(R.string.msg_error_alpha_num_chassis_number));
+                                new ViewDialog().showDialog(StreetTurnActivity.this, dialogTitle, getString(R.string.msg_error_alpha_num_chassis_id));
                                 iepScac.setText("");
                             }
                         }
@@ -521,7 +521,7 @@ public class StreetTurnActivity extends AppCompatActivity {
         }
 
         if(chassisNumber.trim().length() > 0 && !SIAUtility.isAlphaNumeric(chassisNumber)) {
-            return getString(R.string.msg_error_alpha_num_chassis_number);
+            return getString(R.string.msg_error_alpha_num_chassis_id);
         }
 
         if(zipCode.trim().length() <= 0) {
@@ -815,7 +815,7 @@ public class StreetTurnActivity extends AppCompatActivity {
                     String[] streetTurnTitles = new String[]{"CONTAINER PROVIDER NAME", "CONTAINER PROVIDER SCAC",
                             "MOTOR CARRIER A'S NAME", "MOTOR CARRIER A'S SCAC",
                             "IMPORT B/L", "EXPORT BOOKING #",
-                            "CONTAINER #", "CHASSIS #", "CHASSIS IEP SCAC",
+                            "CONTAINER #", "CHASSIS ID", "CHASSIS IEP SCAC",
                             "LOCATION NAME", "LOCATION ADDRESS", "ZIP CODE", "CITY", "STATE"};
                     String[] streetTurnValues = new String[]{epCompanyName.getText().toString(), epScac.getText().toString(),
                             mcCompanyName.getText().toString(), mcScac.getText().toString(),

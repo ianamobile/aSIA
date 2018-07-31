@@ -14,7 +14,7 @@
     <dimen name="layout_width_edit_text">100dp</dimen>
     <dimen name="edit_text_padding_left">40dp</dimen>
 
-    <dimen name="edit_text_height">60dp</dimen>
+    <dimen name="edit_text_height">42dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
@@ -29,7 +29,8 @@
     <dimen name="sia_logo_width">240dp</dimen>
     <dimen name="sia_logo_height">120dp</dimen>
 
-    <dimen name="btn_sign_on_size">18sp</dimen>
+    <dimen name="forgot_pwd_link_text_size">16sp</dimen>
+    <dimen name="btn_sign_on_size">22sp</dimen>
     <dimen name="btn_sign_on_layout_margin_top">6dp</dimen>
 
     <dimen name="lbl_text_size">18sp</dimen>
@@ -41,7 +42,7 @@
     <dimen name="icon_width_scac">40dp</dimen>
     <dimen name="icon_height_scac">60dp</dimen>
 
-    <dimen name="text_height">60dp</dimen>
+    <dimen name="text_height">62dp</dimen>
     <dimen name="text_height_scac">60dp</dimen>
 
     <dimen name="icon_text_linear_layout_height">60dp</dimen>
@@ -64,6 +65,11 @@
 
     <dimen name="ab_custom_btn_text_size">19sp</dimen>
     <dimen name="ab_custom_title_text_size">20sp</dimen>
+
+    <dimen name="btn_animation_text_size">20dp</dimen>
+
+    <dimen name="animation_main_button_or_layout_height">60dp</dimen>
+    <dimen name="animation_go_back_home_icon_height_width">25dp</dimen>
 
 
 </resources>

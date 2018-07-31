@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
 import com.iana.sia.model.User;
@@ -30,6 +31,7 @@ import com.iana.sia.utility.SIAUtility;
 
 public class ForgotPasswordSECActivity extends AppCompatActivity implements Animation.AnimationListener {
 
+    RelativeLayout backToSECHomeLayout;
     Button backToSECHomeBtn;
 
     Animation slideLeft;
@@ -74,6 +76,14 @@ public class ForgotPasswordSECActivity extends AppCompatActivity implements Anim
         } else if(sharedPref != null && sharedPref.getString(GlobalVariables.KEY_MEM_TYPE, "").equalsIgnoreCase(GlobalVariables.ROLE_EP)) {
             memType = GlobalVariables.ROLE_EP;
         }
+
+        backToSECHomeLayout = findViewById(R.id.backToSECHomeLayout);
+        backToSECHomeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToPreviousPage();
+            }
+        });
 
         backToSECHomeBtn = findViewById(R.id.backToSECHomeBtn);
         backToSECHomeBtn.setOnClickListener(new View.OnClickListener() {
@@ -247,8 +257,8 @@ public class ForgotPasswordSECActivity extends AppCompatActivity implements Anim
     @Override
     protected void onStart() {
         super.onStart();
-        backToSECHomeBtn.setVisibility(View.VISIBLE);
-        backToSECHomeBtn.startAnimation(slideLeft);
+        backToSECHomeLayout.setVisibility(View.VISIBLE);
+        backToSECHomeLayout.startAnimation(slideLeft);
     }
 
     @Override

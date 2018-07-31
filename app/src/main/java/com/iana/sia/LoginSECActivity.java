@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -36,7 +37,9 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
 
     ProgressBar progressBar;
 
+    RelativeLayout backToHomeLayout;
     Button backToHomeBtn;
+
     Button loginBtn;
 
     TextView troubleSignOn;
@@ -84,6 +87,14 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
             role = GlobalVariables.ROLE_EP;
         }
 
+
+        backToHomeLayout = findViewById(R.id.backToHomeLayout);
+        backToHomeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToPreviousPage();
+            }
+        });
 
         backToHomeBtn = findViewById(R.id.backToHomeBtn);
         backToHomeBtn.setOnClickListener(new View.OnClickListener() {
@@ -296,8 +307,8 @@ public class LoginSECActivity extends AppCompatActivity implements Animation.Ani
     @Override
     protected void onStart() {
         super.onStart();
-        backToHomeBtn.setVisibility(View.VISIBLE);
-        backToHomeBtn.startAnimation(slideLeft);
+        backToHomeLayout.setVisibility(View.VISIBLE);
+        backToHomeLayout.startAnimation(slideLeft);
     }
 
     @Override

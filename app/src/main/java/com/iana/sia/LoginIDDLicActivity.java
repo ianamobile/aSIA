@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
 import com.iana.sia.model.SIASecurityObj;
@@ -35,6 +36,7 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
 
     private ProgressBar progressBar;
 
+    RelativeLayout backToHomeLayout;
     Button backToHomeBtn;
     Button loginBtn;
 
@@ -55,6 +57,14 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
 
         // below code is used to restrict auto populate keypad
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        backToHomeLayout = findViewById(R.id.backToHomeLayout);
+        backToHomeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToPreviousPage();
+            }
+        });
 
         backToHomeBtn = findViewById(R.id.backToHomeBtn);
         backToHomeBtn.setOnClickListener(new View.OnClickListener() {
@@ -242,8 +252,8 @@ public class LoginIDDLicActivity extends AppCompatActivity implements Animation.
     @Override
     protected void onStart() {
         super.onStart();
-        backToHomeBtn.setVisibility(View.VISIBLE);
-        backToHomeBtn.startAnimation(slideLeft);
+        backToHomeLayout.setVisibility(View.VISIBLE);
+        backToHomeLayout.startAnimation(slideLeft);
     }
 
     @Override
