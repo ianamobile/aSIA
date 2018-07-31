@@ -6,11 +6,14 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
+import android.text.Html;
 import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -220,4 +223,12 @@ public class SIAUtility {
         actionBar.setCustomView(v);
     }
 
+    @SuppressWarnings("deprecation")
+    public static Spanned fromHtml(String html){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(html, Html.FROM_HTML_SEPARATOR_LINE_BREAK_PARAGRAPH );
+        } else {
+            return Html.fromHtml(html);
+        }
+    }
 }

@@ -13,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -225,7 +224,7 @@ public class VerifyActivity extends AppCompatActivity {
 
                 fieldInfo = fieldInfoList.get(++i);
                 if(chassisIEPSCACLbl.equalsIgnoreCase("CHASSIS IEP SCAC") && chassisIEPSCACMsg.trim().length() > 0) {
-                    ((TextView)row.findViewById(R.id.locationValue)).setText(fieldInfo.getValue() + Html.fromHtml("<br/>"+chassisIEPSCACMsg));
+                    ((TextView)row.findViewById(R.id.locationValue)).setText(fieldInfo.getValue() + SIAUtility.fromHtml("<br/>"+chassisIEPSCACMsg));
                 } else {
                     ((TextView) row.findViewById(R.id.locationValue)).setText(fieldInfo.getValue());
                 }
