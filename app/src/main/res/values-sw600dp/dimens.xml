@@ -71,5 +71,11 @@
     <dimen name="animation_main_button_or_layout_height">60dp</dimen>
     <dimen name="animation_go_back_home_icon_height_width">20dp</dimen>
 
+    <dimen name="splash_app_img_height">80dp</dimen>
+    <dimen name="splash_app_img_width">180dp</dimen>
+
+    <dimen name="splash_iana_img_height">45dp</dimen>
+    <dimen name="splash_iana_img_width">100dp</dimen>
+
 
 </resources>

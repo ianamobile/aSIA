@@ -247,6 +247,7 @@
                     android:textColor="@color/colorTextTroubleSignIn"
                     style="@style/font_family"
                     android:layout_alignParentLeft="true"
+                    android:textSize="@dimen/forgot_pwd_link_text_size"
                     />
                 <TextView
                     android:id="@+id/forgotUsername"
@@ -256,6 +257,7 @@
                     android:textColor="@color/colorTextTroubleSignIn"
                     style="@style/font_family"
                     android:layout_alignParentRight="true"
+                    android:textSize="@dimen/forgot_pwd_link_text_size"
                     />
             </RelativeLayout>
 

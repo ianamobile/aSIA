@@ -250,6 +250,7 @@
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/signOnLayout"
                         android:padding="10dp"
+                        android:textSize="@dimen/forgot_pwd_link_text_size"
                         style="@style/font_family"
                         />
 

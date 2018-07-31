@@ -317,6 +317,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/signOnLayout"
                         android:padding="10dp"
                         style="@style/font_family"
+                        android:textSize="@dimen/forgot_pwd_link_text_size"
                         />
 
                 </LinearLayout>

@@ -22,11 +22,6 @@
         <activity
             android:name=".LoginMCActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".LoginIDDActivity"
@@ -72,7 +67,17 @@
         <activity android:name=".InterchangeRequestOperationActivity" />
         <activity android:name=".SearchNotifAvailActivity" />
         <activity android:name=".ListNotifAvailActivity" />
-        <activity android:name=".InterchangeRequestOperationAckActivity"></activity>
+        <activity android:name=".InterchangeRequestOperationAckActivity" />
+        <activity android:name=".SplashScreen"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+
+        <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
