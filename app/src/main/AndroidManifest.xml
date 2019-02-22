@@ -34,7 +34,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".LoginIDDLicActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />-
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".ForgotPasswordActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />

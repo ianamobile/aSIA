@@ -18,6 +18,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -579,9 +580,8 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         actionTextView.setTextColor(ContextCompat.getColor(this, android.R.color.white));
                         actionTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                         actionTextView.setGravity(Gravity.CENTER_VERTICAL);
-//                        actionTextView.setTypeface(actionTextView.getTypeface(), Typeface.BOLD);
                         actionTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-                        actionTextView.setTextSize(textSizeAction * getResources().getDisplayMetrics().density);
+                        actionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PT, 8);
 
                         actionDateLl.addView(actionTextView);
 
@@ -597,7 +597,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         dateTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                         dateTextView.setGravity(Gravity.CENTER_VERTICAL);
                         dateTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-                        dateTextView.setTextSize(textSizeDate * getResources().getDisplayMetrics().density);
+                        dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_PT, 8);
 
                         actionDateLl.addView(dateTextView);
                     }
@@ -624,7 +624,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     actionTextView.setTextColor(ContextCompat.getColor(this, android.R.color.white));
                     actionTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                     actionTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-                    actionTextView.setTextSize(textSizeAction * getResources().getDisplayMetrics().density);
+                    actionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PT, 8);
 
                     actionDateLl.addView(actionTextView);
                     // text view end
@@ -639,7 +639,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         dateTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                         dateTextView.setGravity(Gravity.CENTER_VERTICAL);
                         dateTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-                        dateTextView.setTextSize(textSizeDate * getResources().getDisplayMetrics().density);
+                        dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_PT, 8);
 
                         actionDateLl.addView(dateTextView);
                     }
@@ -667,7 +667,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     actionTextView.setTextColor(ContextCompat.getColor(this, android.R.color.white));
                     actionTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                     actionTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-                    actionTextView.setTextSize(textSizeAction * getResources().getDisplayMetrics().density);
+                    actionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PT, 8);
 
                     actionDateLl.addView(actionTextView);
                     // text view end
@@ -682,7 +682,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         dateTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                         dateTextView.setGravity(Gravity.CENTER_VERTICAL);
                         dateTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-                        dateTextView.setTextSize(textSizeDate * getResources().getDisplayMetrics().density);
+                        dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_PT, 8);
 
                         actionDateLl.addView(dateTextView);
                     }
@@ -710,7 +710,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     actionTextView.setTextColor(ContextCompat.getColor(this, android.R.color.white));
                     actionTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                     actionTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-                    actionTextView.setTextSize(textSizeAction * getResources().getDisplayMetrics().density);
+                    actionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PT, 8);
 
                     actionDateLl.addView(actionTextView);
                     // text view end
@@ -725,7 +725,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         dateTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                         dateTextView.setGravity(Gravity.CENTER_VERTICAL);
                         dateTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-                        dateTextView.setTextSize(textSizeDate * getResources().getDisplayMetrics().density);
+                        dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_PT, 8);
 
                         actionDateLl.addView(dateTextView);
                     }
@@ -752,7 +752,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                     actionTextView.setTextColor(ContextCompat.getColor(this, android.R.color.white));
                     actionTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                     actionTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-                    actionTextView.setTextSize(textSizeAction * getResources().getDisplayMetrics().density);
+                    actionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PT, 8);
 
                     actionDateLl.addView(actionTextView);
                     // text view end
@@ -767,7 +767,7 @@ public class InterchangeRequestOperationActivity extends AppCompatActivity {
                         dateTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                         dateTextView.setGravity(Gravity.CENTER_VERTICAL);
                         dateTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-                        dateTextView.setTextSize(textSizeDate * getResources().getDisplayMetrics().density);
+                        dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_PT, 8);
 
                         actionDateLl.addView(dateTextView);
                     }
