@@ -57,8 +57,6 @@
     <dimen name="design_bottom_navigation_text_size" tools:override="true">11sp</dimen>
     <dimen name="design_bottom_navigation_active_text_size" tools:override="true">11sp</dimen>
 
-    <dimen name="dynamic_label_fontsize">6sp</dimen>
-    <dimen name="dynamic_value_fontsize">6sp</dimen>
 
     <dimen name="heading_text_size">14sp</dimen>
 

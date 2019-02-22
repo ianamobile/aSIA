@@ -363,7 +363,7 @@ public class DashboardActivity extends AppCompatActivity {
                 textView.setTextColor(ContextCompat.getColor(this, android.R.color.black));
                 textView.setGravity(Gravity.CENTER);
                 textView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(R.dimen.dynamic_label_fontsize));
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PT, 6);
 
             TextView textViewPending = null;
             if(GlobalVariables.menuTitleArr[finalArr[i]].equalsIgnoreCase(GlobalVariables.MENU_TITLE_PENDING_INTERCHANGE_REQUESTS)) {
@@ -374,8 +374,9 @@ public class DashboardActivity extends AppCompatActivity {
                 textViewPending.setText(getString(R.string.dashboard_menu_action_required));
                 textViewPending.setTextColor(ContextCompat.getColor(this, android.R.color.black));
                 textViewPending.setGravity(Gravity.CENTER);
+                textViewPending.setTextSize(TypedValue.COMPLEX_UNIT_PT, 6);
                 textViewPending.setTypeface(Typeface.create(getString(R.string.font_family), Typeface.NORMAL));
-                textViewPending.setTextSize(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(R.dimen.dynamic_label_fontsize));
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PT, 6);
             }
             // text view end
 
